@@ -9,5 +9,7 @@ build/
 *.elf
 *.gba
 
-# save file for testing
+# emulator output
 *.sav
+*.png
+*.log
