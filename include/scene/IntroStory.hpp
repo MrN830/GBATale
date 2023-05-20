@@ -11,11 +11,11 @@
 namespace ut::scene
 {
 
-class Intro final : public Scene
+class IntroStory final : public Scene
 {
 public:
-    Intro(SceneStack&, Context&);
-    ~Intro();
+    IntroStory(SceneStack&, Context&);
+    ~IntroStory();
 
     bool handleInput() override;
     bool update() override;

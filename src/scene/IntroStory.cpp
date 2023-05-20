@@ -1,4 +1,4 @@
-#include "scene/Intro.hpp"
+#include "scene/IntroStory.hpp"
 
 #include <bn_display.h>
 #include <bn_rect_window.h>
@@ -84,7 +84,7 @@ auto buildFadeOut(int frames) -> bn::blending_transparency_alpha_to_action
 
 } // namespace
 
-Intro::Intro(SceneStack& sceneStack, Context& context)
+IntroStory::IntroStory(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _prevWindowRect(bn::rect_window::internal().boundaries()), _bg(buildIntroBg(0)),
       _bgFade(1, 1)
 {
@@ -92,28 +92,34 @@ Intro::Intro(SceneStack& sceneStack, Context& context)
                                                102 - bn::display::height() / 2, 208 - bn::display::width() / 2);
 }
 
-Intro::~Intro()
+IntroStory::~IntroStory()
 {
     bn::blending::set_transparency_alpha(1);
     bn::rect_window::internal().set_boundaries(_prevWindowRect);
 }
 
-bool Intro::handleInput()
+bool IntroStory::handleInput()
 {
     return true;
 }
 
-bool Intro::update()
+bool IntroStory::update()
 {
     ++_elapsedFrames;
 
     updateBgFade();
     updateBgMove();
 
+    if (_elapsedFrames >= NEXT_SCENE_FRAMES)
+    {
+        reqStackClear();
+        reqStackPush(SceneId::INTRO_LOGO);
+    }
+
     return true;
 }
 
-void Intro::updateBgFade()
+void IntroStory::updateBgFade()
 {
     if (!_bgFade.done())
     {
@@ -132,7 +138,7 @@ void Intro::updateBgFade()
         startNextBgFade();
 }
 
-void Intro::startNextBgFade()
+void IntroStory::startNextBgFade()
 {
     BN_ASSERT(0 <= _introBgIdx0 && _introBgIdx0 < INTRO_BG_COUNT);
 
@@ -152,7 +158,7 @@ void Intro::startNextBgFade()
     }
 }
 
-void Intro::updateBgMove()
+void IntroStory::updateBgMove()
 {
     if (_elapsedFrames == BG_MOVE_START_FRAME)
         _bgMove = bn::regular_bg_move_to_action(_bg, BG_MOVE_FRAMES, LAST_BG_END_POS);

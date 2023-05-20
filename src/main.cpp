@@ -2,7 +2,8 @@
 
 #include "scene/SceneStack.hpp"
 
-#include "scene/Intro.hpp"
+#include "scene/IntroLogo.hpp"
+#include "scene/IntroStory.hpp"
 
 using namespace ut;
 
@@ -17,7 +18,7 @@ int main()
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 
-    sceneStack.pushScene(scene::SceneId::INTRO);
+    sceneStack.pushScene(scene::SceneId::INTRO_STORY);
 
     while (true)
     {
@@ -32,5 +33,6 @@ void registerScenes(scene::SceneStack& sceneStack)
 {
     using namespace scene;
 
-    sceneStack.registerScene<Intro>(SceneId::INTRO);
+    sceneStack.registerScene<IntroStory>(SceneId::INTRO_STORY);
+    sceneStack.registerScene<IntroLogo>(SceneId::INTRO_LOGO);
 }

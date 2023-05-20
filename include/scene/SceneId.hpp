@@ -7,8 +7,8 @@ enum class SceneId
 {
     NONE = -1,
 
-    INTRO = 0,
-    LOGO,
+    INTRO_STORY = 0,
+    INTRO_LOGO,
     TITLE,
 
     TOTAL_COUNT
