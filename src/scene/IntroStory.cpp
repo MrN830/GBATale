@@ -4,6 +4,8 @@
 #include <bn_rect_window.h>
 #include <bn_regular_bg_builder.h>
 
+#include "core/Dialog.hpp"
+
 #include "bn_regular_bg_items_bg_intro1.h"
 #include "bn_regular_bg_items_bg_intro10.h"
 #include "bn_regular_bg_items_bg_intro2.h"
@@ -52,6 +54,37 @@ constexpr IntroBgFade INTRO_BGS[INTRO_BG_COUNT] = {
     {&bn::regular_bg_items::bg_intro10, 57 * FPS + 8, 74 * FPS + 27},
 };
 
+constexpr core::Dialog DIALOGS[] = {
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY,
+        R"(Long ago^1, two races&ruled over Earth^1:&HUMANS and MONSTERS^6. \E1 ^1 %)",
+    },
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY,
+        R"(One day^1, war broke&out between the two&races^6. \E0 ^1 %)",
+    },
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY,
+        R"(After a long battle^1,&the humans were&victorious^6. \E1 ^1 %)",
+    },
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY,
+        R"(They sealed the monsters&underground with a magic&spell^6. \E0 ^1 %)",
+    },
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY,
+        R"(Many years later^2.^2.^5.  \E1 ^1 %)",
+    },
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY,
+        R"(      MT. EBOTT&         201X^9 \E0 %)",
+    },
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY,
+        R"(Legends say that those&who climb the mountain&never return^5.^3 \E1 %)",
+    },
+};
+
 constexpr int NEXT_SCENE_FRAMES = 75 * FPS + 27;
 
 constexpr bn::fixed_point LAST_BG_START_POS = {8, -122};
@@ -86,10 +119,12 @@ auto buildFadeOut(int frames) -> bn::blending_transparency_alpha_to_action
 
 IntroStory::IntroStory(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _prevWindowRect(bn::rect_window::internal().boundaries()), _bg(buildIntroBg(0)),
-      _bgFade(1, 1)
+      _bgFade(1, 1), _dialogWriter(getContext().textGens)
 {
     bn::rect_window::internal().set_boundaries(6 - bn::display::height() / 2, 32 - bn::display::width() / 2,
                                                102 - bn::display::height() / 2, 208 - bn::display::width() / 2);
+
+    _dialogWriter.start(DIALOGS, _texts);
 }
 
 IntroStory::~IntroStory()
@@ -109,6 +144,8 @@ bool IntroStory::update()
 
     updateBgFade();
     updateBgMove();
+
+    _dialogWriter.update();
 
     if (_elapsedFrames >= NEXT_SCENE_FRAMES)
     {

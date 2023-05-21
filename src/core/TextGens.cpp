@@ -11,9 +11,9 @@ TextGens::TextGens()
 {
 }
 
-auto TextGens::get(Font font) -> bn::sprite_text_generator&
+auto TextGens::get(asset::FontKind font) -> bn::sprite_text_generator&
 {
-    BN_ASSERT(0 <= (int)font && (int)font < (int)Font::TOTAL_COUNT);
+    BN_ASSERT(0 <= (int)font && (int)font < (int)asset::FontKind::TOTAL_COUNT);
 
     return _textGens[(int)font];
 }

@@ -33,7 +33,7 @@ bool IntroLogo::update()
 
     if (_elapsedFrames == TIP_SHOWUP_FRAMES)
     {
-        auto& textGen = getContext().textGens.get(core::TextGens::Font::CRYPT);
+        auto& textGen = getContext().textGens.get(asset::FontKind::CRYPT);
         const auto prevAlign = textGen.alignment();
         textGen.set_center_alignment();
 
