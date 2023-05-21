@@ -3,6 +3,8 @@
 #include "scene/Scene.hpp"
 
 #include <bn_regular_bg_ptr.h>
+#include <bn_sprite_ptr.h>
+#include <bn_vector.h>
 
 namespace ut::scene
 {
@@ -17,6 +19,7 @@ public:
 
 private:
     bn::regular_bg_ptr _bg;
+    bn::vector<bn::sprite_ptr, 3> _tipText;
 
     int _elapsedFrames = 0;
 };

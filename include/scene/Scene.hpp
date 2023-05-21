@@ -5,6 +5,11 @@
 
 #include "scene/SceneId.hpp"
 
+namespace ut::core
+{
+class TextGens;
+}
+
 namespace ut::scene
 {
 
@@ -17,6 +22,7 @@ public:
 
     struct Context
     {
+        core::TextGens& textGens;
     };
 
 public:

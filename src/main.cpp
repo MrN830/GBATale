@@ -1,5 +1,6 @@
 #include <bn_core.h>
 
+#include "core/TextGens.hpp"
 #include "scene/SceneStack.hpp"
 
 #include "scene/IntroLogo.hpp"
@@ -14,7 +15,9 @@ int main()
     bn::core::init();
     bn::core::set_skip_frames(1); // 30 fps
 
-    scene::Scene::Context sceneContext;
+    ut::core::TextGens textGens;
+    scene::Scene::Context sceneContext(textGens);
+
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 

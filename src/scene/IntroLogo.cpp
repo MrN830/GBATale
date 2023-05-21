@@ -1,5 +1,7 @@
 #include "scene/IntroLogo.hpp"
 
+#include "core/TextGens.hpp"
+
 #include "bn_regular_bg_items_bg_title.h"
 
 namespace ut::scene
@@ -28,6 +30,17 @@ bool IntroLogo::handleInput()
 bool IntroLogo::update()
 {
     ++_elapsedFrames;
+
+    if (_elapsedFrames == TIP_SHOWUP_FRAMES)
+    {
+        auto& textGen = getContext().textGens.get(core::TextGens::Font::CRYPT);
+        const auto prevAlign = textGen.alignment();
+        textGen.set_center_alignment();
+
+        textGen.generate(0, 40, "[Press A or Start]", _tipText);
+
+        textGen.set_alignment(prevAlign);
+    }
 
     if (_elapsedFrames >= RESTART_INTRO_STORY_FRAMES)
     {
