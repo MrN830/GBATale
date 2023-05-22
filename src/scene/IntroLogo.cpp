@@ -29,7 +29,7 @@ bool IntroLogo::handleInput()
     if (bn::keypad::a_pressed() || bn::keypad::start_pressed())
     {
         reqStackClear();
-        reqStackPush(SceneId::TITLE);
+        reqStackPush(SceneId::NEW_GAME_TITLE);
     }
 
     return true;
