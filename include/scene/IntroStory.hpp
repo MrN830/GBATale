@@ -24,6 +24,8 @@ public:
     bool update() override;
 
 private:
+    bool isSkipRequested();
+
     void updateBgFade();
     void startNextBgFade();
 
@@ -41,6 +43,7 @@ private:
 
     int _elapsedFrames = 0;
     int _introBgIdx0 = 0;
+    int _skipCountdown = -1;
     bool _isFadeOut = false;
 };
 

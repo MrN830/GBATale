@@ -1,6 +1,7 @@
 #include "scene/IntroStory.hpp"
 
 #include <bn_display.h>
+#include <bn_keypad.h>
 #include <bn_rect_window.h>
 #include <bn_regular_bg_builder.h>
 
@@ -86,6 +87,7 @@ constexpr core::Dialog DIALOGS[] = {
 };
 
 constexpr int NEXT_SCENE_FRAMES = 75 * FPS + 27;
+constexpr int SKIP_NEXT_SCENE_FRAMES = 30;
 
 constexpr bn::fixed_point LAST_BG_START_POS = {8, -122};
 constexpr bn::fixed_point LAST_BG_END_POS = {8, 91};
@@ -135,6 +137,15 @@ IntroStory::~IntroStory()
 
 bool IntroStory::handleInput()
 {
+    // if skip button pressed
+    if (!isSkipRequested() && (bn::keypad::a_pressed() || bn::keypad::start_pressed()))
+    {
+        _skipCountdown = SKIP_NEXT_SCENE_FRAMES;
+        _isFadeOut = true;
+        _bgFade = buildFadeOut(LAST_FADE_OUT_FRAMES);
+        _texts.clear();
+    }
+
     return true;
 }
 
@@ -142,10 +153,24 @@ bool IntroStory::update()
 {
     ++_elapsedFrames;
 
-    updateBgFade();
-    updateBgMove();
+    if (isSkipRequested())
+    {
+        if (!_bgFade.done())
+            _bgFade.update();
 
-    _dialogWriter.update();
+        if (--_skipCountdown == 0)
+        {
+            reqStackClear();
+            reqStackPush(SceneId::INTRO_LOGO);
+        }
+    }
+    else
+    {
+        updateBgFade();
+        _dialogWriter.update();
+    }
+
+    updateBgMove();
 
     if (_elapsedFrames >= NEXT_SCENE_FRAMES)
     {
@@ -154,6 +179,11 @@ bool IntroStory::update()
     }
 
     return true;
+}
+
+bool IntroStory::isSkipRequested()
+{
+    return _skipCountdown >= 0;
 }
 
 void IntroStory::updateBgFade()
