@@ -1,0 +1,87 @@
+#pragma once
+
+#include <bn_display.h>
+#include <bn_optional.h>
+#include <bn_span.h>
+#include <bn_sprite_ptr.h>
+#include <bn_vector_fwd.h>
+
+namespace ut::core
+{
+
+class TextGens;
+struct Dialog;
+
+struct SpecialToken
+{
+    enum class Kind
+    {
+        PAUSE,
+        LINE_BREAK,
+        STOP_WAIT_INPUT,
+        STOP_WAIT_INPUT_CLOSE,
+        NEXT_MSG,
+        CLOSE,
+
+        FACE_EMOTION,
+        FACE_KIND,
+
+        TEXT_CHOICE,
+
+        DISABLE_TEXT_SOUND,
+        ENABLE_TEXT_SOUND,
+        PHONE_RING_SFX,
+
+        TINY_TEXT,
+        NORMAL_SIZE_TEXT,
+
+        VOICE,
+        WRITE_INFINITY_SIGN,
+        WRITE_CONTROL_BUTTON,
+
+        COLOR,
+
+        TOTAL_COUNT
+    };
+
+    const Kind kind;
+    const int number;
+};
+
+/**
+ * @brief Render `sprite_text` line one character at a time.
+ */
+class DialogWriter
+{
+public:
+    DialogWriter(TextGens&);
+
+    void start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_ptr>& outputVec);
+    bool isStarted() const;
+
+    void update();
+
+private:
+    void resetStringProcessInfos();
+
+    auto readSpecialToken(bn::string_view) -> bn::optional<SpecialToken>;
+    void handleSpecialToken(const SpecialToken&);
+
+private:
+    TextGens& _textGens;
+
+    bn::span<const Dialog> _dialogs;
+    bn::ivector<bn::sprite_ptr>* _outputVec = nullptr;
+    int _dialogIdx = -1; // `-1` means not started
+    int _nextCharIdx = -1;
+    int _curSpriteStartCharIdx = -1;
+    int _elapsedFrames = -1;
+
+    int _pauseCountdown = -1;
+    int _curLineWidth = -1;
+    int _sprLineWidth = -1;
+    bn::fixed _curLineY = -bn::display::height();
+    bool _forceNewSprite = false;
+};
+
+} // namespace ut::core
