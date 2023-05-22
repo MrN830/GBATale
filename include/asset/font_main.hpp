@@ -12,7 +12,7 @@ inline constexpr bn::utf8_character font_main_utf8_characters[] = {"Á", "É", "
                                                                    "é", "í", "ó", "ú", "ü", "ñ", "¡", "¿"};
 
 inline constexpr int8_t font_main_character_widths[] = {
-    6, // 32
+    4, // 32
     4, // 33 !
     6, // 34 "
     7, // 35 #
