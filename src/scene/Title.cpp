@@ -21,8 +21,8 @@ constexpr auto NAME_POS = bn::fixed_point{38, 52} + TOP_LEFT_ORIGIN;
 constexpr auto TIME_POS = bn::fixed_point{203, 52} + TOP_LEFT_ORIGIN;
 constexpr auto LV_POS = (NAME_POS + TIME_POS) / 2;
 constexpr auto ROOM_POS = bn::fixed_point{38, 68} + TOP_LEFT_ORIGIN;
-constexpr auto CONTINUE_POS = bn::fixed_point{55, 93} + TOP_LEFT_ORIGIN;
-constexpr auto RESET_POS = bn::fixed_point{187, 93} + TOP_LEFT_ORIGIN;
+constexpr auto CONTINUE_POS = bn::fixed_point{55, 92} + TOP_LEFT_ORIGIN;
+constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 
 } // namespace
 
