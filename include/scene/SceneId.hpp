@@ -10,6 +10,11 @@ enum class SceneId
     INTRO_STORY = 0,
     INTRO_LOGO,
     TITLE,
+    NEW_GAME_TITLE,
+    INPUT_NAME,
+    CONFIRM_NAME,
+
+    GAME,
 
     TOTAL_COUNT
 };

@@ -1,5 +1,7 @@
 #include "scene/IntroLogo.hpp"
 
+#include <bn_keypad.h>
+
 #include "core/TextGens.hpp"
 
 #include "bn_regular_bg_items_bg_title.h"
@@ -24,6 +26,12 @@ IntroLogo::IntroLogo(SceneStack& sceneStack, Context& context)
 
 bool IntroLogo::handleInput()
 {
+    if (bn::keypad::a_pressed() || bn::keypad::start_pressed())
+    {
+        reqStackClear();
+        reqStackPush(SceneId::TITLE);
+    }
+
     return true;
 }
 

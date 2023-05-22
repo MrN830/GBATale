@@ -5,6 +5,7 @@
 
 #include "scene/IntroLogo.hpp"
 #include "scene/IntroStory.hpp"
+#include "scene/Title.hpp"
 
 using namespace ut;
 
@@ -38,4 +39,5 @@ void registerScenes(scene::SceneStack& sceneStack)
 
     sceneStack.registerScene<IntroStory>(SceneId::INTRO_STORY);
     sceneStack.registerScene<IntroLogo>(SceneId::INTRO_LOGO);
+    sceneStack.registerScene<Title>(SceneId::TITLE);
 }

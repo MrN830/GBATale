@@ -1,5 +1,10 @@
 #pragma once
 
+namespace bn
+{
+class sprite_palette_item;
+}
+
 namespace ut::asset
 {
 
@@ -8,6 +13,7 @@ enum class TextColorKind
     RED,
     GREEN,
     WHITE,
+    GRAY,
     YELLOW,
     BLACK,
     BLUE,
@@ -18,5 +24,7 @@ enum class TextColorKind
 
     TOTAL_COUNT
 };
+
+auto getTextColor(TextColorKind) -> const bn::sprite_palette_item&;
 
 } // namespace ut::asset
