@@ -18,6 +18,10 @@ public:
     bool update() override;
 
 private:
+    void select(int btnIdx);
+
+    void handleArrowKeys();
+
     void updateCharWobbles();
 
 private:
@@ -29,7 +33,7 @@ private:
     bn::vector<bn::sprite_ptr, 3> _backspace;
     bn::vector<bn::sprite_ptr, 1> _done;
 
-    int _selectedCharIdx = 0;
+    int _selectedBtnIdx = 0;
 
     bn::bitset<26 * 2 * 2> _charWobbles;
 };
