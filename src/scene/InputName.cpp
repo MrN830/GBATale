@@ -268,10 +268,13 @@ void InputName::activate()
     }
     else if (_selectedBtnIdx == BtnIdx::DONE)
     {
-        // TODO: Save name info to the Scene::Context
+        if (!_inputText.empty())
+        {
+            // TODO: Save name info to the Scene::Context
 
-        reqStackClear();
-        reqStackPush(SceneId::CONFIRM_NAME);
+            reqStackClear();
+            reqStackPush(SceneId::CONFIRM_NAME);
+        }
     }
     // press alphabet key
     else
