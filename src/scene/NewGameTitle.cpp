@@ -44,7 +44,7 @@ NewGameTitle::NewGameTitle(SceneStack& sceneStack, Context& context) : Scene(sce
 
 bool NewGameTitle::handleInput()
 {
-    if (bn::keypad::a_pressed() || bn::keypad::start_pressed())
+    if (bn::keypad::a_pressed())
     {
         reqStackClear();
         reqStackPush(SceneId::INPUT_NAME);

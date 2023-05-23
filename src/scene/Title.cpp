@@ -54,7 +54,7 @@ Title::Title(SceneStack& sceneStack, Context& context)
 bool Title::handleInput()
 {
     // button activate
-    if (bn::keypad::a_pressed() || bn::keypad::start_pressed())
+    if (bn::keypad::a_pressed())
     {
         if (_isContinueSelected)
         {

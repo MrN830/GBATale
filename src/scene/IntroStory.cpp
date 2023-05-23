@@ -138,7 +138,7 @@ IntroStory::~IntroStory()
 bool IntroStory::handleInput()
 {
     // if skip button pressed
-    if (!isSkipRequested() && (bn::keypad::a_pressed() || bn::keypad::start_pressed()))
+    if (!isSkipRequested() && bn::keypad::a_pressed())
     {
         _skipCountdown = SKIP_NEXT_SCENE_FRAMES;
         _isFadeOut = true;
