@@ -74,11 +74,11 @@ constexpr core::Dialog DIALOGS[] = {
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Many years later^2.^2.^5.  \E1 ^1 %)",
+        R"(Many years later^2. ^2. ^5.\E1 ^1 %)",
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(      MT. EBOTT&         201X^9 \E0 %)",
+        R"(          MT. EBOTT&             201X^7  \E0 %)",
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
