@@ -27,6 +27,8 @@ private:
     void updateInputTextSpr();
     void updateCharWobbles();
 
+    bool isGaster() const;
+
 private:
     bn::string<6> _inputText;
     bn::vector<bn::sprite_ptr, 2> _inputTextSpr;
@@ -40,6 +42,7 @@ private:
     int _selectedBtnIdx = 0;
 
     bn::bitset<26 * 2 * 2> _charWobbles;
+    int _gasterCountdown = -1;
 };
 
 } // namespace ut::scene

@@ -8,6 +8,7 @@
 #include "asset/TextColor.hpp"
 #include "core/Random.hpp"
 #include "core/TextGens.hpp"
+#include "util/String.hpp"
 
 namespace ut::scene
 {
@@ -29,6 +30,7 @@ constexpr bn::fixed_point CHAR_MARGIN = {18, 14};
 constexpr bn::fixed CASE_MARGIN_Y = 2;
 
 constexpr int ROWS = 6, COLS = 9;
+constexpr int GASTER_FRAMES = 4;
 
 enum BtnIdx
 {
@@ -102,6 +104,9 @@ InputName::InputName(SceneStack& sceneStack, Context& context) : Scene(sceneStac
 
 bool InputName::handleInput()
 {
+    if (isGaster())
+        return true;
+
     handleArrowKeys();
 
     if (bn::keypad::a_pressed())
@@ -112,7 +117,23 @@ bool InputName::handleInput()
 
 bool InputName::update()
 {
-    updateCharWobbles();
+    if (isGaster())
+    {
+        if (_gasterCountdown-- == GASTER_FRAMES - 1)
+        {
+            _inputText.pop_back();
+            updateInputTextSpr();
+        }
+        else if (_gasterCountdown <= 0)
+        {
+            reqStackClear();
+            reqStackPush(SceneId::INTRO_STORY);
+        }
+    }
+    else
+    {
+        updateCharWobbles();
+    }
 
     return true;
 }
@@ -284,6 +305,17 @@ void InputName::activate()
 
         _inputText.push_back(getCh(_selectedBtnIdx));
         updateInputTextSpr();
+
+        if (_inputText.size() == 6)
+        {
+            constexpr bn::string_view GASTER = "GASTER";
+
+            auto str = util::toUpperAscii(_inputText);
+            bn::string_view inputStr(str);
+
+            if (inputStr == GASTER)
+                _gasterCountdown = GASTER_FRAMES;
+        }
     }
 }
 
@@ -323,6 +355,11 @@ void InputName::updateCharWobbles()
                 ch.set_y(prevWobbleY ? ch.y() - 1 : ch.y() + 1);
         }
     }
+}
+
+bool InputName::isGaster() const
+{
+    return _gasterCountdown >= 0;
 }
 
 } // namespace ut::scene
