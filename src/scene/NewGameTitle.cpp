@@ -12,13 +12,13 @@ namespace ut::scene
 namespace
 {
 
-constexpr bn::fixed_point TEXT_START_POS = {-90, -48};
+constexpr bn::fixed_point TEXT_START_POS = {-79, -48};
 constexpr bn::fixed LINE_HEIGHT = 16;
 
 constexpr int TEXT_LINE_COUNT = 7;
 constexpr bn::string_view TEXTS[TEXT_LINE_COUNT] = {
-    "--- Instruction ---",          "", "[A] - Confirm",           "[B] - Cancel",
-    "[L/R/Start] - Menu (In-game)", "", "When HP is 0, you lose.",
+    "--- Instruction ---",     "", "    Ⓐ       Confirm",     "    Ⓑ       Cancel",
+    "Ⓢ/🄻/🅁    Menu (In-game)", "", "When HP is 0, you lose.",
 };
 
 } // namespace
