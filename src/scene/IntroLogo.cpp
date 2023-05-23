@@ -26,7 +26,7 @@ IntroLogo::IntroLogo(SceneStack& sceneStack, Context& context)
 
 bool IntroLogo::handleInput()
 {
-    if (bn::keypad::a_pressed() || bn::keypad::start_pressed())
+    if (bn::keypad::a_pressed())
     {
         reqStackClear();
         reqStackPush(SceneId::NEW_GAME_TITLE);
@@ -45,7 +45,7 @@ bool IntroLogo::update()
         const auto prevAlign = textGen.alignment();
         textGen.set_center_alignment();
 
-        textGen.generate(0, 40, "[Press A or Start]", _tipText);
+        textGen.generate(0, 40, "[Press A to start]", _tipText);
 
         textGen.set_alignment(prevAlign);
     }

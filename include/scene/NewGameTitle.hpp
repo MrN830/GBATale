@@ -17,7 +17,7 @@ public:
     bool update() override;
 
 private:
-    bn::vector<bn::sprite_ptr, 32> _texts;
+    bn::vector<bn::sprite_ptr, 23> _texts;
 };
 
 } // namespace ut::scene
