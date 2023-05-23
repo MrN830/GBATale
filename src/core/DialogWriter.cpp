@@ -2,6 +2,7 @@
 
 #include <bn_keypad.h>
 #include <bn_log.h>
+#include <bn_sound_item.h>
 #include <bn_vector.h>
 
 #include "asset/SfxKind.hpp"
@@ -74,8 +75,16 @@ void DialogWriter::update()
                 continue;
             }
 
+            const char ch = dialog.text[_nextCharIdx];
             const bn::string_view chStr = dialog.text.substr(_nextCharIdx, 1);
             const int chWidth = textGen.width(chStr);
+
+            // play sfx on writing non-whitespace character
+            if (ch != ' ')
+            {
+                const auto& sfx = asset::getSfx(settings.sfx);
+                sfx.play();
+            }
 
             // get the starting position if this is very first char
             if (_curLineY <= -bn::display::height())

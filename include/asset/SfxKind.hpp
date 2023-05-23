@@ -1,12 +1,33 @@
 #pragma once
 
+namespace bn
+{
+class sound_item;
+}
+
 namespace ut::asset
 {
 
 enum class SfxKind
 {
-    VOICE_INTRO,
+    INTRO_IMPACT,
+    CYMBAL_RISER,
 
+    ENCOUNTER_ALERT,
+    BATTLE_INIT,
+    HEAL_SMALL,
+    HEAL_BIG,
+    HURT_SMALL,
+    HURT_BIG,
+    ITEM,
+    SWITCH_TRIGGER,
+    PHONE,
+    SAVE,
+
+    MENU_CURSOR,
+    MENU_ACTIVATE,
+
+    VOICE_INTRO,
     VOICE_TORIEL,
     VOICE_SANS_TORIEL,
     VOICE_DEFAULT,
@@ -22,5 +43,7 @@ enum class SfxKind
 
     TOTAL_COUNT
 };
+
+auto getSfx(SfxKind) -> const bn::sound_item&;
 
 } // namespace ut::asset

@@ -4,6 +4,7 @@
 #include <bn_keypad.h>
 #include <bn_rect_window.h>
 #include <bn_regular_bg_builder.h>
+#include <bn_sound.h>
 
 #include "core/Dialog.hpp"
 
@@ -144,6 +145,8 @@ bool IntroStory::handleInput()
         _isFadeOut = true;
         _bgFade = buildFadeOut(LAST_FADE_OUT_FRAMES);
         _texts.clear();
+
+        bn::sound::stop_all();
     }
 
     return true;

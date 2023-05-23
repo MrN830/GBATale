@@ -13,6 +13,7 @@ class IntroLogo final : public Scene
 {
 public:
     IntroLogo(SceneStack&, Context&);
+    ~IntroLogo();
 
     bool handleInput() override;
     bool update() override;

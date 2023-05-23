@@ -1,7 +1,10 @@
 #include "scene/IntroLogo.hpp"
 
 #include <bn_keypad.h>
+#include <bn_sound.h>
+#include <bn_sound_item.h>
 
+#include "asset/SfxKind.hpp"
 #include "core/TextGens.hpp"
 
 #include "bn_regular_bg_items_bg_title.h"
@@ -22,6 +25,12 @@ constexpr int RESTART_INTRO_STORY_FRAMES = 20 * FPS;
 IntroLogo::IntroLogo(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_title.create_bg(0, 0))
 {
+    asset::getSfx(asset::SfxKind::INTRO_IMPACT).play();
+}
+
+IntroLogo::~IntroLogo()
+{
+    bn::sound::stop_all();
 }
 
 bool IntroLogo::handleInput()
