@@ -23,21 +23,30 @@ public:
     enum class LoadResult
     {
         FAILED,
-        LOADED_1,
-        LOADED_2
+        LOADED_SLOT_1,
+        LOADED_SLOT_2
     };
 
 public:
     GameState();
 
     /**
-     * @brief Loads from SRAM.
+     * @brief Loads both regular & persist saves from SRAM.
      * It automatically chooses valid, recent slot.
      *
-     * @param `checkOnly` Don't actually load, only use the returned `LoadResult`
-     * @return `bn::pair<LoadResult, LoadResult>` `{Regular, Persist}` load results
+     * @param `checkOnly` Only check the recent save slot (returned result), not actually load it.
+     * @return `bn::pair<LoadResult, LoadResult>` `{Regular, Persist}` save slots chosen for load
      */
-    [[nodiscard]] auto loadFromSave(bool checkOnly = false) -> bn::pair<LoadResult, LoadResult>;
+    [[nodiscard]] auto loadFromAllSave(bool checkOnly = false) -> bn::pair<LoadResult, LoadResult>;
+
+    /**
+     * @brief Loads regular save from SRAM.
+     * It automatically chooses valid, recent slot.
+     *
+     * @param `checkOnly` Only check the recent save slot (returned result), not actually load it.
+     * @return `LoadResult` regular save slot chosen for load
+     */
+    [[nodiscard]] auto loadFromRegularSave(bool checkOnly = false) -> LoadResult;
 
     void saveRegular();
 
@@ -97,6 +106,10 @@ private:
 
     struct RegularSave
     {
+        uint32_t checksum;
+        uint32_t savedCount;
+        bn::array<char, 8> saveVer;
+
         bn::array<char, 8> charName;
         int32_t xp;
         int32_t gold;
@@ -111,18 +124,14 @@ private:
         RoomKind room;
         uint32_t time;
 
-        bn::array<char, 8> saveVer;
-        uint32_t savedCount;
-        uint32_t checksum;
-
         bool isValid() const;
     };
 
     struct PersistSave
     {
-        bn::array<char, 8> saveVer;
-        uint32_t savedCount;
         uint32_t checksum;
+        uint32_t savedCount;
+        bn::array<char, 8> saveVer;
 
         bool isValid() const;
     };

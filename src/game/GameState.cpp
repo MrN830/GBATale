@@ -18,11 +18,18 @@ GameState::GameState()
     _room = RoomKind::ROOM_AREA1;
 }
 
-auto GameState::loadFromSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>
+auto GameState::loadFromAllSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>
 {
+    LoadResult rLoadResult = loadFromRegularSave(checkOnly);
     // TODO: Load from `PersistSave` too
-    LoadResult rLoadResult = LoadResult::FAILED;
     LoadResult pLoadResult = LoadResult::FAILED;
+
+    return {rLoadResult, pLoadResult};
+}
+
+auto GameState::loadFromRegularSave(bool checkOnly) -> LoadResult
+{
+    LoadResult rLoadResult = LoadResult::FAILED;
 
     RegularSave rSave1, rSave2;
 
@@ -38,29 +45,29 @@ auto GameState::loadFromSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>
         {
             if (!checkOnly)
                 loadFromRSave(rSave1);
-            rLoadResult = LoadResult::LOADED_1;
+            rLoadResult = LoadResult::LOADED_SLOT_1;
         }
         else
         {
             if (!checkOnly)
                 loadFromRSave(rSave2);
-            rLoadResult = LoadResult::LOADED_2;
+            rLoadResult = LoadResult::LOADED_SLOT_2;
         }
     }
     else if (isValidRSave1)
     {
         if (!checkOnly)
             loadFromRSave(rSave1);
-        rLoadResult = LoadResult::LOADED_1;
+        rLoadResult = LoadResult::LOADED_SLOT_1;
     }
     else if (isValidRSave2)
     {
         if (!checkOnly)
             loadFromRSave(rSave2);
-        rLoadResult = LoadResult::LOADED_2;
+        rLoadResult = LoadResult::LOADED_SLOT_2;
     }
 
-    return {rLoadResult, pLoadResult};
+    return rLoadResult;
 }
 
 void GameState::saveRegular()
@@ -87,12 +94,13 @@ void GameState::saveRegular()
         rSave.saveVer[i] = SAVE_VER[i];
 
     rSave.savedCount = ++_rSavedCount;
-    rSave.checksum = crc32_fast(&rSave, sizeof(rSave) - sizeof(rSave.checksum));
+    rSave.checksum = crc32_fast(((uint8_t*)&rSave) + sizeof(rSave.checksum), sizeof(rSave) - sizeof(rSave.checksum));
 
-    const auto [rLoadResult, pLoadResult] = loadFromSave(true);
+    // Get the recent save slot (so that we can overwrite the old slot)
+    const auto rLoadResult = loadFromRegularSave(true);
 
     // slot 2 is recent -> save to slot 1
-    if (rLoadResult == LoadResult::LOADED_2)
+    if (rLoadResult == LoadResult::LOADED_SLOT_2)
         bn::sram::write_offset(rSave, SRAM_REGU_SAVE_1);
     else
         bn::sram::write_offset(rSave, SRAM_REGU_SAVE_2);
@@ -191,7 +199,7 @@ void GameState::loadFromRSave(const RegularSave& rSave)
 
 bool GameState::RegularSave::isValid() const
 {
-    if (checksum != crc32_fast(this, sizeof(RegularSave) - sizeof(checksum)))
+    if (checksum != crc32_fast(((uint8_t*)this) + sizeof(checksum), sizeof(RegularSave) - sizeof(checksum)))
         return false;
 
     for (int i = 0; i < 8; ++i)
@@ -203,7 +211,7 @@ bool GameState::RegularSave::isValid() const
 
 bool GameState::PersistSave::isValid() const
 {
-    if (checksum != crc32_fast(this, sizeof(PersistSave) - sizeof(checksum)))
+    if (checksum != crc32_fast(((uint8_t*)this) + sizeof(checksum), sizeof(PersistSave) - sizeof(checksum)))
         return false;
 
     for (int i = 0; i < 8; ++i)

@@ -19,7 +19,7 @@ bool SaveTest::handleInput()
         BN_LOG("==== Load  ===");
 
         auto& gameState = getContext().gameState;
-        const auto [rLoadResult, pLoadResult] = gameState.loadFromSave();
+        const auto [rLoadResult, pLoadResult] = gameState.loadFromAllSave();
 
         BN_LOG("rLoadResult: ", (int)rLoadResult);
         BN_LOG("charName   : ", gameState.getCharName());

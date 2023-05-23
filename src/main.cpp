@@ -32,7 +32,11 @@ int main()
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 
+#ifndef UT_TEST
     sceneStack.pushScene(scene::SceneId::INTRO_STORY);
+#else
+    sceneStack.pushScene(scene::SceneId::SAVE_TEST);
+#endif
 
     while (true)
     {
