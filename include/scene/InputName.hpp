@@ -4,6 +4,7 @@
 
 #include <bn_bitset.h>
 #include <bn_sprite_ptr.h>
+#include <bn_string.h>
 #include <bn_vector.h>
 
 namespace ut::scene
@@ -19,13 +20,16 @@ public:
 
 private:
     void select(int btnIdx);
+    void activate();
 
     void handleArrowKeys();
 
+    void updateInputTextSpr();
     void updateCharWobbles();
 
 private:
-    bn::vector<bn::sprite_ptr, 2> _inputText;
+    bn::string<6> _inputText;
+    bn::vector<bn::sprite_ptr, 2> _inputTextSpr;
 
     bn::vector<bn::sprite_ptr, 6> _tip;
     bn::vector<bn::sprite_ptr, 26 * 2> _chars;

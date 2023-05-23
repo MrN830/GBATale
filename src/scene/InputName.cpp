@@ -30,7 +30,7 @@ constexpr bn::fixed CASE_MARGIN_Y = 2;
 
 constexpr int ROWS = 6, COLS = 9;
 
-enum SelectedBtnIdx
+enum BtnIdx
 {
     QUIT = 26 * 2,
     BACKSPACE,
@@ -39,7 +39,7 @@ enum SelectedBtnIdx
     WORD_BUTTON_COUNT = 3
 };
 
-int getBtnIdx(char ch)
+constexpr int getBtnIdx(char ch)
 {
     if ('A' <= ch && ch <= 'Z')
         return ch - 'A';
@@ -48,6 +48,17 @@ int getBtnIdx(char ch)
 
     BN_ERROR("Invalid ch=", ch);
     return -1;
+}
+
+constexpr char getCh(int btnIdx)
+{
+    if (getBtnIdx('A') <= btnIdx && btnIdx <= getBtnIdx('Z'))
+        return 'A' + btnIdx;
+    else if (getBtnIdx('a') <= btnIdx && btnIdx <= getBtnIdx('z'))
+        return 'a' + (btnIdx - getBtnIdx('a'));
+
+    BN_ERROR("Invalid btnIdx=", btnIdx);
+    return '\0';
 }
 
 } // namespace
@@ -93,6 +104,9 @@ bool InputName::handleInput()
 {
     handleArrowKeys();
 
+    if (bn::keypad::a_pressed())
+        activate();
+
     return true;
 }
 
@@ -108,19 +122,19 @@ void InputName::select(int btnIdx)
     auto changeColorTo = [this](int idx, asset::TextColorKind colorKind) {
         const auto& color = asset::getTextColor(colorKind);
 
-        if (0 <= idx && idx < SelectedBtnIdx::QUIT)
+        if (0 <= idx && idx < BtnIdx::QUIT)
             _chars[idx].set_palette(color);
-        else if (idx == SelectedBtnIdx::QUIT)
+        else if (idx == BtnIdx::QUIT)
         {
             for (auto& text : _quit)
                 text.set_palette(color);
         }
-        else if (idx == SelectedBtnIdx::BACKSPACE)
+        else if (idx == BtnIdx::BACKSPACE)
         {
             for (auto& text : _backspace)
                 text.set_palette(color);
         }
-        else if (idx == SelectedBtnIdx::DONE)
+        else if (idx == BtnIdx::DONE)
         {
             for (auto& text : _done)
                 text.set_palette(color);
@@ -141,16 +155,16 @@ void InputName::handleArrowKeys()
     {
         const int diff = bn::keypad::left_pressed() ? -1 : +1;
 
-        if (0 <= _selectedBtnIdx && _selectedBtnIdx < SelectedBtnIdx::QUIT)
+        if (0 <= _selectedBtnIdx && _selectedBtnIdx < BtnIdx::QUIT)
         {
-            const int btnIdx = bn::clamp(_selectedBtnIdx + diff, 0, SelectedBtnIdx::QUIT - 1);
+            const int btnIdx = bn::clamp(_selectedBtnIdx + diff, 0, BtnIdx::QUIT - 1);
             select(btnIdx);
         }
-        else if (_selectedBtnIdx <= SelectedBtnIdx::DONE)
+        else if (_selectedBtnIdx <= BtnIdx::DONE)
         {
-            int btnIdx = ((_selectedBtnIdx + diff - SelectedBtnIdx::QUIT) + SelectedBtnIdx::WORD_BUTTON_COUNT) %
-                         SelectedBtnIdx::WORD_BUTTON_COUNT;
-            btnIdx += SelectedBtnIdx::QUIT;
+            int btnIdx =
+                ((_selectedBtnIdx + diff - BtnIdx::QUIT) + BtnIdx::WORD_BUTTON_COUNT) % BtnIdx::WORD_BUTTON_COUNT;
+            btnIdx += BtnIdx::QUIT;
             select(btnIdx);
         }
         else
@@ -161,21 +175,21 @@ void InputName::handleArrowKeys()
     {
         const int dir = bn::keypad::up_pressed() ? -1 : +1;
 
-        if (_selectedBtnIdx == SelectedBtnIdx::QUIT)
+        if (_selectedBtnIdx == BtnIdx::QUIT)
         {
             if (dir == -1)
                 select(getBtnIdx('s'));
             else
                 select(getBtnIdx('A'));
         }
-        else if (_selectedBtnIdx == SelectedBtnIdx::BACKSPACE)
+        else if (_selectedBtnIdx == BtnIdx::BACKSPACE)
         {
             if (dir == -1)
                 select(getBtnIdx('v'));
             else
                 select(getBtnIdx('D'));
         }
-        else if (_selectedBtnIdx == SelectedBtnIdx::DONE)
+        else if (_selectedBtnIdx == BtnIdx::DONE)
         {
             if (dir == -1)
                 select(getBtnIdx('r'));
@@ -186,23 +200,23 @@ void InputName::handleArrowKeys()
         else if (dir == -1 && _selectedBtnIdx <= getBtnIdx('I'))
         {
             if (_selectedBtnIdx <= getBtnIdx('B'))
-                select(SelectedBtnIdx::QUIT);
+                select(BtnIdx::QUIT);
             else if (_selectedBtnIdx <= getBtnIdx('G'))
-                select(SelectedBtnIdx::BACKSPACE);
+                select(BtnIdx::BACKSPACE);
             else
-                select(SelectedBtnIdx::DONE);
+                select(BtnIdx::DONE);
         }
         // Down pressed on bottom character row
         else if (dir == +1 && getBtnIdx('r') <= _selectedBtnIdx && _selectedBtnIdx <= getBtnIdx('z'))
         {
             if (_selectedBtnIdx == getBtnIdx('r'))
-                select(SelectedBtnIdx::DONE);
+                select(BtnIdx::DONE);
             else if (_selectedBtnIdx <= getBtnIdx('t'))
-                select(SelectedBtnIdx::QUIT);
+                select(BtnIdx::QUIT);
             else if (_selectedBtnIdx <= getBtnIdx('y'))
-                select(SelectedBtnIdx::BACKSPACE);
+                select(BtnIdx::BACKSPACE);
             else
-                select(SelectedBtnIdx::DONE);
+                select(BtnIdx::DONE);
         }
         // 'R' -> 'i'
         else if (dir == +1 && _selectedBtnIdx == getBtnIdx('R'))
@@ -235,6 +249,47 @@ void InputName::handleArrowKeys()
             select(_selectedBtnIdx + COLS);
         }
     }
+}
+
+void InputName::activate()
+{
+    if (_selectedBtnIdx == BtnIdx::QUIT)
+    {
+        reqStackClear();
+        reqStackPush(SceneId::NEW_GAME_TITLE);
+    }
+    else if (_selectedBtnIdx == BtnIdx::BACKSPACE)
+    {
+        if (!_inputText.empty())
+        {
+            _inputText.pop_back();
+            updateInputTextSpr();
+        }
+    }
+    else if (_selectedBtnIdx == BtnIdx::DONE)
+    {
+        // TODO: Save name info to the Scene::Context
+
+        reqStackClear();
+        reqStackPush(SceneId::CONFIRM_NAME);
+    }
+    // press alphabet key
+    else
+    {
+        if (_inputText.full())
+            _inputText.pop_back();
+
+        _inputText.push_back(getCh(_selectedBtnIdx));
+        updateInputTextSpr();
+    }
+}
+
+void InputName::updateInputTextSpr()
+{
+    _inputTextSpr.clear();
+
+    auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
+    textGen.generate(INPUT_TEXT_POS, _inputText, _inputTextSpr);
 }
 
 void InputName::updateCharWobbles()
