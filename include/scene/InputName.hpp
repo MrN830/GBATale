@@ -23,6 +23,7 @@ private:
     void activate();
 
     void handleArrowKeys();
+    void eraseOneCharacter();
 
     void updateInputTextSpr();
     void updateCharWobbles();

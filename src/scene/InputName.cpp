@@ -109,6 +109,9 @@ bool InputName::handleInput()
 
     handleArrowKeys();
 
+    if (bn::keypad::b_pressed())
+        eraseOneCharacter();
+
     if (bn::keypad::a_pressed())
         activate();
 
@@ -272,6 +275,15 @@ void InputName::handleArrowKeys()
     }
 }
 
+void InputName::eraseOneCharacter()
+{
+    if (!_inputText.empty())
+    {
+        _inputText.pop_back();
+        updateInputTextSpr();
+    }
+}
+
 void InputName::activate()
 {
     if (_selectedBtnIdx == BtnIdx::QUIT)
@@ -281,11 +293,7 @@ void InputName::activate()
     }
     else if (_selectedBtnIdx == BtnIdx::BACKSPACE)
     {
-        if (!_inputText.empty())
-        {
-            _inputText.pop_back();
-            updateInputTextSpr();
-        }
+        eraseOneCharacter();
     }
     else if (_selectedBtnIdx == BtnIdx::DONE)
     {
