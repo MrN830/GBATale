@@ -16,6 +16,10 @@ enum class SceneId
 
     GAME,
 
+#ifdef UT_TEST
+    SAVE_TEST,
+#endif
+
     TOTAL_COUNT
 };
 

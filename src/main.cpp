@@ -2,6 +2,7 @@
 
 #include "core/Random.hpp"
 #include "core/TextGens.hpp"
+#include "game/GameState.hpp"
 #include "scene/SceneStack.hpp"
 
 #include "scene/InputName.hpp"
@@ -9,6 +10,10 @@
 #include "scene/IntroStory.hpp"
 #include "scene/NewGameTitle.hpp"
 #include "scene/Title.hpp"
+
+#ifdef UT_TEST
+#include "scene/test/SaveTest.hpp"
+#endif
 
 using namespace ut;
 
@@ -21,7 +26,8 @@ int main()
 
     ut::core::TextGens textGens;
     ut::core::Random rng;
-    scene::Scene::Context sceneContext(textGens, rng);
+    ut::game::GameState gameState;
+    scene::Scene::Context sceneContext(textGens, rng, gameState);
 
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
@@ -47,4 +53,8 @@ void registerScenes(scene::SceneStack& sceneStack)
     sceneStack.registerScene<Title>(SceneId::TITLE);
     sceneStack.registerScene<NewGameTitle>(SceneId::NEW_GAME_TITLE);
     sceneStack.registerScene<InputName>(SceneId::INPUT_NAME);
+
+#ifdef UT_TEST
+    sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);
+#endif
 }

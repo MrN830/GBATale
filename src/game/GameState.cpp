@@ -1,0 +1,216 @@
+#include "game/GameState.hpp"
+
+#include <bn_sram.h>
+
+#include "crc32/Crc32.h"
+
+#include "game/ItemInfo.hpp"
+#include "game/RoomInfo.hpp"
+
+namespace ut::game
+{
+
+GameState::GameState()
+{
+    _dimensionalBoxA[0] = ItemKind::TOUGH_GLOVE;
+    _weapon = ItemKind::STICK;
+    _armor = ItemKind::BANDAGE;
+    _room = RoomKind::ROOM_AREA1;
+}
+
+auto GameState::loadFromSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>
+{
+    // TODO: Load from `PersistSave` too
+    LoadResult rLoadResult = LoadResult::FAILED;
+    LoadResult pLoadResult = LoadResult::FAILED;
+
+    RegularSave rSave1, rSave2;
+
+    bn::sram::read_offset(rSave1, SRAM_REGU_SAVE_1);
+    bn::sram::read_offset(rSave2, SRAM_REGU_SAVE_2);
+
+    const bool isValidRSave1 = rSave1.isValid();
+    const bool isValidRSave2 = rSave2.isValid();
+
+    if (isValidRSave1 && isValidRSave2)
+    {
+        if (rSave1.savedCount >= rSave2.savedCount)
+        {
+            if (!checkOnly)
+                loadFromRSave(rSave1);
+            rLoadResult = LoadResult::LOADED_1;
+        }
+        else
+        {
+            if (!checkOnly)
+                loadFromRSave(rSave2);
+            rLoadResult = LoadResult::LOADED_2;
+        }
+    }
+    else if (isValidRSave1)
+    {
+        if (!checkOnly)
+            loadFromRSave(rSave1);
+        rLoadResult = LoadResult::LOADED_1;
+    }
+    else if (isValidRSave2)
+    {
+        if (!checkOnly)
+            loadFromRSave(rSave2);
+        rLoadResult = LoadResult::LOADED_2;
+    }
+
+    return {rLoadResult, pLoadResult};
+}
+
+void GameState::saveRegular()
+{
+    RegularSave rSave;
+
+    for (int i = 0; i < 8; ++i)
+        rSave.charName[i] = (i < _charName.size() ? _charName[i] : '\0');
+
+    rSave.xp = _exp;
+    rSave.gold = _gold;
+    rSave.kills = _kills;
+    rSave.item = _items;
+    rSave.dimensionalBoxA = _dimensionalBoxA;
+    rSave.dimensionalBoxB = _dimensionalBoxB;
+    rSave.phone = _phone;
+    rSave.weapon = _weapon;
+    rSave.armor = _armor;
+    rSave.plot = _plot;
+    rSave.room = _room;
+    rSave.time = _time;
+
+    for (int i = 0; i < 8; ++i)
+        rSave.saveVer[i] = SAVE_VER[i];
+
+    rSave.savedCount = ++_rSavedCount;
+    rSave.checksum = crc32_fast(&rSave, sizeof(rSave) - sizeof(rSave.checksum));
+
+    const auto [rLoadResult, pLoadResult] = loadFromSave(true);
+
+    // slot 2 is recent -> save to slot 1
+    if (rLoadResult == LoadResult::LOADED_2)
+        bn::sram::write_offset(rSave, SRAM_REGU_SAVE_1);
+    else
+        bn::sram::write_offset(rSave, SRAM_REGU_SAVE_2);
+}
+
+auto GameState::getCharName() const -> const bn::string_view
+{
+    return _charName;
+}
+
+int GameState::getLv() const
+{
+    return _lv;
+}
+
+int GameState::getExp() const
+{
+    return _exp;
+}
+
+int GameState::getCurHp() const
+{
+    return _curHp;
+}
+
+int GameState::getMaxHp() const
+{
+    return _maxHp;
+}
+
+int GameState::getBaseAtk() const
+{
+    return _baseAtk;
+}
+
+int GameState::getBaseDef() const
+{
+    return _baseDef;
+}
+
+int GameState::getGold() const
+{
+    return _gold;
+}
+
+int GameState::getKills() const
+{
+    return _kills;
+}
+
+uint32_t GameState::getTime() const
+{
+    return _time;
+}
+
+uint32_t GameState::getRSavedCount() const
+{
+    return _rSavedCount;
+}
+
+uint32_t GameState::getPSavedCount() const
+{
+    return _pSavedCount;
+}
+
+void GameState::setTime(uint32_t time)
+{
+    _time = time;
+}
+
+void GameState::loadFromRSave(const RegularSave& rSave)
+{
+    _charName.clear();
+    for (char ch : rSave.charName)
+        if (ch != '\0')
+            _charName.push_back(ch);
+
+    // TODO: Load exp related vals (lv, maxHp, atk, def)
+    _exp = rSave.xp;
+    _gold = rSave.gold;
+    _time = rSave.time;
+    _room = rSave.room;
+    _weapon = rSave.weapon;
+    _armor = rSave.armor;
+    _items = rSave.item;
+    _dimensionalBoxA = rSave.dimensionalBoxA;
+    _dimensionalBoxB = rSave.dimensionalBoxB;
+    _phone = rSave.phone;
+    _weapon = rSave.weapon;
+    _armor = rSave.armor;
+    _plot = rSave.plot;
+    _room = rSave.room;
+    _time = rSave.time;
+    _rSavedCount = rSave.savedCount;
+}
+
+bool GameState::RegularSave::isValid() const
+{
+    if (checksum != crc32_fast(this, sizeof(RegularSave) - sizeof(checksum)))
+        return false;
+
+    for (int i = 0; i < 8; ++i)
+        if (saveVer[i] != SAVE_VER[i])
+            return false;
+
+    return true;
+}
+
+bool GameState::PersistSave::isValid() const
+{
+    if (checksum != crc32_fast(this, sizeof(PersistSave) - sizeof(checksum)))
+        return false;
+
+    for (int i = 0; i < 8; ++i)
+        if (saveVer[i] != SAVE_VER[i])
+            return false;
+
+    return true;
+}
+
+} // namespace ut::game

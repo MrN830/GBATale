@@ -11,6 +11,11 @@ class TextGens;
 class Random;
 } // namespace ut::core
 
+namespace ut::game
+{
+class GameState;
+}
+
 namespace ut::scene
 {
 
@@ -25,6 +30,7 @@ public:
     {
         core::TextGens& textGens;
         core::Random& rng;
+        game::GameState& gameState;
     };
 
 public:
