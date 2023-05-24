@@ -3,7 +3,9 @@
 #include <bn_display.h>
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
+#include <bn_music_item.h>
 
+#include "asset/MusicKind.hpp"
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
@@ -31,6 +33,9 @@ constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 Title::Title(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0))
 {
+    // TODO: Change music considering story progression
+    asset::getMusic(asset::MusicKind::TITLE_MENU_1).play();
+
     auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
     const auto prevColor = textGen.palette_item();

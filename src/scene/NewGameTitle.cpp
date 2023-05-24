@@ -2,7 +2,9 @@
 
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
+#include <bn_music_item.h>
 
+#include "asset/MusicKind.hpp"
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
 
@@ -25,6 +27,8 @@ constexpr bn::string_view TEXTS[TEXT_LINE_COUNT] = {
 
 NewGameTitle::NewGameTitle(SceneStack& sceneStack, Context& context) : Scene(sceneStack, context)
 {
+    asset::getMusic(asset::MusicKind::TITLE_MENU_1).play();
+
     auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
     const auto prevColor = textGen.palette_item();

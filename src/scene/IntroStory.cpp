@@ -2,6 +2,7 @@
 
 #include <bn_display.h>
 #include <bn_keypad.h>
+#include <bn_music.h>
 #include <bn_rect_window.h>
 #include <bn_regular_bg_builder.h>
 #include <bn_sound.h>
@@ -126,6 +127,9 @@ IntroStory::IntroStory(SceneStack& sceneStack, Context& context)
 {
     bn::rect_window::internal().set_boundaries(6 - bn::display::height() / 2, 32 - bn::display::width() / 2,
                                                102 - bn::display::height() / 2, 208 - bn::display::width() / 2);
+
+    if (bn::music::playing())
+        bn::music::stop();
 
     _dialogWriter.start(DIALOGS, _texts);
 }

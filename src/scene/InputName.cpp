@@ -3,6 +3,7 @@
 #include <bn_display.h>
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
+#include <bn_music.h>
 #include <bn_string.h>
 
 #include "asset/TextColor.hpp"
@@ -330,7 +331,10 @@ void InputName::activate()
             bn::string_view inputStr(str);
 
             if (inputStr == GASTER)
+            {
                 _gasterCountdown = GASTER_FRAMES;
+                bn::music::stop();
+            }
         }
     }
 }
