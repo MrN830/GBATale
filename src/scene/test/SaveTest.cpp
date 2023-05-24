@@ -31,6 +31,8 @@ bool SaveTest::handleInput()
         BN_LOG("=== Save ===");
 
         auto& gameState = getContext().gameState;
+
+        gameState.setCharName("SaveTs");
         gameState.saveRegular();
 
         BN_LOG("saved!");
