@@ -21,7 +21,7 @@ constexpr auto TOP_LEFT_ORIGIN = bn::fixed_point{-bn::display::width() / 2, -bn:
 
 constexpr auto INPUT_TEXT_POS = bn::fixed_point{96, 34} + TOP_LEFT_ORIGIN;
 
-constexpr auto TIP_POS = bn::fixed_point{121, 14} + TOP_LEFT_ORIGIN;
+constexpr auto TIP_POS = bn::fixed_point{48, 14} + TOP_LEFT_ORIGIN;
 constexpr auto A_POS = bn::fixed_point{45, 54} + TOP_LEFT_ORIGIN;
 constexpr auto QUIT_POS = bn::fixed_point{30, 146} + TOP_LEFT_ORIGIN;
 constexpr auto DONE_POS = bn::fixed_point{211, 146} + TOP_LEFT_ORIGIN;
@@ -74,8 +74,8 @@ InputName::InputName(SceneStack& sceneStack, Context& context)
 
     updateInputTextSpr();
     textGen.generate(QUIT_POS, "Quit", _quit);
-    textGen.set_center_alignment();
     textGen.generate(TIP_POS, "Name the fallen human.", _tip);
+    textGen.set_center_alignment();
     textGen.generate(BACKSPACE_POS, "Backspace", _backspace);
     textGen.set_right_alignment();
     textGen.generate(DONE_POS, "Done", _done);
