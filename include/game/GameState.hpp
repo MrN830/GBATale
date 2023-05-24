@@ -30,6 +30,11 @@ public:
 public:
     GameState();
 
+    bool isNewRegularSave() const;
+
+    // This doesn't reset the charName (not a `True Reset`)
+    void resetToNewRegularSave();
+
     /**
      * @brief Loads both regular & persist saves from SRAM.
      * It automatically chooses valid, recent slot.
@@ -37,7 +42,7 @@ public:
      * @param `checkOnly` Only check the recent save slot (returned result), not actually load it.
      * @return `bn::pair<LoadResult, LoadResult>` `{Regular, Persist}` save slots chosen for load
      */
-    [[nodiscard]] auto loadFromAllSave(bool checkOnly = false) -> bn::pair<LoadResult, LoadResult>;
+    auto loadFromAllSave(bool checkOnly = false) -> bn::pair<LoadResult, LoadResult>;
 
     /**
      * @brief Loads regular save from SRAM.
@@ -46,7 +51,7 @@ public:
      * @param `checkOnly` Only check the recent save slot (returned result), not actually load it.
      * @return `LoadResult` regular save slot chosen for load
      */
-    [[nodiscard]] auto loadFromRegularSave(bool checkOnly = false) -> LoadResult;
+    auto loadFromRegularSave(bool checkOnly = false) -> LoadResult;
 
     void saveRegular();
 
@@ -76,26 +81,26 @@ private:
     void loadFromPSave(const PersistSave&);
 
 private:
-    bn::string<8> _charName = "";
-    int _lv = 1;
-    int _exp = 0;
-    int _curHp = 20;
-    int _maxHp = 20;
-    int _baseAtk = 0;
-    int _baseDef = 0;
-    int _gold = 0;
-    int _kills = 0;
-    bn::array<ItemKind, 8> _items = {};
-    bn::array<ItemKind, 12> _dimensionalBoxA = {};
-    bn::array<ItemKind, 12> _dimensionalBoxB = {};
-    bn::array<int32_t, 8> _phone = {};
+    bn::string<8> _charName;
+    int _lv;
+    int _exp;
+    int _curHp;
+    int _maxHp;
+    int _baseAtk;
+    int _baseDef;
+    int _gold;
+    int _kills;
+    bn::array<ItemKind, 8> _items;
+    bn::array<ItemKind, 12> _dimensionalBoxA;
+    bn::array<ItemKind, 12> _dimensionalBoxB;
+    bn::array<int32_t, 8> _phone;
     ItemKind _weapon;
     ItemKind _armor;
-    bn::fixed _plot = 0;
+    bn::fixed _plot;
     RoomKind _room;
-    uint32_t _time = 0;
+    uint32_t _time;
 
-    uint32_t _rSavedCount = 0;
+    uint32_t _rSavedCount;
     uint32_t _pSavedCount = 0;
 
 private:

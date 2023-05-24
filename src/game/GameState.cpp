@@ -12,10 +12,38 @@ namespace ut::game
 
 GameState::GameState()
 {
-    _dimensionalBoxA[0] = ItemKind::TOUGH_GLOVE;
+    resetToNewRegularSave();
+
+    loadFromAllSave();
+}
+
+bool GameState::isNewRegularSave() const
+{
+    return _rSavedCount <= 0;
+}
+
+void GameState::resetToNewRegularSave()
+{
+    _charName = "";
+    _lv = 1;
+    _exp = 0;
+    _curHp = 20;
+    _maxHp = 20;
+    _baseAtk = 0;
+    _baseDef = 0;
+    _gold = 0;
+    _kills = 0;
+    _items = {};
+    _dimensionalBoxA = {ItemKind::TOUGH_GLOVE};
+    _dimensionalBoxB = {};
+    _phone = {};
     _weapon = ItemKind::STICK;
     _armor = ItemKind::BANDAGE;
+    _plot = 0;
     _room = RoomKind::ROOM_AREA1;
+    _time = 0;
+
+    _rSavedCount = 0;
 }
 
 auto GameState::loadFromAllSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>

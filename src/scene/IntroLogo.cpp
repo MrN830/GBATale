@@ -6,6 +6,7 @@
 
 #include "asset/SfxKind.hpp"
 #include "core/TextGens.hpp"
+#include "game/GameState.hpp"
 
 #include "bn_regular_bg_items_bg_title.h"
 
@@ -38,7 +39,11 @@ bool IntroLogo::handleInput()
     if (bn::keypad::a_pressed())
     {
         reqStackClear();
-        reqStackPush(SceneId::NEW_GAME_TITLE);
+
+        if (getContext().gameState.isNewRegularSave())
+            reqStackPush(SceneId::NEW_GAME_TITLE);
+        else
+            reqStackPush(SceneId::TITLE);
     }
 
     return true;
