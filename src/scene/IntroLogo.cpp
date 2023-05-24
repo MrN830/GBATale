@@ -26,7 +26,7 @@ constexpr int RESTART_INTRO_STORY_FRAMES = 20 * FPS;
 IntroLogo::IntroLogo(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_title.create_bg(0, 0))
 {
-    asset::getSfx(asset::SfxKind::INTRO_IMPACT).play();
+    asset::getSfx(asset::SfxKind::INTRO_IMPACT)->play();
 }
 
 IntroLogo::~IntroLogo()

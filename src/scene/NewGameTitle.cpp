@@ -2,6 +2,7 @@
 
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
+#include <bn_music.h>
 #include <bn_music_item.h>
 
 #include "asset/MusicKind.hpp"
@@ -27,7 +28,9 @@ constexpr bn::string_view TEXTS[TEXT_LINE_COUNT] = {
 
 NewGameTitle::NewGameTitle(SceneStack& sceneStack, Context& context) : Scene(sceneStack, context)
 {
-    asset::getMusic(asset::MusicKind::TITLE_MENU_1).play();
+    const auto& titleMenuMusic = *asset::getMusic(asset::MusicKind::TITLE_MENU_1);
+    if (!bn::music::playing() || *bn::music::playing_item() != titleMenuMusic)
+        titleMenuMusic.play();
 
     auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();

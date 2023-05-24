@@ -22,6 +22,7 @@ public:
         {
             INTRO_STORY,
             INTRO_STORY_MT_EBOTT,
+            CONFIRM_NAME,
 
             TOTAL_COUNT
         };

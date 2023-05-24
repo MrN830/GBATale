@@ -50,14 +50,19 @@ struct SpecialToken
 
 /**
  * @brief Render `sprite_text` line one character at a time.
+ * You can also instantly render all text by calling `instantWrite()`
  */
 class DialogWriter
 {
 public:
     DialogWriter(TextGens&);
 
+    void reset();
+
     void start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_ptr>& outputVec);
     bool isStarted() const;
+
+    void instantWrite();
 
     void update();
 
@@ -72,16 +77,18 @@ private:
 
     bn::span<const Dialog> _dialogs;
     bn::ivector<bn::sprite_ptr>* _outputVec = nullptr;
-    int _dialogIdx = -1; // `-1` means not started
-    int _nextCharIdx = -1;
-    int _curSpriteStartCharIdx = -1;
-    int _elapsedFrames = -1;
+    int _dialogIdx; // `-1` means not started
+    int _nextCharIdx;
+    int _curSpriteStartCharIdx;
+    int _elapsedFrames;
 
-    int _pauseCountdown = -1;
-    int _curLineWidth = -1;
-    int _sprLineWidth = -1;
-    bn::fixed _curLineY = -bn::display::height();
-    bool _forceNewSprite = false;
+    int _pauseCountdown;
+    int _curLineWidth;
+    int _sprLineWidth;
+    bn::fixed _curLineY;
+    bool _forceNewSprite;
+
+    bool _isInstantWrite;
 };
 
 } // namespace ut::core

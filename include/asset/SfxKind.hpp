@@ -10,7 +10,9 @@ namespace ut::asset
 
 enum class SfxKind
 {
-    INTRO_IMPACT,
+    NONE = -1,
+
+    INTRO_IMPACT = 0,
     CYMBAL_RISER,
 
     ENCOUNTER_ALERT,
@@ -44,6 +46,6 @@ enum class SfxKind
     TOTAL_COUNT
 };
 
-auto getSfx(SfxKind) -> const bn::sound_item&;
+auto getSfx(SfxKind) -> const bn::sound_item*;
 
 } // namespace ut::asset

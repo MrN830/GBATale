@@ -5,6 +5,7 @@
 #include "game/GameState.hpp"
 #include "scene/SceneStack.hpp"
 
+#include "scene/ConfirmName.hpp"
 #include "scene/InputName.hpp"
 #include "scene/IntroLogo.hpp"
 #include "scene/IntroStory.hpp"
@@ -57,6 +58,7 @@ void registerScenes(scene::SceneStack& sceneStack)
     sceneStack.registerScene<Title>(SceneId::TITLE);
     sceneStack.registerScene<NewGameTitle>(SceneId::NEW_GAME_TITLE);
     sceneStack.registerScene<InputName>(SceneId::INPUT_NAME);
+    sceneStack.registerScene<ConfirmName>(SceneId::CONFIRM_NAME);
 
 #ifdef UT_TEST
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);

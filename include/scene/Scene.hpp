@@ -31,6 +31,7 @@ public:
         core::TextGens& textGens;
         core::Random& rng;
         game::GameState& gameState;
+        int menuChoice = 0; // which menu is chosen on prev scene?
     };
 
 public:
