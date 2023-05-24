@@ -8,6 +8,12 @@
 namespace ut::core
 {
 class TextGens;
+class Random;
+} // namespace ut::core
+
+namespace ut::game
+{
+class GameState;
 }
 
 namespace ut::scene
@@ -23,6 +29,8 @@ public:
     struct Context
     {
         core::TextGens& textGens;
+        core::Random& rng;
+        game::GameState& gameState;
     };
 
 public:

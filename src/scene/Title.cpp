@@ -6,6 +6,7 @@
 
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
+#include "game/GameState.hpp"
 
 #include "bn_regular_bg_items_bg_startmenu.h"
 
@@ -20,7 +21,8 @@ constexpr auto TOP_LEFT_ORIGIN = bn::fixed_point{-bn::display::width() / 2, -bn:
 constexpr auto NAME_POS = bn::fixed_point{38, 52} + TOP_LEFT_ORIGIN;
 constexpr auto TIME_POS = bn::fixed_point{203, 52} + TOP_LEFT_ORIGIN;
 constexpr auto LV_POS = (NAME_POS + TIME_POS) / 2;
-constexpr auto ROOM_POS = bn::fixed_point{38, 68} + TOP_LEFT_ORIGIN;
+constexpr auto ROOM_POS_LEFT = bn::fixed_point{38, 68} + TOP_LEFT_ORIGIN;
+constexpr auto ROOM_POS_CENTER = bn::fixed_point{120, 68} + TOP_LEFT_ORIGIN;
 constexpr auto CONTINUE_POS = bn::fixed_point{55, 92} + TOP_LEFT_ORIGIN;
 constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 
@@ -29,13 +31,22 @@ constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 Title::Title(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0))
 {
-    auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
+    auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
     const auto prevColor = textGen.palette_item();
 
-    // TODO: Load save info from SRAM
-    textGen.generate(NAME_POS, "WWWWWW", _saveInfoTexts);
-    textGen.generate(ROOM_POS, "Ruins - Entrance", _saveInfoTexts);
+    // WIP: Load save info from SRAM
+    textGen.generate(NAME_POS, context.gameState.getCharName(), _saveInfoTexts);
+
+    const bn::string_view ROOM_NAME = "Ruins - Entrance";
+    bn::fixed_point roomPos = ROOM_POS_LEFT;
+    if (textGen.width(ROOM_NAME) >= TIME_POS.x() - NAME_POS.x())
+    {
+        textGen.set_center_alignment();
+        roomPos = ROOM_POS_CENTER;
+    }
+    textGen.generate(roomPos, ROOM_NAME, _saveInfoTexts);
+
     textGen.set_center_alignment();
     textGen.generate(LV_POS, "LV 9999", _saveInfoTexts);
     textGen.set_right_alignment();
