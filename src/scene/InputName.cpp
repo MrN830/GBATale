@@ -8,6 +8,7 @@
 #include "asset/TextColor.hpp"
 #include "core/Random.hpp"
 #include "core/TextGens.hpp"
+#include "game/GameState.hpp"
 #include "util/String.hpp"
 
 namespace ut::scene
@@ -65,11 +66,13 @@ constexpr char getCh(int btnIdx)
 
 } // namespace
 
-InputName::InputName(SceneStack& sceneStack, Context& context) : Scene(sceneStack, context)
+InputName::InputName(SceneStack& sceneStack, Context& context)
+    : Scene(sceneStack, context), _inputText(context.gameState.getCharName().substr(0, 6))
 {
-    auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
+    auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
 
+    updateInputTextSpr();
     textGen.generate(QUIT_POS, "Quit", _quit);
     textGen.set_center_alignment();
     textGen.generate(TIP_POS, "Name the fallen human.", _tip);
@@ -129,6 +132,9 @@ bool InputName::update()
         }
         else if (_gasterCountdown <= 0)
         {
+            _inputText.clear();
+            updateCharNameInGameState();
+
             reqStackClear();
             reqStackPush(SceneId::INTRO_STORY);
         }
@@ -281,6 +287,7 @@ void InputName::eraseOneCharacter()
     {
         _inputText.pop_back();
         updateInputTextSpr();
+        updateCharNameInGameState();
     }
 }
 
@@ -313,6 +320,7 @@ void InputName::activate()
 
         _inputText.push_back(getCh(_selectedBtnIdx));
         updateInputTextSpr();
+        updateCharNameInGameState();
 
         if (_inputText.size() == 6)
         {
@@ -333,6 +341,11 @@ void InputName::updateInputTextSpr()
 
     auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
     textGen.generate(INPUT_TEXT_POS, _inputText, _inputTextSpr);
+}
+
+void InputName::updateCharNameInGameState()
+{
+    getContext().gameState.setCharName(_inputText);
 }
 
 void InputName::updateCharWobbles()

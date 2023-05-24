@@ -166,6 +166,12 @@ uint32_t GameState::getPSavedCount() const
     return _pSavedCount;
 }
 
+void GameState::setCharName(const bn::string_view charName)
+{
+    BN_ASSERT(charName.size() <= _charName.max_size());
+    _charName = charName;
+}
+
 void GameState::setTime(uint32_t time)
 {
     _time = time;

@@ -65,6 +65,8 @@ public:
     uint32_t getRSavedCount() const;
     uint32_t getPSavedCount() const;
 
+    void setCharName(const bn::string_view);
+
     void setTime(uint32_t time);
 
     // TODO: Add more getters & setters

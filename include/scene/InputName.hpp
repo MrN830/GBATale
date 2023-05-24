@@ -26,6 +26,8 @@ private:
     void eraseOneCharacter();
 
     void updateInputTextSpr();
+    void updateCharNameInGameState();
+
     void updateCharWobbles();
 
     bool isGaster() const;
