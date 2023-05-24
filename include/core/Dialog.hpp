@@ -21,6 +21,7 @@ public:
         enum class Kind
         {
             INTRO_STORY,
+            INTRO_STORY_MT_EBOTT,
 
             TOTAL_COUNT
         };

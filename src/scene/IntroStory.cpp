@@ -60,31 +60,31 @@ constexpr IntroBgFade INTRO_BGS[INTRO_BG_COUNT] = {
 constexpr core::Dialog DIALOGS[] = {
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Long ago^1, two races&ruled over Earth^1:&HUMANS and MONSTERS^6. \E1 ^1 %)",
+        R"(Long ago^1, two races&ruled over Earth^1:&HUMANS and MONSTERS^6.  ^1 %)",
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(One day^1, war broke&out between the two&races^6. \E0 ^1 %)",
+        R"(One day^1, war broke&out between the two&races^6.  ^1 %)",
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(After a long battle^1,&the humans were&victorious^6. \E1 ^1 %)",
+        R"(After a long battle^1,&the humans were&victorious^6.  ^1 %)",
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(They sealed the monsters&underground with a magic&spell^6. \E0 ^1 %)",
+        R"(They sealed the monsters&underground with a magic&spell^6.  ^1 %)",
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Many years later^2. ^2. ^5.\E1 ^1 %)",
+        R"(Many years later^2. ^2. ^5. ^1 %)",
+    },
+    core::Dialog{
+        core::Dialog::Settings::Kind::INTRO_STORY_MT_EBOTT,
+        R"(      MT. EBOTT&         201X^9  %)",
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(          MT. EBOTT&             201X^7  \E0 %)",
-    },
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Legends say that those&who climb the mountain&never return^5.^3 \E1 %)",
+        R"(Legends say that those&who climb the mountain&never return^5.^3  %)",
     },
 };
 

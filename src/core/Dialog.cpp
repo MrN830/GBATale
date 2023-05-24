@@ -22,6 +22,15 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
         14,
         2,
     },
+    Dialog::Settings{
+        asset::FontKind::MAIN,
+        asset::TextColorKind::WHITE,
+        asset::SfxKind::VOICE_INTRO,
+        bn::fixed_point{61 - bn::display::width() / 2, 116 - bn::display::height() / 2},
+        176,
+        14,
+        2,
+    },
 };
 
 }
