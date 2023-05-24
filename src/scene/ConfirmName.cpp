@@ -40,7 +40,19 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context) : Scene(scene
     _isAllowed = true;
     bn::string_view tip = "Is this name correct?";
 
+    bool isChosenName = false;
+
     if (context.gameState.getRSavedCount() >= 1)
+    {
+        // check if save file charName is `Frisk`
+        game::GameState state;
+        state.loadFromRegularSave();
+
+        if ("frisk" != bn::string_view(util::toLowerAscii(bn::string<8>(state.getCharName()))))
+            isChosenName = true;
+    }
+
+    if (isChosenName)
         tip = "A name has already&been chosen.";
     else if (name == "gaster")
         tip = "";

@@ -10,6 +10,7 @@
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
+#include "util/String.hpp"
 
 #include "bn_regular_bg_items_bg_startmenu.h"
 
@@ -47,8 +48,12 @@ Title::Title(SceneStack& sceneStack, Context& context)
     const auto& yellow = asset::getTextColor(asset::TextColorKind::YELLOW);
     const auto& white = asset::getTextColor(asset::TextColorKind::WHITE);
 
-    // WIP: Load save info from SRAM
-    textGen.generate(NAME_POS, context.gameState.getCharName(), _saveInfoTexts);
+    // we have to reload `charName` from SRAM, because it can be modified on `InputName`,
+    // but it's not the real saved `charName`.
+    game::GameState state;
+    state.loadFromRegularSave();
+
+    textGen.generate(NAME_POS, state.getCharName(), _saveInfoTexts);
 
     const bn::string_view ROOM_NAME = "Ruins - Entrance";
     bn::fixed_point roomPos = ROOM_POS_LEFT;
@@ -91,8 +96,17 @@ bool Title::handleInput()
         {
             getContext().menuChoice = 1;
 
+            // we have to reload `charName` from SRAM, because it can be modified on `InputName`,
+            // but it's not the real saved `charName`.
+            game::GameState state;
+            state.loadFromRegularSave();
+
             reqStackClear();
-            reqStackPush(SceneId::CONFIRM_NAME);
+
+            if ("frisk" == bn::string_view(util::toLowerAscii(bn::string<8>(state.getCharName()))))
+                reqStackPush(SceneId::INPUT_NAME);
+            else
+                reqStackPush(SceneId::CONFIRM_NAME);
         }
     }
     // button select

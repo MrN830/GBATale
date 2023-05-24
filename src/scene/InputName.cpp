@@ -70,6 +70,10 @@ constexpr char getCh(int btnIdx)
 InputName::InputName(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _inputText(context.gameState.getCharName().substr(0, 6))
 {
+    // If `Frisk` save exists, clear the input text
+    if (context.gameState.getRSavedCount() >= 1 && bn::string_view(util::toLowerAscii(_inputText)) == "frisk")
+        _inputText = "";
+
     auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
 
@@ -297,7 +301,11 @@ void InputName::activate()
     if (_selectedBtnIdx == BtnIdx::QUIT)
     {
         reqStackClear();
-        reqStackPush(SceneId::NEW_GAME_TITLE);
+
+        if (getContext().gameState.getRSavedCount() >= 1)
+            reqStackPush(SceneId::TITLE);
+        else
+            reqStackPush(SceneId::NEW_GAME_TITLE);
     }
     else if (_selectedBtnIdx == BtnIdx::BACKSPACE)
     {
