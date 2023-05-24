@@ -15,6 +15,8 @@ enum class RoomKind : int16_t;
 
 class GameState final
 {
+    friend bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState&);
+
 private:
     struct RegularSave;
     struct PersistSave;
@@ -143,5 +145,7 @@ private:
         bool isValid() const;
     };
 };
+
+bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState&);
 
 } // namespace ut::game

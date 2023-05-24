@@ -1,5 +1,6 @@
 #include "game/GameState.hpp"
 
+#include <bn_log.h>
 #include <bn_sram.h>
 
 #include "crc32/Crc32.h"
@@ -14,7 +15,9 @@ GameState::GameState()
 {
     resetToNewRegularSave();
 
-    loadFromAllSave();
+    const auto [rRes, pRes] = loadFromAllSave();
+    BN_LOG("`RegularSave` load ", (rRes == LoadResult::FAILED ? "FAILED" : "SUCCESS"));
+    BN_LOG(*this);
 }
 
 bool GameState::isNewRegularSave() const
@@ -253,6 +256,29 @@ bool GameState::PersistSave::isValid() const
             return false;
 
     return true;
+}
+
+bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState& gs)
+{
+    oss << "[GameState]\n";
+    oss << "time: " << gs._time << '\n';
+    oss << "rSavCnt: " << gs._rSavedCount << '\n';
+    oss << "pSavCnt: " << gs._pSavedCount << '\n';
+    oss << "room: " << (int)gs._room << '\n';
+    oss << "plot: " << gs._plot << '\n';
+    oss << "charName: " << gs._charName << '\n';
+    oss << "lv: " << gs._lv << '\n';
+    oss << "exp: " << gs._exp << '\n';
+    oss << "curHp: " << gs._curHp << '\n';
+    oss << "maxHp: " << gs._maxHp << '\n';
+    oss << "baseAtk: " << gs._baseAtk << '\n';
+    oss << "baseDef: " << gs._baseDef << '\n';
+    oss << "weapon: " << (int)gs._weapon << '\n';
+    oss << "armor: " << (int)gs._armor << '\n';
+    oss << "gold: " << gs._gold << '\n';
+    oss << "kills: " << gs._kills << '\n';
+
+    return oss;
 }
 
 } // namespace ut::game
