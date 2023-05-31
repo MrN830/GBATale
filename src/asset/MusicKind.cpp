@@ -8,6 +8,7 @@ namespace ut::asset
 {
 
 static constexpr const bn::music_item* MUSICS[(int)MusicKind::TOTAL_COUNT] = {
+    &bn::music_items::once_upon_a_time,
     &bn::music_items::menu,
     &bn::music_items::fallen_down,
 };

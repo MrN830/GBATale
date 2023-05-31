@@ -12,7 +12,8 @@ enum class MusicKind
 {
     NONE = -1,
 
-    TITLE_MENU_1 = 0,
+    ONCE_UPON_A_TIME = 0,
+    TITLE_MENU_1,
 
     FALLEN_DOWN,
 

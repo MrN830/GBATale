@@ -3,10 +3,12 @@
 #include <bn_display.h>
 #include <bn_keypad.h>
 #include <bn_music.h>
+#include <bn_music_item.h>
 #include <bn_rect_window.h>
 #include <bn_regular_bg_builder.h>
 #include <bn_sound.h>
 
+#include "asset/MusicKind.hpp"
 #include "core/Dialog.hpp"
 
 #include "bn_regular_bg_items_bg_intro1.h"
@@ -109,14 +111,19 @@ auto buildIntroBg(int idx0) -> bn::regular_bg_ptr
     return bg;
 }
 
-auto buildFadeIn(int frames) -> bn::blending_transparency_alpha_to_action
+auto buildBgFadeIn(int frames) -> bn::blending_transparency_alpha_to_action
 {
     return bn::blending_transparency_alpha_to_action(frames, 1);
 }
 
-auto buildFadeOut(int frames) -> bn::blending_transparency_alpha_to_action
+auto buildBgFadeOut(int frames) -> bn::blending_transparency_alpha_to_action
 {
     return bn::blending_transparency_alpha_to_action(frames, 0);
+}
+
+auto buildMusFadeOut(int frames) -> bn::music_volume_to_action
+{
+    return bn::music_volume_to_action(frames, 0);
 }
 
 } // namespace
@@ -130,6 +137,8 @@ IntroStory::IntroStory(SceneStack& sceneStack, Context& context)
 
     if (bn::music::playing())
         bn::music::stop();
+    const auto& introMusic = *asset::getMusic(asset::MusicKind::ONCE_UPON_A_TIME);
+    introMusic.play();
 
     _dialogWriter.start(DIALOGS, _texts);
 }
@@ -138,6 +147,8 @@ IntroStory::~IntroStory()
 {
     bn::blending::set_transparency_alpha(1);
     bn::rect_window::internal().set_boundaries(_prevWindowRect);
+
+    bn::music::stop();
 }
 
 bool IntroStory::handleInput()
@@ -147,7 +158,8 @@ bool IntroStory::handleInput()
     {
         _skipCountdown = SKIP_NEXT_SCENE_FRAMES;
         _isFadeOut = true;
-        _bgFade = buildFadeOut(LAST_FADE_OUT_FRAMES);
+        _bgFade = buildBgFadeOut(LAST_FADE_OUT_FRAMES);
+        _musFade = buildMusFadeOut(LAST_FADE_OUT_FRAMES);
         _texts.clear();
 
         bn::sound::stop_all();
@@ -178,6 +190,9 @@ bool IntroStory::update()
     }
 
     updateBgMove();
+
+    if (_musFade && !_musFade->done())
+        _musFade->update();
 
     if (_elapsedFrames >= NEXT_SCENE_FRAMES)
     {
@@ -222,13 +237,16 @@ void IntroStory::startNextBgFade()
     {
         _isFadeOut = false;
         const int fadeInFrames = (_introBgIdx0 == INTRO_BG_COUNT - 1) ? LAST_FADE_IN_FRAMES : FADE_IN_FRAMES;
-        _bgFade = buildFadeIn(fadeInFrames);
+        _bgFade = buildBgFadeIn(fadeInFrames);
     }
     else if (_elapsedFrames == curBgFade.fadeOutStart)
     {
         _isFadeOut = true;
-        const int fadeOutFrames = (_introBgIdx0 == INTRO_BG_COUNT - 1) ? LAST_FADE_OUT_FRAMES : FADE_OUT_FRAMES;
-        _bgFade = buildFadeOut(fadeOutFrames);
+        const bool isLastFadeOut = (_introBgIdx0 == INTRO_BG_COUNT - 1);
+        const int fadeOutFrames = isLastFadeOut ? LAST_FADE_OUT_FRAMES : FADE_OUT_FRAMES;
+        _bgFade = buildBgFadeOut(fadeOutFrames);
+        if (isLastFadeOut)
+            _musFade = buildMusFadeOut(fadeOutFrames);
     }
 }
 
