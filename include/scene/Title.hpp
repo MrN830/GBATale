@@ -23,7 +23,7 @@ private:
     bn::vector<bn::sprite_ptr, 2> _continueBtnText;
     bn::vector<bn::sprite_ptr, 2> _resetBtnText;
 
-    bool _isContinueSelected = true;
+    bool _isContinueSelected;
 };
 
 } // namespace ut::scene

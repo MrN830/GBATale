@@ -32,11 +32,14 @@ static constexpr const bn::sound_item* SFXS[(int)SfxKind::TOTAL_COUNT] = {
     &bn::sound_items::snd_txt2, // TODO: change sfx to ASRIEL
 };
 
-auto getSfx(SfxKind kind) -> const bn::sound_item&
+auto getSfx(SfxKind kind) -> const bn::sound_item*
 {
-    BN_ASSERT(0 <= (int)kind && (int)kind < (int)SfxKind::TOTAL_COUNT);
+    BN_ASSERT((int)SfxKind::NONE <= (int)kind && (int)kind < (int)SfxKind::TOTAL_COUNT);
 
-    return *SFXS[(int)kind];
+    if (kind == SfxKind::NONE)
+        return nullptr;
+
+    return SFXS[(int)kind];
 }
 
 } // namespace ut::asset

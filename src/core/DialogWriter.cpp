@@ -20,6 +20,24 @@ constexpr int MAX_SPRITE_WIDTH = 32;
 
 DialogWriter::DialogWriter(TextGens& textGens) : _textGens(textGens)
 {
+    reset();
+}
+
+void DialogWriter::reset()
+{
+    _dialogs = {};
+    _outputVec = nullptr;
+    _dialogIdx = -1; // `-1` means not started
+    _nextCharIdx = -1;
+    _curSpriteStartCharIdx = -1;
+    _elapsedFrames = -1;
+
+    _pauseCountdown = -1;
+    _curLineWidth = -1;
+    _sprLineWidth = -1;
+    _curLineY = -bn::display::height();
+    _forceNewSprite = false;
+    _isInstantWrite = false;
 }
 
 void DialogWriter::start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_ptr>& outputVec)
@@ -36,6 +54,20 @@ void DialogWriter::start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_
 bool DialogWriter::isStarted() const
 {
     return 0 <= _dialogIdx && _dialogIdx < _dialogs.size();
+}
+
+void DialogWriter::instantWrite()
+{
+    if (!isStarted())
+        return;
+
+    const auto& dialog = _dialogs[_dialogIdx];
+
+    // TODO: Optimize this super naive implementation
+    _isInstantWrite = true;
+    while (isStarted() && _nextCharIdx < dialog.text.size())
+        update();
+    _isInstantWrite = false;
 }
 
 void DialogWriter::update()
@@ -57,8 +89,6 @@ void DialogWriter::update()
         const auto& settings = Dialog::Settings::get(dialog.settingsKind);
 
         auto& textGen = _textGens.get(settings.font);
-        const auto prevAlign = textGen.alignment();
-        textGen.set_left_alignment();
 
         // time to write a new character
         if (_elapsedFrames % settings.speed == 0 && _nextCharIdx < dialog.text.size())
@@ -80,10 +110,11 @@ void DialogWriter::update()
             const int chWidth = textGen.width(chStr);
 
             // play sfx on writing non-whitespace character
-            if (ch != ' ')
+            if (ch != ' ' && !_isInstantWrite)
             {
-                const auto& sfx = asset::getSfx(settings.sfx);
-                sfx.play();
+                const auto sfx = asset::getSfx(settings.sfx);
+                if (sfx)
+                    sfx->play();
             }
 
             // get the starting position if this is very first char
@@ -142,7 +173,6 @@ void DialogWriter::update()
             ++_nextCharIdx;
         }
 
-        textGen.set_alignment(prevAlign);
         break;
     }
 

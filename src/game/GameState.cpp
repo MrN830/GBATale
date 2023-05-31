@@ -14,6 +14,8 @@ namespace ut::game
 GameState::GameState()
 {
     resetToNewRegularSave();
+    _charName = "";
+    _rSavedCount = 0;
 
     const auto [rRes, pRes] = loadFromAllSave();
     BN_LOG("`RegularSave` load ", (rRes == LoadResult::FAILED ? "FAILED" : "SUCCESS"));
@@ -27,7 +29,6 @@ bool GameState::isNewRegularSave() const
 
 void GameState::resetToNewRegularSave()
 {
-    _charName = "";
     _lv = 1;
     _exp = 0;
     _curHp = 20;
@@ -45,8 +46,6 @@ void GameState::resetToNewRegularSave()
     _plot = 0;
     _room = RoomKind::ROOM_AREA1;
     _time = 0;
-
-    _rSavedCount = 0;
 }
 
 auto GameState::loadFromAllSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>
