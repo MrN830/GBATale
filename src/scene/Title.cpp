@@ -2,6 +2,7 @@
 
 #include <bn_display.h>
 #include <bn_fixed_point.h>
+#include <bn_format.h>
 #include <bn_keypad.h>
 #include <bn_music.h>
 #include <bn_music_item.h>
@@ -65,9 +66,9 @@ Title::Title(SceneStack& sceneStack, Context& context)
     textGen.generate(roomPos, ROOM_NAME, _saveInfoTexts);
 
     textGen.set_center_alignment();
-    textGen.generate(LV_POS, "LV 9999", _saveInfoTexts);
+    textGen.generate(LV_POS, bn::format<7>("LV {}", state.getLv()), _saveInfoTexts);
     textGen.set_right_alignment();
-    textGen.generate(TIME_POS, "9999:99", _saveInfoTexts);
+    textGen.generate(TIME_POS, state.getTime().getTimestamp(), _saveInfoTexts);
 
     textGen.set_right_alignment();
     textGen.set_palette_item(context.menuChoice == 1 ? yellow : white);

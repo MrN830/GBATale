@@ -7,11 +7,12 @@
 
 #include "game/ItemInfo.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/StatInfo.hpp"
 
 namespace ut::game
 {
 
-GameState::GameState()
+GameState::GameState() : _time(0)
 {
     resetToNewRegularSave();
     _charName = "";
@@ -45,7 +46,7 @@ void GameState::resetToNewRegularSave()
     _armor = ItemKind::BANDAGE;
     _plot = 0;
     _room = RoomKind::ROOM_AREA1;
-    _time = 0;
+    _time = core::PlayTime(0);
 }
 
 auto GameState::loadFromAllSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>
@@ -118,7 +119,7 @@ void GameState::saveRegular()
     rSave.armor = _armor;
     rSave.plot = _plot;
     rSave.room = _room;
-    rSave.time = _time;
+    rSave.time = _time.getTicks();
 
     for (int i = 0; i < 8; ++i)
         rSave.saveVer[i] = SAVE_VER[i];
@@ -181,7 +182,7 @@ int GameState::getKills() const
     return _kills;
 }
 
-uint32_t GameState::getTime() const
+auto GameState::getTime() const -> core::PlayTime
 {
     return _time;
 }
@@ -202,7 +203,7 @@ void GameState::setCharName(const bn::string_view charName)
     _charName = charName;
 }
 
-void GameState::setTime(uint32_t time)
+void GameState::setTime(const core::PlayTime& time)
 {
     _time = time;
 }
@@ -214,13 +215,15 @@ void GameState::loadFromRSave(const RegularSave& rSave)
         if (ch != '\0')
             _charName.push_back(ch);
 
-    // TODO: Load exp related vals (lv, maxHp, atk, def)
+    // Load `exp` related values
     _exp = rSave.xp;
+    _lv = game::StatInfo::getLv(_exp);
+    const auto& stat = game::StatInfo::getInfo(_lv);
+    _maxHp = stat.maxHp;
+    _baseAtk = stat.atk;
+    _baseDef = stat.def;
+
     _gold = rSave.gold;
-    _time = rSave.time;
-    _room = rSave.room;
-    _weapon = rSave.weapon;
-    _armor = rSave.armor;
     _items = rSave.item;
     _dimensionalBoxA = rSave.dimensionalBoxA;
     _dimensionalBoxB = rSave.dimensionalBoxB;
@@ -229,7 +232,7 @@ void GameState::loadFromRSave(const RegularSave& rSave)
     _armor = rSave.armor;
     _plot = rSave.plot;
     _room = rSave.room;
-    _time = rSave.time;
+    _time = core::PlayTime(rSave.time);
     _rSavedCount = rSave.savedCount;
 }
 
@@ -260,7 +263,7 @@ bool GameState::PersistSave::isValid() const
 bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState& gs)
 {
     oss << "[GameState]\n";
-    oss << "time: " << gs._time << '\n';
+    oss << "time: " << gs._time.getTicks() << '\n';
     oss << "rSavCnt: " << gs._rSavedCount << '\n';
     oss << "pSavCnt: " << gs._pSavedCount << '\n';
     oss << "room: " << (int)gs._room << '\n';

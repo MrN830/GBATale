@@ -7,6 +7,8 @@
 #include <bn_string.h>
 #include <bn_utility.h>
 
+#include "core/PlayTime.hpp"
+
 namespace ut::game
 {
 
@@ -68,13 +70,13 @@ public:
     int getGold() const;
     int getKills() const;
 
-    uint32_t getTime() const;
+    auto getTime() const -> core::PlayTime;
     uint32_t getRSavedCount() const;
     uint32_t getPSavedCount() const;
 
     void setCharName(const bn::string_view);
 
-    void setTime(uint32_t time);
+    void setTime(const core::PlayTime& time);
 
     // TODO: Add more getters & setters
 
@@ -100,7 +102,7 @@ private:
     ItemKind _armor;
     bn::fixed _plot;
     RoomKind _room;
-    uint32_t _time;
+    core::PlayTime _time;
 
     uint32_t _rSavedCount;
     uint32_t _pSavedCount = 0;
