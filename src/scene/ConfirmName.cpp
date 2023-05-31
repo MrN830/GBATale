@@ -5,6 +5,7 @@
 #include <bn_keypad.h>
 #include <bn_sound.h>
 
+#include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
 #include "core/Dialog.hpp"
 #include "core/DialogWriter.hpp"
@@ -24,6 +25,11 @@ constexpr auto NAME_POS = bn::fixed_point{96, 34} + TOP_LEFT_ORIGIN;
 
 constexpr auto NO_POS = bn::fixed_point{50, 146} + TOP_LEFT_ORIGIN;
 constexpr auto YES_POS = bn::fixed_point{191, 146} + TOP_LEFT_ORIGIN;
+
+constexpr bn::fixed MOVE_DIFF_Y = 70;
+
+constexpr int FPS = 30;
+constexpr int NAME_ACTION_FRAMES = 3 * FPS;
 
 } // namespace
 
@@ -119,6 +125,18 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context) : Scene(scene
     else
     {
         textGen.generate(NAME_POS, charName, _nameSpr);
+        const auto textCenterX = NAME_POS.x() + textGen.width(charName) / 2;
+
+        for (int i = 0; i < _nameSpr.size(); ++i)
+        {
+            const auto& spr = _nameSpr[i];
+            // Scale text from the 'real' center origin
+            const auto centerDiffX = spr.x() - textCenterX;
+            const bn::fixed_point finalPos(spr.x() + centerDiffX, spr.y() + MOVE_DIFF_Y);
+
+            _nameMoveAction.emplace_back(spr, NAME_ACTION_FRAMES, finalPos);
+            _nameScaleAction.emplace_back(spr, NAME_ACTION_FRAMES, 2);
+        }
 
         textGen.set_palette_item(asset::getTextColor(asset::TextColorKind::YELLOW));
         textGen.generate(NO_POS, _isAllowed ? "No" : "Go back", _no);
@@ -183,6 +201,13 @@ bool ConfirmName::handleInput()
 
 bool ConfirmName::update()
 {
+    for (auto& action : _nameMoveAction)
+        if (!action.done())
+            action.update();
+    for (auto& action : _nameScaleAction)
+        if (!action.done())
+            action.update();
+
     return true;
 }
 
