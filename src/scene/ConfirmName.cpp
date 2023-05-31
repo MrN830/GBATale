@@ -1,9 +1,12 @@
 #include "scene/ConfirmName.hpp"
 
+#include <bn_blending.h>
 #include <bn_display.h>
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
+#include <bn_music.h>
 #include <bn_sound.h>
+#include <bn_sound_item.h>
 
 #include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
@@ -12,6 +15,8 @@
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
 #include "util/String.hpp"
+
+#include "bn_regular_bg_items_bg_empty.h"
 
 namespace ut::scene
 {
@@ -30,10 +35,13 @@ constexpr bn::fixed MOVE_DIFF_Y = 70;
 
 constexpr int FPS = 30;
 constexpr int NAME_ACTION_FRAMES = 3 * FPS;
+constexpr int WHITE_OUT_FRAMES = 5 * FPS;
+constexpr int GAME_SCENE_FRAMES = 5.5 * FPS;
 
 } // namespace
 
-ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context) : Scene(sceneStack, context)
+ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context)
+    : Scene(sceneStack, context), _whiteOut(WHITE_OUT_FRAMES, 1)
 {
     auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
@@ -156,10 +164,15 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context) : Scene(scene
 ConfirmName::~ConfirmName()
 {
     bn::sound::stop_all();
+    bn::blending::set_fade_color(bn::blending::fade_color_type::BLACK);
+    bn::blending::set_fade_alpha(0);
 }
 
 bool ConfirmName::handleInput()
 {
+    if (isConfirmed())
+        return true;
+
     if (_isAllowed && (bn::keypad::left_pressed() || bn::keypad::right_pressed()))
     {
         _isYesSelected = !_isYesSelected;
@@ -175,15 +188,20 @@ bool ConfirmName::handleInput()
 
     if (bn::keypad::a_pressed())
     {
+        // If `YES` pressed
         if (_isYesSelected)
         {
-            // TODO: Go to `scene::Game` with white-out transition
-            // TEST
-            getContext().gameState.saveRegular();
+            // Go to `scene::Game` with white-out transition
+            getContext().gameState.resetToNewRegularSave();
             _tip.clear();
-            constexpr auto TIP_POS = bn::fixed_point{48, 14} + TOP_LEFT_ORIGIN;
-            getContext().textGens.get(asset::FontKind::MAIN).generate(TIP_POS, "[Test] Saved to SRAM.", _tip);
-            // END TEST
+            _no.clear();
+            _yes.clear();
+            _gameSceneCountdown = GAME_SCENE_FRAMES;
+            bn::blending::set_fade_color(bn::blending::fade_color_type::WHITE);
+
+            if (bn::music::playing())
+                bn::music::stop();
+            asset::getSfx(asset::SfxKind::CYMBAL_RISER)->play();
         }
         else
         {
@@ -208,7 +226,24 @@ bool ConfirmName::update()
         if (!action.done())
             action.update();
 
+    if (isConfirmed())
+    {
+        if (!_whiteOut.done())
+            _whiteOut.update();
+
+        if (--_gameSceneCountdown <= 0)
+        {
+            reqStackClear();
+            reqStackPush(SceneId::GAME);
+        }
+    }
+
     return true;
+}
+
+bool ConfirmName::isConfirmed() const
+{
+    return _gameSceneCountdown >= 0;
 }
 
 } // namespace ut::scene
