@@ -182,7 +182,12 @@ int GameState::getKills() const
     return _kills;
 }
 
-auto GameState::getTime() const -> core::PlayTime
+auto GameState::getTime() const -> const core::PlayTime&
+{
+    return _time;
+}
+
+auto GameState::getTime() -> core::PlayTime&
 {
     return _time;
 }

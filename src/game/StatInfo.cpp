@@ -4,8 +4,6 @@
 
 #include <bn_array.h>
 
-#include <bn_log.h>
-
 namespace ut::game
 {
 
@@ -52,11 +50,6 @@ static constexpr bn::array<StatInfo, StatInfo::MAX_LV> STAT_INFOS = []() {
 auto StatInfo::getInfo(int lv) -> const StatInfo&
 {
     BN_ASSERT(1 <= lv && lv <= MAX_LV);
-
-    // test
-    for (int i = 1; i <= 20; ++i)
-        BN_LOG(STAT_INFOS[i - 1].lv, ", ", STAT_INFOS[i - 1].exp, ", ", STAT_INFOS[i - 1].maxHp, ", ",
-               STAT_INFOS[i - 1].atk, ", ", STAT_INFOS[i - 1].def);
 
     return STAT_INFOS[lv - 1];
 }

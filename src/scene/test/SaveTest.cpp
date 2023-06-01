@@ -45,7 +45,7 @@ bool SaveTest::update()
 {
     auto& gameState = getContext().gameState;
 
-    gameState.setTime(gameState.getTime() + 1);
+    gameState.getTime().addTicks(1);
 
     return true;
 }

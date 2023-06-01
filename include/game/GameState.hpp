@@ -70,7 +70,8 @@ public:
     int getGold() const;
     int getKills() const;
 
-    auto getTime() const -> core::PlayTime;
+    auto getTime() const -> const core::PlayTime&;
+    auto getTime() -> core::PlayTime&;
     uint32_t getRSavedCount() const;
     uint32_t getPSavedCount() const;
 

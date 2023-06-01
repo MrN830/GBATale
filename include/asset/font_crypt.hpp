@@ -17,7 +17,7 @@ inline constexpr int8_t font_crypt_character_widths[] = {
     3, // 34 "
     4, // 35 #
     4, // 36 $
-    4, // 37 %
+    5, // 37 %
     4, // 38 &
     2, // 39 '
     3, // 40 (

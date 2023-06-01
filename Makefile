@@ -29,7 +29,7 @@ TARGET      :=  $(notdir $(CURDIR))
 BUILD       :=  build
 LIBBUTANO   :=  butano/butano
 PYTHON      :=  python
-SOURCES     :=  src src/asset src/core src/scene src/game lib/src/crc32
+SOURCES     :=  src src/asset src/core src/scene src/game src/debug src/test lib/src/crc32
 INCLUDES    :=  include lib/include
 DATA        :=
 GRAPHICS    :=  graphics graphics/font graphics/font/palette graphics/bg graphics/bg/palette graphics/sprite graphics/sprite/palette
@@ -37,7 +37,7 @@ AUDIO       :=  audio/music audio/sound
 DMGAUDIO    :=  dmg_audio
 ROMTITLE    :=  UNDERTALE
 ROMCODE     :=  2UTE
-USERFLAGS   :=  -D__BYTE_ORDER=__LITTLE_ENDIAN
+USERFLAGS   :=  -DUT_MEM_VIEW=true -D__BYTE_ORDER=__LITTLE_ENDIAN
 USERASFLAGS :=  
 USERLDFLAGS :=  
 USERLIBDIRS :=  
