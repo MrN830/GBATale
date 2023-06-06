@@ -1,3 +1,21 @@
+# GBATale
+
+Unofficial Undertale port for the Game Boy Advance.
+
+## Build
+
+```bash
+git submodule update --init
+pip install -r requirements.txt
+
+make -j{num_of_cpu_cores}
+```
+
+
+End of GBATale description, Butano template readme below.
+
+-----
+
 # Butano template
 
 GBA gamedev template for [Butano engine](https://github.com/GValiente/butano).

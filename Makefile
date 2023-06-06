@@ -42,7 +42,7 @@ USERASFLAGS :=
 USERLDFLAGS :=  
 USERLIBDIRS :=  
 USERLIBS    :=  
-USERBUILD   :=  
+USERBUILD   :=  build_ut
 EXTTOOL     :=  
 
 #---------------------------------------------------------------------------------------------------------------------

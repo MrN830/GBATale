@@ -1,0 +1,2 @@
+git+https://github.com/bitcraft/pytmx.git@ac6781b
+Pillow==9.5.0
