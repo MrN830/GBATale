@@ -27,12 +27,13 @@
 #---------------------------------------------------------------------------------------------------------------------
 TARGET      :=  $(notdir $(CURDIR))
 BUILD       :=  build
+USERBUILD   :=  build_ut
 LIBBUTANO   :=  butano/butano
 PYTHON      :=  python
 SOURCES     :=  src src/asset src/core src/scene src/scene/test src/game src/debug lib/src/crc32
 INCLUDES    :=  include lib/include
 DATA        :=
-GRAPHICS    :=  graphics graphics/font graphics/font/palette graphics/bg graphics/bg/palette graphics/sprite graphics/sprite/palette
+GRAPHICS    :=  graphics $(USERBUILD)/graphics graphics/font graphics/font/palette graphics/bg graphics/bg/palette graphics/sprite graphics/sprite/palette
 AUDIO       :=  audio/music audio/sound
 DMGAUDIO    :=  dmg_audio
 ROMTITLE    :=  UNDERTALE
@@ -42,8 +43,7 @@ USERASFLAGS :=
 USERLDFLAGS :=  
 USERLIBDIRS :=  
 USERLIBS    :=  
-USERBUILD   :=  build_ut
-EXTTOOL     :=  
+EXTTOOL     :=  @$(PYTHON) -B tools/main.py --build=$(USERBUILD)
 
 #---------------------------------------------------------------------------------------------------------------------
 # Export absolute butano path:
