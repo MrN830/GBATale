@@ -16,8 +16,6 @@
 #include "game/GameState.hpp"
 #include "util/String.hpp"
 
-#include "bn_regular_bg_items_bg_empty.h"
-
 namespace ut::scene
 {
 
