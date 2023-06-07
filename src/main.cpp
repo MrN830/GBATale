@@ -15,6 +15,7 @@
 #include "config.hpp"
 
 #if UT_TEST_SCENE
+#include "scene/test/DynamicBgTest.hpp"
 #include "scene/test/SaveTest.hpp"
 #endif
 #if UT_MEM_VIEW
@@ -44,7 +45,7 @@ int main()
     registerScenes(sceneStack);
 
 #if UT_TEST_SCENE
-    sceneStack.pushScene(scene::SceneId::SAVE_TEST);
+    sceneStack.pushScene(scene::SceneId::DYNAMIC_BG_TEST);
 #else
     sceneStack.pushScene(scene::SceneId::INTRO_STORY);
 #endif
@@ -75,5 +76,6 @@ void registerScenes(scene::SceneStack& sceneStack)
 
 #if UT_TEST_SCENE
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);
+    sceneStack.registerScene<test::DynamicBgTest>(SceneId::DYNAMIC_BG_TEST);
 #endif
 }
