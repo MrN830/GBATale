@@ -24,7 +24,7 @@ bool SaveTest::handleInput()
         BN_LOG("rLoadResult: ", (int)rLoadResult);
         BN_LOG("charName   : ", gameState.getCharName());
         BN_LOG("rSavedCount: ", gameState.getRSavedCount());
-        BN_LOG("time saved : ", gameState.getTime());
+        BN_LOG("time saved : ", gameState.getTime().getTicks());
     }
     else if (bn::keypad::select_pressed())
     {
