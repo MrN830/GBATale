@@ -16,7 +16,7 @@ enum class SceneId
 
     GAME,
 
-#ifdef UT_TEST
+#ifdef UT_TEST_SCENE
     SAVE_TEST,
 #endif
 
