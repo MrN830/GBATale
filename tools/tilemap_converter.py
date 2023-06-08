@@ -3,6 +3,7 @@ from collections import namedtuple
 
 from pytmx import pytmx
 from PIL import Image
+import incremental_build as inc_build
 
 
 class TilemapConverter:
@@ -14,8 +15,14 @@ class TilemapConverter:
     @staticmethod
     def convert(tmx_path: str):
         """Convert a single `*.tmx` tilemap"""
-        tiled_map = pytmx.TiledMap(tmx_path)
+
         tilemap_name = os.path.splitext(os.path.basename(tmx_path))[0]
+
+        # incremental build
+        if not TilemapConverter.__should_build(tmx_path, tilemap_name):
+            return
+
+        tiled_map = pytmx.TiledMap(tmx_path)
         bg_upper: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper")
         bg_upper2: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper2")
         bg_lower: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGLower")
@@ -88,3 +95,22 @@ class TilemapConverter:
             f.write('{"type":"bg_palette","bpp_mode":"bpp_4"}')
 
         return gid_mtile_idx_mapping
+
+    @staticmethod
+    def __should_build(tmx_path: str, tilemap_name: str) -> bool:
+        tmx_path_split = os.path.normpath(tmx_path).split(os.sep)
+        tilemap_folder = tmx_path_split[-2]
+
+        tileset_png_path = (
+            f"extra/tilemaps/{tilemap_folder}/{tilemap_folder}_tileset.png"
+        )
+        tileset_tsx_path = f"extra/tilemaps/{tilemap_folder}/{tilemap_folder}.tsx"
+        bg_lower_build_path = (
+            f"build_ut/graphics/mtileset_{tilemap_name.lower()}_bg_lower.bmp"
+        )
+
+        return (
+            inc_build.should_build(tileset_png_path, bg_lower_build_path)
+            or inc_build.should_build(tileset_tsx_path, bg_lower_build_path)
+            or inc_build.should_build(tmx_path, bg_lower_build_path)
+        )
