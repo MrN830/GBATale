@@ -41,15 +41,15 @@ public:
 
 private:
     /**
-     * @brief Redraw MCells.
+     * @brief Redraw GBA cells (half meta-cells)
      *
-     * @param `isRedrawAll` Ignore the previous loaded mCells and redraw the whole window.
+     * @param `isRedrawAll` Ignore the previous loaded gba cells and redraw the whole window.
      * @return `bool` whether or not the redraw happened
      */
-    bool redrawMCells(bool isRedrawAll);
+    bool redrawGBACells(bool isRedrawAll);
 
-    void setMCell(const bn::point& mCellPos, const mtile::MTile& mTile, bn::regular_bg_map_cell* cells,
-                  const bn::regular_bg_map_item& bgMapItem);
+    void setGBACell(const bn::point& mCellPos, const mtile::MTile& mTile, bn::regular_bg_map_cell* cells,
+                    const bn::regular_bg_map_item& bgMapItem);
 
 private:
     const bn::camera_ptr& _camera;
