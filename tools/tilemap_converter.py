@@ -69,7 +69,10 @@ class TilemapConverter:
         if mtile_count >= 255:
             raise TilemapConverter.TooManyMTilesException(mtile_count)
 
-        mtileset = Image.new("RGBA", (16, 16 * (mtile_count + 1)))
+        # Width is 32 at first, which results in
+        # "dominant" transparent color ends up the first entry of the quantized palette.
+        # This will then cropped to width=16 on saving.
+        mtileset = Image.new("RGBA", (32, 16 * (mtile_count + 1)), color="#00FF0000")
         gid_mtile_idx_mapping = {}
 
         for tileset_path, gid_rects in tileset_rects.items():
@@ -86,6 +89,7 @@ class TilemapConverter:
 
         # save mtileset & palette `.bmp`
         mtileset = mtileset.quantize(16)
+        mtileset = mtileset.crop((0, 0, 16, mtileset.height))
         mtileset.save(os.path.join(ut_build_gfx_root, f"{mtileset_name}.bmp"))
         mtileset = mtileset.resize((8, 8))
         mtileset.save(os.path.join(ut_build_gfx_root, f"pal_{mtileset_name}.bmp"))
@@ -97,9 +101,11 @@ class TilemapConverter:
             ut_build_gfx_root, f"pal_{mtileset_name}.json"
         )
         with open(mtileset_json_path, "w") as f:
-            f.write('{"type":"regular_bg_tiles","bpp_mode":"bpp_4"}')
+            f.write(
+                '{"type":"regular_bg_tiles","bpp_mode":"bpp_4","compression":"auto"}'
+            )
         with open(pal_mtileset_json_path, "w") as f:
-            f.write('{"type":"bg_palette","bpp_mode":"bpp_4"}')
+            f.write('{"type":"bg_palette","bpp_mode":"bpp_4","compression":"auto"}')
 
         return gid_mtile_idx_mapping
 
