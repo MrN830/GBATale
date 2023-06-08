@@ -43,7 +43,7 @@ USERASFLAGS :=
 USERLDFLAGS :=  
 USERLIBDIRS :=  
 USERLIBS    :=  
-EXTTOOL     :=  @$(PYTHON) -B tools/main.py --build=$(USERBUILD)
+EXTTOOL     :=  @$(PYTHON) -B tools/main.py
 
 #---------------------------------------------------------------------------------------------------------------------
 # Export absolute butano path:

@@ -1,14 +1,11 @@
 import os
-import argparse
+import glob
 
 from tilemap_converter import TilemapConverter
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Entry point of asset pre-conversion scripts."
-    )
-    parser.add_argument("--build", required=True, help="User build path")
-    args = parser.parse_args()
-
-    # Test
-    TilemapConverter.convert("extra/tilemaps/Ruins.xml")
+    # Tilemap conversion
+    for folder in glob.glob("extra/tilemaps/*"):
+        if os.path.isdir(folder):
+            for file in glob.glob(f"{folder}/*.tmx"):
+                TilemapConverter.convert(file)

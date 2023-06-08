@@ -30,10 +30,10 @@ class TilemapConverter:
         gid_mtile_idx_bg_upper2 = TilemapConverter.__generate_mtileset(
             bg_upper2, mtileset_name, tiled_map
         )
-        # mtileset_name = f"mtileset_{tilemap_name.lower()}_bg_lower"
-        # gid_mtile_idx_bg_lower = TilemapConverter.__generate_mtileset(
-        #     bg_lower, mtileset_name, tiled_map
-        # )
+        mtileset_name = f"mtileset_{tilemap_name.lower()}_bg_lower"
+        gid_mtile_idx_bg_lower = TilemapConverter.__generate_mtileset(
+            bg_lower, mtileset_name, tiled_map
+        )
 
         # TODO: generate header file (including board, flip...)
 
