@@ -19,9 +19,8 @@ constexpr int GBA_TILE_SIZE = 8;
 
 constexpr auto GBA_TILE_VALID_RANGE = bn::point{bn::display::width() / 8, bn::display::height() / 8};
 
-// center of the top-left-most MCell in the room
-constexpr auto BG_POS = bn::fixed_point{WorldBg::CELL_COLS * 8 / 2, WorldBg::CELL_ROWS * 8 / 2} -
-                        bn::fixed_point{M_TILE_SIZE / 2, M_TILE_SIZE / 2};
+// top-left-corner of the top-left-most MCell in the room
+constexpr auto BG_POS = bn::fixed_point{WorldBg::CELL_COLS * 8 / 2, WorldBg::CELL_ROWS * 8 / 2};
 
 } // namespace
 
@@ -125,9 +124,8 @@ void WorldBg::allocateGraphics()
 
 static bn::point camPos2GBACellPos(const bn::fixed_point& camPos)
 {
-    const auto leftTopCamPos = camPos + bn::fixed_point{M_TILE_SIZE / 2, M_TILE_SIZE / 2};
-    const int x = leftTopCamPos.x().floor_integer();
-    const int y = leftTopCamPos.y().floor_integer();
+    const int x = camPos.x().floor_integer();
+    const int y = camPos.y().floor_integer();
 
     return bn::point(util::div_floor(x, GBA_TILE_SIZE), util::div_floor(y, GBA_TILE_SIZE));
 }
