@@ -15,5 +15,5 @@ build_ut/
 
 # emulator output
 *.sav
-*.png
+GBATale-*.png
 *.log
