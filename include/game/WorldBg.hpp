@@ -33,6 +33,7 @@ public:
     void render();
     void redrawBg();
 
+    auto getMTilemap() const -> const mtile::MTilemapBase*;
     void setMTilemap(const mtile::MTilemapBase&);
 
     bool isGraphicsAllocated() const;

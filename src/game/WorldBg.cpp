@@ -56,6 +56,11 @@ void WorldBg::redrawBg()
     _prevCamPos = _camera.position();
 }
 
+auto WorldBg::getMTilemap() const -> const mtile::MTilemapBase*
+{
+    return _mTilemap;
+}
+
 void WorldBg::setMTilemap(const mtile::MTilemapBase& mTilemap)
 {
     if (_mTilemap == &mTilemap)

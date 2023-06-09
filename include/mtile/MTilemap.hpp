@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include <bn_array.h>
+
 namespace bn
 {
 class regular_bg_tiles_item;
