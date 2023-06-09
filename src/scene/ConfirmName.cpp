@@ -199,7 +199,7 @@ bool ConfirmName::handleInput()
 
             if (bn::music::playing())
                 bn::music::stop();
-            asset::getSfx(asset::SfxKind::CYMBAL_RISER)->play();
+            asset::getSfx(asset::SfxKind::CYMBAL_RISER)->play(3.0 / 4);
         }
         else
         {

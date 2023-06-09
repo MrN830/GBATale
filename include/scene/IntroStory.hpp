@@ -3,8 +3,8 @@
 #include "scene/Scene.hpp"
 
 #include <bn_blending_actions.h>
+#include <bn_dmg_music_actions.h>
 #include <bn_fixed_rect.h>
-#include <bn_music_actions.h>
 #include <bn_optional.h>
 #include <bn_regular_bg_actions.h>
 #include <bn_regular_bg_ptr.h>
@@ -38,7 +38,7 @@ private:
     bn::regular_bg_ptr _bg;
     bn::blending_transparency_alpha_to_action _bgFade;
     bn::optional<bn::regular_bg_move_to_action> _bgMove;
-    bn::optional<bn::music_volume_to_action> _musFade;
+    bn::optional<bn::dmg_music_volume_to_action> _musFade;
 
     bn::vector<bn::sprite_ptr, 17> _texts;
     core::DialogWriter _dialogWriter;

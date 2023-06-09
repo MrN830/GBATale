@@ -1,14 +1,13 @@
 #include "scene/IntroStory.hpp"
 
 #include <bn_display.h>
+#include <bn_dmg_music.h>
 #include <bn_keypad.h>
 #include <bn_music.h>
-#include <bn_music_item.h>
 #include <bn_rect_window.h>
 #include <bn_regular_bg_builder.h>
 #include <bn_sound.h>
 
-#include "asset/MusicKind.hpp"
 #include "core/Dialog.hpp"
 
 #include "bn_regular_bg_items_bg_intro1.h"
@@ -21,6 +20,8 @@
 #include "bn_regular_bg_items_bg_intro7.h"
 #include "bn_regular_bg_items_bg_intro8.h"
 #include "bn_regular_bg_items_bg_intro9.h"
+
+#include "bn_dmg_music_items_once_upon_a_time.h"
 
 namespace ut::scene
 {
@@ -121,9 +122,9 @@ auto buildBgFadeOut(int frames) -> bn::blending_transparency_alpha_to_action
     return bn::blending_transparency_alpha_to_action(frames, 0);
 }
 
-auto buildMusFadeOut(int frames) -> bn::music_volume_to_action
+auto buildMusFadeOut(int frames) -> bn::dmg_music_volume_to_action
 {
-    return bn::music_volume_to_action(frames, 0);
+    return bn::dmg_music_volume_to_action(frames, 0);
 }
 
 } // namespace
@@ -137,7 +138,10 @@ IntroStory::IntroStory(SceneStack& sceneStack, Context& context)
 
     if (bn::music::playing())
         bn::music::stop();
-    const auto& introMusic = *asset::getMusic(asset::MusicKind::ONCE_UPON_A_TIME);
+    if (bn::dmg_music::playing())
+        bn::dmg_music::stop();
+
+    const auto& introMusic = bn::dmg_music_items::once_upon_a_time;
     introMusic.play();
 
     _dialogWriter.start(DIALOGS, _texts);
@@ -148,7 +152,7 @@ IntroStory::~IntroStory()
     bn::blending::set_transparency_alpha(1);
     bn::rect_window::internal().set_boundaries(_prevWindowRect);
 
-    bn::music::stop();
+    bn::dmg_music::stop();
 }
 
 bool IntroStory::handleInput()

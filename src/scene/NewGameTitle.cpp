@@ -30,7 +30,7 @@ NewGameTitle::NewGameTitle(SceneStack& sceneStack, Context& context) : Scene(sce
 {
     const auto& titleMenuMusic = *asset::getMusic(asset::MusicKind::TITLE_MENU_1);
     if (!bn::music::playing() || *bn::music::playing_item() != titleMenuMusic)
-        titleMenuMusic.play();
+        titleMenuMusic.play(1.0 / 6);
 
     auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
