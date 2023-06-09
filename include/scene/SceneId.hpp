@@ -18,6 +18,7 @@ enum class SceneId
 
 #ifdef UT_TEST_SCENE
     SAVE_TEST,
+    WORLD_BG_TEST,
 #endif
 
     TOTAL_COUNT

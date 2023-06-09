@@ -27,23 +27,23 @@
 #---------------------------------------------------------------------------------------------------------------------
 TARGET      :=  $(notdir $(CURDIR))
 BUILD       :=  build
+USERBUILD   :=  build_ut
 LIBBUTANO   :=  butano/butano
 PYTHON      :=  python
-SOURCES     :=  src src/asset src/core src/scene src/scene/test src/game src/debug lib/src/crc32
-INCLUDES    :=  include lib/include
+SOURCES     :=  src $(USERBUILD)/src src/asset src/core src/scene src/scene/test src/game src/mtile src/debug lib/src/crc32 butano/common/src
+INCLUDES    :=  include lib/include $(USERBUILD)/include butano/common/include
 DATA        :=
-GRAPHICS    :=  graphics graphics/font graphics/font/palette graphics/bg graphics/bg/palette graphics/sprite graphics/sprite/palette
+GRAPHICS    :=  graphics $(USERBUILD)/graphics graphics/font graphics/font/palette graphics/bg graphics/bg/palette graphics/sprite graphics/sprite/palette butano/common/graphics
 AUDIO       :=  audio/music audio/sound
 DMGAUDIO    :=  dmg_audio
 ROMTITLE    :=  UNDERTALE
 ROMCODE     :=  2UTE
-USERFLAGS   :=  -DUT_MEM_VIEW=true -D__BYTE_ORDER=__LITTLE_ENDIAN
+USERFLAGS   :=  -DUT_MEM_VIEW=true -DUT_TEST_SCENE=true -D__BYTE_ORDER=__LITTLE_ENDIAN
 USERASFLAGS :=  
 USERLDFLAGS :=  
 USERLIBDIRS :=  
 USERLIBS    :=  
-USERBUILD   :=  build_ut
-EXTTOOL     :=  
+EXTTOOL     :=  @$(PYTHON) -B tools/main.py
 
 #---------------------------------------------------------------------------------------------------------------------
 # Export absolute butano path:

@@ -2,6 +2,11 @@
 
 #include <cstdint>
 
+namespace ut::mtile
+{
+struct MTilemapBase;
+}
+
 namespace ut::game
 {
 
@@ -347,5 +352,7 @@ enum class RoomKind : int16_t
 
     TOTAL_COUNT
 };
+
+auto getRoomMTilemap(RoomKind) -> const mtile::MTilemapBase*;
 
 } // namespace ut::game

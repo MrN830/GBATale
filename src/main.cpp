@@ -6,6 +6,7 @@
 #include "scene/SceneStack.hpp"
 
 #include "scene/ConfirmName.hpp"
+#include "scene/Game.hpp"
 #include "scene/InputName.hpp"
 #include "scene/IntroLogo.hpp"
 #include "scene/IntroStory.hpp"
@@ -16,6 +17,7 @@
 
 #if UT_TEST_SCENE
 #include "scene/test/SaveTest.hpp"
+#include "scene/test/WorldBgTest.hpp"
 #endif
 #if UT_MEM_VIEW
 #include "debug/MemView.hpp"
@@ -43,11 +45,7 @@ int main()
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 
-#if UT_TEST_SCENE
-    sceneStack.pushScene(scene::SceneId::SAVE_TEST);
-#else
     sceneStack.pushScene(scene::SceneId::INTRO_STORY);
-#endif
 
     while (true)
     {
@@ -72,8 +70,10 @@ void registerScenes(scene::SceneStack& sceneStack)
     sceneStack.registerScene<NewGameTitle>(SceneId::NEW_GAME_TITLE);
     sceneStack.registerScene<InputName>(SceneId::INPUT_NAME);
     sceneStack.registerScene<ConfirmName>(SceneId::CONFIRM_NAME);
+    sceneStack.registerScene<Game>(SceneId::GAME);
 
 #if UT_TEST_SCENE
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);
+    sceneStack.registerScene<test::WorldBgTest>(SceneId::WORLD_BG_TEST);
 #endif
 }
