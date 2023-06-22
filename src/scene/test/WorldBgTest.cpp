@@ -1,6 +1,7 @@
 #include "scene/test/WorldBgTest.hpp"
 
 #include <bn_display.h>
+#include <bn_dmg_music.h>
 #include <bn_keypad.h>
 #include <bn_music.h>
 
@@ -26,6 +27,8 @@ WorldBgTest::WorldBgTest(SceneStack& sceneStack, Context& context)
 {
     if (bn::music::playing())
         bn::music::stop();
+    if (bn::dmg_music::playing())
+        bn::dmg_music::stop();
 
     _curRoom = game::RoomKind::ROOM_AREA1;
     _worldBg.setMTilemap(*game::getRoomMTilemap(_curRoom));

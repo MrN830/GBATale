@@ -6,6 +6,7 @@
 #include <bn_fixed.h>
 #include <bn_string.h>
 #include <bn_utility.h>
+#include <bn_vector.h>
 
 #include "core/PlayTime.hpp"
 
@@ -59,6 +60,30 @@ public:
 
     void saveRegular();
 
+private:
+    bn::string<8> _charName;
+    int _lv;
+    int _exp;
+    int _curHp;
+    int _maxHp;
+    int _baseAtk;
+    int _baseDef;
+    int _gold;
+    int _kills;
+    bn::vector<ItemKind, 8> _items;
+    bn::vector<ItemKind, 12> _dimensionalBoxA;
+    bn::vector<ItemKind, 12> _dimensionalBoxB;
+    bn::array<int32_t, 8> _phone;
+    ItemKind _weapon;
+    ItemKind _armor;
+    bn::fixed _plot;
+    bool _hasPhone;
+    RoomKind _room;
+    core::PlayTime _time;
+
+    uint32_t _rSavedCount;
+    uint32_t _pSavedCount = 0;
+
 public:
     auto getCharName() const -> const bn::string_view;
     int getLv() const;
@@ -70,12 +95,25 @@ public:
     int getGold() const;
     int getKills() const;
 
+    auto getItems() const -> decltype((_items));
+    auto getItems() -> decltype((_items));
+    auto getDimensionalBoxA() const -> decltype((_dimensionalBoxA));
+    auto getDimensionalBoxA() -> decltype((_dimensionalBoxA));
+    auto getDimensionalBoxB() const -> decltype((_dimensionalBoxB));
+    auto getDimensionalBoxB() -> decltype((_dimensionalBoxB));
+
+    bool getHasPhone() const;
+    auto getRoom() const -> RoomKind;
+
     auto getTime() const -> const core::PlayTime&;
     auto getTime() -> core::PlayTime&;
     uint32_t getRSavedCount() const;
     uint32_t getPSavedCount() const;
 
+public:
     void setCharName(const bn::string_view);
+
+    void setHasPhone(bool hasPhone);
 
     void setTime(const core::PlayTime& time);
 
@@ -84,29 +122,6 @@ public:
 private:
     void loadFromRSave(const RegularSave&);
     void loadFromPSave(const PersistSave&);
-
-private:
-    bn::string<8> _charName;
-    int _lv;
-    int _exp;
-    int _curHp;
-    int _maxHp;
-    int _baseAtk;
-    int _baseDef;
-    int _gold;
-    int _kills;
-    bn::array<ItemKind, 8> _items;
-    bn::array<ItemKind, 12> _dimensionalBoxA;
-    bn::array<ItemKind, 12> _dimensionalBoxB;
-    bn::array<int32_t, 8> _phone;
-    ItemKind _weapon;
-    ItemKind _armor;
-    bn::fixed _plot;
-    RoomKind _room;
-    core::PlayTime _time;
-
-    uint32_t _rSavedCount;
-    uint32_t _pSavedCount = 0;
 
 private:
     static constexpr auto SAVE_VER = "ut00000";
@@ -133,6 +148,7 @@ private:
         ItemKind weapon;
         ItemKind armor;
         bn::fixed plot;
+        bool menuChoice2;
         RoomKind room;
         uint32_t time;
 

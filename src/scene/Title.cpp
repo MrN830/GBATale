@@ -35,7 +35,7 @@ constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 
 Title::Title(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0)),
-      _isContinueSelected(context.menuChoice != 1)
+      _isContinueSelected(context.menuCursorIdx != 1)
 {
     // TODO: Change music considering story progression
     const auto& titleMenuMusic = *asset::getMusic(asset::MusicKind::TITLE_MENU_1);
@@ -71,10 +71,10 @@ Title::Title(SceneStack& sceneStack, Context& context)
     textGen.generate(TIME_POS, state.getTime().getTimestamp(), _saveInfoTexts);
 
     textGen.set_right_alignment();
-    textGen.set_palette_item(context.menuChoice == 1 ? yellow : white);
+    textGen.set_palette_item(context.menuCursorIdx == 1 ? yellow : white);
     textGen.generate(RESET_POS, "Reset", _resetBtnText);
     textGen.set_left_alignment();
-    textGen.set_palette_item(context.menuChoice == 1 ? white : yellow);
+    textGen.set_palette_item(context.menuCursorIdx == 1 ? white : yellow);
     textGen.generate(CONTINUE_POS, "Continue", _continueBtnText);
 
     textGen.set_alignment(prevAlign);
@@ -88,14 +88,14 @@ bool Title::handleInput()
     {
         if (_isContinueSelected)
         {
-            getContext().menuChoice = 0;
+            getContext().menuCursorIdx = 0;
 
             reqStackClear();
             reqStackPush(SceneId::GAME);
         }
         else // reset selected
         {
-            getContext().menuChoice = 1;
+            getContext().menuCursorIdx = 1;
 
             // we have to reload `charName` from SRAM, because it can be modified on `InputName`,
             // but it's not the real saved `charName`.
