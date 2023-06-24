@@ -9,6 +9,8 @@
 #include "asset/SfxKind.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
+#include "game/ItemInfo.hpp"
+#include "game/StatInfo.hpp"
 #include "game/menu/MenuStateType.hpp"
 #include "scene/IngameMenu.hpp"
 
@@ -61,6 +63,8 @@ StatMenu::StatMenu(scene::IngameMenu& scene) : MenuState(scene)
     auto& textGen = scene.getContext().textGens.get(asset::FontKind::MAIN);
 
     const auto& state = scene.getContext().gameState;
+    const auto& weapon = ItemInfo::get(state.getWeapon());
+    const auto& armor = ItemInfo::get(state.getArmor());
 
     constexpr int NAME_MAX_LEN = game::GameState::CHAR_NAME_MAX_LEN;
 
@@ -76,17 +80,13 @@ StatMenu::StatMenu(scene::IngameMenu& scene) : MenuState(scene)
 
     textGen.generate(LV_POS, bn::format<14>("LV {}", state.getLv()), _text);
     textGen.generate(HP_POS, bn::format<26>("HP {}/{}", state.getCurHp(), state.getMaxHp()), _text);
-    // TODO: get weapon ATK
-    textGen.generate(AT_POS, bn::format<27>("AT {}({})", state.getBaseAtk(), "NA"), _text);
-    // TODO: get armor DEF
-    textGen.generate(DF_POS, bn::format<27>("DF {}({})", state.getBaseDef(), "NA"), _text);
+    textGen.generate(AT_POS, bn::format<27>("AT {} ({})", state.getBaseAtk() - 10, (int)weapon.atk + armor.atk), _text);
+    textGen.generate(DF_POS, bn::format<27>("DF {} ({})", state.getBaseDef() - 10, (int)weapon.def + armor.def), _text);
     textGen.generate(EXP_POS, bn::format<16>("EXP: {}", state.getExp()), _text);
     // TODO: get next Lv-up Exp
-    textGen.generate(NEXT_POS, bn::format<17>("NEXT: {}", "NA"), _text);
-    // TODO: get weapon name
-    textGen.generate(WEAPON_POS, bn::format<19>("WEAPON: {}", "NA"), _text);
-    // TODO: get armor name
-    textGen.generate(ARMOR_POS, bn::format<18>("ARMOR: {}", "NA"), _text);
+    textGen.generate(NEXT_POS, bn::format<17>("NEXT: {}", StatInfo::getNextLvUpExp(state.getExp())), _text);
+    textGen.generate(WEAPON_POS, bn::format<19>("WEAPON: {}", weapon.getName()), _text);
+    textGen.generate(ARMOR_POS, bn::format<18>("ARMOR: {}", armor.getName()), _text);
     textGen.generate(GOLD_POS, bn::format<17>("GOLD: {}", state.getGold()), _text);
     if (state.getKills() > 20)
         textGen.generate(KILLS_POS, bn::format<18>("KILLS: {}", state.getKills()), _text);

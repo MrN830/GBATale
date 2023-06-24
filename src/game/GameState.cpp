@@ -32,10 +32,10 @@ void GameState::resetToNewRegularSave()
 {
     _lv = 1;
     _exp = 0;
-    _curHp = 20;
-    _maxHp = 20;
-    _baseAtk = 0;
-    _baseDef = 0;
+    const auto& stat = game::StatInfo::getInfo(_lv);
+    _curHp = _maxHp = stat.maxHp;
+    _baseAtk = stat.atk;
+    _baseDef = stat.def;
     _gold = 0;
     _kills = 0;
     _items.clear();
@@ -216,6 +216,16 @@ auto GameState::getDimensionalBoxB() const -> decltype((_dimensionalBoxB))
 auto GameState::getDimensionalBoxB() -> decltype((_dimensionalBoxB))
 {
     return _dimensionalBoxB;
+}
+
+auto GameState::getWeapon() const -> ItemKind
+{
+    return _weapon;
+}
+
+auto GameState::getArmor() const -> ItemKind
+{
+    return _armor;
 }
 
 bool GameState::getHasPhone() const

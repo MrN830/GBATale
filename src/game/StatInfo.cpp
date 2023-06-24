@@ -41,8 +41,8 @@ static constexpr bn::array<StatInfo, StatInfo::MAX_LV> STAT_INFOS = []() {
     statInfos[20 - 1].exp = 99999;
 
     statInfos[StatInfo::MAX_LV - 1].maxHp = 99;
-    statInfos[StatInfo::MAX_LV - 1].atk = 99;
-    statInfos[StatInfo::MAX_LV - 1].def = 99;
+    // statInfos[StatInfo::MAX_LV - 1].atk = 99;
+    // statInfos[StatInfo::MAX_LV - 1].def = 99;
 
     return statInfos;
 }();
@@ -61,6 +61,15 @@ int StatInfo::getLv(int exp)
         --lv;
 
     return lv;
+}
+
+int StatInfo::getNextLvUpExp(int exp)
+{
+    const int curLv = getLv(exp);
+    if (curLv == MAX_LV)
+        return 0;
+
+    return STAT_INFOS[(curLv + 1) - 1].exp - exp;
 }
 
 } // namespace ut::game

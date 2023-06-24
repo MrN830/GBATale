@@ -44,16 +44,19 @@ def dump_and_convert_textdata():
         write_timestamp(header_file, "tools/textdata_dumper.py")
 
         header_file.write("#pragma once" + "\n\n")
+        
+        header_file.write("#include <cstdint>" + "\n\n")
 
         header_file.write("namespace bn { class string_view; }" + "\n\n")
 
         header_file.write("namespace ut::asset::gen {" + "\n\n")
 
-        header_file.write("enum class TextData;" + "\n\n")
+        header_file.write("enum class TextData : int16_t;" + "\n\n")
 
         header_file.write("auto getTextEn(TextData) -> const bn::string_view&;" + "\n\n")
 
-        header_file.write("enum class TextData {" + "\n")
+        header_file.write("enum class TextData : int16_t {" + "\n")
+        header_file.write("NONE = -1," + "\n")
         for k, v in text_datas:
             header_file.write(f"{k}," + "\n")
         header_file.write("TOTAL_COUNT" + "\n")

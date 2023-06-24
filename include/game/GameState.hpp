@@ -111,6 +111,9 @@ public:
     auto getDimensionalBoxB() const -> decltype((_dimensionalBoxB));
     auto getDimensionalBoxB() -> decltype((_dimensionalBoxB));
 
+    auto getWeapon() const -> ItemKind;
+    auto getArmor() const -> ItemKind;
+
     bool getHasPhone() const;
     auto getRoom() const -> RoomKind;
 
