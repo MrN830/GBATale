@@ -7,6 +7,9 @@
 # python venv
 *venv/
 
+# user dependencies
+user_deps.json
+
 # build output 
 build/
 build_ut/

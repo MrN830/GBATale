@@ -2,9 +2,12 @@ import os
 import glob
 
 from tilemap_converter import TilemapConverter
+from textdata_dumper import dump_and_convert_textdata
 
 if __name__ == "__main__":
     print("`tools/main.py`: Running...")
+
+    dump_and_convert_textdata()
 
     # Tilemap conversion
     converted = False
