@@ -10,6 +10,8 @@
 
 #include "core/Dialog.hpp"
 
+#include "gen/TextData.hpp"
+
 #include "bn_regular_bg_items_bg_intro1.h"
 #include "bn_regular_bg_items_bg_intro10.h"
 #include "bn_regular_bg_items_bg_intro2.h"
@@ -60,34 +62,34 @@ constexpr IntroBgFade INTRO_BGS[INTRO_BG_COUNT] = {
     {&bn::regular_bg_items::bg_intro10, 57 * FPS + 8, 74 * FPS + 27},
 };
 
-constexpr core::Dialog DIALOGS[] = {
+const core::Dialog DIALOGS[] = {
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Long ago^1, two races&ruled over Earth^1:&HUMANS and MONSTERS^6.  ^1 %)",
+        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_70),
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(One day^1, war broke&out between the two&races^6.  ^1 %)",
+        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_71),
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(After a long battle^1,&the humans were&victorious^6.  ^1 %)",
+        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_72),
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(They sealed the monsters&underground with a magic&spell^6.  ^1 %)",
+        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_73),
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Many years later^2. ^2. ^5. ^1 %)",
+        R"(Many years later^2. ^2. ^5. ^1 %)", // manual dot spacing
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY_MT_EBOTT,
-        R"(      MT. EBOTT&         201X^9  %)",
+        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_75),
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Legends say that those&who climb the mountain&never return^5.^3  %)",
+        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_76),
     },
 };
 
