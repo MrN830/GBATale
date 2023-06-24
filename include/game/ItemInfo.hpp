@@ -5,6 +5,29 @@
 namespace ut::game
 {
 
+enum class ItemKind : uint8_t;
+
+enum class ItemType
+{
+    FOOD,
+    WEAPON,
+    ARMOR,
+    SPECIAL
+};
+
+struct ItemInfo
+{
+public:
+    static auto get(ItemKind) -> const ItemInfo&;
+
+public:
+    bn::string_view name, shortName, seriousName;
+    bn::string_view description;
+    int hpRegen;
+    int battleStat; // atk or def
+    int price;      // `-1` if not tradable
+};
+
 enum class ItemKind : uint8_t
 {
     NONE = 0,
@@ -29,7 +52,7 @@ enum class ItemKind : uint8_t
     PUPPYDOUGH_ICECREAM,
     BISICLE,
     UNISICLE,
-    CINNAMON_BUN,
+    CINNAMON_BUNNY,
     TEMMIE_FLAKES,
     ABANDONED_QUICHE,
     OLD_TUTU,
@@ -52,7 +75,7 @@ enum class ItemKind : uint8_t
     SEA_TEA,
     STARFAIT,
     LEGENDARY_HERO,
-    BUTTY_GLASSES,
+    CLOUDY_GLASSES,
     TORN_NOTEBOOK,
     STAINED_APRON,
     BURNT_PAN,
@@ -65,7 +88,7 @@ enum class ItemKind : uint8_t
     BAD_MEMORY,
     DREAM,
     UNDYNES_LETTER,
-    UNDYNE_LETTER_EX,
+    UNDYNES_LETTER_EX,
     POPATO_CHISPS,
     JUNK_FOOD,
     MYSTERY_KEY,

@@ -66,7 +66,7 @@ Title::Title(SceneStack& sceneStack, Context& context)
     textGen.generate(roomPos, ROOM_NAME, _saveInfoTexts);
 
     textGen.set_center_alignment();
-    textGen.generate(LV_POS, bn::format<7>("LV {}", state.getLv()), _saveInfoTexts);
+    textGen.generate(LV_POS, bn::format<14>("LV {}", state.getLv()), _saveInfoTexts);
     textGen.set_right_alignment();
     textGen.generate(TIME_POS, state.getTime().getTimestamp(), _saveInfoTexts);
 
@@ -104,7 +104,8 @@ bool Title::handleInput()
 
             reqStackClear();
 
-            if ("frisk" == bn::string_view(util::toLowerAscii(bn::string<8>(state.getCharName()))))
+            constexpr int NAME_MAX_LEN = game::GameState::CHAR_NAME_MAX_LEN;
+            if ("frisk" == bn::string_view(util::toLowerAscii(bn::string<NAME_MAX_LEN>(state.getCharName()))))
                 reqStackPush(SceneId::INPUT_NAME);
             else
                 reqStackPush(SceneId::CONFIRM_NAME);

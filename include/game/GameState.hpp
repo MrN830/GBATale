@@ -10,6 +10,11 @@
 
 #include "core/PlayTime.hpp"
 
+namespace ut::scene::test
+{
+class SaveTest;
+}
+
 namespace ut::game
 {
 
@@ -19,6 +24,10 @@ enum class RoomKind : int16_t;
 class GameState final
 {
     friend bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState&);
+    friend class scene::test::SaveTest;
+
+public:
+    static constexpr int CHAR_NAME_MAX_LEN = 15;
 
 private:
     struct RegularSave;
@@ -61,7 +70,7 @@ public:
     void saveRegular();
 
 private:
-    bn::string<8> _charName;
+    bn::string<CHAR_NAME_MAX_LEN> _charName;
     int _lv;
     int _exp;
     int _curHp;
@@ -124,7 +133,7 @@ private:
     void loadFromPSave(const PersistSave&);
 
 private:
-    static constexpr auto SAVE_VER = "ut00000";
+    static constexpr auto SAVE_VER = "ut00001";
 
     static constexpr int SRAM_REGU_SAVE_1 = 0;
     static constexpr int SRAM_PERSI_SAVE_1 = 8 * 1024;
@@ -137,10 +146,10 @@ private:
         uint32_t savedCount;
         bn::array<char, 8> saveVer;
 
-        bn::array<char, 8> charName;
+        bn::array<char, CHAR_NAME_MAX_LEN + 1> charName;
         int32_t xp;
         int32_t gold;
-        int8_t kills;
+        int32_t kills;
         bn::array<ItemKind, 8> item;
         bn::array<ItemKind, 12> dimensionalBoxA;
         bn::array<ItemKind, 12> dimensionalBoxB;

@@ -31,7 +31,7 @@ public:
         core::TextGens& textGens;
         core::Random& rng;
         game::GameState& gameState;
-        int menuCursorIdx = 0; // which menu item is chosen on `scene::Title` or `scene::IngameMenu`?
+        int menuCursorIdx = 0; // which menu item is chosen on `scene::Title` or `game::menu::MainMenu`?
     };
 
 public:

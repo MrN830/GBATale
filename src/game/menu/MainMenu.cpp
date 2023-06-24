@@ -1,7 +1,6 @@
 #include "game/menu/MainMenu.hpp"
 
 #include <bn_display.h>
-#include <bn_fixed_point.h>
 #include <bn_keypad.h>
 #include <bn_sound_item.h>
 #include <bn_sprite_ptr.h>
@@ -10,7 +9,8 @@
 #include "game/menu/MenuStateType.hpp"
 #include "scene/IngameMenu.hpp"
 
-#include "bn_regular_bg_items_bg_ingame_menu_main.h"
+#include "bn_regular_bg_items_bg_ingame_menu_main1.h"
+#include "bn_regular_bg_items_bg_ingame_menu_main2.h"
 
 namespace ut::game::menu
 {
@@ -28,43 +28,66 @@ constexpr bn::fixed_point CURSOR_POSS[3] = {
 
 } // namespace
 
-MainMenu::MainMenu(scene::IngameMenu& scene)
+MainMenu::MainMenu(scene::IngameMenu& scene) : MenuState(scene)
 {
-    scene._bg.set_item(bn::regular_bg_items::bg_ingame_menu_main);
-    scene._cursor.set_position(CURSOR_POSS[scene.getContext().menuCursorIdx]);
+    scene._bg.set_item(scene.isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_main2
+                                             : bn::regular_bg_items::bg_ingame_menu_main1);
+    moveCursor(false);
 }
 
-auto MainMenu::handleInput(scene::IngameMenu& scene) -> MenuStateType
+auto MainMenu::handleInput() -> MenuStateType
 {
     if (bn::keypad::b_pressed() || bn::keypad::start_pressed() || bn::keypad::l_pressed() || bn::keypad::r_pressed())
         return MenuStateType::CLOSE_MENU;
 
-    int& cursorIdx = scene.getContext().menuCursorIdx;
+    int& cursorIdx = _scene.getContext().menuCursorIdx;
 
-    if (bn::keypad::up_pressed() && cursorIdx > 0)
+    if (bn::keypad::a_pressed() && _scene._menuItemCount)
+    {
+        const auto& sfx = asset::getSfx(asset::SfxKind::MENU_ACTIVATE);
+
+        if (cursorIdx == 0 && _scene.isItemMenuEnabled())
+        {
+            sfx->play();
+            return MenuStateType::ITEM;
+        }
+        else if (cursorIdx == 1)
+        {
+            sfx->play();
+            return MenuStateType::STAT;
+        }
+        else if (cursorIdx == 2 && _scene.isCellMenuEnabled())
+        {
+            sfx->play();
+            return MenuStateType::CELL;
+        }
+    }
+    else if (bn::keypad::up_pressed() && cursorIdx > 0)
     {
         cursorIdx -= 1;
-        moveCursor(scene._cursor, scene);
+        moveCursor(true);
     }
-    else if (bn::keypad::down_pressed() && cursorIdx < scene._menuItemCount - 1)
+    else if (bn::keypad::down_pressed() && cursorIdx < _scene._menuItemCount - 1)
     {
         cursorIdx += 1;
-        moveCursor(scene._cursor, scene);
+        moveCursor(true);
     }
 
     return MenuStateType::NONE;
 }
 
-auto MainMenu::update(scene::IngameMenu&) -> MenuStateType
+auto MainMenu::update() -> MenuStateType
 {
     return MenuStateType::NONE;
 }
 
-void MainMenu::moveCursor(bn::sprite_ptr& cursor, scene::IngameMenu& scene)
+void MainMenu::moveCursor(bool playSfx)
 {
-    asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
+    if (playSfx)
+        asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
 
-    cursor.set_position(CURSOR_POSS[scene.getContext().menuCursorIdx]);
+    const auto menuDiff = (_scene.isDialogUpper() ? scene::IngameMenu::MENU_LOWER_DIFF : scene::IngameMenu::ZERO_DIFF);
+    _scene._cursor.set_position(CURSOR_POSS[_scene.getContext().menuCursorIdx] + menuDiff);
 }
 
 } // namespace ut::game::menu

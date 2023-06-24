@@ -4,6 +4,7 @@
 #include <bn_log.h>
 
 #include "game/GameState.hpp"
+#include "game/ItemInfo.hpp"
 
 namespace ut::scene::test
 {
@@ -32,7 +33,24 @@ bool SaveTest::handleInput()
 
         auto& gameState = getContext().gameState;
 
-        gameState.setCharName("SaveTs");
+        // tweaked save
+        if (bn::keypad::b_held())
+        {
+            gameState.setCharName("TweakedLongName");
+            gameState._exp = 99999;
+            gameState._curHp = -1234567890;
+            gameState._weapon = game::ItemKind::REAL_KNIFE;
+            gameState._armor = game::ItemKind::THE_LOCKET;
+            gameState._gold = -1234567890;
+            gameState._kills = 1234567890;
+            constexpr uint32_t time = ~(0u);
+            gameState._time.addTicks(time - gameState._time.getTicks());
+        }
+        else // normal save
+        {
+            gameState.setCharName("SaveTs");
+        }
+
         gameState.saveRegular();
 
         BN_LOG("saved!");

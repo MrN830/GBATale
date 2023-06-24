@@ -15,11 +15,11 @@ class MainMenu final : public MenuState
 public:
     MainMenu(scene::IngameMenu&);
 
-    auto handleInput(scene::IngameMenu&) -> MenuStateType override;
-    auto update(scene::IngameMenu&) -> MenuStateType override;
+    auto handleInput() -> MenuStateType override;
+    auto update() -> MenuStateType override;
 
 private:
-    void moveCursor(bn::sprite_ptr&, scene::IngameMenu&);
+    void moveCursor(bool playSfx);
 };
 
 } // namespace ut::game::menu

@@ -107,7 +107,7 @@ void GameState::saveRegular()
 {
     RegularSave rSave;
 
-    for (int i = 0; i < 8; ++i)
+    for (int i = 0; i < CHAR_NAME_MAX_LEN + 1; ++i)
         rSave.charName[i] = (i < _charName.size() ? _charName[i] : '\0');
 
     rSave.xp = _exp;
@@ -268,14 +268,15 @@ void GameState::loadFromRSave(const RegularSave& rSave)
 {
     _charName.clear();
     for (char ch : rSave.charName)
-        if (ch != '\0')
+        if (ch != '\0' && !_charName.full())
             _charName.push_back(ch);
 
     // Load `exp` related values
     _exp = rSave.xp;
     _lv = game::StatInfo::getLv(_exp);
+    _kills = rSave.kills;
     const auto& stat = game::StatInfo::getInfo(_lv);
-    _maxHp = stat.maxHp;
+    _curHp = _maxHp = stat.maxHp;
     _baseAtk = stat.atk;
     _baseDef = stat.def;
 

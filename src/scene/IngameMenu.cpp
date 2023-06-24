@@ -1,7 +1,6 @@
 #include "scene/IngameMenu.hpp"
 
 #include <bn_display.h>
-#include <bn_fixed_point.h>
 #include <bn_format.h>
 #include <bn_sound_item.h>
 
@@ -11,7 +10,8 @@
 #include "game/GameState.hpp"
 #include "game/menu/MenuStateType.hpp"
 
-#include "bn_regular_bg_items_bg_ingame_menu_main.h"
+#include "bn_regular_bg_items_bg_ingame_menu_main1.h"
+#include "bn_regular_bg_items_bg_ingame_menu_main2.h"
 #include "bn_sprite_items_spr_soul_heart.h"
 #include "bn_sprite_palette_items_pal_black_white.h"
 
@@ -40,7 +40,9 @@ constexpr bn::fixed_point MENU_TEXT_POSS[3] = {
 
 IngameMenu::IngameMenu(SceneStack& sceneStack, Context& context)
     : Scene(sceneStack, context), _menuItemCount(context.gameState.getHasPhone() ? 3 : 2),
-      _bg(bn::regular_bg_items::bg_ingame_menu_main.create_bg(0, 0)),
+      _isItemMenuEnabled(!context.gameState.getItems().empty()), _isDialogUpper(/* TODO */),
+      _bg((isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_main2 : bn::regular_bg_items::bg_ingame_menu_main1)
+              .create_bg(0, 0)),
       _cursor(bn::sprite_items::spr_soul_heart.create_sprite(0, 0))
 {
     asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
@@ -48,10 +50,8 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, Context& context)
     changeMenuState(MenuStateType::MAIN, false);
 
     // generate text
-    constexpr int MENU_BG_PRIORITY = 2;
-
-    _bg.set_priority(MENU_BG_PRIORITY);
-    _cursor.set_bg_priority(MENU_BG_PRIORITY);
+    _bg.set_priority(BG_PRIORITY);
+    _cursor.set_bg_priority(BG_PRIORITY);
 
     auto& mainGen = context.textGens.get(asset::FontKind::MAIN);
     auto& cryptGen = context.textGens.get(asset::FontKind::CRYPT);
@@ -59,34 +59,32 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, Context& context)
     const auto prevColor = cryptGen.palette_item();
     cryptGen.set_palette_item(bn::sprite_palette_items::pal_black_white);
 
+    const auto statDiff = (isDialogUpper() ? STAT_LOWER_DIFF : ZERO_DIFF);
+    const auto menuDiff = (isDialogUpper() ? MENU_LOWER_DIFF : ZERO_DIFF);
+
     const auto& gameState = context.gameState;
-    cryptGen.generate(NAME_TEXT_POS, gameState.getCharName(), _text);
-    cryptGen.generate(LV_TEXT_POS, bn::to_string<2>(gameState.getLv()), _text);
-    cryptGen.generate(HP_TEXT_POS, bn::format<7>("{}/{}", gameState.getCurHp(), gameState.getMaxHp()), _text);
-    cryptGen.generate(GOLD_TEXT_POS, bn::to_string<10>(gameState.getGold()), _text);
+    cryptGen.generate(NAME_TEXT_POS + statDiff, gameState.getCharName(), _text);
+    cryptGen.generate(LV_TEXT_POS + statDiff, bn::to_string<11>(gameState.getLv()), _text);
+    cryptGen.generate(HP_TEXT_POS + statDiff, bn::format<23>("{}/{}", gameState.getCurHp(), gameState.getMaxHp()),
+                      _text);
+    cryptGen.generate(GOLD_TEXT_POS + statDiff, bn::to_string<11>(gameState.getGold()), _text);
 
-    if (gameState.getItems().empty())
-        mainGen.set_palette_item(asset::getTextColor(asset::TextColorKind::GRAY));
+    redrawItemMenuText(isItemMenuEnabled());
 
-    mainGen.generate(MENU_TEXT_POSS[0], "ITEM", _text);
-
-    if (gameState.getItems().empty())
-        mainGen.set_palette_item(asset::getTextColor(asset::TextColorKind::WHITE));
-
-    mainGen.generate(MENU_TEXT_POSS[1], "STAT", _text);
+    mainGen.generate(MENU_TEXT_POSS[1] + menuDiff, "STAT", _text);
 
     if (gameState.getHasPhone())
-        mainGen.generate(MENU_TEXT_POSS[2], "CELL", _text);
+        mainGen.generate(MENU_TEXT_POSS[2] + menuDiff, "CELL", _text);
 
     cryptGen.set_palette_item(prevColor);
 
     for (auto& spr : _text)
-        spr.set_bg_priority(MENU_BG_PRIORITY);
+        spr.set_bg_priority(BG_PRIORITY);
 }
 
 bool IngameMenu::handleInput()
 {
-    const auto nextMenu = _menuState->handleInput(*this);
+    const auto nextMenu = _menuState->handleInput();
 
     if (nextMenu == MenuStateType::CLOSE_MENU)
         reqStackPop();
@@ -98,7 +96,7 @@ bool IngameMenu::handleInput()
 
 bool IngameMenu::update()
 {
-    const auto nextMenu = _menuState->update(*this);
+    const auto nextMenu = _menuState->update();
 
     if (nextMenu == MenuStateType::CLOSE_MENU)
         reqStackPop();
@@ -106,6 +104,40 @@ bool IngameMenu::update()
         changeMenuState(nextMenu);
 
     return true;
+}
+
+bool IngameMenu::isItemMenuEnabled() const
+{
+    return _isItemMenuEnabled;
+}
+
+bool IngameMenu::isCellMenuEnabled() const
+{
+    return _menuItemCount == 3;
+}
+
+bool IngameMenu::isDialogUpper() const
+{
+    return _isDialogUpper;
+}
+
+void IngameMenu::redrawItemMenuText(bool isItemMenuEnabled)
+{
+    _itemMenuText.clear();
+
+    auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
+
+    if (!isItemMenuEnabled)
+        textGen.set_palette_item(asset::getTextColor(asset::TextColorKind::GRAY));
+
+    const auto menuDiff = (isDialogUpper() ? MENU_LOWER_DIFF : ZERO_DIFF);
+    textGen.generate(MENU_TEXT_POSS[0] + menuDiff, "ITEM", _itemMenuText);
+
+    if (!isItemMenuEnabled)
+        textGen.set_palette_item(asset::getTextColor(asset::TextColorKind::WHITE));
+
+    for (auto& spr : _itemMenuText)
+        spr.set_bg_priority(BG_PRIORITY);
 }
 
 void IngameMenu::changeMenuState(MenuStateType menuType, bool hasPrevState)
