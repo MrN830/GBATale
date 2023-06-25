@@ -21,6 +21,7 @@ enum class SfxKind
     HEAL_BIG,
     HURT_SMALL,
     HURT_BIG,
+    SWALLOW,
     ITEM,
     SWITCH_TRIGGER,
     PHONE,

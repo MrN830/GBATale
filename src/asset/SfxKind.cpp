@@ -11,7 +11,7 @@ static constexpr const bn::sound_item* SFXS[(int)SfxKind::TOTAL_COUNT] = {
     &bn::sound_items::mus_intronoise, &bn::sound_items::mus_cymbal,
 
     &bn::sound_items::snd_b,          &bn::sound_items::snd_battlefall, &bn::sound_items::snd_heal_c,
-    &bn::sound_items::snd_power,      &bn::sound_items::snd_hurt1,      &bn::sound_items::snd_hurt1_c,
+    &bn::sound_items::snd_power,      &bn::sound_items::snd_hurt1,      &bn::sound_items::snd_hurt1_c, &bn::sound_items::snd_swallow,
     &bn::sound_items::snd_item,       &bn::sound_items::snd_noise,      &bn::sound_items::snd_phone,
     &bn::sound_items::snd_save,
 
