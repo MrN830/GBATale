@@ -4,12 +4,20 @@ Unofficial Undertale port for the Game Boy Advance.
 
 ## Build
 
-```bash
-git submodule update --init
-pip install -r requirements.txt
+1. Setup dependencies, and try to build it first.
+    ```bash
+    git submodule update --init
+    pip install -r requirements.txt
 
-make -j{num_of_cpu_cores}
-```
+    make -j{num_of_cpu_cores}
+    ```
+2. It'll fail to build first, and create `user_deps.json` on the root.\
+   Download the dependencies manually, and specify the path to them on the `user_deps.json`.
+   * "UndertaleDataWinPath"
+      * Extract `data.win` from your copy of Undertale, specify the path to it.
+   * "[UndertaleModCli](https://github.com/krzys-h/UndertaleModTool/releases/tag/bleeding-edge)Path"
+      * Download the version starts with `CLI-*`, specify the path to the executable.
+3. You should now be able to build GBATale with `make -j{num_of_cpu_cores}`.
 
 
 End of GBATale description, Butano template readme below.
