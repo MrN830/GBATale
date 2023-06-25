@@ -30,6 +30,8 @@ constexpr bn::fixed_point CURSOR_POSS[3] = {
 
 MainMenu::MainMenu(scene::IngameMenu& scene) : MenuState(scene)
 {
+    asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
+
     scene._bg.set_item(scene.isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_main2
                                              : bn::regular_bg_items::bg_ingame_menu_main1);
     moveCursor(false);

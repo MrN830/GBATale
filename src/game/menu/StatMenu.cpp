@@ -83,7 +83,6 @@ StatMenu::StatMenu(scene::IngameMenu& scene) : MenuState(scene)
     textGen.generate(AT_POS, bn::format<27>("AT {} ({})", state.getBaseAtk() - 10, (int)weapon.atk + armor.atk), _text);
     textGen.generate(DF_POS, bn::format<27>("DF {} ({})", state.getBaseDef() - 10, (int)weapon.def + armor.def), _text);
     textGen.generate(EXP_POS, bn::format<16>("EXP: {}", state.getExp()), _text);
-    // TODO: get next Lv-up Exp
     textGen.generate(NEXT_POS, bn::format<17>("NEXT: {}", StatInfo::getNextLvUpExp(state.getExp())), _text);
     textGen.generate(WEAPON_POS, bn::format<19>("WEAPON: {}", weapon.getName()), _text);
     textGen.generate(ARMOR_POS, bn::format<18>("ARMOR: {}", armor.getName()), _text);
@@ -98,10 +97,7 @@ StatMenu::StatMenu(scene::IngameMenu& scene) : MenuState(scene)
 auto StatMenu::handleInput() -> MenuStateType
 {
     if (bn::keypad::b_pressed())
-    {
-        asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
         return MenuStateType::MAIN;
-    }
 
     return MenuStateType::NONE;
 }

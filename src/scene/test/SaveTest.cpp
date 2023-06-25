@@ -32,6 +32,7 @@ bool SaveTest::handleInput()
         BN_LOG("=== Save ===");
 
         auto& gameState = getContext().gameState;
+        gameState.resetToNewRegularSave();
 
         // tweaked save
         if (bn::keypad::b_held())
@@ -46,6 +47,26 @@ bool SaveTest::handleInput()
             constexpr uint32_t time = ~(0u);
             gameState._time.addTicks(time - gameState._time.getTicks());
         }
+        // ruins items save
+        if (bn::keypad::a_held())
+        {
+            gameState.setCharName("RuinItem");
+            gameState._weapon = game::ItemKind::STICK;
+            gameState._armor = game::ItemKind::BANDAGE;
+            gameState._gold = 42;
+            gameState._time.addTicks(72 * 60 * 30); // 72 minutes
+
+            auto& items = gameState.getItems();
+            items.clear();
+            items.push_back(game::ItemKind::MONSTER_CANDY);
+            items.push_back(game::ItemKind::SPIDER_DONUT);
+            items.push_back(game::ItemKind::SPIDER_CIDER);
+            items.push_back(game::ItemKind::FADED_RIBBON);
+            items.push_back(game::ItemKind::TOY_KNIFE);
+            items.push_back(game::ItemKind::BUTTERSCOTCH_PIE);
+            items.push_back(game::ItemKind::ABANDONED_QUICHE);
+            items.push_back(game::ItemKind::PUPPYDOUGH_ICECREAM);
+        }
         else // normal save
         {
             gameState.setCharName("SaveTs");
@@ -53,7 +74,7 @@ bool SaveTest::handleInput()
 
         gameState.saveRegular();
 
-        BN_LOG("saved!");
+        BN_LOG("charName: \"", gameState.getCharName(), "\" saved!");
     }
 
     return true;

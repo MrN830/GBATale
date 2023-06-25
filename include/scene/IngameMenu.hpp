@@ -19,6 +19,7 @@ public:
 
 public:
     friend class game::menu::MainMenu;
+    friend class game::menu::ItemMenu;
     friend class game::menu::StatMenu;
 
 private:

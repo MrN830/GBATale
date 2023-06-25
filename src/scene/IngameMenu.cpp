@@ -45,8 +45,6 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, Context& context)
               .create_bg(0, 0)),
       _cursor(bn::sprite_items::spr_soul_heart.create_sprite(0, 0))
 {
-    asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
-
     changeMenuState(MenuStateType::MAIN, false);
 
     // generate text
@@ -149,6 +147,9 @@ void IngameMenu::changeMenuState(MenuStateType menuType, bool hasPrevState)
     {
     case MenuStateType::MAIN:
         new (_menuState) MainMenu(*this);
+        break;
+    case MenuStateType::ITEM:
+        new (_menuState) ItemMenu(*this);
         break;
     case MenuStateType::STAT:
         new (_menuState) StatMenu(*this);
