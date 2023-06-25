@@ -2,6 +2,7 @@
 
 #include "asset/font_crypt.hpp"
 #include "asset/font_main.hpp"
+#include "asset/font_tiny.hpp"
 
 namespace ut::asset
 {
@@ -9,6 +10,7 @@ namespace ut::asset
 static constexpr const bn::sprite_font* FONTS[(int)FontKind::TOTAL_COUNT] = {
     &font_main,
     &font_crypt,
+    &font_tiny,
 };
 
 auto getFont(FontKind kind) -> const bn::sprite_font&

@@ -12,6 +12,7 @@ enum class FontKind
 {
     MAIN,
     CRYPT,
+    TINY,
 
     TOTAL_COUNT
 };

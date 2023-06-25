@@ -2,12 +2,14 @@
 
 #include "asset/font_crypt.hpp"
 #include "asset/font_main.hpp"
+#include "asset/font_tiny.hpp"
 
 namespace ut::core
 {
 
 TextGens::TextGens()
-    : _textGens{bn::sprite_text_generator(asset::font_main), bn::sprite_text_generator(asset::font_crypt)}
+    : _textGens{bn::sprite_text_generator(asset::font_main), bn::sprite_text_generator(asset::font_crypt),
+                bn::sprite_text_generator(asset::font_tiny)}
 {
 }
 
