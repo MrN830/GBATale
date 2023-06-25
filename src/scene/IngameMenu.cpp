@@ -14,6 +14,7 @@
 #include "bn_regular_bg_items_bg_ingame_menu_main2.h"
 #include "bn_sprite_items_spr_soul_heart.h"
 #include "bn_sprite_palette_items_pal_black_white.h"
+#include "bn_sprite_palette_items_pal_fttiny_white.h"
 
 using namespace ut::game::menu;
 
@@ -25,7 +26,7 @@ namespace
 
 constexpr auto TOP_LEFT_ORIGIN = -bn::fixed_point{bn::display::width() / 2, bn::display::height() / 2};
 
-constexpr auto NAME_TEXT_POS = bn::fixed_point{8, 10} + TOP_LEFT_ORIGIN;
+constexpr auto NAME_TEXT_POS = bn::fixed_point{8, 11} + TOP_LEFT_ORIGIN;
 constexpr auto LV_TEXT_POS = bn::fixed_point{25, 20} + TOP_LEFT_ORIGIN;
 constexpr auto HP_TEXT_POS = bn::fixed_point{25, 27} + TOP_LEFT_ORIGIN;
 constexpr auto GOLD_TEXT_POS = bn::fixed_point{25, 34} + TOP_LEFT_ORIGIN;
@@ -53,15 +54,18 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, Context& context)
 
     auto& mainGen = context.textGens.get(asset::FontKind::MAIN);
     auto& cryptGen = context.textGens.get(asset::FontKind::CRYPT);
+    auto& tinyGen = context.textGens.get(asset::FontKind::TINY);
 
-    const auto prevColor = cryptGen.palette_item();
+    const auto prevCryptPal = cryptGen.palette_item();
+    const auto prevTinyPal = tinyGen.palette_item();
     cryptGen.set_palette_item(bn::sprite_palette_items::pal_black_white);
+    tinyGen.set_palette_item(bn::sprite_palette_items::pal_fttiny_white);
 
     const auto statDiff = (isDialogUpper() ? STAT_LOWER_DIFF : ZERO_DIFF);
     const auto menuDiff = (isDialogUpper() ? MENU_LOWER_DIFF : ZERO_DIFF);
 
     const auto& gameState = context.gameState;
-    cryptGen.generate(NAME_TEXT_POS + statDiff, gameState.getCharName(), _text);
+    tinyGen.generate(NAME_TEXT_POS + statDiff, gameState.getCharName(), _text);
     cryptGen.generate(LV_TEXT_POS + statDiff, bn::to_string<11>(gameState.getLv()), _text);
     cryptGen.generate(HP_TEXT_POS + statDiff, bn::format<23>("{}/{}", gameState.getCurHp(), gameState.getMaxHp()),
                       _text);
@@ -74,7 +78,8 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, Context& context)
     if (gameState.getHasPhone())
         mainGen.generate(MENU_TEXT_POSS[2] + menuDiff, "CELL", _text);
 
-    cryptGen.set_palette_item(prevColor);
+    cryptGen.set_palette_item(prevCryptPal);
+    tinyGen.set_palette_item(prevTinyPal);
 
     for (auto& spr : _text)
         spr.set_bg_priority(BG_PRIORITY);
