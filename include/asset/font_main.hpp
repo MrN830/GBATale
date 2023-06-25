@@ -26,7 +26,7 @@ inline constexpr int8_t font_main_character_widths[] = {
     2,  // 44 ,
     6,  // 45 -
     2,  // 46 .
-    6,  // 47 /
+    5,  // 47 /
     6,  // 48 0
     6,  // 49 1
     6,  // 50 2
@@ -71,7 +71,7 @@ inline constexpr int8_t font_main_character_widths[] = {
     6,  // 89 Y
     6,  // 90 Z
     4,  // 91 [
-    6,  // 92
+    5,  // 92
     4,  // 93 ]
     6,  // 94 ^
     6,  // 95 _
