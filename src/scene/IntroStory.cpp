@@ -81,7 +81,7 @@ const core::Dialog DIALOGS[] = {
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY,
-        R"(Many years later^2. ^2. ^5. ^1 %)", // manual dot spacing
+        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_74),
     },
     core::Dialog{
         core::Dialog::Settings::Kind::INTRO_STORY_MT_EBOTT,

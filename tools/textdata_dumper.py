@@ -6,6 +6,7 @@ import incremental_build as inc_build
 from timestamp_writer import write_timestamp
 
 json_path = "user_deps.json"
+text_data_override_path = "extra/texts/textdata_en_override.json"
 
 def dump_and_convert_textdata():
     deps = __parse_user_deps()
@@ -13,7 +14,7 @@ def dump_and_convert_textdata():
     data_win_path = deps["UndertaleDataWinPath"]
     mod_cli_path = deps["UndertaleModCliPath"]
 
-    if not inc_build.should_build(data_win_path, "build_ut/src/TextData.cpp"):
+    if not inc_build.should_build(data_win_path, "build_ut/src/TextData.cpp") and not inc_build.should_build(text_data_override_path, "build_ut/src/TextData.cpp"):
         return
 
     print(f'{data_win_path=}, {mod_cli_path=}')
@@ -37,6 +38,11 @@ def dump_and_convert_textdata():
             if "ds_map_add" in line:
                 line = line.replace('global.text_data_en, ', '')
                 text_datas.append(eval(line))
+    
+    # Get override textdata
+    text_data_override = {}
+    with open(text_data_override_path, "r") as f:
+        text_data_override = json.loads(f.read())
 
     # Generate header file
     os.makedirs("build_ut/include/gen", exist_ok=True)
@@ -78,6 +84,8 @@ def dump_and_convert_textdata():
 
         cpp_file.write("static constexpr const bn::string_view TEXT_DATA_EN[(int)TextData::TOTAL_COUNT] = {" + "\n")
         for k, v in text_datas:
+            if k in text_data_override:
+                v = text_data_override[k]
             cpp_file.write(f'R"({v})",' + "\n")
         cpp_file.write("};" + "\n\n")
 
