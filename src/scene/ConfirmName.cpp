@@ -45,7 +45,8 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context)
     const auto prevAlign = textGen.alignment();
     const auto prevColor = textGen.palette_item();
 
-    bn::string<8> charName = context.gameState.getCharName();
+    constexpr int NAME_MAX_LEN = game::GameState::CHAR_NAME_MAX_LEN;
+    bn::string<NAME_MAX_LEN> charName = context.gameState.getCharName();
     auto lowerName = util::toLowerAscii(charName);
     const bn::string_view name = lowerName;
 
@@ -60,7 +61,7 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context)
         game::GameState state;
         state.loadFromRegularSave();
 
-        if ("frisk" != bn::string_view(util::toLowerAscii(bn::string<8>(state.getCharName()))))
+        if ("frisk" != bn::string_view(util::toLowerAscii(bn::string<NAME_MAX_LEN>(state.getCharName()))))
             isChosenName = true;
     }
 

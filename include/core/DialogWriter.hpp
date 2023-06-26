@@ -55,14 +55,16 @@ struct SpecialToken
 class DialogWriter
 {
 public:
-    DialogWriter(TextGens&);
+    DialogWriter(TextGens&, int bgPriority = 3);
 
     void reset();
 
     void start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_ptr>& outputVec);
     bool isStarted() const;
+    bool isWaitInput() const;
 
     void instantWrite();
+    void keyInput();
 
     void update();
 
@@ -72,8 +74,11 @@ private:
     auto readSpecialToken(bn::string_view) -> bn::optional<SpecialToken>;
     void handleSpecialToken(const SpecialToken&);
 
+    void nextDialog();
+
 private:
     TextGens& _textGens;
+    const int _bgPriority;
 
     bn::span<const Dialog> _dialogs;
     bn::ivector<bn::sprite_ptr>* _outputVec = nullptr;
@@ -89,6 +94,8 @@ private:
     bool _forceNewSprite;
 
     bool _isInstantWrite;
+    bool _isWaitInput;
+    bool _isCloseRequested;
 };
 
 } // namespace ut::core

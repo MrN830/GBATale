@@ -13,6 +13,7 @@ enum class TextColorKind
     RED,
     GREEN,
     WHITE,
+    LIGHT_GRAY,
     GRAY,
     YELLOW,
     BLACK,

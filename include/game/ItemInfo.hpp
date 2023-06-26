@@ -2,8 +2,46 @@
 
 #include <cstdint>
 
+#include <bn_array.h>
+#include <bn_vector.h>
+
+#include "asset/gen/TextData_fwd.hpp"
+
 namespace ut::game
 {
+
+enum class ItemKind : uint8_t;
+
+enum class ItemType : uint8_t
+{
+    FOOD,
+    WEAPON,
+    ARMOR,
+    SPECIAL
+};
+
+struct ItemInfo
+{
+public:
+    static auto get(ItemKind) -> const ItemInfo&;
+
+public:
+    auto getName() const -> const bn::string_view&;
+    auto getShortName() const -> const bn::string_view&;
+    auto getSeriousName() const -> const bn::string_view&;
+    auto getDescriptions() const -> bn::vector<bn::string_view, 2>;
+
+public:
+    ItemKind kind;
+    ItemType type;
+
+    int16_t hpRecover;
+    int8_t atk, def;
+    int16_t price; // `-1` if not tradable
+
+    asset::gen::TextData nameData, shortNameData, seriousNameData;
+    bn::array<asset::gen::TextData, 2> descriptionDatas;
+};
 
 enum class ItemKind : uint8_t
 {
@@ -29,7 +67,7 @@ enum class ItemKind : uint8_t
     PUPPYDOUGH_ICECREAM,
     BISICLE,
     UNISICLE,
-    CINNAMON_BUN,
+    CINNAMON_BUNNY,
     TEMMIE_FLAKES,
     ABANDONED_QUICHE,
     OLD_TUTU,
@@ -52,7 +90,7 @@ enum class ItemKind : uint8_t
     SEA_TEA,
     STARFAIT,
     LEGENDARY_HERO,
-    BUTTY_GLASSES,
+    CLOUDY_GLASSES,
     TORN_NOTEBOOK,
     STAINED_APRON,
     BURNT_PAN,
@@ -65,7 +103,7 @@ enum class ItemKind : uint8_t
     BAD_MEMORY,
     DREAM,
     UNDYNES_LETTER,
-    UNDYNE_LETTER_EX,
+    UNDYNES_LETTER_EX,
     POPATO_CHISPS,
     JUNK_FOOD,
     MYSTERY_KEY,

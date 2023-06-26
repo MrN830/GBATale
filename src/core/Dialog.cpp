@@ -12,12 +12,14 @@ namespace ut::core
 namespace
 {
 
+constexpr auto TOP_LEFT_ORIGIN = -bn::fixed_point{bn::display::width() / 2, bn::display::height() / 2};
+
 constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_COUNT] = {
     Dialog::Settings{
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::VOICE_INTRO,
-        bn::fixed_point{39 - bn::display::width() / 2, 116 - bn::display::height() / 2},
+        bn::fixed_point{39, 116} + TOP_LEFT_ORIGIN,
         176,
         14,
         2,
@@ -26,7 +28,7 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::VOICE_INTRO,
-        bn::fixed_point{61 - bn::display::width() / 2, 116 - bn::display::height() / 2},
+        bn::fixed_point{61, 116} + TOP_LEFT_ORIGIN,
         176,
         14,
         2,
@@ -35,14 +37,32 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::NONE,
-        bn::fixed_point{48 - bn::display::width() / 2, 14 - bn::display::height() / 2},
+        bn::fixed_point{48, 14} + TOP_LEFT_ORIGIN,
         176,
+        14,
+        1,
+    },
+    Dialog::Settings{
+        asset::FontKind::MAIN,
+        asset::TextColorKind::WHITE,
+        asset::SfxKind::VOICE_DEFAULT,
+        bn::fixed_point{10, 16} + TOP_LEFT_ORIGIN,
+        225,
+        14,
+        1,
+    },
+    Dialog::Settings{
+        asset::FontKind::MAIN,
+        asset::TextColorKind::WHITE,
+        asset::SfxKind::VOICE_DEFAULT,
+        bn::fixed_point{10, 116} + TOP_LEFT_ORIGIN,
+        225,
         14,
         1,
     },
 };
 
-}
+} // namespace
 
 auto Dialog::Settings::get(Kind kind) -> const Settings&
 {

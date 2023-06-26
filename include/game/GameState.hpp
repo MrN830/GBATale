@@ -6,8 +6,14 @@
 #include <bn_fixed.h>
 #include <bn_string.h>
 #include <bn_utility.h>
+#include <bn_vector.h>
 
 #include "core/PlayTime.hpp"
+
+namespace ut::scene::test
+{
+class SaveTest;
+}
 
 namespace ut::game
 {
@@ -18,6 +24,10 @@ enum class RoomKind : int16_t;
 class GameState final
 {
     friend bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState&);
+    friend class scene::test::SaveTest;
+
+public:
+    static constexpr int CHAR_NAME_MAX_LEN = 15;
 
 private:
     struct RegularSave;
@@ -59,7 +69,39 @@ public:
 
     void saveRegular();
 
-public:
+private: // not SRAM saved fields
+    bool _isInBattle = false;
+    bool _isSeriousBattle = false;
+
+private: // SRAM saved fields
+    bn::string<CHAR_NAME_MAX_LEN> _charName;
+    int _lv;
+    int _exp;
+    int _curHp;
+    int _maxHp;
+    int _baseAtk;
+    int _baseDef;
+    int _gold;
+    int _kills;
+    bn::vector<ItemKind, 8> _items;
+    bn::vector<ItemKind, 12> _dimensionalBoxA;
+    bn::vector<ItemKind, 12> _dimensionalBoxB;
+    bn::array<int32_t, 8> _phone;
+    ItemKind _weapon;
+    ItemKind _armor;
+    bn::fixed _plot;
+    bool _hasPhone;
+    RoomKind _room;
+    core::PlayTime _time;
+
+    uint32_t _rSavedCount;
+    uint32_t _pSavedCount = 0;
+
+public: // not SRAM saved fields
+    bool isInBattle() const;
+    bool isSeriousBattle() const;
+
+public: // SRAM saved fields
     auto getCharName() const -> const bn::string_view;
     int getLv() const;
     int getExp() const;
@@ -70,12 +112,32 @@ public:
     int getGold() const;
     int getKills() const;
 
+    auto getItems() const -> decltype((_items));
+    auto getItems() -> decltype((_items));
+    auto getDimensionalBoxA() const -> decltype((_dimensionalBoxA));
+    auto getDimensionalBoxA() -> decltype((_dimensionalBoxA));
+    auto getDimensionalBoxB() const -> decltype((_dimensionalBoxB));
+    auto getDimensionalBoxB() -> decltype((_dimensionalBoxB));
+
+    auto getWeapon() const -> ItemKind;
+    auto getArmor() const -> ItemKind;
+
+    bool getHasPhone() const;
+    auto getRoom() const -> RoomKind;
+
     auto getTime() const -> const core::PlayTime&;
     auto getTime() -> core::PlayTime&;
     uint32_t getRSavedCount() const;
     uint32_t getPSavedCount() const;
 
+public:
     void setCharName(const bn::string_view);
+    void changeHp(int diff);
+
+    void setWeapon(ItemKind);
+    void setArmor(ItemKind);
+
+    void setHasPhone(bool hasPhone);
 
     void setTime(const core::PlayTime& time);
 
@@ -86,30 +148,7 @@ private:
     void loadFromPSave(const PersistSave&);
 
 private:
-    bn::string<8> _charName;
-    int _lv;
-    int _exp;
-    int _curHp;
-    int _maxHp;
-    int _baseAtk;
-    int _baseDef;
-    int _gold;
-    int _kills;
-    bn::array<ItemKind, 8> _items;
-    bn::array<ItemKind, 12> _dimensionalBoxA;
-    bn::array<ItemKind, 12> _dimensionalBoxB;
-    bn::array<int32_t, 8> _phone;
-    ItemKind _weapon;
-    ItemKind _armor;
-    bn::fixed _plot;
-    RoomKind _room;
-    core::PlayTime _time;
-
-    uint32_t _rSavedCount;
-    uint32_t _pSavedCount = 0;
-
-private:
-    static constexpr auto SAVE_VER = "ut00000";
+    static constexpr auto SAVE_VER = "ut00001";
 
     static constexpr int SRAM_REGU_SAVE_1 = 0;
     static constexpr int SRAM_PERSI_SAVE_1 = 8 * 1024;
@@ -122,10 +161,10 @@ private:
         uint32_t savedCount;
         bn::array<char, 8> saveVer;
 
-        bn::array<char, 8> charName;
+        bn::array<char, CHAR_NAME_MAX_LEN + 1> charName;
         int32_t xp;
         int32_t gold;
-        int8_t kills;
+        int32_t kills;
         bn::array<ItemKind, 8> item;
         bn::array<ItemKind, 12> dimensionalBoxA;
         bn::array<ItemKind, 12> dimensionalBoxB;
@@ -133,6 +172,7 @@ private:
         ItemKind weapon;
         ItemKind armor;
         bn::fixed plot;
+        bool menuChoice2;
         RoomKind room;
         uint32_t time;
 

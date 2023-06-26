@@ -36,7 +36,7 @@ NewGameTitle::NewGameTitle(SceneStack& sceneStack, Context& context) : Scene(sce
     const auto prevAlign = textGen.alignment();
     const auto prevColor = textGen.palette_item();
 
-    textGen.set_palette_item(asset::getTextColor(asset::TextColorKind::GRAY));
+    textGen.set_palette_item(asset::getTextColor(asset::TextColorKind::LIGHT_GRAY));
     textGen.set_left_alignment();
 
     for (int i = 0; i < TEXT_LINE_COUNT; ++i)

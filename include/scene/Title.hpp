@@ -19,7 +19,7 @@ public:
 
 private:
     bn::regular_bg_ptr _bg;
-    bn::vector<bn::sprite_ptr, 13> _saveInfoTexts;
+    bn::vector<bn::sprite_ptr, 15> _saveInfoTexts;
     bn::vector<bn::sprite_ptr, 2> _continueBtnText;
     bn::vector<bn::sprite_ptr, 2> _resetBtnText;
 

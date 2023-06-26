@@ -1,11 +1,14 @@
 #include "asset/SfxKind.hpp"
 
 #include <bn_assert.h>
+#include <bn_vector.h>
 
 #include "bn_sound_items.h"
 
 namespace ut::asset
 {
+
+static bn::vector<bn::pair<SfxKind, int>, 4> g_delayedSfxs;
 
 static constexpr const bn::sound_item* SFXS[(int)SfxKind::TOTAL_COUNT] = {
     &bn::sound_items::mus_intronoise, &bn::sound_items::mus_cymbal,
@@ -14,6 +17,10 @@ static constexpr const bn::sound_item* SFXS[(int)SfxKind::TOTAL_COUNT] = {
     &bn::sound_items::snd_power,      &bn::sound_items::snd_hurt1,      &bn::sound_items::snd_hurt1_c,
     &bn::sound_items::snd_swallow,    &bn::sound_items::snd_item,       &bn::sound_items::snd_noise,
     &bn::sound_items::snd_phone,      &bn::sound_items::snd_save,
+
+    &bn::sound_items::snd_speedup,    &bn::sound_items::snd_spooky,     &bn::sound_items::snd_sparkle1,
+    &bn::sound_items::snd_dogresidue, &bn::sound_items::snd_dogsalad,   &bn::sound_items::snd_catsalad,
+    &bn::sound_items::snd_hero,
 
     &bn::sound_items::snd_squeak,     &bn::sound_items::snd_select,
 
@@ -40,6 +47,28 @@ auto getSfx(SfxKind kind) -> const bn::sound_item*
         return nullptr;
 
     return SFXS[(int)kind];
+}
+
+void playSfxWithDelay(SfxKind sfx, int delay)
+{
+    BN_ASSERT(!g_delayedSfxs.full(), "too many reserved delayed SFXs (max ", g_delayedSfxs.max_size(), ")");
+
+    if (sfx != SfxKind::NONE && getSfx(sfx) != nullptr)
+        g_delayedSfxs.emplace_back(sfx, delay);
+}
+
+void updateDelayedSfxs()
+{
+    for (auto it = g_delayedSfxs.begin(); it != g_delayedSfxs.end();)
+    {
+        if (it->second-- <= 0)
+        {
+            getSfx(it->first)->play();
+            it = g_delayedSfxs.erase(it);
+        }
+        else
+            ++it;
+    }
 }
 
 } // namespace ut::asset

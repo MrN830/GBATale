@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.hpp"
+
 namespace ut::scene
 {
 
@@ -15,8 +17,9 @@ enum class SceneId
     CONFIRM_NAME,
 
     GAME,
+    INGAME_MENU,
 
-#ifdef UT_TEST_SCENE
+#if UT_TEST_SCENE
     SAVE_TEST,
     WORLD_BG_TEST,
 #endif

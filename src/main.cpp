@@ -7,6 +7,7 @@
 
 #include "scene/ConfirmName.hpp"
 #include "scene/Game.hpp"
+#include "scene/IngameMenu.hpp"
 #include "scene/InputName.hpp"
 #include "scene/IntroLogo.hpp"
 #include "scene/IntroStory.hpp"
@@ -24,6 +25,11 @@
 #endif
 
 using namespace ut;
+
+namespace ut::asset
+{
+void updateDelayedSfxs();
+}
 
 void registerScenes(scene::SceneStack& sceneStack);
 
@@ -56,6 +62,7 @@ int main()
         memView.update();
 #endif
         rng.update();
+        asset::updateDelayedSfxs();
         bn::core::update();
     }
 }
@@ -71,6 +78,7 @@ void registerScenes(scene::SceneStack& sceneStack)
     sceneStack.registerScene<InputName>(SceneId::INPUT_NAME);
     sceneStack.registerScene<ConfirmName>(SceneId::CONFIRM_NAME);
     sceneStack.registerScene<Game>(SceneId::GAME);
+    sceneStack.registerScene<IngameMenu>(SceneId::INGAME_MENU);
 
 #if UT_TEST_SCENE
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);

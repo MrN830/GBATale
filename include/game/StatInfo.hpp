@@ -11,6 +11,7 @@ public:
 public:
     static auto getInfo(int lv) -> const StatInfo&;
     static int getLv(int exp);
+    static int getNextLvUpExp(int exp);
 
 public:
     int lv;

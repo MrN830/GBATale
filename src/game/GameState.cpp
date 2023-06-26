@@ -32,19 +32,21 @@ void GameState::resetToNewRegularSave()
 {
     _lv = 1;
     _exp = 0;
-    _curHp = 20;
-    _maxHp = 20;
-    _baseAtk = 0;
-    _baseDef = 0;
+    const auto& stat = game::StatInfo::getInfo(_lv);
+    _curHp = _maxHp = stat.maxHp;
+    _baseAtk = stat.atk;
+    _baseDef = stat.def;
     _gold = 0;
     _kills = 0;
-    _items = {};
-    _dimensionalBoxA = {ItemKind::TOUGH_GLOVE};
-    _dimensionalBoxB = {};
+    _items.clear();
+    _dimensionalBoxA.clear();
+    _dimensionalBoxA.push_back(ItemKind::TOUGH_GLOVE);
+    _dimensionalBoxB.clear();
     _phone = {};
     _weapon = ItemKind::STICK;
     _armor = ItemKind::BANDAGE;
     _plot = 0;
+    _hasPhone = false;
     _room = RoomKind::ROOM_AREA1;
     _time = core::PlayTime(0);
 }
@@ -105,19 +107,23 @@ void GameState::saveRegular()
 {
     RegularSave rSave;
 
-    for (int i = 0; i < 8; ++i)
+    for (int i = 0; i < CHAR_NAME_MAX_LEN + 1; ++i)
         rSave.charName[i] = (i < _charName.size() ? _charName[i] : '\0');
 
     rSave.xp = _exp;
     rSave.gold = _gold;
     rSave.kills = _kills;
-    rSave.item = _items;
-    rSave.dimensionalBoxA = _dimensionalBoxA;
-    rSave.dimensionalBoxB = _dimensionalBoxB;
+    for (int i = 0; i < rSave.item.size(); ++i)
+        rSave.item[i] = (i < _items.size() ? _items[i] : ItemKind::NONE);
+    for (int i = 0; i < rSave.dimensionalBoxA.size(); ++i)
+        rSave.dimensionalBoxA[i] = (i < _dimensionalBoxA.size() ? _dimensionalBoxA[i] : ItemKind::NONE);
+    for (int i = 0; i < rSave.dimensionalBoxB.size(); ++i)
+        rSave.dimensionalBoxB[i] = (i < _dimensionalBoxB.size() ? _dimensionalBoxB[i] : ItemKind::NONE);
     rSave.phone = _phone;
     rSave.weapon = _weapon;
     rSave.armor = _armor;
     rSave.plot = _plot;
+    rSave.menuChoice2 = _hasPhone;
     rSave.room = _room;
     rSave.time = _time.getTicks();
 
@@ -135,6 +141,16 @@ void GameState::saveRegular()
         bn::sram::write_offset(rSave, SRAM_REGU_SAVE_1);
     else
         bn::sram::write_offset(rSave, SRAM_REGU_SAVE_2);
+}
+
+bool GameState::isInBattle() const
+{
+    return _isInBattle;
+}
+
+bool GameState::isSeriousBattle() const
+{
+    return _isSeriousBattle;
 }
 
 auto GameState::getCharName() const -> const bn::string_view
@@ -182,6 +198,56 @@ int GameState::getKills() const
     return _kills;
 }
 
+auto GameState::getItems() const -> decltype((_items))
+{
+    return _items;
+}
+
+auto GameState::getItems() -> decltype((_items))
+{
+    return _items;
+}
+
+auto GameState::getDimensionalBoxA() const -> decltype((_dimensionalBoxA))
+{
+    return _dimensionalBoxA;
+}
+
+auto GameState::getDimensionalBoxA() -> decltype((_dimensionalBoxA))
+{
+    return _dimensionalBoxA;
+}
+
+auto GameState::getDimensionalBoxB() const -> decltype((_dimensionalBoxB))
+{
+    return _dimensionalBoxB;
+}
+
+auto GameState::getDimensionalBoxB() -> decltype((_dimensionalBoxB))
+{
+    return _dimensionalBoxB;
+}
+
+auto GameState::getWeapon() const -> ItemKind
+{
+    return _weapon;
+}
+
+auto GameState::getArmor() const -> ItemKind
+{
+    return _armor;
+}
+
+bool GameState::getHasPhone() const
+{
+    return _hasPhone;
+}
+
+auto GameState::getRoom() const -> RoomKind
+{
+    return _room;
+}
+
 auto GameState::getTime() const -> const core::PlayTime&
 {
     return _time;
@@ -208,6 +274,26 @@ void GameState::setCharName(const bn::string_view charName)
     _charName = charName;
 }
 
+void GameState::changeHp(int diff)
+{
+    _curHp = bn::clamp(_curHp + diff, 0, _maxHp);
+}
+
+void GameState::setWeapon(ItemKind weapon)
+{
+    _weapon = weapon;
+}
+
+void GameState::setArmor(ItemKind armor)
+{
+    _armor = armor;
+}
+
+void GameState::setHasPhone(bool hasPhone)
+{
+    _hasPhone = hasPhone;
+}
+
 void GameState::setTime(const core::PlayTime& time)
 {
     _time = time;
@@ -217,25 +303,40 @@ void GameState::loadFromRSave(const RegularSave& rSave)
 {
     _charName.clear();
     for (char ch : rSave.charName)
-        if (ch != '\0')
+        if (ch != '\0' && !_charName.full())
             _charName.push_back(ch);
 
     // Load `exp` related values
     _exp = rSave.xp;
     _lv = game::StatInfo::getLv(_exp);
+    _kills = rSave.kills;
     const auto& stat = game::StatInfo::getInfo(_lv);
-    _maxHp = stat.maxHp;
+    _curHp = _maxHp = stat.maxHp;
     _baseAtk = stat.atk;
     _baseDef = stat.def;
 
     _gold = rSave.gold;
-    _items = rSave.item;
-    _dimensionalBoxA = rSave.dimensionalBoxA;
-    _dimensionalBoxB = rSave.dimensionalBoxB;
+
+    _items.clear();
+    for (int i = 0; i < rSave.item.size(); ++i)
+        if (rSave.item[i] != ItemKind::NONE)
+            _items.push_back(rSave.item[i]);
+
+    _dimensionalBoxA.clear();
+    for (int i = 0; i < rSave.dimensionalBoxA.size(); ++i)
+        if (rSave.dimensionalBoxA[i] != ItemKind::NONE)
+            _dimensionalBoxA.push_back(rSave.dimensionalBoxA[i]);
+
+    _dimensionalBoxB.clear();
+    for (int i = 0; i < rSave.dimensionalBoxB.size(); ++i)
+        if (rSave.dimensionalBoxB[i] != ItemKind::NONE)
+            _dimensionalBoxB.push_back(rSave.dimensionalBoxB[i]);
+
     _phone = rSave.phone;
     _weapon = rSave.weapon;
     _armor = rSave.armor;
     _plot = rSave.plot;
+    _hasPhone = rSave.menuChoice2;
     _room = rSave.room;
     _time = core::PlayTime(rSave.time);
     _rSavedCount = rSave.savedCount;

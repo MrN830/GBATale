@@ -24,6 +24,9 @@ public:
             INTRO_STORY_MT_EBOTT,
             CONFIRM_NAME,
 
+            WORLD_UPPER,
+            WORLD_LOWER,
+
             TOTAL_COUNT
         };
 

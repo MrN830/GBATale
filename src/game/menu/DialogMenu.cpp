@@ -1,0 +1,53 @@
+#include "game/menu/DialogMenu.hpp"
+
+#include <bn_keypad.h>
+
+#include "game/ItemInfo.hpp"
+#include "game/menu/MenuStateType.hpp"
+#include "scene/IngameMenu.hpp"
+
+#include "bn_regular_bg_items_bg_ingame_menu_dialog1.h"
+#include "bn_regular_bg_items_bg_ingame_menu_dialog2.h"
+
+namespace ut::game::menu
+{
+
+DialogMenu::DialogMenu(scene::IngameMenu& scene)
+    : MenuState(scene), _dialogWriter(scene.getContext().textGens, scene::IngameMenu::BG_PRIORITY)
+{
+    BN_ASSERT(!scene._dialogs.empty(), "DialogMenu with empty dialogs");
+
+    scene._bg.set_item(scene.isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_dialog2
+                                             : bn::regular_bg_items::bg_ingame_menu_dialog1);
+    scene._cursor.set_visible(false);
+
+    using DSKind = core::Dialog::Settings::Kind;
+    const auto dialogSettings = (scene.isDialogUpper() ? DSKind::WORLD_UPPER : DSKind::WORLD_LOWER);
+
+    for (const auto& msg : _scene._dialogs)
+        _dialogs.push_back(core::Dialog{dialogSettings, msg});
+
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+}
+
+auto DialogMenu::handleInput() -> MenuStateType
+{
+    if (bn::keypad::a_pressed())
+        _dialogWriter.keyInput();
+    if (bn::keypad::b_pressed())
+        _dialogWriter.instantWrite();
+
+    return MenuStateType::NONE;
+}
+
+auto DialogMenu::update() -> MenuStateType
+{
+    _dialogWriter.update();
+
+    if (!_dialogWriter.isStarted())
+        return MenuStateType::CLOSE_MENU;
+
+    return MenuStateType::NONE;
+}
+
+} // namespace ut::game::menu

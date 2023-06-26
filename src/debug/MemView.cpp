@@ -21,7 +21,7 @@ constexpr auto TOP_LEFT_ORIGIN = bn::fixed_point{-bn::display::width() / 2, -bn:
 
 constexpr auto LINE_DIFF = bn::fixed_point{0, 6};
 
-constexpr auto CPU_POS = bn::fixed_point{1, 3} + TOP_LEFT_ORIGIN;
+constexpr auto CPU_POS = bn::fixed_point{240, 3} + TOP_LEFT_ORIGIN;
 constexpr auto BG_SPR_POS = CPU_POS + LINE_DIFF * 1;
 constexpr auto IWRAM_POS = CPU_POS + LINE_DIFF * 2;
 constexpr auto EWRAM_POS = CPU_POS + LINE_DIFF * 3;
@@ -61,6 +61,9 @@ void MemView::redrawTexts()
 
     if (_isVisible)
     {
+        const auto prevAlign = _textGen.alignment();
+        _textGen.set_right_alignment();
+
         _textGen.generate(BG_SPR_POS,
                           bn::format<14>("BG/SPR {}/{}", bn::bgs::used_items_count(), bn::sprites::used_items_count()),
                           _texts);
@@ -74,6 +77,8 @@ void MemView::redrawTexts()
         _textGen.generate(EWRAM_POS,
                           bn::format<14>("EW {}% {}", (bn::fixed(usedEw) / EWRAM_BYTES * 100).round_integer(), usedEw),
                           _texts);
+
+        _textGen.set_alignment(prevAlign);
 
         for (auto& text : _texts)
             text.set_bg_priority(0);
