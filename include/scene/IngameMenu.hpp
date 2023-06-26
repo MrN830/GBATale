@@ -29,6 +29,7 @@ public:
     friend class game::menu::DialogMenu;
     friend class game::menu::ItemMenu;
     friend class game::menu::StatMenu;
+    friend class game::menu::CellMenu;
 
 private:
     static constexpr bn::fixed_point ZERO_DIFF = {0, 0};

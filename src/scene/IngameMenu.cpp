@@ -133,7 +133,7 @@ void IngameMenu::redrawTexts()
 
     mainGen.generate(MENU_TEXT_POSS[1] + menuDiff, "STAT", _text);
 
-    if (gameState.getHasPhone())
+    if (_menuItemCount >= 3)
         mainGen.generate(MENU_TEXT_POSS[2] + menuDiff, "CELL", _text);
 
     cryptGen.set_palette_item(prevCryptPal);
@@ -161,6 +161,9 @@ void IngameMenu::changeMenuState(MenuStateType menuType, bool hasPrevState)
         break;
     case MenuStateType::STAT:
         new (_menuState) StatMenu(*this);
+        break;
+    case MenuStateType::CELL:
+        new (_menuState) CellMenu(*this);
         break;
 
     default:
