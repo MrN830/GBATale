@@ -26,6 +26,11 @@
 
 using namespace ut;
 
+namespace ut::asset
+{
+void updateDelayedSfxs();
+}
+
 void registerScenes(scene::SceneStack& sceneStack);
 
 int main()
@@ -57,6 +62,7 @@ int main()
         memView.update();
 #endif
         rng.update();
+        asset::updateDelayedSfxs();
         bn::core::update();
     }
 }

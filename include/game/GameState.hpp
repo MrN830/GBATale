@@ -69,7 +69,11 @@ public:
 
     void saveRegular();
 
-private:
+private: // not SRAM saved fields
+    bool _isInBattle = false;
+    bool _isSeriousBattle = false;
+
+private: // SRAM saved fields
     bn::string<CHAR_NAME_MAX_LEN> _charName;
     int _lv;
     int _exp;
@@ -93,7 +97,11 @@ private:
     uint32_t _rSavedCount;
     uint32_t _pSavedCount = 0;
 
-public:
+public: // not SRAM saved fields
+    bool isInBattle() const;
+    bool isSeriousBattle() const;
+
+public: // SRAM saved fields
     auto getCharName() const -> const bn::string_view;
     int getLv() const;
     int getExp() const;
@@ -124,6 +132,10 @@ public:
 
 public:
     void setCharName(const bn::string_view);
+    void changeHp(int diff);
+
+    void setWeapon(ItemKind);
+    void setArmor(ItemKind);
 
     void setHasPhone(bool hasPhone);
 

@@ -375,7 +375,7 @@ static constexpr ItemInfo ITEMS[(int)ItemKind::TOTAL_COUNT] = {
     },
     {
         ItemKind::DOG_SALAD,
-        ItemType::SPECIAL,
+        ItemType::FOOD,
         0,
         0,
         0,
@@ -471,7 +471,7 @@ static constexpr ItemInfo ITEMS[(int)ItemKind::TOTAL_COUNT] = {
     },
     {
         ItemKind::INSTANT_NOODLES,
-        ItemType::SPECIAL,
+        ItemType::FOOD,
         0,
         0,
         0,
@@ -687,7 +687,7 @@ static constexpr ItemInfo ITEMS[(int)ItemKind::TOTAL_COUNT] = {
     },
     {
         ItemKind::BAD_MEMORY,
-        ItemType::SPECIAL,
+        ItemType::FOOD,
         -1,
         0,
         0,
@@ -795,7 +795,7 @@ static constexpr ItemInfo ITEMS[(int)ItemKind::TOTAL_COUNT] = {
     },
     {
         ItemKind::SNAIL_PIE,
-        ItemType::SPECIAL,
+        ItemType::FOOD,
         0,
         0,
         0,

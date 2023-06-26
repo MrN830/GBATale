@@ -8,6 +8,7 @@
 #include "asset/SfxKind.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
+#include "game/ItemActivator.hpp"
 #include "game/ItemInfo.hpp"
 #include "game/menu/MenuStateType.hpp"
 #include "scene/IngameMenu.hpp"
@@ -119,18 +120,29 @@ auto ItemMenu::handleUsageSelect() -> MenuStateType
     }
     else if (bn::keypad::a_pressed())
     {
+        auto& gameState = _scene.getContext().gameState;
+
         if (_usageIdx == Usage::USE)
         {
-            // TODO: Implement item use
+            const auto dialogs = ItemActivator::use(_itemIdx, gameState, _scene.getContext().rng);
+            BN_ASSERT(dialogs.size() <= _scene._dialogs.max_size(), "Too many dialogs=", dialogs.size(), " (max ",
+                      _scene._dialogs.max_size(), ")");
+
+            _scene._dialogs = dialogs;
+            _scene.redrawTexts();
         }
         else if (_usageIdx == Usage::INFO)
         {
-            // TODO: Implement item info
+            const auto dialogs = ItemActivator::info(_itemIdx, gameState);
+            for (const auto& dialog : dialogs)
+                _scene._dialogs.push_back(dialog);
         }
         else if (_usageIdx == Usage::DROP)
         {
-            // TODO: Implement item drop
+            _scene._dialogs.push_back(ItemActivator::drop(_itemIdx, gameState));
         }
+
+        return MenuStateType::DIALOG;
     }
     else if (bn::keypad::left_pressed() && _usageIdx > Usage::USE)
     {

@@ -143,6 +143,16 @@ void GameState::saveRegular()
         bn::sram::write_offset(rSave, SRAM_REGU_SAVE_2);
 }
 
+bool GameState::isInBattle() const
+{
+    return _isInBattle;
+}
+
+bool GameState::isSeriousBattle() const
+{
+    return _isSeriousBattle;
+}
+
 auto GameState::getCharName() const -> const bn::string_view
 {
     return _charName;
@@ -262,6 +272,21 @@ void GameState::setCharName(const bn::string_view charName)
 {
     BN_ASSERT(charName.size() <= _charName.max_size());
     _charName = charName;
+}
+
+void GameState::changeHp(int diff)
+{
+    _curHp = bn::clamp(_curHp + diff, 0, _maxHp);
+}
+
+void GameState::setWeapon(ItemKind weapon)
+{
+    _weapon = weapon;
+}
+
+void GameState::setArmor(ItemKind armor)
+{
+    _armor = armor;
 }
 
 void GameState::setHasPhone(bool hasPhone)

@@ -84,8 +84,8 @@ StatMenu::StatMenu(scene::IngameMenu& scene) : MenuState(scene)
     textGen.generate(DF_POS, bn::format<27>("DF {} ({})", state.getBaseDef() - 10, (int)weapon.def + armor.def), _text);
     textGen.generate(EXP_POS, bn::format<16>("EXP: {}", state.getExp()), _text);
     textGen.generate(NEXT_POS, bn::format<17>("NEXT: {}", StatInfo::getNextLvUpExp(state.getExp())), _text);
-    textGen.generate(WEAPON_POS, bn::format<19>("WEAPON: {}", weapon.getName()), _text);
-    textGen.generate(ARMOR_POS, bn::format<18>("ARMOR: {}", armor.getName()), _text);
+    textGen.generate(WEAPON_POS, bn::format<28>("WEAPON: {}", weapon.getName()), _text);
+    textGen.generate(ARMOR_POS, bn::format<27>("ARMOR: {}", armor.getName()), _text);
     textGen.generate(GOLD_POS, bn::format<17>("GOLD: {}", state.getGold()), _text);
     if (state.getKills() > 20)
         textGen.generate(KILLS_POS, bn::format<18>("KILLS: {}", state.getKills()), _text);

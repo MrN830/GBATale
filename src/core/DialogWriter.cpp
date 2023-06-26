@@ -18,7 +18,7 @@ namespace
 constexpr int MAX_SPRITE_WIDTH = 32;
 } // namespace
 
-DialogWriter::DialogWriter(TextGens& textGens) : _textGens(textGens)
+DialogWriter::DialogWriter(TextGens& textGens, int bgPriority) : _textGens(textGens), _bgPriority(bgPriority)
 {
     reset();
 }
@@ -38,6 +38,8 @@ void DialogWriter::reset()
     _curLineY = -bn::display::height();
     _forceNewSprite = false;
     _isInstantWrite = false;
+    _isWaitInput = false;
+    _isCloseRequested = false;
 }
 
 void DialogWriter::start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_ptr>& outputVec)
@@ -56,6 +58,11 @@ bool DialogWriter::isStarted() const
     return 0 <= _dialogIdx && _dialogIdx < _dialogs.size();
 }
 
+bool DialogWriter::isWaitInput() const
+{
+    return _isWaitInput;
+}
+
 void DialogWriter::instantWrite()
 {
     if (!isStarted())
@@ -65,14 +72,27 @@ void DialogWriter::instantWrite()
 
     // TODO: Optimize this super naive implementation
     _isInstantWrite = true;
-    while (isStarted() && _nextCharIdx < dialog.text.size())
+    while (isStarted() && !isWaitInput() && _nextCharIdx < dialog.text.size())
         update();
     _isInstantWrite = false;
 }
 
+void DialogWriter::keyInput()
+{
+    if (!isWaitInput())
+        return;
+
+    _isWaitInput = false;
+
+    if (_isCloseRequested)
+        reset();
+    else
+        nextDialog();
+}
+
 void DialogWriter::update()
 {
-    if (!isStarted())
+    if (!isStarted() || isWaitInput())
         return;
 
     if (_pauseCountdown > 0)
@@ -99,7 +119,7 @@ void DialogWriter::update()
                 handleSpecialToken(*specialToken);
                 _forceNewSprite = true;
 
-                if (!isStarted())
+                if (!isStarted() || isWaitInput())
                     return;
 
                 continue;
@@ -146,6 +166,8 @@ void DialogWriter::update()
                     _forceNewSprite = false;
                     _curSpriteStartCharIdx = _nextCharIdx;
                     _sprLineWidth = _curLineWidth;
+                    for (int i = prevSize; i < _outputVec->size(); ++i)
+                        (*_outputVec)[i].set_bg_priority(_bgPriority);
                 }
             };
 
@@ -162,6 +184,7 @@ void DialogWriter::update()
                 {
                     _outputVec->pop_back();
                     textGen.generate(sprPos, spriteStr, *_outputVec);
+                    _outputVec->back().set_bg_priority(_bgPriority);
                 }
                 else
                 {
@@ -170,7 +193,8 @@ void DialogWriter::update()
             }
 
             _curLineWidth += chWidth;
-            ++_nextCharIdx;
+            if (++_nextCharIdx >= dialog.text.size())
+                _isWaitInput = true;
         }
 
         break;
@@ -328,10 +352,17 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
         break;
     }
 
+    case SpecialToken::Kind::STOP_WAIT_INPUT:
+        _isWaitInput = true;
+        break;
+
+    case SpecialToken::Kind::STOP_WAIT_INPUT_CLOSE:
+        _isWaitInput = true;
+        _isCloseRequested = true;
+        break;
+
     case SpecialToken::Kind::NEXT_MSG: {
-        _dialogIdx += 1;
-        resetStringProcessInfos();
-        _outputVec->clear();
+        nextDialog();
         break;
     }
 
@@ -343,6 +374,13 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
     default:
         BN_ERROR("Not implemented SpecialToken::Kind = ", (int)specialToken.kind);
     }
+}
+
+void DialogWriter::nextDialog()
+{
+    _dialogIdx += 1;
+    resetStringProcessInfos();
+    _outputVec->clear();
 }
 
 } // namespace ut::core

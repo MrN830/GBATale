@@ -8,6 +8,11 @@ class sound_item;
 namespace ut::asset
 {
 
+enum class SfxKind;
+
+auto getSfx(SfxKind) -> const bn::sound_item*;
+void playSfxWithDelay(SfxKind, int delay);
+
 enum class SfxKind
 {
     NONE = -1,
@@ -26,6 +31,14 @@ enum class SfxKind
     SWITCH_TRIGGER,
     PHONE,
     SAVE,
+
+    SPEED_UP,
+    SPOOKY,
+    SPARKLE1,
+    DOG_RESIDUE,
+    DOG_SALAD,
+    CAT_SALAD,
+    HERO,
 
     MENU_CURSOR,
     MENU_ACTIVATE,
@@ -46,7 +59,5 @@ enum class SfxKind
 
     TOTAL_COUNT
 };
-
-auto getSfx(SfxKind) -> const bn::sound_item*;
 
 } // namespace ut::asset
