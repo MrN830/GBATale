@@ -12,7 +12,7 @@ namespace ut::scene
 class Title final : public Scene
 {
 public:
-    Title(SceneStack&, Context&);
+    Title(SceneStack&, SceneContext&);
 
     bool handleInput() override;
     bool update() override;

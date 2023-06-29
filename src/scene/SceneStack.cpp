@@ -6,7 +6,7 @@
 namespace ut::scene
 {
 
-SceneStack::SceneStack(Scene::Context& context) : _context(context)
+SceneStack::SceneStack(SceneContext& context) : _context(context)
 {
 }
 

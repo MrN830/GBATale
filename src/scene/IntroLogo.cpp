@@ -23,7 +23,7 @@ constexpr int RESTART_INTRO_STORY_FRAMES = 20 * FPS;
 
 } // namespace
 
-IntroLogo::IntroLogo(SceneStack& sceneStack, Context& context)
+IntroLogo::IntroLogo(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_title.create_bg(0, 0))
 {
     asset::getSfx(asset::SfxKind::INTRO_IMPACT)->play(2.0 / 3);

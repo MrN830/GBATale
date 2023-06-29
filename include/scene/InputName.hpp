@@ -13,7 +13,7 @@ namespace ut::scene
 class InputName final : public Scene
 {
 public:
-    InputName(SceneStack&, Context&);
+    InputName(SceneStack&, SceneContext&);
 
     bool handleInput() override;
     bool update() override;

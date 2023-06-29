@@ -14,7 +14,7 @@ namespace ut::scene
 
 static constexpr bn::fixed_point INIT_CAM_POS = {bn::display::width() / 2, bn::display::height() / 2};
 
-Game::Game(SceneStack& sceneStack, Context& context)
+Game::Game(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _camera(bn::camera_ptr::create(INIT_CAM_POS)), _worldBg(_camera)
 {
     context.menuCursorIdx = 0;

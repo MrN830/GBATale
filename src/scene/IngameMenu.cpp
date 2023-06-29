@@ -39,7 +39,7 @@ constexpr bn::fixed_point MENU_TEXT_POSS[3] = {
 
 } // namespace
 
-IngameMenu::IngameMenu(SceneStack& sceneStack, Context& context)
+IngameMenu::IngameMenu(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _menuItemCount(context.gameState.getHasPhone() ? 3 : 2), _isDialogUpper(/* TODO */),
       _bg((isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_main2 : bn::regular_bg_items::bg_ingame_menu_main1)
               .create_bg(0, 0)),

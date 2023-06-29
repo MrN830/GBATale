@@ -27,7 +27,7 @@ public:
     SceneStack& operator=(const SceneStack&) = delete;
 
 public:
-    SceneStack(Scene::Context&);
+    SceneStack(SceneContext&);
 
     template <typename TScene>
         requires std::is_base_of_v<Scene, TScene>
@@ -67,7 +67,7 @@ private:
     bn::vector<Scene::UPtr, STACK_MAX_SIZE> _stack;
     bn::vector<PendingChange, PENDING_CHANGE_MAX_SIZE> _pendingChanges;
 
-    Scene::Context& _context;
+    SceneContext& _context;
     bn::array<std::function<Scene::UPtr()>, (int)SceneId::TOTAL_COUNT> _sceneFactories;
 };
 

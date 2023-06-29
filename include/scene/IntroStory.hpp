@@ -18,7 +18,7 @@ namespace ut::scene
 class IntroStory final : public Scene
 {
 public:
-    IntroStory(SceneStack&, Context&);
+    IntroStory(SceneStack&, SceneContext&);
     ~IntroStory();
 
     bool handleInput() override;

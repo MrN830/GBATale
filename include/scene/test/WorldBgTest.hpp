@@ -20,7 +20,7 @@ namespace ut::scene::test
 class WorldBgTest : public Scene
 {
 public:
-    WorldBgTest(SceneStack&, Context&);
+    WorldBgTest(SceneStack&, SceneContext&);
 
     bool handleInput() override;
     bool update() override;

@@ -67,7 +67,7 @@ constexpr char getCh(int btnIdx)
 
 } // namespace
 
-InputName::InputName(SceneStack& sceneStack, Context& context)
+InputName::InputName(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _inputText(context.gameState.getCharName().substr(0, 6))
 {
     // If `Frisk` save exists, clear the input text

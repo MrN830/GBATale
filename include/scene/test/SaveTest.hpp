@@ -8,7 +8,7 @@ namespace ut::scene::test
 class SaveTest : public Scene
 {
 public:
-    SaveTest(SceneStack&, Context&);
+    SaveTest(SceneStack&, SceneContext&);
 
     bool handleInput() override;
     bool update() override;

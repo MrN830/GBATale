@@ -13,7 +13,7 @@ namespace ut::scene
 class ConfirmName final : public Scene
 {
 public:
-    ConfirmName(SceneStack&, Context&);
+    ConfirmName(SceneStack&, SceneContext&);
     ~ConfirmName();
 
     bool handleInput() override;

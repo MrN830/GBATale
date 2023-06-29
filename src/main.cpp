@@ -47,7 +47,7 @@ int main()
     debug::MemView memView(textGens);
 #endif
 
-    scene::Scene::Context sceneContext(textGens, rng, gameState);
+    scene::SceneContext sceneContext(textGens, rng, gameState);
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 

@@ -12,7 +12,7 @@ namespace ut::scene
 class Game : public Scene
 {
 public:
-    Game(SceneStack&, Context&);
+    Game(SceneStack&, SceneContext&);
 
     bool handleInput() override;
     bool update() override;
