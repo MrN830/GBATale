@@ -9,7 +9,8 @@ class Random;
 namespace ut::game
 {
 class GameState;
-}
+struct GameContext;
+} // namespace ut::game
 
 namespace ut::scene
 {
@@ -20,6 +21,8 @@ struct SceneContext
     core::Random& rng;
     game::GameState& gameState;
     int menuCursorIdx = 0; // which menu item is chosen on `scene::Title` or `game::menu::MainMenu`?
+
+    game::GameContext* gameContext = nullptr;
 };
 
 } // namespace ut::scene
