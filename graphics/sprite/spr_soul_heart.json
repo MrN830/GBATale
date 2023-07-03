@@ -1,5 +1,5 @@
 {
-	"type": "sprite",
-	"height": 8,
-	"compression": "auto"
+    "type": "sprite",
+    "height": 8,
+    "compression": "none"
 }
