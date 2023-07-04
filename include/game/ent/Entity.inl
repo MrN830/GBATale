@@ -15,7 +15,7 @@ auto Entity::getComponent() -> TComponent*
 {
     for (auto& component : _components)
         if (component.getType() == bn::type_id<TComponent>())
-            return &component;
+            return static_cast<TComponent*>(&component);
 
     return nullptr;
 }
@@ -26,7 +26,7 @@ auto Entity::getComponent() const -> const TComponent*
 {
     for (const auto& component : _components)
         if (component.getType() == bn::type_id<TComponent>())
-            return &component;
+            return static_cast<const TComponent*>(&component);
 
     return nullptr;
 }

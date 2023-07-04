@@ -35,6 +35,7 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     _worldBg.allocateGraphics();
 
     _entities.reloadRoom(_gameContext);
+    _entities.createFrisk({120, 60}, _gameContext); // test
 }
 
 Game::~Game()

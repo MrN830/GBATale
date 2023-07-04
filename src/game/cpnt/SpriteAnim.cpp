@@ -1,0 +1,172 @@
+#include "game/cpnt/SpriteAnim.hpp"
+
+#include <bn_sprite_item.h>
+
+#include "asset/SpriteAnimInfo.hpp"
+#include "asset/SpriteAnimKind.hpp"
+#include "core/Directions.hpp"
+#include "game/cmd/InputCmd.hpp"
+#include "game/cpnt/Sprite.hpp"
+#include "game/ent/Entity.hpp"
+
+namespace ut::game::cpnt
+{
+
+SpriteAnim::SpriteAnim(ent::Entity& entity, cpnt::Sprite& sprCpnt)
+    : Component(entity), _sprCpnt(sprCpnt), _up(asset::SpriteAnimKind::NONE), _down(asset::SpriteAnimKind::NONE),
+      _left(asset::SpriteAnimKind::NONE), _right(asset::SpriteAnimKind::NONE), _curAnimKind(asset::SpriteAnimKind::NONE)
+{
+}
+
+auto SpriteAnim::getType() const -> bn::type_id_t
+{
+    return bn::type_id<SpriteAnim>();
+}
+
+void SpriteAnim::render(GameContext&)
+{
+    if (!_isManualRender)
+        renderOnce();
+}
+
+void SpriteAnim::renderOnce()
+{
+    if (_action.has_value() && !_action->done())
+    {
+        _action->update();
+
+        if (_action->current_index() == 1 && _curRenderCount > _action->wait_updates() + 1)
+            _curRenderCount = 1;
+        else
+            ++_curRenderCount;
+    }
+}
+
+bool SpriteAnim::isManualRender() const
+{
+    return _isManualRender;
+}
+
+void SpriteAnim::receiveInputCmd(const cmd::InputCmd& cmd)
+{
+    using AnimKind = asset::SpriteAnimKind;
+    using IAnimInfo = asset::ISpriteAnimInfo;
+    using Dirs = core::Directions;
+
+    const bool prevAnimExist = (_curAnimKind != AnimKind::NONE);
+
+    const auto nextMoveDirection = core::pos2Dirs(cmd.movePos);
+    const auto prevAnimDirection = (prevAnimExist ? IAnimInfo::get(_curAnimKind).directions : Dirs::NONE);
+
+    // no need to change animation,
+    // if next move direction contains current animation's move direction
+    if (!!(nextMoveDirection & prevAnimDirection))
+        return;
+
+    BN_ASSERT(hasDirectionAnims(), "no up/down/left/right anim registered");
+
+    if (!!(nextMoveDirection & Dirs::UP))
+        setCurAnimKind(_up, prevAnimExist);
+    else if (!!(nextMoveDirection & Dirs::DOWN))
+        setCurAnimKind(_down, prevAnimExist);
+    else if (!!(nextMoveDirection & Dirs::LEFT))
+        setCurAnimKind(_left, prevAnimExist);
+    else if (!!(nextMoveDirection & Dirs::RIGHT))
+        setCurAnimKind(_right, prevAnimExist);
+    // stopped moving
+    else if (prevAnimExist)
+    {
+        // change sprite to stand still tile
+        const auto& info = IAnimInfo::get(_curAnimKind);
+        const int standGfxIdx = info.getGfxIdxes()[1];
+        _sprCpnt.getSprPtr().set_tiles(info.sprItem.tiles_item(), standGfxIdx);
+
+        // stop anim
+        setCurAnimKind(AnimKind::NONE, false);
+    }
+}
+
+bool SpriteAnim::hasDirectionAnims() const
+{
+    return _up != asset::SpriteAnimKind::NONE;
+}
+
+void SpriteAnim::registerDirectionAnimKinds(asset::SpriteAnimKind up, asset::SpriteAnimKind down,
+                                            asset::SpriteAnimKind left, asset::SpriteAnimKind right)
+{
+    _up = up;
+    _down = down;
+    _left = left;
+    _right = right;
+}
+
+auto SpriteAnim::getCurAnimKind() const -> asset::SpriteAnimKind
+{
+    return _curAnimKind;
+}
+
+/**
+ * @brief Set animation kind, and restart the animation if necessary.
+ */
+void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind)
+{
+    setCurAnimKind(kind, false);
+}
+
+/**
+ * @brief Set animation kind, and restart the animation if necessary.
+ *
+ * @param preserveRenderCount If a character turns while mid-walking,
+ * it would look unnatural if you just restart the walking animation from beginning.
+ * So, previous render count must be used to pre-render some cycles.
+ */
+void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind, bool preserveRenderCount)
+{
+    if (kind == _curAnimKind)
+        return;
+
+    _curAnimKind = kind;
+
+    if (kind == asset::SpriteAnimKind::NONE)
+    {
+        _isManualRender = false;
+        _action.reset();
+        _curRenderCount = 0;
+        return;
+    }
+
+    const auto& info = asset::ISpriteAnimInfo::get(kind);
+    auto& spr = _sprCpnt.getSprPtr();
+
+    if (preserveRenderCount)
+    {
+        BN_ASSERT(_action.has_value(), "no prev anim to preserve render count");
+        BN_ASSERT(_action->update_forever(), "can't preserve render count for prev anim `ONCE`");
+        BN_ASSERT(info.forever, "can't preserve render count for next anim `ONCE`");
+        BN_ASSERT(_action->wait_updates() == info.waitUpdate,
+                  "incompatible wait updates between prev=", _action->wait_updates(), ", next=", info.waitUpdate);
+    }
+
+    _isManualRender = info.manualRender;
+
+    _sprCpnt.setDiff(info.diff);
+    spr.set_item(info.sprItem);
+    spr.set_horizontal_flip(info.hFlip);
+    spr.set_vertical_flip(info.vFlip);
+
+    using SprAnimAction = decltype(_action)::value_type;
+
+    // resolve a func ptr by name to an *overloaded* function, kinda ugly
+    using CreateAnimFunc =
+        SprAnimAction (*)(const bn::sprite_ptr&, int, const bn::sprite_tiles_item&, const bn::span<const uint16_t>&);
+    auto* createAnim = (info.forever ? static_cast<CreateAnimFunc>(SprAnimAction::forever)
+                                     : static_cast<CreateAnimFunc>(SprAnimAction::once));
+
+    _action = createAnim(spr, info.waitUpdate, info.sprItem.tiles_item(), info.getGfxIdxes());
+
+    if (preserveRenderCount)
+        for (int i = 0; i < _curRenderCount; ++i)
+            _action->update();
+}
+
+} // namespace ut::game::cpnt

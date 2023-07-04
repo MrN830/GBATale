@@ -4,16 +4,29 @@
 
 #include "game/ent/Entity.hpp"
 
+#include "config.hpp"
+
 namespace ut::game
 {
 struct GameContext;
 }
+
+#if UT_MEM_VIEW
+namespace ut::debug
+{
+class MemView;
+}
+#endif
 
 namespace ut::game::mngr
 {
 
 class EntityManager final
 {
+#if UT_MEM_VIEW
+    friend class ut::debug::MemView;
+#endif
+
 public:
     EntityManager();
     ~EntityManager();
@@ -23,6 +36,9 @@ public:
 
 public:
     void reloadRoom(const GameContext&);
+
+public:
+    void createFrisk(const bn::fixed_point position, const GameContext&);
 
 private:
     void removeDestroyed(bool forceRemoveAll);

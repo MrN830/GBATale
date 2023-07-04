@@ -1,21 +1,37 @@
 #include "game/mngr/EntityManager.hpp"
 
+#include "asset/SpriteAnimKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/PlayerInput.hpp"
+#include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/SpriteAnim.hpp"
 #include "game/ent/Entity.hpp"
+
+#if UT_MEM_VIEW
+#include "debug/MemView.hpp"
+#endif
+
+#include "bn_sprite_items_ch_frisk_base.h"
 
 namespace ut::game::mngr
 {
 
-EntityManager::EntityManager()
+EntityManager::EntityManager() : _cpntHeap(_cpntBuffer, sizeof(_cpntBuffer))
 {
-    _cpntHeap.reset(_cpntBuffer, sizeof(_cpntBuffer));
+#if UT_MEM_VIEW
+    debug::MemView::instance().setEntMngr(this);
+#endif
 }
 
 EntityManager::~EntityManager()
 {
     removeDestroyed(true);
+
+#if UT_MEM_VIEW
+    debug::MemView::instance().setEntMngr(nullptr);
+#endif
 }
 
 void EntityManager::handleInput(GameContext& context)
@@ -48,6 +64,27 @@ void EntityManager::reloadRoom(const GameContext& context)
     BN_ASSERT(mTilemap != nullptr, "Invalid room=", (int)room);
 
     // TODO: Load entities from new room
+}
+
+void EntityManager::createFrisk(const bn::fixed_point position, const GameContext& context)
+{
+    ent::Entity& frisk = _entPool.create();
+    _entities.push_front(frisk);
+
+    frisk.setPosition(position);
+
+    cpnt::Sprite& spr =
+        _cpntHeap.create<cpnt::Sprite>(frisk, bn::sprite_items::ch_frisk_base, 1, &context.camera, true);
+    frisk.addComponent(spr);
+
+    using AnimKind = asset::SpriteAnimKind;
+    cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(frisk, spr);
+    frisk.addComponent(sprAnim);
+    sprAnim.registerDirectionAnimKinds(AnimKind::FRISK_WALK_UP, AnimKind::FRISK_WALK_DOWN, AnimKind::FRISK_WALK_LEFT,
+                                       AnimKind::FRISK_WALK_RIGHT);
+
+    cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk);
+    frisk.addComponent(input);
 }
 
 void EntityManager::removeDestroyed(bool forceRemoveAll)
