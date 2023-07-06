@@ -1,11 +1,11 @@
 #pragma once
 
-#include "game/cpnt/IInput.hpp"
+#include "game/cpnt/Input.hpp"
 
 namespace ut::game::cpnt
 {
 
-class PlayerInput : public IInput
+class PlayerInput final : public Input
 {
 public:
     PlayerInput(ent::Entity&);

@@ -5,7 +5,7 @@
 #include <bn_camera_ptr.h>
 #include <bn_sprite_text_generator.h>
 
-#include "game/WorldBg.hpp"
+#include "game/sys/WorldBg.hpp"
 
 #include "common_info.h"
 
@@ -31,7 +31,7 @@ private:
 private:
     bn::camera_ptr _camera;
 
-    game::WorldBg _worldBg;
+    game::sys::WorldBg _worldBg;
     game::RoomKind _curRoom;
 
     bool _fastMove = false;

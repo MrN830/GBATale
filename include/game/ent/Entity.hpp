@@ -11,7 +11,7 @@ namespace ut::game
 {
 struct GameContext;
 }
-namespace ut::game::mngr
+namespace ut::game::sys
 {
 class EntityManager;
 }
@@ -22,7 +22,7 @@ namespace ut::game::ent
 class Entity final : public bn::intrusive_forward_list_node_type
 {
     // `EntityManager` deletes components from the cpnt heap on entity delete
-    friend class mngr::EntityManager;
+    friend class sys::EntityManager;
 
 public:
     void handleInput(GameContext& context);

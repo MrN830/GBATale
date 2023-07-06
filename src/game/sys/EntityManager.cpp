@@ -1,4 +1,7 @@
-#include "game/mngr/EntityManager.hpp"
+#include "game/sys/EntityManager.hpp"
+
+#include <bn_camera_ptr.h>
+#include <bn_display.h>
 
 #include "asset/SpriteAnimKind.hpp"
 #include "game/GameContext.hpp"
@@ -8,6 +11,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/ent/Entity.hpp"
+#include "game/sys/CameraManager.hpp"
 
 #if UT_MEM_VIEW
 #include "debug/MemView.hpp"
@@ -15,10 +19,10 @@
 
 #include "bn_sprite_items_ch_frisk_base.h"
 
-namespace ut::game::mngr
+namespace ut::game::sys
 {
 
-EntityManager::EntityManager() : _cpntHeap(_cpntBuffer, sizeof(_cpntBuffer))
+EntityManager::EntityManager(GameContext& context) : _context(context), _cpntHeap(_cpntBuffer, sizeof(_cpntBuffer))
 {
 #if UT_MEM_VIEW
     debug::MemView::instance().setEntMngr(this);
@@ -34,31 +38,31 @@ EntityManager::~EntityManager()
 #endif
 }
 
-void EntityManager::handleInput(GameContext& context)
+void EntityManager::handleInput()
 {
     for (auto& entity : _entities)
         if (entity.isActive())
-            entity.handleInput(context);
+            entity.handleInput(_context);
 }
 
-void EntityManager::update(GameContext& context)
+void EntityManager::update()
 {
     for (auto& entity : _entities)
         if (entity.isActive())
-            entity.update(context);
+            entity.update(_context);
 
     for (auto& entity : _entities)
         if (entity.isActive())
-            entity.render(context);
+            entity.render(_context);
 
     removeDestroyed(false);
 }
 
-void EntityManager::reloadRoom(const GameContext& context)
+void EntityManager::reloadRoom()
 {
     removeDestroyed(true);
 
-    const auto room = context.state.getRoom();
+    const auto room = _context.state.getRoom();
     const auto mTilemap = game::getRoomMTilemap(room);
 
     BN_ASSERT(mTilemap != nullptr, "Invalid room=", (int)room);
@@ -66,15 +70,16 @@ void EntityManager::reloadRoom(const GameContext& context)
     // TODO: Load entities from new room
 }
 
-void EntityManager::createFrisk(const bn::fixed_point position, const GameContext& context)
+void EntityManager::createFrisk(const bn::fixed_point position)
 {
     ent::Entity& frisk = _entPool.create();
     _entities.push_front(frisk);
 
     frisk.setPosition(position);
+    _context.camMngr.setCamFollowEntity(&frisk);
 
     cpnt::Sprite& spr =
-        _cpntHeap.create<cpnt::Sprite>(frisk, bn::sprite_items::ch_frisk_base, 1, &context.camera, true);
+        _cpntHeap.create<cpnt::Sprite>(frisk, bn::sprite_items::ch_frisk_base, 1, &_context.camMngr.getCamera(), true);
     frisk.addComponent(spr);
 
     using AnimKind = asset::SpriteAnimKind;
@@ -102,6 +107,11 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
             continue;
         }
 
+        // Detach camera if it was following `entity`
+        auto& camMngr = _context.camMngr;
+        if (&entity == camMngr.getCamFollowEntity())
+            camMngr.setCamFollowEntity(nullptr);
+
         // Destroy all components within `entity`
         for (auto cBeforeIt = components.before_begin(), cIt = components.begin(); cIt != components.end();)
         {
@@ -126,4 +136,4 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
     }
 }
 
-} // namespace ut::game::mngr
+} // namespace ut::game::sys

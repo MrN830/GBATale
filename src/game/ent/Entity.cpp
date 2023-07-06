@@ -3,7 +3,7 @@
 #include <bn_camera_ptr.h>
 
 #include "game/GameContext.hpp"
-#include "game/mngr/EntityManager.hpp"
+#include "game/sys/EntityManager.hpp"
 
 namespace ut::game::ent
 {

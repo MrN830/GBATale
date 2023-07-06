@@ -10,7 +10,7 @@
 #include <bn_sprites.h>
 
 #include "core/TextGens.hpp"
-#include "game/mngr/EntityManager.hpp"
+#include "game/sys/EntityManager.hpp"
 
 namespace ut::debug
 {
@@ -58,7 +58,7 @@ void MemView::update()
     }
 }
 
-void MemView::setEntMngr(game::mngr::EntityManager* entMngr)
+void MemView::setEntMngr(game::sys::EntityManager* entMngr)
 {
     _entMngr = entMngr;
 }

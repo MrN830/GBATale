@@ -8,10 +8,11 @@ namespace ut::scene
 {
 struct SceneContext;
 }
-namespace ut::game::mngr
+namespace ut::game::sys
 {
 class EntityManager;
-}
+class CameraManager;
+} // namespace ut::game::sys
 
 namespace ut::game
 {
@@ -22,8 +23,11 @@ struct GameContext
 {
     scene::SceneContext& sceneContext;
     GameState& state;
-    bn::camera_ptr& camera;
-    game::mngr::EntityManager& entities;
+    game::sys::CameraManager& camMngr;
+    game::sys::EntityManager& entMngr;
+
+    bool isDialogUpper = false;
+    bool isShowingUI = false;
 };
 
 } // namespace ut::game

@@ -2,11 +2,10 @@
 
 #include "scene/Scene.hpp"
 
-#include <bn_camera_ptr.h>
-
 #include "game/GameContext.hpp"
-#include "game/WorldBg.hpp"
-#include "game/mngr/EntityManager.hpp"
+#include "game/sys/CameraManager.hpp"
+#include "game/sys/EntityManager.hpp"
+#include "game/sys/WorldBg.hpp"
 
 namespace ut::scene
 {
@@ -21,9 +20,9 @@ public:
     bool update() override;
 
 private:
-    bn::camera_ptr _camera;
-    game::WorldBg _worldBg;
-    game::mngr::EntityManager _entities;
+    game::sys::CameraManager _camMngr;
+    game::sys::WorldBg _worldBg;
+    game::sys::EntityManager _entMngr;
 
     game::GameContext _gameContext;
 };

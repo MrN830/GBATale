@@ -10,10 +10,10 @@ struct InputCmd;
 namespace ut::game::cpnt
 {
 
-class IInput : public Component
+class Input : public Component
 {
 public:
-    IInput(ent::Entity&);
+    Input(ent::Entity&);
 
 protected:
     /// @brief Sends `InputCmd` to the `cpnt::SpriteAnim`, and translates entity position

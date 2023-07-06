@@ -11,7 +11,7 @@ namespace ut::core
 {
 class TextGens;
 }
-namespace ut::game::mngr
+namespace ut::game::sys
 {
 class EntityManager;
 }
@@ -40,7 +40,7 @@ private:
     void update();
 
 public:
-    void setEntMngr(game::mngr::EntityManager*);
+    void setEntMngr(game::sys::EntityManager*);
 
 private:
     void setVisible(bool);
@@ -52,7 +52,7 @@ private:
 
 private:
     bn::sprite_text_generator& _textGen;
-    game::mngr::EntityManager* _entMngr = nullptr;
+    game::sys::EntityManager* _entMngr = nullptr;
 
     bn::vector<bn::sprite_ptr, 24> _texts;
     int _updateCountdown = 0;

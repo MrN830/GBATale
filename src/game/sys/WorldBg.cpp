@@ -1,4 +1,4 @@
-#include "game/WorldBg.hpp"
+#include "game/sys/WorldBg.hpp"
 
 #include <bn_assert.h>
 #include <bn_camera_ptr.h>
@@ -8,7 +8,7 @@
 #include "mtile/MTilemap.hpp"
 #include "util/Math.hpp"
 
-namespace ut::game
+namespace ut::game::sys
 {
 
 namespace
@@ -193,4 +193,4 @@ void WorldBg::setGBACell(const bn::point& gbaCellPos, const mtile::MTile& mTile,
     cell = cellInfo.cell();
 }
 
-} // namespace ut::game
+} // namespace ut::game::sys

@@ -32,6 +32,9 @@ public:
     auto getSprPtr() -> bn::sprite_ptr&;
 
 private:
+    void updateZOrder();
+
+private:
     const bool _autoAlterZOrder;
 
     bn::sprite_ptr _spr;

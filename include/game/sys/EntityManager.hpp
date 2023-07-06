@@ -18,7 +18,7 @@ class MemView;
 }
 #endif
 
-namespace ut::game::mngr
+namespace ut::game::sys
 {
 
 class EntityManager final
@@ -28,22 +28,24 @@ class EntityManager final
 #endif
 
 public:
-    EntityManager();
+    EntityManager(GameContext&);
     ~EntityManager();
 
-    void handleInput(GameContext&);
-    void update(GameContext&);
+    void handleInput();
+    void update();
 
 public:
-    void reloadRoom(const GameContext&);
+    void reloadRoom();
 
 public:
-    void createFrisk(const bn::fixed_point position, const GameContext&);
+    void createFrisk(const bn::fixed_point position);
 
 private:
     void removeDestroyed(bool forceRemoveAll);
 
 private:
+    GameContext& _context;
+
     bn::pool<ent::Entity, 32> _entPool;
     bn::intrusive_forward_list<ent::Entity> _entities;
 
@@ -51,4 +53,4 @@ private:
     bn::best_fit_allocator _cpntHeap;
 };
 
-} // namespace ut::game::mngr
+} // namespace ut::game::sys

@@ -12,11 +12,9 @@
 namespace ut::scene
 {
 
-static constexpr bn::fixed_point INIT_CAM_POS = {bn::display::width() / 2, bn::display::height() / 2};
-
 Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
-    : Scene(sceneStack, sceneContext), _camera(bn::camera_ptr::create(INIT_CAM_POS)), _worldBg(_camera),
-      _gameContext{sceneContext, sceneContext.gameState, _camera, _entities}
+    : Scene(sceneStack, sceneContext), _worldBg(_camMngr.getCamera()), _entMngr(_gameContext),
+      _gameContext{sceneContext, sceneContext.gameState, _camMngr, _entMngr}
 {
     sceneContext.menuCursorIdx = 0;
     sceneContext.gameContext = &_gameContext;
@@ -34,8 +32,8 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     _worldBg.setMTilemap(*mTilemap);
     _worldBg.allocateGraphics();
 
-    _entities.reloadRoom(_gameContext);
-    _entities.createFrisk({120, 60}, _gameContext); // test
+    _entMngr.reloadRoom();
+    _entMngr.createFrisk({120, 60}); // test
 }
 
 Game::~Game()
@@ -45,18 +43,22 @@ Game::~Game()
 
 bool Game::handleInput()
 {
+    // TODO: Disable opening menu on cutscenes, events, ...
     if (bn::keypad::start_pressed() || bn::keypad::l_pressed() || bn::keypad::r_pressed())
+    {
+        _gameContext.isShowingUI = true;
         reqStackPush(SceneId::INGAME_MENU);
+    }
 
-    _entities.handleInput(_gameContext);
+    _entMngr.handleInput();
 
     return true;
 }
 
 bool Game::update()
 {
-    _entities.update(_gameContext);
-
+    _entMngr.update();
+    _camMngr.update(_gameContext);
     _worldBg.render();
 
     return true;

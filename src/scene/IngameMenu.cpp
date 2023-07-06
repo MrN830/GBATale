@@ -7,6 +7,7 @@
 #include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
+#include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/menu/MenuStateType.hpp"
 
@@ -40,7 +41,8 @@ constexpr bn::fixed_point MENU_TEXT_POSS[3] = {
 } // namespace
 
 IngameMenu::IngameMenu(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _menuItemCount(context.gameState.getHasPhone() ? 3 : 2), _isDialogUpper(/* TODO */),
+    : Scene(sceneStack, context), _menuItemCount(context.gameState.getHasPhone() ? 3 : 2),
+      _isDialogUpper(context.gameContext ? context.gameContext->isDialogUpper : false),
       _bg((isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_main2 : bn::regular_bg_items::bg_ingame_menu_main1)
               .create_bg(0, 0)),
       _cursor(bn::sprite_items::spr_soul_heart.create_sprite(0, 0))
@@ -55,6 +57,9 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, SceneContext& context)
 
 IngameMenu::~IngameMenu()
 {
+    BN_ASSERT(getContext().gameContext != nullptr);
+    getContext().gameContext->isShowingUI = false;
+
     _menuState->~MenuState();
 }
 

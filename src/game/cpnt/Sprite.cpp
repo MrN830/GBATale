@@ -14,6 +14,9 @@ Sprite::Sprite(ent::Entity& entity, const bn::sprite_item& sprItem, int gfxIdx, 
 {
     if (camera != nullptr)
         _spr.set_camera(*camera);
+
+    if (_autoAlterZOrder)
+        updateZOrder();
 }
 
 auto Sprite::getType() const -> bn::type_id_t
@@ -27,7 +30,7 @@ void Sprite::render(GameContext&)
     _spr.set_position(absPos);
 
     if (_autoAlterZOrder)
-        _spr.set_z_order(-absPos.y().floor_integer());
+        updateZOrder();
 }
 
 void Sprite::onEntityActiveChanged(bool isEntityActive)
@@ -55,6 +58,13 @@ auto Sprite::getSprPtr() const -> const bn::sprite_ptr&
 auto Sprite::getSprPtr() -> bn::sprite_ptr&
 {
     return _spr;
+}
+
+void Sprite::updateZOrder()
+{
+    const auto absPos = _entity.getPosition() + _diff;
+
+    _spr.set_z_order(-absPos.y().floor_integer());
 }
 
 } // namespace ut::game::cpnt
