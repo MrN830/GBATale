@@ -2,6 +2,7 @@
 #include <bn_intrusive_forward_list.h>
 #include <bn_pool.h>
 
+#include "game/coll/Collider.hpp"
 #include "game/ent/Entity.hpp"
 
 #include "config.hpp"
@@ -51,6 +52,8 @@ private:
 
     uint8_t _cpntBuffer[1024];
     bn::best_fit_allocator _cpntHeap;
+
+    bn::pool<coll::Collider, 32> _collPool;
 };
 
 } // namespace ut::game::sys

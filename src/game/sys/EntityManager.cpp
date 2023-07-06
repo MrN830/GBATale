@@ -2,11 +2,13 @@
 
 #include <bn_camera_ptr.h>
 #include <bn_display.h>
+#include <bn_sprite_shape_size.h>
 
 #include "asset/SpriteAnimKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/PlayerInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
@@ -90,6 +92,15 @@ void EntityManager::createFrisk(const bn::fixed_point position)
 
     cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk);
     frisk.addComponent(input);
+
+    cpnt::ColliderPack& collPack = _cpntHeap.create<cpnt::ColliderPack>(frisk, false);
+    frisk.addComponent(collPack);
+    const auto& sprSize = bn::sprite_items::ch_frisk_base.shape_size();
+    const bn::fixed_size collSize = {16, 9};
+    const bn::fixed_point collPos = {0 + collSize.width() / 2 - sprSize.width() / 2,
+                                     23 + collSize.height() / 2 - sprSize.height() / 2};
+    coll::Collider& coll = _collPool.create(coll::RectCollInfo(collPos, collSize));
+    collPack.addCollider(coll);
 }
 
 void EntityManager::removeDestroyed(bool forceRemoveAll)
@@ -111,6 +122,19 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
         auto& camMngr = _context.camMngr;
         if (&entity == camMngr.getCamFollowEntity())
             camMngr.setCamFollowEntity(nullptr);
+
+        // Destroy all colliders within `ColliderPack`
+        auto* collPack = entity.getComponent<cpnt::ColliderPack>();
+        if (collPack != nullptr)
+        {
+            auto& colls = collPack->_colls;
+            for (auto cBeforeIt = colls.before_begin(), cIt = colls.begin(); cIt != colls.end();)
+            {
+                auto& coll = *cIt;
+                cIt = colls.erase_after(cBeforeIt);
+                _collPool.destroy(coll);
+            }
+        }
 
         // Destroy all components within `entity`
         for (auto cBeforeIt = components.before_begin(), cIt = components.begin(); cIt != components.end();)

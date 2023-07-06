@@ -27,8 +27,9 @@ constexpr auto BG_SPR_POS = CPU_POS + LINE_DIFF * 1;
 constexpr auto IWRAM_POS = CPU_POS + LINE_DIFF * 2;
 constexpr auto EWRAM_POS = CPU_POS + LINE_DIFF * 3;
 constexpr auto ENT_POOL_POS = CPU_POS + LINE_DIFF * 5;
-constexpr auto CPNT_HEAP_POS_1 = CPU_POS + LINE_DIFF * 6;
-constexpr auto CPNT_HEAP_POS_2 = CPU_POS + LINE_DIFF * 7;
+constexpr auto COLL_POOL_POS = CPU_POS + LINE_DIFF * 6;
+constexpr auto CPNT_HEAP_POS_1 = CPU_POS + LINE_DIFF * 7;
+constexpr auto CPNT_HEAP_POS_2 = CPU_POS + LINE_DIFF * 8;
 
 } // namespace
 
@@ -99,6 +100,9 @@ void MemView::redrawTexts()
         {
             _textGen.generate(ENT_POOL_POS,
                               bn::format<13>("ENT {}/{}", _entMngr->_entPool.size(), _entMngr->_entPool.max_size()),
+                              _texts);
+            _textGen.generate(COLL_POOL_POS,
+                              bn::format<13>("COLL {}/{}", _entMngr->_collPool.size(), _entMngr->_collPool.max_size()),
                               _texts);
             const int usedCpntHeap = _entMngr->_cpntHeap.used_bytes();
             const int freeCpntHeap = _entMngr->_cpntHeap.available_bytes();
