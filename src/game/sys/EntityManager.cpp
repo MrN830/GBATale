@@ -72,6 +72,11 @@ void EntityManager::reloadRoom()
     // TODO: Load entities from new room
 }
 
+auto EntityManager::getEntities() const -> const decltype(_entities)&
+{
+    return _entities;
+}
+
 void EntityManager::createFrisk(const bn::fixed_point position)
 {
     ent::Entity& frisk = _entPool.create();
@@ -99,7 +104,7 @@ void EntityManager::createFrisk(const bn::fixed_point position)
     const bn::fixed_size collSize = {16, 9};
     const bn::fixed_point collPos = {0 + collSize.width() / 2 - sprSize.width() / 2,
                                      23 + collSize.height() / 2 - sprSize.height() / 2};
-    coll::Collider& coll = _collPool.create(coll::RectCollInfo(collPos, collSize));
+    coll::Collider& coll = _collPool.create(coll::CollInfo(coll::RectCollInfo(collPos, collSize)));
     collPack.addCollider(coll);
 }
 

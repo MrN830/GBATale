@@ -10,6 +10,10 @@ namespace ut::asset
 {
 enum class SpriteAnimKind : int16_t;
 }
+namespace ut::core
+{
+enum class Directions : uint8_t;
+}
 namespace ut::game::cmd
 {
 struct InputCmd;
@@ -59,6 +63,7 @@ private:
     bn::optional<bn::sprite_animate_action<4>> _action;
 
     uint16_t _curRenderCount = 0;
+    core::Directions _lastAnimDir;
 };
 
 } // namespace ut::game::cpnt

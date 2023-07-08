@@ -1,9 +1,12 @@
 #include "game/cpnt/ColliderPack.hpp"
 
-#include "game/ent/Entity.hpp"
-
 namespace ut::game::cpnt
 {
+
+static void printCollInfoTypeError(const coll::CollInfo& coll)
+{
+    BN_ERROR("Invalid CollInfo type=", coll.type.internal_id());
+}
 
 ColliderPack::ColliderPack(ent::Entity& entity, bool isTrigger) : Component(entity), _isTrigger(isTrigger)
 {
@@ -23,16 +26,31 @@ bool ColliderPack::isCollideWith(const ColliderPack& otherPack) const
 {
     for (const auto& otherColl : otherPack._colls)
     {
-        const auto& otherRelInfo = otherColl.getInfo();
+        const auto& otherInfo = otherColl.getInfo();
 
-        if (otherRelInfo.getType() == bn::type_id<coll::RectCollInfo>())
-            return isCollideWithOtherRel(otherPack._entity.getPosition(),
-                                         static_cast<const coll::RectCollInfo&>(otherRelInfo));
-        else if (otherRelInfo.getType() == bn::type_id<coll::CircleCollInfo>())
-            return isCollideWithOtherRel(otherPack._entity.getPosition(),
-                                         static_cast<const coll::CircleCollInfo&>(otherRelInfo));
+        if (otherInfo.type == bn::type_id<coll::RectCollInfo>())
+        {
+            auto otherRect = otherInfo.rect;
+            otherRect.position += otherPack._entity.getPosition();
+            if (isCollideWith<coll::RectCollInfo>(otherRect))
+                return true;
+        }
+        else if (otherInfo.type == bn::type_id<coll::CircleCollInfo>())
+        {
+            auto otherCircle = otherInfo.circle;
+            otherCircle.position += otherPack._entity.getPosition();
+            if (isCollideWith<coll::CircleCollInfo>(otherCircle))
+                return true;
+        }
+        else if (otherInfo.type == bn::type_id<coll::AAIRTriCollInfo>())
+        {
+            auto otherTri = otherInfo.tri;
+            otherTri.position += otherPack._entity.getPosition();
+            if (isCollideWith<coll::AAIRTriCollInfo>(otherTri))
+                return true;
+        }
         else
-            BN_ERROR("Invalid other coll info type=", otherRelInfo.getType().internal_id());
+            printCollInfoTypeError(otherInfo);
     }
 
     return false;
@@ -40,17 +58,12 @@ bool ColliderPack::isCollideWith(const ColliderPack& otherPack) const
 
 bool ColliderPack::isCollideWith(const coll::CollInfo& otherInfo) const
 {
-    for (const auto& coll : _colls)
-    {
-        const auto& relInfo = coll.getInfo();
-
-        if (relInfo.getType() == bn::type_id<coll::RectCollInfo>())
-            isCollideWithThisRel(_entity.getPosition(), static_cast<const coll::RectCollInfo&>(relInfo), otherInfo);
-        else if (relInfo.getType() == bn::type_id<coll::CircleCollInfo>())
-            isCollideWithThisRel(_entity.getPosition(), static_cast<const coll::CircleCollInfo&>(relInfo), otherInfo);
-        else
-            BN_ERROR("Invalid coll info type=", relInfo.getType().internal_id());
-    }
+    if (otherInfo.type == bn::type_id<coll::RectCollInfo>())
+        return isCollideWith(otherInfo.rect);
+    else if (otherInfo.type == bn::type_id<coll::CircleCollInfo>())
+        return isCollideWith(otherInfo.circle);
+    else
+        printCollInfoTypeError(otherInfo);
 
     return false;
 }

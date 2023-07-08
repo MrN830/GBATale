@@ -1,70 +1,14 @@
 #include "game/coll/CollInfo.hpp"
 
 #include <bn_fixed_rect.h>
+#include <bn_math.h>
 
 namespace ut::game::coll
 {
 
-CollInfo::CollInfo(const bn::fixed_point& position_) : position(position_)
+static void printTypeError(const CollInfo& coll)
 {
-}
-
-RectCollInfo::RectCollInfo(const bn::fixed_point& position_, const bn::fixed_size size_)
-    : CollInfo(position_), size(size_)
-{
-}
-
-CircleCollInfo::CircleCollInfo(const bn::fixed_point& position_, const bn::fixed radius_)
-    : CollInfo(position_), radius(radius_)
-{
-}
-
-auto RectCollInfo::getType() const -> bn::type_id_t
-{
-    return bn::type_id<RectCollInfo>();
-}
-
-auto CircleCollInfo::getType() const -> bn::type_id_t
-{
-    return bn::type_id<CircleCollInfo>();
-}
-
-static bool detectCollision(const RectCollInfo&, const RectCollInfo&);
-static bool detectCollision(const RectCollInfo&, const CircleCollInfo&);
-static bool detectCollision(const CircleCollInfo&, const RectCollInfo&);
-static bool detectCollision(const CircleCollInfo&, const CircleCollInfo&);
-
-/**
- * @brief Call `detectCollision(c1, c2)` of right type, if type matches.
- *
- * @param result if `detectCollision(c1, c2)` was called, its return value is stored in `result`.
- * @return whether or not `detectCollision(c1, c2)` was called
- */
-template <typename CInfo1, typename CInfo2>
-    requires(std::is_base_of_v<CollInfo, CInfo1> && std::is_base_of_v<CollInfo, CInfo2>)
-static bool detectCollCaller(const CollInfo& c1, const CollInfo& c2, bool& result)
-{
-    if (c1.getType() == bn::type_id<CInfo1>() && c2.getType() == bn::type_id<CInfo2>())
-    {
-        result = detectCollision(static_cast<const CInfo1&>(c1), static_cast<const CInfo2&>(c2));
-        return true;
-    }
-
-    return false;
-}
-
-bool CollInfo::isCollideWith(const CollInfo& other) const
-{
-    bool result = false;
-
-    if (!detectCollCaller<RectCollInfo, RectCollInfo>(*this, other, result) &&
-        !detectCollCaller<RectCollInfo, CircleCollInfo>(*this, other, result) &&
-        !detectCollCaller<CircleCollInfo, RectCollInfo>(*this, other, result) &&
-        !detectCollCaller<CircleCollInfo, CircleCollInfo>(*this, other, result))
-        BN_ERROR("Invalid CollInfo type (this=", getType().internal_id(), ", other=", other.getType().internal_id(),
-                 ")");
-
-    return result;
+    BN_ERROR("Invalid CollInfo type=", coll.type.internal_id());
 }
 
 static bn::fixed distanceSquared(const bn::fixed_point p1, const bn::fixed_point p2)
@@ -75,23 +19,22 @@ static bn::fixed distanceSquared(const bn::fixed_point p1, const bn::fixed_point
     return xDist * xDist + yDist * yDist;
 }
 
-static bool detectCollision(const RectCollInfo& c1, const RectCollInfo& c2)
+bool RectCollInfo::isCollideWith(const CollInfo& other) const
 {
-    BN_ASSERT(c1.getType() == bn::type_id<RectCollInfo>());
-    BN_ASSERT(c2.getType() == bn::type_id<RectCollInfo>());
-
-    const bn::fixed_rect coll1(c1.position, c1.size);
-    const bn::fixed_rect coll2(c2.position, c2.size);
-
-    return coll1.intersects(coll2);
+    return other.isCollideWith(*this);
 }
 
-static bool detectCollision(const RectCollInfo& rectColl, const CircleCollInfo& circle)
+bool RectCollInfo::isCollideWith(const RectCollInfo& otherRect) const
 {
-    BN_ASSERT(rectColl.getType() == bn::type_id<RectCollInfo>());
-    BN_ASSERT(circle.getType() == bn::type_id<CircleCollInfo>());
+    const bn::fixed_rect r1(this->position, this->size);
+    const bn::fixed_rect r2(otherRect.position, otherRect.size);
 
-    const bn::fixed_rect rect{rectColl.position, rectColl.size};
+    return r1.intersects(r2);
+}
+
+bool RectCollInfo::isCollideWith(const CircleCollInfo& circle) const
+{
+    const bn::fixed_rect rect(this->position, this->size);
 
     bn::fixed_point rectClosestPoint{
         circle.position.x() < rect.left()    ? rect.left()
@@ -108,23 +51,153 @@ static bool detectCollision(const RectCollInfo& rectColl, const CircleCollInfo& 
     return distSq < radSq;
 }
 
-static bool detectCollision(const CircleCollInfo& c1, const RectCollInfo& c2)
+static constexpr auto triPlus(const bn::fixed_point& p) -> bn::fixed
 {
-    BN_ASSERT(c1.getType() == bn::type_id<CircleCollInfo>());
-    BN_ASSERT(c2.getType() == bn::type_id<RectCollInfo>());
+    return p.x() + p.y();
+};
 
-    return detectCollision(c2, c1);
+static constexpr auto triMinus(const bn::fixed_point& p) -> bn::fixed
+{
+    return p.x() - p.y();
+};
+
+bool RectCollInfo::isCollideWith(const AAIRTriCollInfo& tri) const
+{
+    using Dirs = core::Directions;
+
+    const bool upLeft = (!!(tri.directions & Dirs::UP) && !!(tri.directions & Dirs::LEFT));
+    const bool upRight = (!!(tri.directions & Dirs::UP) && !!(tri.directions & Dirs::RIGHT));
+    const bool downLeft = (!!(tri.directions & Dirs::DOWN) && !!(tri.directions & Dirs::LEFT));
+    const bool downRight = (!!(tri.directions & Dirs::DOWN) && !!(tri.directions & Dirs::RIGHT));
+
+    const bn::fixed_rect rect(this->position, this->size);
+    const bn::fixed_rect triRect{
+        tri.position.x() + (tri.legLength / 2) * ((upLeft || downLeft) ? +1 : -1),
+        tri.position.y() + (tri.legLength / 2) * ((upLeft || upRight) ? +1 : -1),
+        tri.legLength,
+        tri.legLength,
+    };
+
+    // x-axis, y-axis AABB
+    if (!rect.intersects(triRect))
+        return false;
+
+    // tri-axis AABB
+    const auto triAxis = ((upLeft || downRight) ? triPlus : triMinus);
+
+    const auto triLow =
+        ((upLeft || upRight) ? bn::min(triAxis(triRect.top_left()), triAxis(triRect.top_right()))
+                             : bn::min(triAxis(triRect.bottom_left()), triAxis(triRect.bottom_right())));
+    const auto triHigh =
+        ((upLeft || upRight) ? bn::max(triAxis(triRect.top_left()), triAxis(triRect.top_right()))
+                             : bn::max(triAxis(triRect.bottom_left()), triAxis(triRect.bottom_right())));
+    const auto rectLow = ((triAxis == triPlus) ? bn::min(triAxis(rect.top_left()), triAxis(rect.bottom_right()))
+                                               : bn::min(triAxis(rect.top_right()), triAxis(rect.bottom_left())));
+    const auto rectHigh = ((triAxis == triPlus) ? bn::max(triAxis(rect.top_left()), triAxis(rect.bottom_right()))
+                                                : bn::max(triAxis(rect.top_right()), triAxis(rect.bottom_left())));
+
+    return rectLow < triHigh && rectHigh > triLow;
 }
 
-static bool detectCollision(const CircleCollInfo& c1, const CircleCollInfo& c2)
+bool CircleCollInfo::isCollideWith(const CollInfo& other) const
 {
-    BN_ASSERT(c1.getType() == bn::type_id<CircleCollInfo>());
-    BN_ASSERT(c2.getType() == bn::type_id<CircleCollInfo>());
+    return other.isCollideWith(*this);
+}
 
-    const auto distSq = distanceSquared(c1.position, c2.position);
-    const auto radSumSq = (c1.radius + c2.radius) * (c1.radius + c2.radius);
+bool CircleCollInfo::isCollideWith(const RectCollInfo& otherRect) const
+{
+    return otherRect.isCollideWith(*this);
+}
+
+bool CircleCollInfo::isCollideWith(const CircleCollInfo& otherCircle) const
+{
+    const auto distSq = distanceSquared(this->position, otherCircle.position);
+    const auto radSumSq = (this->radius + otherCircle.radius) * (this->radius + otherCircle.radius);
 
     return distSq < radSumSq;
+}
+
+bool CircleCollInfo::isCollideWith(const AAIRTriCollInfo&) const
+{
+    BN_ERROR("Circle <-> AAIRTri collision not supported");
+    return false;
+}
+
+bool AAIRTriCollInfo::isCollideWith(const CollInfo& other) const
+{
+    return other.isCollideWith(*this);
+}
+
+bool AAIRTriCollInfo::isCollideWith(const RectCollInfo& otherRect) const
+{
+    return otherRect.isCollideWith(*this);
+}
+
+bool AAIRTriCollInfo::isCollideWith(const CircleCollInfo& otherCircle) const
+{
+    return otherCircle.isCollideWith(*this);
+}
+
+bool AAIRTriCollInfo::isCollideWith(const AAIRTriCollInfo&) const
+{
+    BN_ERROR("AAIRTri <-> AAIRTri collision not supported");
+    return false;
+}
+
+bool CollInfo::isCollideWith(const CollInfo& other) const
+{
+    if (other.type == bn::type_id<RectCollInfo>())
+        return isCollideWith(other.rect);
+    else if (other.type == bn::type_id<CircleCollInfo>())
+        return isCollideWith(other.circle);
+    else if (other.type == bn::type_id<AAIRTriCollInfo>())
+        return isCollideWith(other.tri);
+    else
+        printTypeError(other);
+
+    return false;
+}
+
+bool CollInfo::isCollideWith(const RectCollInfo& otherRect) const
+{
+    if (this->type == bn::type_id<RectCollInfo>())
+        return rect.isCollideWith(otherRect);
+    else if (this->type == bn::type_id<CircleCollInfo>())
+        return circle.isCollideWith(otherRect);
+    else if (this->type == bn::type_id<AAIRTriCollInfo>())
+        return tri.isCollideWith(otherRect);
+    else
+        printTypeError(*this);
+
+    return false;
+}
+
+bool CollInfo::isCollideWith(const CircleCollInfo& otherCircle) const
+{
+    if (this->type == bn::type_id<RectCollInfo>())
+        return rect.isCollideWith(otherCircle);
+    else if (this->type == bn::type_id<CircleCollInfo>())
+        return circle.isCollideWith(otherCircle);
+    else if (this->type == bn::type_id<AAIRTriCollInfo>())
+        return tri.isCollideWith(otherCircle);
+    else
+        printTypeError(*this);
+
+    return false;
+}
+
+bool CollInfo::isCollideWith(const AAIRTriCollInfo& otherTri) const
+{
+    if (this->type == bn::type_id<RectCollInfo>())
+        return rect.isCollideWith(otherTri);
+    else if (this->type == bn::type_id<CircleCollInfo>())
+        return circle.isCollideWith(otherTri);
+    else if (this->type == bn::type_id<AAIRTriCollInfo>())
+        return tri.isCollideWith(otherTri);
+    else
+        printTypeError(*this);
+
+    return false;
 }
 
 } // namespace ut::game::coll

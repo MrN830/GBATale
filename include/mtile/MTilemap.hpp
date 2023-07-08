@@ -3,6 +3,9 @@
 #include <cstdint>
 
 #include <bn_array.h>
+#include <bn_span.h>
+
+#include "game/coll/CollInfo.hpp"
 
 namespace bn
 {
@@ -51,6 +54,9 @@ public:
     constexpr virtual auto getMTileLower(int mCellX, int mCellY) const -> const MTile& = 0;
     constexpr virtual auto getMTileUpper(int mCellX, int mCellY) const -> const MTile& = 0;
     constexpr virtual auto getMTileUpper2(int mCellX, int mCellY) const -> const MTile& = 0;
+
+    constexpr virtual auto getRectWalls() const -> bn::span<const game::coll::RectCollInfo> = 0;
+    constexpr virtual auto getTriWalls() const -> bn::span<const game::coll::AAIRTriCollInfo> = 0;
 };
 
 /**
@@ -60,21 +66,26 @@ public:
  * @tparam `MWidth` Meta-cell width
  * @tparam `MHeight` Meta-cell height
  */
-template <int MWidth, int MHeight>
+template <int MWidth, int MHeight, int RectWallCount, int TriWallCount>
 struct MTilemap : MTilemapBase
 {
     using BoardType = bn::array<MTile, MWidth * MHeight>;
+    using RectWalls = bn::array<game::coll::RectCollInfo, RectWallCount>;
+    using TriWalls = bn::array<game::coll::AAIRTriCollInfo, TriWallCount>;
 
 private:
+    const RectWalls _rectWalls;
+    const TriWalls _triWalls;
     const BoardType _lower, _upper, _upper2;
 
 public:
     constexpr MTilemap(const bn::regular_bg_tiles_item& tilesLower_, const bn::regular_bg_tiles_item& tilesUpper_,
                        const bn::regular_bg_tiles_item& tilesUpper2_, const bn::bg_palette_item& palLower_,
                        const bn::bg_palette_item& palUpper_, const bn::bg_palette_item& palUpper2_,
-                       const BoardType& lower, const BoardType& upper, const BoardType& upper2)
-        : MTilemapBase(tilesLower_, tilesUpper_, tilesUpper2_, palLower_, palUpper_, palUpper2_), _lower(lower),
-          _upper(upper), _upper2(upper2)
+                       const RectWalls& rectWalls, const TriWalls& triWalls, const BoardType& lower,
+                       const BoardType& upper, const BoardType& upper2)
+        : MTilemapBase(tilesLower_, tilesUpper_, tilesUpper2_, palLower_, palUpper_, palUpper2_), _rectWalls(rectWalls),
+          _triWalls(triWalls), _lower(lower), _upper(upper), _upper2(upper2)
     {
     }
 
@@ -111,6 +122,16 @@ public:
             return EMPTY_M_TILE;
 
         return _upper2[mCellY * MWidth + mCellX];
+    }
+
+    constexpr bn::span<const game::coll::RectCollInfo> getRectWalls() const override
+    {
+        return _rectWalls;
+    }
+
+    constexpr bn::span<const game::coll::AAIRTriCollInfo> getTriWalls() const override
+    {
+        return _triWalls;
     }
 };
 

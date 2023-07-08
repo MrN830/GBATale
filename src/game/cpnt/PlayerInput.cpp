@@ -26,16 +26,28 @@ void PlayerInput::handleInput(GameContext& ctx)
     if (!ctx.isShowingUI)
     {
         if (bn::keypad::up_held())
+        {
+            cmd.directions |= core::Directions::UP;
             cmd.movePos.set_y(cmd.movePos.y() - PLAYER_SPEED);
+        }
         else if (bn::keypad::down_held())
+        {
+            cmd.directions |= core::Directions::DOWN;
             cmd.movePos.set_y(cmd.movePos.y() + PLAYER_SPEED);
+        }
         if (bn::keypad::left_held())
+        {
+            cmd.directions |= core::Directions::LEFT;
             cmd.movePos.set_x(cmd.movePos.x() - PLAYER_SPEED);
+        }
         else if (bn::keypad::right_held())
+        {
+            cmd.directions |= core::Directions::RIGHT;
             cmd.movePos.set_x(cmd.movePos.x() + PLAYER_SPEED);
+        }
     }
 
-    sendInput(fixMoveCmdCollision(cmd));
+    sendInput(cmd, ctx);
 }
 
 } // namespace ut::game::cpnt

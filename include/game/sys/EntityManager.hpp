@@ -28,22 +28,6 @@ class EntityManager final
     friend class ut::debug::MemView;
 #endif
 
-public:
-    EntityManager(GameContext&);
-    ~EntityManager();
-
-    void handleInput();
-    void update();
-
-public:
-    void reloadRoom();
-
-public:
-    void createFrisk(const bn::fixed_point position);
-
-private:
-    void removeDestroyed(bool forceRemoveAll);
-
 private:
     GameContext& _context;
 
@@ -54,6 +38,24 @@ private:
     bn::best_fit_allocator _cpntHeap;
 
     bn::pool<coll::Collider, 32> _collPool;
+
+public:
+    EntityManager(GameContext&);
+    ~EntityManager();
+
+    void handleInput();
+    void update();
+
+public:
+    void reloadRoom();
+
+    auto getEntities() const -> const decltype(_entities)&;
+
+public:
+    void createFrisk(const bn::fixed_point position);
+
+private:
+    void removeDestroyed(bool forceRemoveAll);
 };
 
 } // namespace ut::game::sys

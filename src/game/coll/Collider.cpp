@@ -3,14 +3,13 @@
 namespace ut::game::coll
 {
 
-Collider::~Collider()
+Collider::Collider(const CollInfo& info) : _info(info)
 {
-    getInfo().~CollInfo();
 }
 
 auto Collider::getInfo() const -> const CollInfo&
 {
-    return *reinterpret_cast<const CollInfo*>(_collInfo);
+    return _info;
 }
 
 } // namespace ut::game::coll

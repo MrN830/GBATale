@@ -24,42 +24,15 @@ public:
 
     template <typename TColl>
         requires std::is_base_of_v<coll::Collider, TColl>
-    void addCollider(TColl& coll)
-    {
-        _colls.push_front(coll);
-    }
+    void addCollider(TColl& coll);
 
     bool isTrigger() const;
 
     bool isCollideWith(const ColliderPack& other) const;
     bool isCollideWith(const coll::CollInfo& other) const;
 
-private:
     template <typename CInfo>
-        requires std::is_base_of_v<coll::CollInfo, CInfo>
-    static auto getAbsCollInfo(const bn::fixed_point& entityPos, const CInfo& relInfo) -> CInfo
-    {
-        auto result = relInfo;
-        result.position += entityPos;
-        return result;
-    }
-
-    template <typename CInfo>
-        requires std::is_base_of_v<coll::CollInfo, CInfo>
-    bool isCollideWithOtherRel(const bn::fixed_point& entityPos, const CInfo& otherRelInfo) const
-    {
-        const auto otherAbsInfo = getAbsCollInfo(entityPos, otherRelInfo);
-        return isCollideWith(otherAbsInfo);
-    }
-
-    template <typename CInfo>
-        requires std::is_base_of_v<coll::CollInfo, CInfo>
-    bool isCollideWithThisRel(const bn::fixed_point& entityPos, const CInfo& relInfo,
-                              const coll::CollInfo& otherInfo) const
-    {
-        const auto absInfo = getAbsCollInfo(entityPos, relInfo);
-        return absInfo.isCollideWith(otherInfo);
-    }
+    bool isCollideWith(const CInfo& other) const;
 
 private:
     bn::intrusive_forward_list<coll::Collider> _colls;
@@ -67,3 +40,5 @@ private:
 };
 
 } // namespace ut::game::cpnt
+
+#include "game/cpnt/ColliderPack.inl"

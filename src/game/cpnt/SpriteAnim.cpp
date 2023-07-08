@@ -14,7 +14,8 @@ namespace ut::game::cpnt
 
 SpriteAnim::SpriteAnim(ent::Entity& entity, cpnt::Sprite& sprCpnt)
     : Component(entity), _sprCpnt(sprCpnt), _up(asset::SpriteAnimKind::NONE), _down(asset::SpriteAnimKind::NONE),
-      _left(asset::SpriteAnimKind::NONE), _right(asset::SpriteAnimKind::NONE), _curAnimKind(asset::SpriteAnimKind::NONE)
+      _left(asset::SpriteAnimKind::NONE), _right(asset::SpriteAnimKind::NONE),
+      _curAnimKind(asset::SpriteAnimKind::NONE), _lastAnimDir(core::Directions::NONE)
 {
 }
 
@@ -65,7 +66,17 @@ void SpriteAnim::receiveInputCmd(const cmd::InputCmd& cmd)
 
     BN_ASSERT(hasDirectionAnims(), "no up/down/left/right anim registered");
 
-    if (!!(nextMoveDirection & Dirs::UP))
+    // 1. BOTH actually moved + move requested direction
+    if (!!(nextMoveDirection & Dirs::UP) && !!(cmd.directions & Dirs::UP))
+        setCurAnimKind(_up, prevAnimExist);
+    else if (!!(nextMoveDirection & Dirs::DOWN) && !!(cmd.directions & Dirs::DOWN))
+        setCurAnimKind(_down, prevAnimExist);
+    else if (!!(nextMoveDirection & Dirs::LEFT) && !!(cmd.directions & Dirs::LEFT))
+        setCurAnimKind(_left, prevAnimExist);
+    else if (!!(nextMoveDirection & Dirs::RIGHT) && !!(cmd.directions & Dirs::RIGHT))
+        setCurAnimKind(_right, prevAnimExist);
+    // 2. actually moved direction
+    else if (!!(nextMoveDirection & Dirs::UP))
         setCurAnimKind(_up, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::DOWN))
         setCurAnimKind(_down, prevAnimExist);
@@ -73,16 +84,32 @@ void SpriteAnim::receiveInputCmd(const cmd::InputCmd& cmd)
         setCurAnimKind(_left, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::RIGHT))
         setCurAnimKind(_right, prevAnimExist);
-    // stopped moving
-    else if (prevAnimExist)
+    // stop animate if stopped moving
+    else
     {
-        // change sprite to stand still tile
-        const auto& info = IAnimInfo::get(_curAnimKind);
-        const int standGfxIdx = info.getGfxIdxes()[1];
-        _sprCpnt.getSprPtr().set_tiles(info.sprItem.tiles_item(), standGfxIdx);
+        // 3. move requested but not moved (collided) direction
+        if (!(cmd.directions & _lastAnimDir))
+        {
+            if (!!(cmd.directions & Dirs::UP))
+                setCurAnimKind(_up, prevAnimExist);
+            else if (!!(cmd.directions & Dirs::DOWN))
+                setCurAnimKind(_down, prevAnimExist);
+            else if (!!(cmd.directions & Dirs::LEFT))
+                setCurAnimKind(_left, prevAnimExist);
+            else if (!!(cmd.directions & Dirs::RIGHT))
+                setCurAnimKind(_right, prevAnimExist);
+        }
 
-        // stop anim
-        setCurAnimKind(AnimKind::NONE, false);
+        // change sprite to stand still tile
+        if (_curAnimKind != AnimKind::NONE)
+        {
+            const auto& info = IAnimInfo::get(_curAnimKind);
+            const int standGfxIdx = info.getGfxIdxes()[1];
+            _sprCpnt.getSprPtr().set_tiles(info.sprItem.tiles_item(), standGfxIdx);
+
+            // stop anim
+            setCurAnimKind(AnimKind::NONE, false);
+        }
     }
 }
 
@@ -167,6 +194,16 @@ void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind, bool preserveRenderC
     if (preserveRenderCount)
         for (int i = 0; i < _curRenderCount; ++i)
             _action->update();
+
+    // set last anim dir
+    if (kind == _up)
+        _lastAnimDir = core::Directions::UP;
+    else if (kind == _down)
+        _lastAnimDir = core::Directions::DOWN;
+    else if (kind == _left)
+        _lastAnimDir = core::Directions::LEFT;
+    else if (kind == _right)
+        _lastAnimDir = core::Directions::RIGHT;
 }
 
 } // namespace ut::game::cpnt
