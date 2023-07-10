@@ -33,7 +33,7 @@ constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 
 } // namespace
 
-Title::Title(SceneStack& sceneStack, Context& context)
+Title::Title(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0)),
       _isContinueSelected(context.menuCursorIdx != 1)
 {

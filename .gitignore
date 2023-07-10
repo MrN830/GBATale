@@ -10,6 +10,9 @@
 # user dependencies
 user_deps.json
 
+# tiled
+*.tiled-session
+
 # build output 
 build/
 build_ut/

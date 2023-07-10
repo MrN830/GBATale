@@ -11,6 +11,12 @@ namespace ut::core
 {
 class TextGens;
 }
+namespace ut::game::sys
+{
+class EntityManager;
+}
+
+int main();
 
 namespace ut::debug
 {
@@ -20,13 +26,21 @@ inline constexpr int EWRAM_BYTES = 262'144;
 
 class MemView final
 {
+    friend int ::main();
+
+public:
+    static auto instance() -> MemView&;
+
 public:
     static constexpr int UPDATE_INTERVAL = 15;
 
-public:
+private:
     MemView(core::TextGens&);
 
     void update();
+
+public:
+    void setEntMngr(game::sys::EntityManager*);
 
 private:
     void setVisible(bool);
@@ -34,12 +48,14 @@ private:
     void redrawTexts();
 
 private:
+    static MemView* s_instance;
+
+private:
     bn::sprite_text_generator& _textGen;
+    game::sys::EntityManager* _entMngr = nullptr;
 
-    bn::vector<bn::sprite_ptr, 16> _texts;
-
+    bn::vector<bn::sprite_ptr, 24> _texts;
     int _updateCountdown = 0;
-
     bool _isVisible = false;
 };
 

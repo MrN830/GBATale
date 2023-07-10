@@ -45,9 +45,10 @@ int main()
 #if UT_MEM_VIEW
     // Press `SELECT` to see the `memView` when it's enabled
     debug::MemView memView(textGens);
+    debug::MemView::s_instance = &memView;
 #endif
 
-    scene::Scene::Context sceneContext(textGens, rng, gameState);
+    scene::SceneContext sceneContext(textGens, rng, gameState);
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 

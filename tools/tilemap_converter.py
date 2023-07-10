@@ -1,7 +1,9 @@
 import os
 import glob
+import json
 from collections import namedtuple
 from enum import Enum
+from collections import Counter
 
 from pytmx import pytmx
 from PIL import Image
@@ -15,6 +17,11 @@ class TilemapConverter:
             super().__init__(f"Too many MTiles: {mtile_count} (max 255)")
             self.mtile_count = mtile_count
 
+    class InvalidWallColliderException(Exception):
+        def __init__(self, coll_pos):
+            super().__init__(f"Invalid collider: {coll_pos}")
+            self.coll_pos = coll_pos
+
     @staticmethod
     def write_roominfo_cpp():
         RoomKind = Enum("RoomKind", TilemapConverter.ROOM_NAMES, start=0)
@@ -26,7 +33,7 @@ class TilemapConverter:
         os.makedirs("build_ut/src", exist_ok=True)
         with open("build_ut/src/RoomInfo.cpp", "w") as cpp_file:
             write_timestamp(cpp_file, "tool/tilemap_converter.py")
-            
+
             cpp_file.write('#include "game/RoomInfo.hpp"' + "\n\n")
             cpp_file.write("#include <bn_assert.h>" + "\n\n")
             cpp_file.write('#include "mtile/MTilemap.hpp"' + "\n\n")
@@ -73,10 +80,15 @@ class TilemapConverter:
             return False
 
         tiled_map = pytmx.TiledMap(tmx_path)
-        bg_upper: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper")
+        tiled_map.parse_json(
+            json.load(open("extra/tilemaps/GBATale.tiled-project", "r"))[
+                "propertyTypes"
+            ]
+        )
+
         bg_upper2: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper2")
+        bg_upper: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper")
         bg_lower: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGLower")
-        objects: pytmx.TiledObjectGroup = tiled_map.get_layer_by_name("Objects")
 
         # generate intermediate MTileset
         mtileset_name = f"mtileset_{tilemap_name.lower()}_bg_upper"
@@ -94,11 +106,22 @@ class TilemapConverter:
 
         # generate header file
         # TODO: include flip
-        TilemapConverter.__generate_mtilemap_header(
-            [gid_mtile_idx_bg_lower, gid_mtile_idx_bg_upper, gid_mtile_idx_bg_upper2],
-            tilemap_name.lower(),
-            tiled_map,
-        )
+        try:
+            TilemapConverter.__generate_mtilemap_header(
+                [
+                    gid_mtile_idx_bg_lower,
+                    gid_mtile_idx_bg_upper,
+                    gid_mtile_idx_bg_upper2,
+                ],
+                tilemap_name.lower(),
+                tiled_map,
+            )
+        except:
+            mtilemap_header_filename = f"{tilemap_name.lower()}.hpp"
+            mtilemap_header_path = f"build_ut/include/gen/{mtilemap_header_filename}"
+            if os.path.exists(mtilemap_header_path):
+                os.remove(mtilemap_header_path)
+            raise
 
         return True
 
@@ -170,12 +193,147 @@ class TilemapConverter:
         mtilemap_header_filename = f"{mtilemap_name}.hpp"
         mtilemap_header_path = f"{include_path}/{mtilemap_header_filename}"
 
+        l_entity: pytmx.TiledObjectGroup = tiled_map.get_layer_by_name("Entity")
+        l_warp: pytmx.TiledObjectGroup = tiled_map.get_layer_by_name("Warp")
+        l_wall: pytmx.TiledObjectGroup = tiled_map.get_layer_by_name("Wall")
         bg_upper: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper")
         bg_upper2: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper2")
         bg_lower: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGLower")
 
+        # Walls
+        RectWall = namedtuple("RectWall", "x, y, w, h")
+        TriWall = namedtuple("TriWall", "x, y, l, direc")
+
+        def get_rect_wall(points: list) -> RectWall:
+            if (
+                len(points) != 4
+                or points[0].x != points[1].x
+                or points[1].y != points[2].y
+                or points[2].x != points[3].x
+                or points[3].y != points[0].y
+            ):
+                return None
+
+            p1, p2 = points[0], points[2]
+            rect_wall = RectWall(
+                (p1.x + p2.x) / 2,
+                (p1.y + p2.y) / 2,
+                abs(p2.x - p1.x),
+                abs(p2.y - p1.y),
+            )
+            if rect_wall.w == 0 or rect_wall.h == 0:
+                return None
+            return rect_wall
+
+        def get_tri_wall(points: list) -> TriWall:
+            if (
+                len(points) != 3
+                or len(set(points)) != 3
+                or len({p.x for p in points}) != 2
+                or len({p.y for p in points}) != 2
+            ):
+                return None
+
+            x_common = Counter(p.x for p in points).most_common(2)
+            y_common = Counter(p.y for p in points).most_common(2)
+            x, x_count = x_common[0]
+            y, y_count = y_common[0]
+            assert x_count == 2 and y_count == 2
+            other_x, x_count = x_common[1]
+            other_y, y_count = y_common[1]
+            assert x_count == 1 and y_count == 1
+            direc = f"(core::Directions::{ 'UP' if y < other_y else 'DOWN' }|core::Directions::{'LEFT' if x < other_x else 'RIGHT'})"
+            l = abs(x - other_x)
+            if l != abs(y - other_y):
+                return None
+
+            return TriWall(x, y, l, direc)
+
+        rect_walls = []
+        tri_walls = []
+        for obj in l_wall:
+            if obj.type:
+                raise Exception(
+                    f"{obj.type=} found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
+                )
+
+            if hasattr(obj, "points"):
+                tri = get_tri_wall(obj.points)
+                if tri:
+                    tri_walls.append(tri)
+                    continue
+                else:
+                    obj_pos = obj.as_points[0]
+                    print(
+                        f"[ERR] Invalid Wall collider found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
+                    )
+                    raise TilemapConverter.InvalidWallColliderException(obj_pos)
+
+            rect = get_rect_wall(obj.as_points)
+            if rect:
+                rect_walls.append(rect)
+                continue
+
+            obj_pos = obj.as_points[0]
+            print(
+                f"[ERR] Invalid Wall collider found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
+            )
+            raise TilemapConverter.InvalidWallColliderException(obj_pos)
+
+        # Warps & warp points
+        Warp = namedtuple("Warp", "rect, roomName, warpId")
+        WarpPoint = namedtuple("WarpPoint", "x, y")
+        warp_ids = ["INIT", "A", "B", "C", "D", "X"]
+
+        warps = []
+        warp_points = [None] * len(warp_ids)
+
+        for obj in l_warp:
+            if obj.type not in {"Warp", "WarpPoint"}:
+                raise Exception(
+                    f"Non warp obj found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                )
+
+            warpId = obj.properties.get("warpId")
+            if not warpId or warpId not in warp_ids:
+                raise Exception(
+                    f"Invalid {warpId=} found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                )
+
+            if obj.type == "Warp":
+                roomName = obj.properties.get("roomName")
+                if (
+                    not roomName
+                    or roomName.upper() not in TilemapConverter.ROOM_NAMES_SET
+                ):
+                    raise Exception(
+                        f"Invalid {roomName=} found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                    )
+                roomName = roomName.upper()
+
+                rect = get_rect_wall(obj.as_points)
+                if not rect:
+                    raise Exception(
+                        f"Invalid sized warp found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                    )
+
+                warps.append(Warp(rect, roomName, warpId))
+
+            else:  # obj.type == "WarpPoint"
+                idx = warp_ids.index(warpId)
+
+                if warp_points[idx]:
+                    raise Exception(
+                        f"Duplicate {warpId=} for WarpPoints (x={obj.x}, y={obj.y}) & (x={warp_points[idx].x}, y={warp_points[idx].y}) in `{mtilemap_name}` Warp layer"
+                    )
+
+                warp_points[idx] = WarpPoint(obj.x, obj.y)
+
+        # Write header file
         with open(mtilemap_header_path, "w") as output_header:
             write_timestamp(output_header, "tool/tilemap_converter.py")
+
+            output_header.write("#pragma once" + "\n\n")
 
             output_header.write('#include "mtile/MTilemap.hpp"' + "\n")
             output_header.write("\n")
@@ -201,9 +359,13 @@ class TilemapConverter:
             output_header.write(f"namespace ut::mtile::gen" + "\n")
             output_header.write("{" + "\n\n")
 
+            output_header.write(f"using namespace ut::game::coll;" + "\n\n")
+
             output_header.write(
-                f"inline constexpr MTilemap<{tiled_map.width},{tiled_map.height}> {mtilemap_name}(\n"
+                f"inline constexpr MTilemap<{tiled_map.width},{tiled_map.height},{len(rect_walls)},{len(tri_walls)},{len(warps)}> {mtilemap_name}(\n"
             )
+
+            # MTileset
             output_header.write(
                 f"bn::regular_bg_tiles_items::mtileset_{mtilemap_name}_bg_lower,\n"
             )
@@ -223,6 +385,47 @@ class TilemapConverter:
                 f"bn::bg_palette_items::pal_mtileset_{mtilemap_name}_bg_upper2,\n"
             )
 
+            # Rect walls
+            output_header.write("{" + "\n")
+            output_header.write(
+                "".join(
+                    f"RectCollInfo(bn::fixed_point({wall.x},{wall.y}),bn::fixed_size({wall.w},{wall.h})),"
+                    for wall in rect_walls
+                )
+            )
+            output_header.write("}," + "\n")
+
+            # Tri walls
+            output_header.write("{" + "\n")
+            output_header.write(
+                "".join(
+                    f"AAIRTriCollInfo(bn::fixed_point({wall.x},{wall.y}),{wall.l},{wall.direc}),"
+                    for wall in tri_walls
+                )
+            )
+            output_header.write("}," + "\n")
+
+            # Warps
+            output_header.write("{" + "\n")
+            output_header.write(
+                "".join(
+                    f"Warp(RectCollInfo(bn::fixed_point({warp.rect.x},{warp.rect.y}),bn::fixed_size({warp.rect.w},{warp.rect.h})),game::RoomKind::{warp.roomName},WarpId::{warp.warpId}),"
+                    for warp in warps
+                )
+            )
+            output_header.write("}," + "\n")
+
+            # Warp points
+            output_header.write("{" + "\n")
+            output_header.write(
+                "".join(
+                    f"bn::fixed_point({f'{wp.x},{wp.y}' if wp else '-999,-999'}),"
+                    for wp in warp_points
+                )
+            )
+            output_header.write("}," + "\n")
+
+            # Board
             BoardType = namedtuple("BoardType", "mTileIdx, hFlip, vFlip")
 
             def write_board(bg: pytmx.TiledTileLayer, gid_mtile_idx_mapping: dict):
@@ -272,10 +475,14 @@ class TilemapConverter:
             f"build_ut/graphics/mtileset_{tilemap_name.lower()}_bg_lower.bmp"
         )
 
+        mtilemap_header_filename = f"{tilemap_name.lower()}.hpp"
+        mtilemap_header_path = f"build_ut/include/gen/{mtilemap_header_filename}"
+
         return (
             inc_build.should_build(tileset_png_path, bg_lower_build_path)
             or inc_build.should_build(tileset_tsx_path, bg_lower_build_path)
             or inc_build.should_build(tmx_path, bg_lower_build_path)
+            or inc_build.should_build(tmx_path, mtilemap_header_path)
         )
 
     ROOM_NAMES = [
@@ -615,3 +822,5 @@ class TilemapConverter:
         "ROOM_ASRIELTEST",
         "ROOM_AFINALTEST",
     ]
+
+    ROOM_NAMES_SET = set(ROOM_NAMES)

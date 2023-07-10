@@ -37,7 +37,7 @@ private:
     static constexpr bn::fixed_point MENU_LOWER_DIFF = {0, +16};
 
 public:
-    IngameMenu(SceneStack&, Context&);
+    IngameMenu(SceneStack&, SceneContext&);
     ~IngameMenu();
 
     bool handleInput() override;

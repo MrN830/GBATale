@@ -294,6 +294,11 @@ void GameState::setHasPhone(bool hasPhone)
     _hasPhone = hasPhone;
 }
 
+void GameState::setRoom(RoomKind room)
+{
+    _room = room;
+}
+
 void GameState::setTime(const core::PlayTime& time)
 {
     _time = time;

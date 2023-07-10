@@ -17,7 +17,7 @@ struct MTile;
 struct MTilemapBase;
 } // namespace ut::mtile
 
-namespace ut::game
+namespace ut::game::sys
 {
 
 class WorldBg final
@@ -80,4 +80,4 @@ private:
     bn::fixed_point _prevCamPos;
 };
 
-} // namespace ut::game
+} // namespace ut::game::sys

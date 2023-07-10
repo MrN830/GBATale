@@ -11,7 +11,7 @@ namespace ut::scene
 class NewGameTitle : public Scene
 {
 public:
-    NewGameTitle(SceneStack&, Context&);
+    NewGameTitle(SceneStack&, SceneContext&);
 
     bool handleInput() override;
     bool update() override;

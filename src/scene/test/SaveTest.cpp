@@ -9,7 +9,7 @@
 namespace ut::scene::test
 {
 
-SaveTest::SaveTest(SceneStack& sceneStack, Context& context) : Scene(sceneStack, context)
+SaveTest::SaveTest(SceneStack& sceneStack, SceneContext& context) : Scene(sceneStack, context)
 {
 }
 

@@ -10,6 +10,7 @@
 #include <bn_sprites.h>
 
 #include "core/TextGens.hpp"
+#include "game/sys/EntityManager.hpp"
 
 namespace ut::debug
 {
@@ -25,8 +26,21 @@ constexpr auto CPU_POS = bn::fixed_point{240, 3} + TOP_LEFT_ORIGIN;
 constexpr auto BG_SPR_POS = CPU_POS + LINE_DIFF * 1;
 constexpr auto IWRAM_POS = CPU_POS + LINE_DIFF * 2;
 constexpr auto EWRAM_POS = CPU_POS + LINE_DIFF * 3;
+constexpr auto ENT_POOL_POS = CPU_POS + LINE_DIFF * 5;
+constexpr auto COLL_POOL_POS = CPU_POS + LINE_DIFF * 6;
+constexpr auto CPNT_HEAP_POS_1 = CPU_POS + LINE_DIFF * 7;
+constexpr auto CPNT_HEAP_POS_2 = CPU_POS + LINE_DIFF * 8;
 
 } // namespace
+
+MemView* MemView::s_instance = nullptr;
+
+auto MemView::instance() -> MemView&
+{
+    BN_ASSERT(s_instance != nullptr);
+
+    return *s_instance;
+}
 
 MemView::MemView(core::TextGens& textGens) : _textGen(textGens.get(asset::FontKind::CRYPT))
 {
@@ -43,6 +57,11 @@ void MemView::update()
         _updateCountdown = UPDATE_INTERVAL;
         redrawTexts();
     }
+}
+
+void MemView::setEntMngr(game::sys::EntityManager* entMngr)
+{
+    _entMngr = entMngr;
 }
 
 void MemView::setVisible(bool isVisible)
@@ -77,6 +96,22 @@ void MemView::redrawTexts()
         _textGen.generate(EWRAM_POS,
                           bn::format<14>("EW {}% {}", (bn::fixed(usedEw) / EWRAM_BYTES * 100).round_integer(), usedEw),
                           _texts);
+        if (_entMngr)
+        {
+            _textGen.generate(ENT_POOL_POS,
+                              bn::format<13>("ENT {}/{}", _entMngr->_entPool.size(), _entMngr->_entPool.max_size()),
+                              _texts);
+            _textGen.generate(COLL_POOL_POS,
+                              bn::format<13>("COLL {}/{}", _entMngr->_collPool.size(), _entMngr->_collPool.max_size()),
+                              _texts);
+            const int usedCpntHeap = _entMngr->_cpntHeap.used_bytes();
+            const int freeCpntHeap = _entMngr->_cpntHeap.available_bytes();
+            const int wholeCpntHeap = usedCpntHeap + freeCpntHeap;
+            _textGen.generate(
+                CPNT_HEAP_POS_1,
+                bn::format<9>("CPNT {}%", (bn::fixed(usedCpntHeap) / wholeCpntHeap * 100).round_integer()), _texts);
+            _textGen.generate(CPNT_HEAP_POS_2, bn::format<13>("{}/{}", usedCpntHeap, wholeCpntHeap), _texts);
+        }
 
         _textGen.set_alignment(prevAlign);
 

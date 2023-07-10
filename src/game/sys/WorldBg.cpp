@@ -1,4 +1,4 @@
-#include "game/WorldBg.hpp"
+#include "game/sys/WorldBg.hpp"
 
 #include <bn_assert.h>
 #include <bn_camera_ptr.h>
@@ -8,7 +8,7 @@
 #include "mtile/MTilemap.hpp"
 #include "util/Math.hpp"
 
-namespace ut::game
+namespace ut::game::sys
 {
 
 namespace
@@ -119,6 +119,10 @@ void WorldBg::allocateGraphics()
     _bgUpper->set_z_order(20);
     _bgUpper2->set_z_order(10);
 
+    _bgLower->set_blending_enabled(true);
+    _bgUpper->set_blending_enabled(true);
+    _bgUpper2->set_blending_enabled(true);
+
     if (redrawGBACells(true))
     {
         _bgMapLower->reload_cells_ref();
@@ -193,4 +197,4 @@ void WorldBg::setGBACell(const bn::point& gbaCellPos, const mtile::MTile& mTile,
     cell = cellInfo.cell();
 }
 
-} // namespace ut::game
+} // namespace ut::game::sys

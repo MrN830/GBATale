@@ -12,7 +12,7 @@ namespace ut::scene
 class IntroLogo final : public Scene
 {
 public:
-    IntroLogo(SceneStack&, Context&);
+    IntroLogo(SceneStack&, SceneContext&);
     ~IntroLogo();
 
     bool handleInput() override;

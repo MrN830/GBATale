@@ -38,7 +38,7 @@ constexpr int GAME_SCENE_FRAMES = 5.5 * FPS;
 
 } // namespace
 
-ConfirmName::ConfirmName(SceneStack& sceneStack, Context& context)
+ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _whiteOut(WHITE_OUT_FRAMES, 1)
 {
     auto& textGen = context.textGens.get(asset::FontKind::MAIN);

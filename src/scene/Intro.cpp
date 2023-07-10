@@ -3,7 +3,7 @@
 namespace ut::scene
 {
 
-Intro::Intro(SceneStack& sceneStack, Context& context) : Scene(sceneStack, context)
+Intro::Intro(SceneStack& sceneStack, SceneContext& context) : Scene(sceneStack, context)
 {
 }
 

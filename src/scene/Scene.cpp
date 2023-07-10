@@ -5,7 +5,7 @@
 namespace ut::scene
 {
 
-Scene::Scene(SceneStack& sceneStack, Context& context) : _sceneStack(sceneStack), _context(context)
+Scene::Scene(SceneStack& sceneStack, SceneContext& context) : _sceneStack(sceneStack), _context(context)
 {
 }
 
@@ -24,12 +24,12 @@ void Scene::reqStackClear()
     _sceneStack.clearScene();
 }
 
-auto Scene::getContext() -> Context&
+auto Scene::getContext() -> SceneContext&
 {
     return _context;
 }
 
-auto Scene::getContext() const -> const Context&
+auto Scene::getContext() const -> const SceneContext&
 {
     return _context;
 }
