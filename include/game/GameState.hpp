@@ -138,6 +138,7 @@ public:
     void setArmor(ItemKind);
 
     void setHasPhone(bool hasPhone);
+    void setRoom(RoomKind);
 
     void setTime(const core::PlayTime& time);
 

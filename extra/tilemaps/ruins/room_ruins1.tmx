@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="24" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="72">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="24" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="77">
  <tileset firstgid="1" source="ruins.tsx"/>
  <layer id="1" name="BGLower" width="16" height="24">
   <data encoding="csv">
@@ -123,8 +123,8 @@
   <object id="50" x="64" y="336" width="32" height="16"/>
   <object id="51" x="160" y="336" width="32" height="16"/>
   <object id="52" x="32" y="80" width="192" height="16"/>
-  <object id="53" x="16" y="16" width="16" height="320"/>
-  <object id="54" x="224" y="16" width="16" height="320"/>
+  <object id="53" x="16" y="96" width="16" height="80"/>
+  <object id="54" x="224" y="96" width="16" height="80"/>
   <object id="55" x="64" y="112" width="128" height="16"/>
   <object id="56" x="96" y="128" width="64" height="16"/>
   <object id="57" x="96" y="144" width="64" height="16"/>
@@ -159,6 +159,37 @@
    <polygon points="0,0 16,16 16,0"/>
   </object>
  </objectgroup>
- <objectgroup id="8" name="Warp"/>
+ <objectgroup id="8" name="Warp">
+  <object id="72" type="WarpPoint" x="128" y="176">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="INIT"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="73" type="WarpPoint" x="128" y="96">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="B"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="74" type="WarpPoint" x="128" y="344">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="A"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="75" type="Warp" x="112" y="360" width="32" height="16">
+   <properties>
+    <property name="roomName" value="room_area1_2"/>
+    <property name="warpId" propertytype="WarpId" value="B"/>
+   </properties>
+  </object>
+  <object id="76" type="Warp" x="112" y="80" width="32" height="16">
+   <properties>
+    <property name="roomName" value="room_ruins2"/>
+    <property name="warpId" propertytype="WarpId" value="A"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="3" name="Entity"/>
 </map>

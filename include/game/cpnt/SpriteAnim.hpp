@@ -46,6 +46,9 @@ public:
     auto getCurAnimKind() const -> asset::SpriteAnimKind;
     void setCurAnimKind(asset::SpriteAnimKind);
 
+    auto getLastAnimDir() const -> core::Directions;
+    void setStandStillDir(core::Directions);
+
 private:
     void setCurAnimKind(asset::SpriteAnimKind, bool preserveRenderCount);
 

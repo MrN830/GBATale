@@ -119,6 +119,10 @@ void WorldBg::allocateGraphics()
     _bgUpper->set_z_order(20);
     _bgUpper2->set_z_order(10);
 
+    _bgLower->set_blending_enabled(true);
+    _bgUpper->set_blending_enabled(true);
+    _bgUpper2->set_blending_enabled(true);
+
     if (redrawGBACells(true))
     {
         _bgMapLower->reload_cells_ref();

@@ -12,9 +12,14 @@
 namespace ut::scene
 {
 
+namespace
+{
+constexpr int FI_FRAMES = 12;
+}
+
 Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     : Scene(sceneStack, sceneContext), _worldBg(_camMngr.getCamera()), _entMngr(_gameContext),
-      _gameContext{sceneContext, sceneContext.gameState, _camMngr, _entMngr}
+      _gameContext{sceneContext, sceneContext.gameState, _camMngr, _worldBg, _entMngr, _fadeMngr, _roomChanger}
 {
     sceneContext.menuCursorIdx = 0;
     sceneContext.gameContext = &_gameContext;
@@ -25,15 +30,14 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
         bn::dmg_music::stop();
 
     const auto room = sceneContext.gameState.getRoom();
-    const auto mTilemap = game::getRoomMTilemap(room);
-
-    BN_ASSERT(mTilemap != nullptr, "Invalid room=", (int)room);
-
-    _worldBg.setMTilemap(*mTilemap);
+    _roomChanger.instantChange(room, mtile::WarpId::INIT, _gameContext);
     _worldBg.allocateGraphics();
 
-    _entMngr.reloadRoom();
-    _entMngr.createFrisk({120, 60}); // test
+    if (sceneContext.gameState.getRSavedCount() <= 0)
+    {
+        bn::blending::set_fade_alpha(1);
+        _fadeMngr.startFadeIn(FI_FRAMES);
+    }
 }
 
 Game::~Game()
@@ -43,6 +47,9 @@ Game::~Game()
 
 bool Game::handleInput()
 {
+    if (_roomChanger.isChanging())
+        return true;
+
     // TODO: Disable opening menu on cutscenes, events, ...
     if (bn::keypad::start_pressed() || bn::keypad::l_pressed() || bn::keypad::r_pressed())
     {
@@ -58,8 +65,10 @@ bool Game::handleInput()
 bool Game::update()
 {
     _entMngr.update();
+    _roomChanger.update(_gameContext);
     _camMngr.update(_gameContext);
     _worldBg.render();
+    _fadeMngr.render();
 
     return true;
 }

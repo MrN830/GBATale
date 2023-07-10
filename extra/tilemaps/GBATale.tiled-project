@@ -1,0 +1,112 @@
+{
+    "automappingRulesFile": "",
+    "commands": [
+    ],
+    "compatibilityVersion": 1100,
+    "extensionsPath": "extensions",
+    "folders": [
+        ".",
+        "ruins"
+    ],
+    "propertyTypes": [
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 7,
+            "members": [
+            ],
+            "name": "CustomNpc",
+            "type": "class",
+            "useAs": [
+                "object"
+            ]
+        },
+        {
+            "color": "#ff5e5492",
+            "drawFill": true,
+            "id": 1,
+            "members": [
+                {
+                    "name": "kind",
+                    "propertyType": "NamedNpcKind",
+                    "type": "string",
+                    "value": "NONE"
+                }
+            ],
+            "name": "NamedNpc",
+            "type": "class",
+            "useAs": [
+                "object"
+            ]
+        },
+        {
+            "id": 6,
+            "name": "NamedNpcKind",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "NONE",
+                "TORIEL",
+                "FROGGIT"
+            ],
+            "valuesAsFlags": false
+        },
+        {
+            "color": "#ff40ff40",
+            "drawFill": true,
+            "id": 8,
+            "members": [
+                {
+                    "name": "roomName",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "name": "warpId",
+                    "propertyType": "WarpId",
+                    "type": "string",
+                    "value": "NONE"
+                }
+            ],
+            "name": "Warp",
+            "type": "class",
+            "useAs": [
+                "object"
+            ]
+        },
+        {
+            "id": 9,
+            "name": "WarpId",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "NONE",
+                "INIT",
+                "A",
+                "B",
+                "C",
+                "D",
+                "X"
+            ],
+            "valuesAsFlags": false
+        },
+        {
+            "color": "#ffffff00",
+            "drawFill": true,
+            "id": 10,
+            "members": [
+                {
+                    "name": "warpId",
+                    "propertyType": "WarpId",
+                    "type": "string",
+                    "value": "NONE"
+                }
+            ],
+            "name": "WarpPoint",
+            "type": "class",
+            "useAs": [
+                "object"
+            ]
+        }
+    ]
+}

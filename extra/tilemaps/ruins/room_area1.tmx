@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="34" height="13" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="85">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="34" height="13" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="96">
  <tileset firstgid="1" source="ruins.tsx"/>
  <layer id="1" name="BGLower" width="34" height="13">
   <data encoding="csv">
@@ -95,6 +95,25 @@
    <polygon points="0,0 0,16 16,0"/>
   </object>
  </objectgroup>
- <objectgroup id="8" name="Warp"/>
+ <objectgroup id="8" name="Warp">
+  <object id="86" type="Warp" x="488" y="112" width="16" height="16">
+   <properties>
+    <property name="roomName" value="room_area1_2"/>
+    <property name="warpId" propertytype="WarpId" value="A"/>
+   </properties>
+  </object>
+  <object id="91" type="WarpPoint" x="496" y="128">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="B"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="94" type="WarpPoint" x="120" y="104">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="INIT"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
  <objectgroup id="3" name="Entity"/>
 </map>

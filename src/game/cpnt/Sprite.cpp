@@ -12,6 +12,8 @@ Sprite::Sprite(ent::Entity& entity, const bn::sprite_item& sprItem, int gfxIdx, 
                bool autoAlterZOrder)
     : Component(entity), _autoAlterZOrder(autoAlterZOrder), _spr(sprItem.create_sprite(entity.getPosition(), gfxIdx))
 {
+    _spr.set_blending_enabled(true);
+
     if (camera != nullptr)
         _spr.set_camera(*camera);
 

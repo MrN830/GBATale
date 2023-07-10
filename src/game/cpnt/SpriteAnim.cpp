@@ -102,14 +102,7 @@ void SpriteAnim::receiveInputCmd(const cmd::InputCmd& cmd)
 
         // change sprite to stand still tile
         if (_curAnimKind != AnimKind::NONE)
-        {
-            const auto& info = IAnimInfo::get(_curAnimKind);
-            const int standGfxIdx = info.getGfxIdxes()[1];
-            _sprCpnt.getSprPtr().set_tiles(info.sprItem.tiles_item(), standGfxIdx);
-
-            // stop anim
             setCurAnimKind(AnimKind::NONE, false);
-        }
     }
 }
 
@@ -140,6 +133,29 @@ void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind)
     setCurAnimKind(kind, false);
 }
 
+auto SpriteAnim::getLastAnimDir() const -> core::Directions
+{
+    return _lastAnimDir;
+}
+
+void SpriteAnim::setStandStillDir(core::Directions direction)
+{
+    BN_ASSERT(hasDirectionAnims(), "no up/down/left/right anim registered");
+
+    using Dirs = core::Directions;
+
+    if (!!(direction & Dirs::UP))
+        setCurAnimKind(_up, false);
+    else if (!!(direction & Dirs::DOWN))
+        setCurAnimKind(_down, false);
+    else if (!!(direction & Dirs::LEFT))
+        setCurAnimKind(_left, false);
+    else if (!!(direction & Dirs::RIGHT))
+        setCurAnimKind(_right, false);
+
+    setCurAnimKind(asset::SpriteAnimKind::NONE, false);
+}
+
 /**
  * @brief Set animation kind, and restart the animation if necessary.
  *
@@ -152,48 +168,55 @@ void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind, bool preserveRenderC
     if (kind == _curAnimKind)
         return;
 
-    _curAnimKind = kind;
-
     if (kind == asset::SpriteAnimKind::NONE)
     {
+        if (hasDirectionAnims() && _curAnimKind != asset::SpriteAnimKind::NONE)
+        {
+            const auto& info = asset::ISpriteAnimInfo::get(_curAnimKind);
+            const int standGfxIdx = info.getGfxIdxes()[1];
+            _sprCpnt.getSprPtr().set_tiles(info.sprItem.tiles_item(), standGfxIdx);
+        }
+
+        // _curAnimKind = kind;
         _isManualRender = false;
         _action.reset();
         _curRenderCount = 0;
-        return;
     }
-
-    const auto& info = asset::ISpriteAnimInfo::get(kind);
-    auto& spr = _sprCpnt.getSprPtr();
-
-    if (preserveRenderCount)
+    else
     {
-        BN_ASSERT(_action.has_value(), "no prev anim to preserve render count");
-        BN_ASSERT(_action->update_forever(), "can't preserve render count for prev anim `ONCE`");
-        BN_ASSERT(info.forever, "can't preserve render count for next anim `ONCE`");
-        BN_ASSERT(_action->wait_updates() == info.waitUpdate,
-                  "incompatible wait updates between prev=", _action->wait_updates(), ", next=", info.waitUpdate);
+        const auto& info = asset::ISpriteAnimInfo::get(kind);
+        auto& spr = _sprCpnt.getSprPtr();
+
+        if (preserveRenderCount)
+        {
+            BN_ASSERT(_action.has_value(), "no prev anim to preserve render count");
+            BN_ASSERT(_action->update_forever(), "can't preserve render count for prev anim `ONCE`");
+            BN_ASSERT(info.forever, "can't preserve render count for next anim `ONCE`");
+            BN_ASSERT(_action->wait_updates() == info.waitUpdate,
+                      "incompatible wait updates between prev=", _action->wait_updates(), ", next=", info.waitUpdate);
+        }
+
+        _isManualRender = info.manualRender;
+
+        _sprCpnt.setDiff(info.diff);
+        spr.set_item(info.sprItem);
+        spr.set_horizontal_flip(info.hFlip);
+        spr.set_vertical_flip(info.vFlip);
+
+        using SprAnimAction = decltype(_action)::value_type;
+
+        // resolve a func ptr by name to an *overloaded* function, kinda ugly
+        using CreateAnimFunc = SprAnimAction (*)(const bn::sprite_ptr&, int, const bn::sprite_tiles_item&,
+                                                 const bn::span<const uint16_t>&);
+        auto* createAnim = (info.forever ? static_cast<CreateAnimFunc>(SprAnimAction::forever)
+                                         : static_cast<CreateAnimFunc>(SprAnimAction::once));
+
+        _action = createAnim(spr, info.waitUpdate, info.sprItem.tiles_item(), info.getGfxIdxes());
+
+        if (preserveRenderCount)
+            for (int i = 0; i < _curRenderCount; ++i)
+                _action->update();
     }
-
-    _isManualRender = info.manualRender;
-
-    _sprCpnt.setDiff(info.diff);
-    spr.set_item(info.sprItem);
-    spr.set_horizontal_flip(info.hFlip);
-    spr.set_vertical_flip(info.vFlip);
-
-    using SprAnimAction = decltype(_action)::value_type;
-
-    // resolve a func ptr by name to an *overloaded* function, kinda ugly
-    using CreateAnimFunc =
-        SprAnimAction (*)(const bn::sprite_ptr&, int, const bn::sprite_tiles_item&, const bn::span<const uint16_t>&);
-    auto* createAnim = (info.forever ? static_cast<CreateAnimFunc>(SprAnimAction::forever)
-                                     : static_cast<CreateAnimFunc>(SprAnimAction::once));
-
-    _action = createAnim(spr, info.waitUpdate, info.sprItem.tiles_item(), info.getGfxIdxes());
-
-    if (preserveRenderCount)
-        for (int i = 0; i < _curRenderCount; ++i)
-            _action->update();
 
     // set last anim dir
     if (kind == _up)
@@ -204,6 +227,8 @@ void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind, bool preserveRenderC
         _lastAnimDir = core::Directions::LEFT;
     else if (kind == _right)
         _lastAnimDir = core::Directions::RIGHT;
+
+    _curAnimKind = kind;
 }
 
 } // namespace ut::game::cpnt

@@ -6,6 +6,7 @@
 #include <bn_span.h>
 
 #include "game/coll/CollInfo.hpp"
+#include "mtile/SpawnPoints.hpp"
 
 namespace bn
 {
@@ -32,20 +33,38 @@ inline constexpr MTile EMPTY_M_TILE = {0, false, false};
  */
 struct MTilemapBase
 {
+    using WarpPoints = bn::array<bn::fixed_point, (int)WarpId::TOTAL_COUNT>;
+
 public:
     const bn::regular_bg_tiles_item &tilesLower, &tilesUpper, &tilesUpper2;
     const bn::bg_palette_item &palLower, &palUpper, &palUpper2;
+
+private:
+    const WarpPoints _warpPoints;
 
 public:
     virtual ~MTilemapBase() = default;
 
     constexpr MTilemapBase(const bn::regular_bg_tiles_item& tilesLower_, const bn::regular_bg_tiles_item& tilesUpper_,
                            const bn::regular_bg_tiles_item& tilesUpper2_, const bn::bg_palette_item& palLower_,
-                           const bn::bg_palette_item& palUpper_, const bn::bg_palette_item& palUpper2_)
+                           const bn::bg_palette_item& palUpper_, const bn::bg_palette_item& palUpper2_,
+                           const WarpPoints& warpPoints)
         : tilesLower(tilesLower_), tilesUpper(tilesUpper_), tilesUpper2(tilesUpper2_), palLower(palLower_),
-          palUpper(palUpper_), palUpper2(palUpper2_)
+          palUpper(palUpper_), palUpper2(palUpper2_), _warpPoints(warpPoints)
     {
     }
+
+public:
+    constexpr const bn::fixed_point* getWarpPoint(WarpId warpId) const
+    {
+        BN_ASSERT(0 <= (int)warpId && (int)warpId < (int)WarpId::TOTAL_COUNT);
+
+        const auto& warpPoint = _warpPoints[(int)warpId];
+        if (warpPoint.x() < 0 || warpPoint.y() < 0)
+            return nullptr;
+
+        return &warpPoint;
+    };
 
 public:
     constexpr virtual int getWidth() const = 0;
@@ -57,6 +76,8 @@ public:
 
     constexpr virtual auto getRectWalls() const -> bn::span<const game::coll::RectCollInfo> = 0;
     constexpr virtual auto getTriWalls() const -> bn::span<const game::coll::AAIRTriCollInfo> = 0;
+
+    constexpr virtual auto getWarps() const -> bn::span<const Warp> = 0;
 };
 
 /**
@@ -66,26 +87,29 @@ public:
  * @tparam `MWidth` Meta-cell width
  * @tparam `MHeight` Meta-cell height
  */
-template <int MWidth, int MHeight, int RectWallCount, int TriWallCount>
+template <int MWidth, int MHeight, int RectWallCount, int TriWallCount, int WarpCount>
 struct MTilemap : MTilemapBase
 {
     using BoardType = bn::array<MTile, MWidth * MHeight>;
     using RectWalls = bn::array<game::coll::RectCollInfo, RectWallCount>;
     using TriWalls = bn::array<game::coll::AAIRTriCollInfo, TriWallCount>;
+    using Warps = bn::array<Warp, WarpCount>;
 
 private:
     const RectWalls _rectWalls;
     const TriWalls _triWalls;
+    const Warps _warps;
     const BoardType _lower, _upper, _upper2;
 
 public:
     constexpr MTilemap(const bn::regular_bg_tiles_item& tilesLower_, const bn::regular_bg_tiles_item& tilesUpper_,
                        const bn::regular_bg_tiles_item& tilesUpper2_, const bn::bg_palette_item& palLower_,
                        const bn::bg_palette_item& palUpper_, const bn::bg_palette_item& palUpper2_,
-                       const RectWalls& rectWalls, const TriWalls& triWalls, const BoardType& lower,
-                       const BoardType& upper, const BoardType& upper2)
-        : MTilemapBase(tilesLower_, tilesUpper_, tilesUpper2_, palLower_, palUpper_, palUpper2_), _rectWalls(rectWalls),
-          _triWalls(triWalls), _lower(lower), _upper(upper), _upper2(upper2)
+                       const RectWalls& rectWalls, const TriWalls& triWalls, const Warps& warps,
+                       const WarpPoints& warpPoints, const BoardType& lower, const BoardType& upper,
+                       const BoardType& upper2)
+        : MTilemapBase(tilesLower_, tilesUpper_, tilesUpper2_, palLower_, palUpper_, palUpper2_, warpPoints),
+          _rectWalls(rectWalls), _triWalls(triWalls), _warps(warps), _lower(lower), _upper(upper), _upper2(upper2)
     {
     }
 
@@ -132,6 +156,11 @@ public:
     constexpr bn::span<const game::coll::AAIRTriCollInfo> getTriWalls() const override
     {
         return _triWalls;
+    }
+
+    constexpr bn::span<const Warp> getWarps() const override
+    {
+        return _warps;
     }
 };
 

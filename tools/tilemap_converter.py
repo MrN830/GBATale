@@ -1,5 +1,6 @@
 import os
 import glob
+import json
 from collections import namedtuple
 from enum import Enum
 from collections import Counter
@@ -79,6 +80,12 @@ class TilemapConverter:
             return False
 
         tiled_map = pytmx.TiledMap(tmx_path)
+        tiled_map.parse_json(
+            json.load(open("extra/tilemaps/GBATale.tiled-project", "r"))[
+                "propertyTypes"
+            ]
+        )
+
         bg_upper2: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper2")
         bg_upper: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper")
         bg_lower: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGLower")
@@ -208,12 +215,15 @@ class TilemapConverter:
                 return None
 
             p1, p2 = points[0], points[2]
-            return RectWall(
+            rect_wall = RectWall(
                 (p1.x + p2.x) / 2,
                 (p1.y + p2.y) / 2,
                 abs(p2.x - p1.x),
                 abs(p2.y - p1.y),
             )
+            if rect_wall.w == 0 or rect_wall.h == 0:
+                return None
+            return rect_wall
 
         def get_tri_wall(points: list) -> TriWall:
             if (
@@ -242,6 +252,11 @@ class TilemapConverter:
         rect_walls = []
         tri_walls = []
         for obj in l_wall:
+            if obj.type:
+                raise Exception(
+                    f"{obj.type=} found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
+                )
+
             if hasattr(obj, "points"):
                 tri = get_tri_wall(obj.points)
                 if tri:
@@ -264,6 +279,55 @@ class TilemapConverter:
                 f"[ERR] Invalid Wall collider found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
             )
             raise TilemapConverter.InvalidWallColliderException(obj_pos)
+
+        # Warps & warp points
+        Warp = namedtuple("Warp", "rect, roomName, warpId")
+        WarpPoint = namedtuple("WarpPoint", "x, y")
+        warp_ids = ["INIT", "A", "B", "C", "D", "X"]
+
+        warps = []
+        warp_points = [None] * len(warp_ids)
+
+        for obj in l_warp:
+            if obj.type not in {"Warp", "WarpPoint"}:
+                raise Exception(
+                    f"Non warp obj found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                )
+
+            warpId = obj.properties.get("warpId")
+            if not warpId or warpId not in warp_ids:
+                raise Exception(
+                    f"Invalid {warpId=} found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                )
+
+            if obj.type == "Warp":
+                roomName = obj.properties.get("roomName")
+                if (
+                    not roomName
+                    or roomName.upper() not in TilemapConverter.ROOM_NAMES_SET
+                ):
+                    raise Exception(
+                        f"Invalid {roomName=} found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                    )
+                roomName = roomName.upper()
+
+                rect = get_rect_wall(obj.as_points)
+                if not rect:
+                    raise Exception(
+                        f"Invalid sized warp found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
+                    )
+
+                warps.append(Warp(rect, roomName, warpId))
+
+            else:  # obj.type == "WarpPoint"
+                idx = warp_ids.index(warpId)
+
+                if warp_points[idx]:
+                    raise Exception(
+                        f"Duplicate {warpId=} for WarpPoints (x={obj.x}, y={obj.y}) & (x={warp_points[idx].x}, y={warp_points[idx].y}) in `{mtilemap_name}` Warp layer"
+                    )
+
+                warp_points[idx] = WarpPoint(obj.x, obj.y)
 
         # Write header file
         with open(mtilemap_header_path, "w") as output_header:
@@ -298,7 +362,7 @@ class TilemapConverter:
             output_header.write(f"using namespace ut::game::coll;" + "\n\n")
 
             output_header.write(
-                f"inline constexpr MTilemap<{tiled_map.width},{tiled_map.height},{len(rect_walls)},{len(tri_walls)}> {mtilemap_name}(\n"
+                f"inline constexpr MTilemap<{tiled_map.width},{tiled_map.height},{len(rect_walls)},{len(tri_walls)},{len(warps)}> {mtilemap_name}(\n"
             )
 
             # MTileset
@@ -337,6 +401,26 @@ class TilemapConverter:
                 "".join(
                     f"AAIRTriCollInfo(bn::fixed_point({wall.x},{wall.y}),{wall.l},{wall.direc}),"
                     for wall in tri_walls
+                )
+            )
+            output_header.write("}," + "\n")
+
+            # Warps
+            output_header.write("{" + "\n")
+            output_header.write(
+                "".join(
+                    f"Warp(RectCollInfo(bn::fixed_point({warp.rect.x},{warp.rect.y}),bn::fixed_size({warp.rect.w},{warp.rect.h})),game::RoomKind::{warp.roomName},WarpId::{warp.warpId}),"
+                    for warp in warps
+                )
+            )
+            output_header.write("}," + "\n")
+
+            # Warp points
+            output_header.write("{" + "\n")
+            output_header.write(
+                "".join(
+                    f"bn::fixed_point({f'{wp.x},{wp.y}' if wp else '-999,-999'}),"
+                    for wp in warp_points
                 )
             )
             output_header.write("}," + "\n")
@@ -738,3 +822,5 @@ class TilemapConverter:
         "ROOM_ASRIELTEST",
         "ROOM_AFINALTEST",
     ]
+
+    ROOM_NAMES_SET = set(ROOM_NAMES)

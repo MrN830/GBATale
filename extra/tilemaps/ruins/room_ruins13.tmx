@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="27" height="13" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="50">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="27" height="13" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="55">
  <tileset firstgid="1" source="ruins.tsx"/>
  <layer id="1" name="BGLower" width="27" height="13">
   <data encoding="csv">
@@ -77,7 +77,32 @@
   <object id="48" x="400" y="128" width="32" height="32"/>
   <object id="49" x="0" y="64" width="16" height="96"/>
  </objectgroup>
- <objectgroup id="8" name="Warp"/>
+ <objectgroup id="8" name="Warp">
+  <object id="51" type="WarpPoint" x="64" y="168">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="X"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="52" type="WarpPoint" x="408" y="104">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="B"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="53" type="Warp" x="48" y="192" width="32" height="16">
+   <properties>
+    <property name="roomName" value="room_ruins12"/>
+    <property name="warpId" propertytype="WarpId" value="X"/>
+   </properties>
+  </object>
+  <object id="54" type="Warp" x="416" y="96" width="16" height="32">
+   <properties>
+    <property name="roomName" value="room_ruins14"/>
+    <property name="warpId" propertytype="WarpId" value="A"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="3" name="Entity">
   <object id="43" gid="644" x="64" y="96" width="16" height="16"/>
  </objectgroup>

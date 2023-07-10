@@ -14,6 +14,7 @@
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/CameraManager.hpp"
+#include "mtile/MTilemap.hpp"
 
 #if UT_MEM_VIEW
 #include "debug/MemView.hpp"
@@ -24,7 +25,8 @@
 namespace ut::game::sys
 {
 
-EntityManager::EntityManager(GameContext& context) : _context(context), _cpntHeap(_cpntBuffer, sizeof(_cpntBuffer))
+EntityManager::EntityManager(GameContext& context)
+    : _context(context), _cpntHeap(_cpntBuffer, sizeof(_cpntBuffer)), _friskAnimDirection(core::Directions::DOWN)
 {
 #if UT_MEM_VIEW
     debug::MemView::instance().setEntMngr(this);
@@ -66,8 +68,12 @@ void EntityManager::reloadRoom()
 
     const auto room = _context.state.getRoom();
     const auto mTilemap = game::getRoomMTilemap(room);
-
     BN_ASSERT(mTilemap != nullptr, "Invalid room=", (int)room);
+
+    const bn::fixed_point* friskPos = mTilemap->getWarpPoint(_context.warpId);
+    BN_ASSERT(friskPos != nullptr, "Invalid Frisk warp point=", (int)_context.warpId, " in room=", (int)room);
+
+    createFrisk(*friskPos);
 
     // TODO: Load entities from new room
 }
@@ -94,6 +100,7 @@ void EntityManager::createFrisk(const bn::fixed_point position)
     frisk.addComponent(sprAnim);
     sprAnim.registerDirectionAnimKinds(AnimKind::FRISK_WALK_UP, AnimKind::FRISK_WALK_DOWN, AnimKind::FRISK_WALK_LEFT,
                                        AnimKind::FRISK_WALK_RIGHT);
+    sprAnim.setStandStillDir(_friskAnimDirection);
 
     cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk);
     frisk.addComponent(input);
@@ -126,7 +133,20 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
         // Detach camera if it was following `entity`
         auto& camMngr = _context.camMngr;
         if (&entity == camMngr.getCamFollowEntity())
+        {
             camMngr.setCamFollowEntity(nullptr);
+
+            // TODO: Find Frisk by EntityId,
+            // instead of checking if camera & `cpnt::PlayerInput` attached
+            if (entity.getComponent<cpnt::PlayerInput>() != nullptr)
+            {
+                const auto* friskAnim = entity.getComponent<cpnt::SpriteAnim>();
+                BN_ASSERT(friskAnim != nullptr);
+
+                // Preserve Frisk's direction
+                _friskAnimDirection = friskAnim->getLastAnimDir();
+            }
+        }
 
         // Destroy all colliders within `ColliderPack`
         auto* collPack = entity.getComponent<cpnt::ColliderPack>();
@@ -153,7 +173,7 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
             BN_ASSERT(components.empty());
 
         // Destroy `entity`
-        _entities.erase_after(eBeforeIt);
+        eIt = _entities.erase_after(eBeforeIt);
         _entPool.destroy(entity);
     }
 

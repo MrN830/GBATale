@@ -39,6 +39,8 @@ private:
 
     bn::pool<coll::Collider, 32> _collPool;
 
+    core::Directions _friskAnimDirection;
+
 public:
     EntityManager(GameContext&);
     ~EntityManager();
