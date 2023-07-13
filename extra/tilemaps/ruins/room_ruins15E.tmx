@@ -71,7 +71,8 @@
   <object id="46" x="16" y="64" width="16" height="80"/>
   <object id="47" x="224" y="64" width="16" height="80"/>
  </objectgroup>
- <objectgroup id="8" name="Warp">
+ <objectgroup id="3" name="Entity"/>
+ <objectgroup id="8" name="Warp" locked="1">
   <object id="49" type="WarpPoint" x="128" y="88">
    <properties>
     <property name="warpId" propertytype="WarpId" value="X"/>
@@ -85,5 +86,4 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
 </map>

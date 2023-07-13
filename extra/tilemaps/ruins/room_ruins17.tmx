@@ -59,7 +59,8 @@
   <object id="46" x="0" y="64" width="32" height="32"/>
   <object id="47" x="160" y="64" width="16" height="64"/>
  </objectgroup>
- <objectgroup id="8" name="Warp">
+ <objectgroup id="3" name="Entity"/>
+ <objectgroup id="8" name="Warp" locked="1">
   <object id="49" type="Warp" x="0" y="96" width="16" height="32">
    <properties>
     <property name="roomName" value="room_ruins16"/>
@@ -85,5 +86,4 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
 </map>

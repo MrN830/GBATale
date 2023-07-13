@@ -10,46 +10,16 @@
     ],
     "propertyTypes": [
         {
-            "color": "#ffa0a0a4",
+            "color": "#ff5656d3",
             "drawFill": true,
-            "id": 7,
+            "id": 11,
             "members": [
             ],
-            "name": "CustomNpc",
+            "name": "Entity",
             "type": "class",
             "useAs": [
                 "object"
             ]
-        },
-        {
-            "color": "#ff5e5492",
-            "drawFill": true,
-            "id": 1,
-            "members": [
-                {
-                    "name": "kind",
-                    "propertyType": "NamedNpcKind",
-                    "type": "string",
-                    "value": "NONE"
-                }
-            ],
-            "name": "NamedNpc",
-            "type": "class",
-            "useAs": [
-                "object"
-            ]
-        },
-        {
-            "id": 6,
-            "name": "NamedNpcKind",
-            "storageType": "string",
-            "type": "enum",
-            "values": [
-                "NONE",
-                "TORIEL",
-                "FROGGIT"
-            ],
-            "valuesAsFlags": false
         },
         {
             "color": "#ff40ff40",

@@ -95,7 +95,8 @@
    <polygon points="0,0 0,16 16,0"/>
   </object>
  </objectgroup>
- <objectgroup id="8" name="Warp">
+ <objectgroup id="3" name="Entity"/>
+ <objectgroup id="8" name="Warp" locked="1">
   <object id="86" type="Warp" x="488" y="112" width="16" height="16">
    <properties>
     <property name="roomName" value="room_area1_2"/>
@@ -115,5 +116,4 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
 </map>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="36" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="64">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="32" height="36" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="72">
  <tileset firstgid="1" source="ruins.tsx"/>
+ <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="32" height="36">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -173,8 +174,18 @@
   <object id="53" x="128" y="544" width="352" height="16"/>
   <object id="55" x="112" y="400" width="16" height="144"/>
   <object id="58" x="480" y="400" width="16" height="144"/>
+  <object id="64" x="240" y="400" width="32" height="144"/>
+  <object id="65" x="368" y="400" width="16" height="144"/>
  </objectgroup>
- <objectgroup id="8" name="Warp">
+ <objectgroup id="3" name="Entity">
+  <object id="66" type="Entity" gid="1376" x="150" y="534" width="16" height="16"/>
+  <object id="67" type="Entity" gid="1380" x="184" y="416" width="16" height="32"/>
+  <object id="68" type="Entity" gid="1380" x="472" y="528" width="16" height="32"/>
+  <object id="69" type="Entity" gid="1362" x="312" y="389" width="16" height="16"/>
+  <object id="70" type="Entity" gid="1364" x="488" y="136" width="16" height="16"/>
+  <object id="71" type="Entity" gid="1364" x="488" y="152" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="8" name="Warp" locked="1">
   <object id="60" type="Warp" x="0" y="80" width="16" height="32">
    <properties>
     <property name="roomName" value="room_ruins13"/>
@@ -200,5 +211,4 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
 </map>

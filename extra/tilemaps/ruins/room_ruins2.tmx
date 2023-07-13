@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="61">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="63">
  <tileset firstgid="1" source="ruins.tsx"/>
+ <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="16" height="12">
   <data encoding="csv">
 0,0,132,215,215,216,0,0,214,215,215,215,133,0,0,0,
-0,132,216,82,82,83,961,962,81,82,82,82,214,133,0,0,
-0,176,83,82,43,83,1001,1002,81,82,82,82,81,214,133,0,
-0,176,83,122,122,123,1041,1042,121,122,122,122,81,81,174,0,
+0,132,216,82,82,83,0,0,81,82,82,82,214,133,0,0,
+0,176,83,82,43,83,0,0,81,82,82,82,81,214,133,0,
+0,176,83,122,122,123,0,0,121,122,122,122,81,81,174,0,
 0,176,123,322,322,322,321,321,322,322,322,322,121,81,174,0,
 0,176,322,322,322,241,321,282,322,322,328,322,322,121,174,0,
 0,176,322,322,322,321,321,322,322,322,364,322,322,322,174,0,
@@ -84,7 +85,17 @@
    <polygon points="0,0 32,-32 32,0"/>
   </object>
  </objectgroup>
- <objectgroup id="8" name="Warp">
+ <objectgroup id="3" name="Entity">
+  <object id="1" type="Entity" gid="1361" x="152" y="88" width="16" height="16"/>
+  <object id="2" type="Entity" gid="1361" x="184" y="88" width="16" height="16"/>
+  <object id="3" type="Entity" gid="1361" x="168" y="104" width="16" height="16"/>
+  <object id="4" type="Entity" gid="1361" x="152" y="120" width="16" height="16"/>
+  <object id="5" type="Entity" gid="1361" x="184" y="120" width="16" height="16"/>
+  <object id="6" type="Entity" gid="1361" x="168" y="136" width="16" height="16"/>
+  <object id="7" type="Entity" gid="1362" x="168" y="48" width="16" height="16"/>
+  <object id="62" type="Entity" gid="1377" x="112" y="32" width="32" height="64"/>
+ </objectgroup>
+ <objectgroup id="8" name="Warp" locked="1">
   <object id="55" type="WarpPoint" x="128" y="160">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
@@ -109,14 +120,5 @@
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
- </objectgroup>
- <objectgroup id="3" name="Entity">
-  <object id="1" gid="401" x="141.25" y="101.5" width="16" height="16"/>
-  <object id="2" gid="401" x="177.5" y="101.75" width="16" height="16"/>
-  <object id="3" gid="401" x="159.75" y="113.5" width="16" height="16"/>
-  <object id="4" gid="401" x="140.25" y="129.5" width="16" height="16"/>
-  <object id="5" gid="401" x="178.25" y="130.75" width="16" height="16"/>
-  <object id="6" gid="401" x="159.75" y="144.75" width="16" height="16"/>
-  <object id="7" gid="403" x="160.25" y="55.75" width="16" height="16"/>
  </objectgroup>
 </map>
