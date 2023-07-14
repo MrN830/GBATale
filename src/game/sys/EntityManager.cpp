@@ -12,9 +12,10 @@
 #include "game/cpnt/PlayerInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
-#include "game/ent/Entity.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "mtile/MTilemap.hpp"
+
+#include "gen/EntityId.hpp"
 
 #if UT_MEM_VIEW
 #include "debug/MemView.hpp"
@@ -62,7 +63,7 @@ void EntityManager::update()
     removeDestroyed(false);
 }
 
-void EntityManager::reloadRoom()
+void EntityManager::reloadRoom(GameContext& ctx)
 {
     removeDestroyed(true);
 
@@ -73,9 +74,10 @@ void EntityManager::reloadRoom()
     const bn::fixed_point* friskPos = mTilemap->getWarpPoint(_context.warpId);
     BN_ASSERT(friskPos != nullptr, "Invalid Frisk warp point=", (int)_context.warpId, " in room=", (int)room);
 
+    // Load entities from new room
     createFrisk(*friskPos);
-
-    // TODO: Load entities from new room
+    for (const auto& entInfo : mTilemap->getEntities())
+        entInfo.create(ctx);
 }
 
 auto EntityManager::getEntities() const -> const decltype(_entities)&
@@ -85,7 +87,7 @@ auto EntityManager::getEntities() const -> const decltype(_entities)&
 
 void EntityManager::createFrisk(const bn::fixed_point position)
 {
-    ent::Entity& frisk = _entPool.create();
+    ent::Entity& frisk = _entPool.create(ent::gen::EntityId::frisk);
     _entities.push_front(frisk);
 
     frisk.setPosition(position);

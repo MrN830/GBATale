@@ -14,11 +14,50 @@
             "drawFill": true,
             "id": 11,
             "members": [
+                {
+                    "name": "sprite",
+                    "propertyType": "Sprite",
+                    "type": "class",
+                    "value": {
+                    }
+                }
             ],
             "name": "Entity",
             "type": "class",
             "useAs": [
                 "object"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": false,
+            "id": 12,
+            "members": [
+                {
+                    "name": "addComponent",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "isEnabled",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "name": "updateZOrderOnMove",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "zOrder",
+                    "type": "int",
+                    "value": -32768
+                }
+            ],
+            "name": "Sprite",
+            "type": "class",
+            "useAs": [
+                "property"
             ]
         },
         {

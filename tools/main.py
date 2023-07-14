@@ -10,13 +10,15 @@ if __name__ == "__main__":
     dump_and_convert_textdata()
 
     # Tilemap conversion
+    conv = TilemapConverter()
     converted = False
     for folder in glob.glob("extra/tilemaps/*"):
         if os.path.isdir(folder):
             for file in glob.glob(f"{folder}/*.tmx"):
-                converted = TilemapConverter.convert(file) or converted
+                converted = conv.convert(file) or converted
 
     if converted:
         TilemapConverter.write_roominfo_cpp()
+        conv.write_entity_id_header()
 
     print("`tools/main.py`: Done!")

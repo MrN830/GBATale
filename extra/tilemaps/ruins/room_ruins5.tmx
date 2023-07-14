@@ -85,46 +85,366 @@
   <object id="75" x="720" y="112" width="16" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="76" type="Entity" gid="1364" x="664" y="120" width="16" height="16"/>
-  <object id="77" type="Entity" gid="1364" x="680" y="120" width="16" height="16"/>
-  <object id="78" type="Entity" gid="1364" x="664" y="136" width="16" height="16"/>
-  <object id="79" type="Entity" gid="1364" x="680" y="136" width="16" height="16"/>
-  <object id="80" type="Entity" gid="1364" x="696" y="136" width="16" height="16"/>
-  <object id="81" type="Entity" gid="1364" x="712" y="136" width="16" height="16"/>
-  <object id="82" type="Entity" gid="1364" x="712" y="120" width="16" height="16"/>
-  <object id="83" type="Entity" gid="1364" x="696" y="120" width="16" height="16"/>
-  <object id="84" type="Entity" gid="1364" x="696" y="88" width="16" height="16"/>
-  <object id="85" type="Entity" gid="1364" x="712" y="88" width="16" height="16"/>
-  <object id="86" type="Entity" gid="1364" x="696" y="104" width="16" height="16"/>
-  <object id="87" type="Entity" gid="1364" x="712" y="104" width="16" height="16"/>
-  <object id="88" type="Entity" gid="1364" x="728" y="104" width="16" height="16"/>
-  <object id="89" type="Entity" gid="1364" x="744" y="104" width="16" height="16"/>
-  <object id="90" type="Entity" gid="1364" x="744" y="88" width="16" height="16"/>
-  <object id="91" type="Entity" gid="1364" x="728" y="88" width="16" height="16"/>
-  <object id="92" type="Entity" gid="1364" x="744" y="120" width="16" height="16"/>
-  <object id="93" type="Entity" gid="1364" x="760" y="120" width="16" height="16"/>
-  <object id="94" type="Entity" gid="1364" x="744" y="136" width="16" height="16"/>
-  <object id="95" type="Entity" gid="1364" x="760" y="136" width="16" height="16"/>
-  <object id="96" type="Entity" gid="1364" x="776" y="136" width="16" height="16"/>
-  <object id="97" type="Entity" gid="1364" x="792" y="136" width="16" height="16"/>
-  <object id="98" type="Entity" gid="1364" x="792" y="120" width="16" height="16"/>
-  <object id="99" type="Entity" gid="1364" x="776" y="120" width="16" height="16"/>
-  <object id="100" type="Entity" gid="1364" x="824" y="88" width="16" height="16"/>
-  <object id="101" type="Entity" gid="1364" x="840" y="88" width="16" height="16"/>
-  <object id="102" type="Entity" gid="1364" x="824" y="104" width="16" height="16"/>
-  <object id="103" type="Entity" gid="1364" x="840" y="104" width="16" height="16"/>
-  <object id="104" type="Entity" gid="1364" x="856" y="104" width="16" height="16"/>
-  <object id="105" type="Entity" gid="1364" x="872" y="104" width="16" height="16"/>
-  <object id="106" type="Entity" gid="1364" x="872" y="88" width="16" height="16"/>
-  <object id="107" type="Entity" gid="1364" x="856" y="88" width="16" height="16"/>
-  <object id="108" type="Entity" gid="1364" x="808" y="120" width="16" height="16"/>
-  <object id="109" type="Entity" gid="1364" x="824" y="120" width="16" height="16"/>
-  <object id="110" type="Entity" gid="1364" x="808" y="136" width="16" height="16"/>
-  <object id="111" type="Entity" gid="1364" x="824" y="136" width="16" height="16"/>
-  <object id="112" type="Entity" gid="1364" x="840" y="136" width="16" height="16"/>
-  <object id="113" type="Entity" gid="1364" x="840" y="120" width="16" height="16"/>
-  <object id="114" type="Entity" gid="1364" x="760" y="104" width="16" height="16"/>
-  <object id="115" type="Entity" gid="1364" x="760" y="88" width="16" height="16"/>
+  <object id="76" type="Entity" gid="1364" x="664" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="77" type="Entity" gid="1364" x="680" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="78" type="Entity" gid="1364" x="664" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="79" type="Entity" gid="1364" x="680" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="80" type="Entity" gid="1364" x="696" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="81" type="Entity" gid="1364" x="712" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="82" type="Entity" gid="1364" x="712" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="83" type="Entity" gid="1364" x="696" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="84" type="Entity" gid="1364" x="696" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="85" type="Entity" gid="1364" x="712" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="86" type="Entity" gid="1364" x="696" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="87" type="Entity" gid="1364" x="712" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="88" type="Entity" gid="1364" x="728" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="89" type="Entity" gid="1364" x="744" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="90" type="Entity" gid="1364" x="744" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="91" type="Entity" gid="1364" x="728" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="92" type="Entity" gid="1364" x="744" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="93" type="Entity" gid="1364" x="760" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="94" type="Entity" gid="1364" x="744" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="95" type="Entity" gid="1364" x="760" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="96" type="Entity" gid="1364" x="776" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="97" type="Entity" gid="1364" x="792" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="98" type="Entity" gid="1364" x="792" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="99" type="Entity" gid="1364" x="776" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="100" type="Entity" gid="1364" x="824" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="101" type="Entity" gid="1364" x="840" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="102" type="Entity" gid="1364" x="824" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="103" type="Entity" gid="1364" x="840" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="104" type="Entity" gid="1364" x="856" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="105" type="Entity" gid="1364" x="872" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="106" type="Entity" gid="1364" x="872" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="107" type="Entity" gid="1364" x="856" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="108" type="Entity" gid="1364" x="808" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="109" type="Entity" gid="1364" x="824" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="110" type="Entity" gid="1364" x="808" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="111" type="Entity" gid="1364" x="824" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="112" type="Entity" gid="1364" x="840" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="113" type="Entity" gid="1364" x="840" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="114" type="Entity" gid="1364" x="760" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="115" type="Entity" gid="1364" x="760" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="68" type="Warp" x="112" y="176" width="32" height="16">

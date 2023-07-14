@@ -73,8 +73,24 @@
   <object id="47" x="64" y="160" width="128" height="16"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="55" type="Entity" gid="1371" x="160" y="136" width="32" height="16"/>
-  <object id="56" type="Entity" gid="1366" x="96" y="136" width="16" height="16"/>
+  <object id="55" type="Entity" gid="1371" x="160" y="136" width="32" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="56" type="Entity" gid="1366" x="96" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="49" type="Warp" x="0" y="96" width="16" height="32">

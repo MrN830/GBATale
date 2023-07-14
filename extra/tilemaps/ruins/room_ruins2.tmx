@@ -86,14 +86,84 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="1" type="Entity" gid="1361" x="152" y="88" width="16" height="16"/>
-  <object id="2" type="Entity" gid="1361" x="184" y="88" width="16" height="16"/>
-  <object id="3" type="Entity" gid="1361" x="168" y="104" width="16" height="16"/>
-  <object id="4" type="Entity" gid="1361" x="152" y="120" width="16" height="16"/>
-  <object id="5" type="Entity" gid="1361" x="184" y="120" width="16" height="16"/>
-  <object id="6" type="Entity" gid="1361" x="168" y="136" width="16" height="16"/>
-  <object id="7" type="Entity" gid="1362" x="168" y="48" width="16" height="16"/>
-  <object id="62" type="Entity" gid="1377" x="112" y="32" width="32" height="64"/>
+  <object id="1" type="Entity" gid="1361" x="152" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="2" type="Entity" gid="1361" x="184" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="3" type="Entity" gid="1361" x="168" y="104" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="4" type="Entity" gid="1361" x="152" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="5" type="Entity" gid="1361" x="184" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="6" type="Entity" gid="1361" x="168" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="7" type="Entity" gid="1362" x="168" y="48" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="62" type="Entity" gid="1377" x="112" y="32" width="32" height="64">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="55" type="WarpPoint" x="128" y="160">

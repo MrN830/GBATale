@@ -19,6 +19,11 @@ class MemView;
 }
 #endif
 
+namespace ut::game::ent
+{
+struct EntityInfo;
+}
+
 namespace ut::game::sys
 {
 
@@ -28,16 +33,18 @@ class EntityManager final
     friend class ut::debug::MemView;
 #endif
 
+    friend class ut::game::ent::EntityInfo;
+
 private:
     GameContext& _context;
 
-    bn::pool<ent::Entity, 32> _entPool;
+    bn::pool<ent::Entity, 64> _entPool;
     bn::intrusive_forward_list<ent::Entity> _entities;
 
-    uint8_t _cpntBuffer[1024];
+    uint8_t _cpntBuffer[4096];
     bn::best_fit_allocator _cpntHeap;
 
-    bn::pool<coll::Collider, 32> _collPool;
+    bn::pool<coll::Collider, 64> _collPool;
 
     core::Directions _friskAnimDirection;
 
@@ -49,7 +56,7 @@ public:
     void update();
 
 public:
-    void reloadRoom();
+    void reloadRoom(GameContext&);
 
     auto getEntities() const -> const decltype(_entities)&;
 

@@ -120,7 +120,15 @@
   <object id="58" x="0" y="80" width="16" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="67" type="Entity" gid="1366" x="176" y="120" width="16" height="16"/>
+  <object id="67" type="Entity" gid="1366" x="176" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="60" type="Warp" x="0" y="80" width="16" height="32">
