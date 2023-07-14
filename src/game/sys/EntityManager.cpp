@@ -12,6 +12,7 @@
 #include "game/cpnt/PlayerInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
+#include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "mtile/MTilemap.hpp"
 
@@ -97,12 +98,15 @@ void EntityManager::createFrisk(const bn::fixed_point position)
         _cpntHeap.create<cpnt::Sprite>(frisk, bn::sprite_items::ch_frisk_base, 1, &_context.camMngr.getCamera(), true);
     frisk.addComponent(spr);
 
-    using AnimKind = asset::SpriteAnimKind;
     cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(frisk, spr);
     frisk.addComponent(sprAnim);
-    sprAnim.registerDirectionAnimKinds(AnimKind::FRISK_WALK_UP, AnimKind::FRISK_WALK_DOWN, AnimKind::FRISK_WALK_LEFT,
-                                       AnimKind::FRISK_WALK_RIGHT);
-    sprAnim.setStandStillDir(_friskAnimDirection);
+
+    using AnimKind = asset::SpriteAnimKind;
+    cpnt::WalkAnimCtrl& walkAnimCtrl = _cpntHeap.create<cpnt::WalkAnimCtrl>(frisk, sprAnim);
+    frisk.addComponent(walkAnimCtrl);
+    walkAnimCtrl.registerDirectionAnimKinds(AnimKind::FRISK_WALK_UP, AnimKind::FRISK_WALK_DOWN,
+                                            AnimKind::FRISK_WALK_LEFT, AnimKind::FRISK_WALK_RIGHT);
+    walkAnimCtrl.setStandStillDir(_friskAnimDirection);
 
     cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk);
     frisk.addComponent(input);
@@ -140,13 +144,13 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
 
             // TODO: Find Frisk by EntityId,
             // instead of checking if camera & `cpnt::PlayerInput` attached
-            if (entity.getComponent<cpnt::PlayerInput>() != nullptr)
+            if (entity.getId() == ent::gen::EntityId::frisk)
             {
-                const auto* friskAnim = entity.getComponent<cpnt::SpriteAnim>();
-                BN_ASSERT(friskAnim != nullptr);
+                const auto* friskWalk = entity.getComponent<cpnt::WalkAnimCtrl>();
+                BN_ASSERT(friskWalk != nullptr);
 
                 // Preserve Frisk's direction
-                _friskAnimDirection = friskAnim->getLastAnimDir();
+                _friskAnimDirection = friskWalk->getLastAnimDir();
             }
         }
 

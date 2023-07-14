@@ -5,7 +5,7 @@
 #include "game/RoomInfo.hpp"
 #include "game/cmd/InputCmd.hpp"
 #include "game/cpnt/ColliderPack.hpp"
-#include "game/cpnt/SpriteAnim.hpp"
+#include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "mtile/MTilemap.hpp"
@@ -24,10 +24,10 @@ void Input::sendInput(const cmd::InputCmd& cmd, GameContext& ctx)
     // translate entity position
     _entity.setPosition(_entity.getPosition() + collFixedCmd.movePos);
 
-    // send `cmd` to `cpnt::SpriteAnim`
-    auto* sprAnim = _entity.getComponent<cpnt::SpriteAnim>();
-    if (sprAnim != nullptr)
-        sprAnim->receiveInputCmd(collFixedCmd);
+    // send `cmd` to `cpnt::WalkAnimCtrl`
+    auto* walkAnimCtrl = _entity.getComponent<cpnt::WalkAnimCtrl>();
+    if (walkAnimCtrl != nullptr)
+        walkAnimCtrl->receiveInputCmd(collFixedCmd);
 }
 
 auto Input::fixMoveCmdCollision(const cmd::InputCmd& cmd, GameContext& ctx) -> cmd::InputCmd
