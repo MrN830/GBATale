@@ -5,7 +5,8 @@
 namespace ut::asset
 {
 enum class SpriteAnimKind : int16_t;
-}
+enum class WalkAnimKind : int8_t;
+} // namespace ut::asset
 namespace ut::core
 {
 enum class Directions : uint8_t;
@@ -26,6 +27,7 @@ class WalkAnimCtrl : public Component
 
 public:
     WalkAnimCtrl(ent::Entity&, SpriteAnim&);
+    ~WalkAnimCtrl();
 
     auto getType() const -> bn::type_id_t override;
 
@@ -34,9 +36,8 @@ public:
 public:
     void receiveInputCmd(const cmd::InputCmd&);
 
-    bool hasDirectionAnims() const;
-    void registerDirectionAnimKinds(asset::SpriteAnimKind up, asset::SpriteAnimKind down, asset::SpriteAnimKind left,
-                                    asset::SpriteAnimKind right);
+    bool hasWalkAnim() const;
+    void registerWalkAnimKind(asset::WalkAnimKind);
 
     auto getLastAnimDir() const -> core::Directions;
     void setStandStillDir(core::Directions);
@@ -50,10 +51,7 @@ private:
 
     SpriteAnim& _sprAnim;
 
-    asset::SpriteAnimKind _up;
-    asset::SpriteAnimKind _down;
-    asset::SpriteAnimKind _left;
-    asset::SpriteAnimKind _right;
+    asset::WalkAnimKind _walkAnimKind;
 };
 
 } // namespace ut::game::cpnt

@@ -30,15 +30,11 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="8" width="16" height="8"/>
   </objectgroup>
-  <animation>
-   <frame tileid="5" duration="166"/>
-   <frame tileid="6" duration="167"/>
-  </animation>
  </tile>
- <tile id="6" x="0" y="16" width="16" height="16">
-  <image width="16" height="32" source="../../graphics/sprite/ent_save_point.bmp"/>
+ <tile id="6">
+  <image width="16" height="32" source="../../graphics/sprite/ent_dummy.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="8" width="16" height="8"/>
+   <object id="1" x="3" y="20" width="11" height="12"/>
   </objectgroup>
  </tile>
  <tile id="7">

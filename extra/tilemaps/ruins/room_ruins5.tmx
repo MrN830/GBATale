@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="59" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="116">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="59" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="132">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
+ <tileset firstgid="1382" source="../animated_terrain.tsx"/>
  <layer id="1" name="BGLower" width="59" height="12">
   <data encoding="csv">
 0,132,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,133,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,132,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,133,0,
 0,176,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,174,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,176,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,214,215,
 0,176,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,214,215,215,215,215,215,133,0,0,0,0,0,0,0,0,0,0,0,176,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,11,12,
-0,176,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,11,12,12,12,12,12,174,0,0,0,0,0,132,215,215,215,215,215,216,654,655,655,655,655,655,655,655,655,655,655,655,655,655,655,655,655,656,11,12,
-0,176,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,11,12,12,12,12,12,214,215,215,215,215,215,216,12,12,12,12,12,13,534,535,535,535,535,535,535,535,535,535,535,535,535,535,535,535,535,536,51,52,
-0,176,322,322,322,322,241,321,321,321,242,322,322,322,241,321,321,321,242,322,51,52,52,52,52,52,11,12,12,12,12,12,13,12,12,12,12,12,13,417,89,257,257,257,257,257,257,257,257,257,257,257,257,257,257,329,329,322,322,
-0,176,322,322,322,322,321,321,321,321,321,322,322,322,321,321,321,321,282,322,322,322,322,322,322,322,11,12,12,41,42,12,13,52,52,52,52,52,53,417,89,257,257,257,257,257,257,257,257,257,257,257,257,257,257,330,330,322,322,
-0,176,322,322,241,321,321,321,322,321,321,321,321,321,321,321,322,322,322,322,322,322,322,322,322,322,51,52,52,52,52,52,53,322,322,322,322,322,322,329,329,257,257,257,257,257,257,257,257,257,257,257,257,257,257,415,416,134,135,
-0,176,322,322,281,321,321,282,322,281,321,321,321,321,321,282,322,322,322,322,134,135,135,136,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,330,330,257,257,257,257,257,257,257,257,257,257,257,257,257,257,89,418,174,0,
-0,176,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,174,0,0,176,322,322,322,322,322,322,322,322,322,322,322,134,135,135,136,414,415,415,415,415,415,415,415,415,415,415,415,415,415,415,415,89,418,174,0,
+0,176,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,92,11,12,12,12,12,12,174,0,0,0,0,0,132,215,215,215,215,215,216,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,12,
+0,176,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,11,12,12,12,12,12,214,215,215,215,215,215,216,12,12,12,12,12,13,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,51,52,
+0,176,322,322,322,322,241,321,321,321,242,322,322,322,241,321,321,321,242,322,51,52,52,52,52,52,11,12,12,12,12,12,13,12,12,12,12,12,13,0,89,257,257,257,257,257,257,257,257,257,257,257,257,257,257,329,329,322,322,
+0,176,322,322,322,322,321,321,321,321,321,322,322,322,321,321,321,321,282,322,322,322,322,322,322,322,11,12,12,41,42,12,13,52,52,52,52,52,53,88,89,257,257,257,257,257,257,257,257,257,257,257,257,257,257,330,330,322,322,
+0,176,322,322,241,321,321,321,322,321,321,321,321,321,321,321,322,322,322,322,322,322,322,322,322,322,51,52,52,52,52,52,53,322,322,322,322,322,322,329,329,257,257,257,257,257,257,257,257,257,257,257,257,257,257,0,130,134,135,
+0,176,322,322,281,321,321,282,322,281,321,321,321,321,321,282,322,322,322,322,134,135,135,136,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,330,330,257,257,257,257,257,257,257,257,257,257,257,257,257,257,89,0,174,0,
+0,176,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,322,174,0,0,176,322,322,322,322,322,322,322,322,322,322,322,134,135,135,136,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,89,0,174,0,
 0,172,135,135,135,135,136,243,244,134,135,135,135,135,135,135,135,135,135,135,173,0,0,172,135,135,135,135,135,135,135,135,135,135,135,173,0,0,172,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,173,0,
 0,0,0,0,0,0,176,321,321,174,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -84,7 +85,7 @@
   <object id="74" x="848" y="112" width="32" height="32"/>
   <object id="75" x="720" y="112" width="16" height="32"/>
  </objectgroup>
- <objectgroup id="3" name="Entity">
+ <objectgroup id="3" name="Entity" opacity="0.6">
   <object id="76" type="Entity" gid="1364" x="664" y="120" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -441,6 +442,261 @@
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="116" type="Entity" gid="1391" x="672" y="64" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="117" type="Entity" gid="1387" x="632" y="64" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="118" type="Entity" gid="1389" x="904" y="64" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="119" type="Entity" gid="1390" x="672" y="160" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="120" type="Entity" gid="1382" x="632" y="88" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="122" type="Entity" gid="1384" x="632" y="152" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="123" type="Entity" gid="1383" x="904" y="136" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="124" type="Entity" gid="1385" x="888" y="120" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="125" type="Entity" gid="1391" x="736" y="64" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="126" type="Entity" gid="1391" x="800" y="64" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="127" type="Entity" gid="1391" x="864" y="64" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="128" type="Entity" gid="1390" x="736" y="160" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="129" type="Entity" gid="1390" x="800" y="160" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="130" type="Entity" gid="1390" x="848" y="160" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="131" type="Entity" gid="1383" x="904" y="152" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
+       </properties>
+      </property>
+      <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>

@@ -39,9 +39,21 @@
                     "value": false
                 },
                 {
+                    "name": "bgPriority",
+                    "type": "int",
+                    "value": 2
+                },
+                {
                     "name": "isEnabled",
                     "type": "bool",
                     "value": true
+                },
+                {
+                    "name": "sprAnim",
+                    "propertyType": "SpriteAnim",
+                    "type": "class",
+                    "value": {
+                    }
                 },
                 {
                     "name": "updateZOrderOnMove",
@@ -59,6 +71,101 @@
             "useAs": [
                 "property"
             ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": false,
+            "id": 13,
+            "members": [
+                {
+                    "name": "addComponent",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "isEnabled",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "name": "kind",
+                    "propertyType": "SpriteAnimKind",
+                    "type": "string",
+                    "value": "NONE"
+                },
+                {
+                    "name": "walkAnimCtrl",
+                    "propertyType": "WalkAnimCtrl",
+                    "type": "class",
+                    "value": {
+                    }
+                }
+            ],
+            "name": "SpriteAnim",
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
+        },
+        {
+            "id": 14,
+            "name": "SpriteAnimKind",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "NONE",
+                "SAVE_POINT",
+                "FAKE_WATER_L",
+                "FAKE_WATER_R",
+                "FAKE_WATER_SHADOW_L",
+                "FAKE_WATER_SHADOW_M",
+                "FAKE_WATER_SHADOW_R",
+                "FAKE_WATER_OPEN_L",
+                "FAKE_WATER_OPEN_M",
+                "FAKE_WATER_OPEN_R",
+                "FAKE_WATER_SHADOW_M_4X",
+                "FAKE_WATER_OPEN_M_4X"
+            ],
+            "valuesAsFlags": false
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": false,
+            "id": 16,
+            "members": [
+                {
+                    "name": "addComponent",
+                    "type": "bool",
+                    "value": false
+                },
+                {
+                    "name": "isEnabled",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "name": "kind",
+                    "propertyType": "WalkAnimKind",
+                    "type": "string",
+                    "value": "NONE"
+                }
+            ],
+            "name": "WalkAnimCtrl",
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
+        },
+        {
+            "id": 15,
+            "name": "WalkAnimKind",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "NONE",
+                "TORIEL"
+            ],
+            "valuesAsFlags": false
         },
         {
             "color": "#ff40ff40",

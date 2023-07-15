@@ -5,6 +5,8 @@
 #include <bn_fixed_point.h>
 #include <bn_sprite_ptr.h>
 
+#include "consts.hpp"
+
 namespace bn
 {
 class camera_ptr;
@@ -20,7 +22,7 @@ public:
 
 public:
     Sprite(ent::Entity&, const bn::sprite_item&, int gfxIdx, const bn::camera_ptr*, bool updateZOrderOnMove,
-           int zOrder = Z_ORDER_UNSPECIFIED);
+           int bgPriority = consts::WORLD_BG_PRIORITY, int zOrder = Z_ORDER_UNSPECIFIED);
 
     auto getType() const -> bn::type_id_t override;
 

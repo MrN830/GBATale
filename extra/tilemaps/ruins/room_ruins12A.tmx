@@ -87,6 +87,12 @@
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="addComponent" type="bool" value="true"/>
+      <property name="sprAnim" type="class" propertytype="SpriteAnim">
+       <properties>
+        <property name="addComponent" type="bool" value="true"/>
+        <property name="kind" propertytype="SpriteAnimKind" value="SAVE_POINT"/>
+       </properties>
+      </property>
      </properties>
     </property>
    </properties>

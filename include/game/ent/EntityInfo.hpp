@@ -8,6 +8,12 @@ namespace bn
 class sprite_item;
 }
 
+namespace ut::asset
+{
+enum class SpriteAnimKind : int16_t;
+enum class WalkAnimKind : int8_t;
+} // namespace ut::asset
+
 namespace ut::game
 {
 struct GameContext;
@@ -32,14 +38,30 @@ public:
         const bn::sprite_item& sprItem;
         uint16_t gfxIdx;
         int16_t zOrder;
+        uint8_t bgPriority : 2;
         bool isEnabled : 1;
         bool isMoving : 1;
+    };
+
+    struct SpriteAnim
+    {
+        asset::SpriteAnimKind kind;
+        bool isEnabled : 1;
+    };
+
+    struct WalkAnimCtrl
+    {
+        asset::WalkAnimKind kind;
+        bool isEnabled : 1;
     };
 
 public:
     gen::EntityId id;
     bn::fixed_point position;
+
     bn::optional<Sprite> sprite;
+    bn::optional<SpriteAnim> sprAnim;
+    bn::optional<WalkAnimCtrl> walkAnimCtrl;
 };
 
 } // namespace ut::game::ent

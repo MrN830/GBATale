@@ -30,7 +30,7 @@ class Entity final : public bn::intrusive_forward_list_node_type
     friend class sys::EntityManager;
 
 public:
-    Entity(gen::EntityId);
+    Entity(gen::EntityId, const bn::fixed_point& position);
 
     void handleInput(GameContext& context);
     void update(GameContext& context);

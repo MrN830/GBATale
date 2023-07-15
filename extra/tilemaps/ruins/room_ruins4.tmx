@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="72">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="73">
  <tileset firstgid="1" source="ruins.tsx"/>
+ <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="16" height="12">
   <data encoding="csv">
 0,0,0,132,215,215,216,0,0,214,215,215,133,0,0,0,
@@ -80,7 +81,17 @@
   <object id="65" x="192" y="64" width="16" height="16"/>
   <object id="71" x="0" y="112" width="16" height="32"/>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
+ <objectgroup id="3" name="Entity">
+  <object id="72" type="Entity" gid="1367" x="168" y="80" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="addComponent" type="bool" value="true"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="67" type="Warp" x="120" y="48" width="16" height="16">
    <properties>

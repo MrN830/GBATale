@@ -8,7 +8,7 @@
 namespace ut::game::ent
 {
 
-Entity::Entity(gen::EntityId id) : _id(id)
+Entity::Entity(gen::EntityId id, const bn::fixed_point& position) : _position(position), _id(id)
 {
 }
 

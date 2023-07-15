@@ -62,23 +62,33 @@ void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind)
     {
         _curAnimKind = kind;
 
-        const auto& info = asset::ISpriteAnimInfo::get(kind);
+        if (kind == asset::SpriteAnimKind::NONE)
+        {
+            _isManualRender = false;
+            _action.reset();
+        }
+        else
+        {
+            const auto& info = asset::ISpriteAnimInfo::get(kind);
 
-        auto& spr = _sprCpnt.getSprPtr();
-        _sprCpnt.setDiff(info.diff);
-        spr.set_item(info.sprItem);
-        spr.set_horizontal_flip(info.hFlip);
-        spr.set_vertical_flip(info.vFlip);
+            _isManualRender = info.manualRender;
 
-        using SprAnimAction = decltype(_action)::value_type;
+            auto& spr = _sprCpnt.getSprPtr();
+            _sprCpnt.setDiff(info.diff);
+            spr.set_item(info.sprItem);
+            spr.set_horizontal_flip(info.hFlip);
+            spr.set_vertical_flip(info.vFlip);
 
-        // resolve a func ptr by name to an *overloaded* function, kinda ugly
-        using CreateAnimFunc = SprAnimAction (*)(const bn::sprite_ptr&, int, const bn::sprite_tiles_item&,
-                                                 const bn::span<const uint16_t>&);
-        auto* createAnim = (info.forever ? static_cast<CreateAnimFunc>(SprAnimAction::forever)
-                                         : static_cast<CreateAnimFunc>(SprAnimAction::once));
+            using SprAnimAction = decltype(_action)::value_type;
 
-        _action = createAnim(spr, info.waitUpdate, info.sprItem.tiles_item(), info.getGfxIdxes());
+            // resolve a func ptr by name to an *overloaded* function, kinda ugly
+            using CreateAnimFunc = SprAnimAction (*)(const bn::sprite_ptr&, int, const bn::sprite_tiles_item&,
+                                                     const bn::span<const uint16_t>&);
+            auto* createAnim = (info.forever ? static_cast<CreateAnimFunc>(SprAnimAction::forever)
+                                             : static_cast<CreateAnimFunc>(SprAnimAction::once));
+
+            _action = createAnim(spr, info.waitUpdate, info.sprItem.tiles_item(), info.getGfxIdxes());
+        }
     }
 }
 

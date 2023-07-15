@@ -88,10 +88,9 @@ auto EntityManager::getEntities() const -> const decltype(_entities)&
 
 void EntityManager::createFrisk(const bn::fixed_point position)
 {
-    ent::Entity& frisk = _entPool.create(ent::gen::EntityId::frisk);
+    ent::Entity& frisk = _entPool.create(ent::gen::EntityId::frisk, position);
     _entities.push_front(frisk);
 
-    frisk.setPosition(position);
     _context.camMngr.setCamFollowEntity(&frisk);
 
     cpnt::Sprite& spr =
@@ -101,11 +100,9 @@ void EntityManager::createFrisk(const bn::fixed_point position)
     cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(frisk, spr);
     frisk.addComponent(sprAnim);
 
-    using AnimKind = asset::SpriteAnimKind;
     cpnt::WalkAnimCtrl& walkAnimCtrl = _cpntHeap.create<cpnt::WalkAnimCtrl>(frisk, sprAnim);
     frisk.addComponent(walkAnimCtrl);
-    walkAnimCtrl.registerDirectionAnimKinds(AnimKind::FRISK_WALK_UP, AnimKind::FRISK_WALK_DOWN,
-                                            AnimKind::FRISK_WALK_LEFT, AnimKind::FRISK_WALK_RIGHT);
+    walkAnimCtrl.registerWalkAnimKind(asset::WalkAnimKind::FRISK);
     walkAnimCtrl.setStandStillDir(_friskAnimDirection);
 
     cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk);

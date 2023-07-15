@@ -13,10 +13,17 @@ namespace ut::game::cpnt
 {
 
 WalkAnimCtrl::WalkAnimCtrl(ent::Entity& entity, SpriteAnim& sprAnim)
-    : Component(entity), _lastAnimDir(core::Directions::NONE), _sprAnim(sprAnim), _up(asset::SpriteAnimKind::NONE),
-      _down(asset::SpriteAnimKind::NONE), _left(asset::SpriteAnimKind::NONE), _right(asset::SpriteAnimKind::NONE)
+    : Component(entity), _lastAnimDir(core::Directions::NONE), _sprAnim(sprAnim),
+      _walkAnimKind(asset::WalkAnimKind::NONE)
 {
     sprAnim._walkAnimCtrl = this;
+}
+
+WalkAnimCtrl::~WalkAnimCtrl()
+{
+    // On entity delete, `WalkAnimCtrl` deleted first -> `SpriteAnim` deleted later.
+    // So it should be safe  (btw, this dtor seems redundant?)
+    _sprAnim._walkAnimCtrl = nullptr;
 }
 
 auto WalkAnimCtrl::getType() const -> bn::type_id_t
@@ -48,26 +55,27 @@ void WalkAnimCtrl::receiveInputCmd(const cmd::InputCmd& cmd)
     if (!!(nextMoveDirection & prevAnimDirection))
         return;
 
-    BN_ASSERT(hasDirectionAnims(), "no up/down/left/right anim registered");
+    BN_ASSERT(hasWalkAnim(), "no walk anim registered");
+    const auto walk = asset::WalkAnimInfo::get(_walkAnimKind);
 
     // 1. BOTH actually moved + move requested direction
     if (!!(nextMoveDirection & Dirs::UP) && !!(cmd.directions & Dirs::UP))
-        setCurAnimKind(_up, prevAnimExist);
+        setCurAnimKind(walk.up, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::DOWN) && !!(cmd.directions & Dirs::DOWN))
-        setCurAnimKind(_down, prevAnimExist);
+        setCurAnimKind(walk.down, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::LEFT) && !!(cmd.directions & Dirs::LEFT))
-        setCurAnimKind(_left, prevAnimExist);
+        setCurAnimKind(walk.left, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::RIGHT) && !!(cmd.directions & Dirs::RIGHT))
-        setCurAnimKind(_right, prevAnimExist);
+        setCurAnimKind(walk.right, prevAnimExist);
     // 2. actually moved direction
     else if (!!(nextMoveDirection & Dirs::UP))
-        setCurAnimKind(_up, prevAnimExist);
+        setCurAnimKind(walk.up, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::DOWN))
-        setCurAnimKind(_down, prevAnimExist);
+        setCurAnimKind(walk.down, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::LEFT))
-        setCurAnimKind(_left, prevAnimExist);
+        setCurAnimKind(walk.left, prevAnimExist);
     else if (!!(nextMoveDirection & Dirs::RIGHT))
-        setCurAnimKind(_right, prevAnimExist);
+        setCurAnimKind(walk.right, prevAnimExist);
     // stop animate if stopped moving
     else
     {
@@ -75,13 +83,13 @@ void WalkAnimCtrl::receiveInputCmd(const cmd::InputCmd& cmd)
         if (!(cmd.directions & _lastAnimDir))
         {
             if (!!(cmd.directions & Dirs::UP))
-                setCurAnimKind(_up, prevAnimExist);
+                setCurAnimKind(walk.up, prevAnimExist);
             else if (!!(cmd.directions & Dirs::DOWN))
-                setCurAnimKind(_down, prevAnimExist);
+                setCurAnimKind(walk.down, prevAnimExist);
             else if (!!(cmd.directions & Dirs::LEFT))
-                setCurAnimKind(_left, prevAnimExist);
+                setCurAnimKind(walk.left, prevAnimExist);
             else if (!!(cmd.directions & Dirs::RIGHT))
-                setCurAnimKind(_right, prevAnimExist);
+                setCurAnimKind(walk.right, prevAnimExist);
         }
 
         // change sprite to stand still tile
@@ -90,18 +98,14 @@ void WalkAnimCtrl::receiveInputCmd(const cmd::InputCmd& cmd)
     }
 }
 
-bool WalkAnimCtrl::hasDirectionAnims() const
+bool WalkAnimCtrl::hasWalkAnim() const
 {
-    return _up != asset::SpriteAnimKind::NONE;
+    return _walkAnimKind != asset::WalkAnimKind::NONE;
 }
 
-void WalkAnimCtrl::registerDirectionAnimKinds(asset::SpriteAnimKind up, asset::SpriteAnimKind down,
-                                              asset::SpriteAnimKind left, asset::SpriteAnimKind right)
+void WalkAnimCtrl::registerWalkAnimKind(asset::WalkAnimKind walkAnimKind)
 {
-    _up = up;
-    _down = down;
-    _left = left;
-    _right = right;
+    _walkAnimKind = walkAnimKind;
 }
 
 auto WalkAnimCtrl::getLastAnimDir() const -> core::Directions
@@ -111,18 +115,19 @@ auto WalkAnimCtrl::getLastAnimDir() const -> core::Directions
 
 void WalkAnimCtrl::setStandStillDir(core::Directions direction)
 {
-    BN_ASSERT(hasDirectionAnims(), "no up/down/left/right anim registered");
-
     using Dirs = core::Directions;
 
+    BN_ASSERT(hasWalkAnim(), "no walk anim registered");
+    const auto walk = asset::WalkAnimInfo::get(_walkAnimKind);
+
     if (!!(direction & Dirs::UP))
-        setCurAnimKind(_up, false);
+        setCurAnimKind(walk.up, false);
     else if (!!(direction & Dirs::DOWN))
-        setCurAnimKind(_down, false);
+        setCurAnimKind(walk.down, false);
     else if (!!(direction & Dirs::LEFT))
-        setCurAnimKind(_left, false);
+        setCurAnimKind(walk.left, false);
     else if (!!(direction & Dirs::RIGHT))
-        setCurAnimKind(_right, false);
+        setCurAnimKind(walk.right, false);
 
     setCurAnimKind(asset::SpriteAnimKind::NONE, false);
 }
@@ -138,7 +143,7 @@ void WalkAnimCtrl::setCurAnimKind(asset::SpriteAnimKind kind, bool preserveRende
 {
     if (kind == asset::SpriteAnimKind::NONE)
     {
-        if (hasDirectionAnims() && _sprAnim.getCurAnimKind() != asset::SpriteAnimKind::NONE)
+        if (hasWalkAnim() && _sprAnim.getCurAnimKind() != asset::SpriteAnimKind::NONE)
         {
             const auto& info = asset::ISpriteAnimInfo::get(_sprAnim.getCurAnimKind());
             const int standGfxIdx = info.getGfxIdxes()[1];
@@ -187,15 +192,20 @@ void WalkAnimCtrl::setCurAnimKind(asset::SpriteAnimKind kind, bool preserveRende
                 _sprAnim._action->update();
     }
 
-    // set last anim dir
-    if (kind == _up)
-        _lastAnimDir = core::Directions::UP;
-    else if (kind == _down)
-        _lastAnimDir = core::Directions::DOWN;
-    else if (kind == _left)
-        _lastAnimDir = core::Directions::LEFT;
-    else if (kind == _right)
-        _lastAnimDir = core::Directions::RIGHT;
+    if (hasWalkAnim())
+    {
+        const auto walk = asset::WalkAnimInfo::get(_walkAnimKind);
+
+        // set last anim dir
+        if (kind == walk.up)
+            _lastAnimDir = core::Directions::UP;
+        else if (kind == walk.down)
+            _lastAnimDir = core::Directions::DOWN;
+        else if (kind == walk.left)
+            _lastAnimDir = core::Directions::LEFT;
+        else if (kind == walk.right)
+            _lastAnimDir = core::Directions::RIGHT;
+    }
 
     _sprAnim._curAnimKind = kind;
 }

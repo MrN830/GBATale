@@ -64,8 +64,8 @@ bool Game::handleInput()
 
 bool Game::update()
 {
-    _entMngr.update();
     _roomChanger.update(_gameContext);
+    _entMngr.update();
     _camMngr.update(_gameContext);
     _worldBg.render();
     _fadeMngr.render();

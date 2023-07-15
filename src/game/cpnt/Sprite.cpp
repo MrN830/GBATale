@@ -9,19 +9,20 @@ namespace ut::game::cpnt
 {
 
 Sprite::Sprite(ent::Entity& entity, const bn::sprite_item& sprItem, int gfxIdx, const bn::camera_ptr* camera,
-               bool autoAlterZOrder, int zOrder)
+               bool autoAlterZOrder, int bgPriority, int zOrder)
     : Component(entity), _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
-      _spr(sprItem.create_sprite(entity.getPosition(), gfxIdx))
+      _spr(sprItem.create_sprite(entity.getPosition() + _diff, gfxIdx))
 {
     _spr.set_blending_enabled(true);
-
-    if (camera != nullptr)
-        _spr.set_camera(*camera);
+    _spr.set_bg_priority(bgPriority);
 
     if (zOrder == Z_ORDER_UNSPECIFIED)
         updateZOrder();
     else
         _spr.set_z_order(zOrder);
+
+    if (camera != nullptr)
+        _spr.set_camera(*camera);
 }
 
 auto Sprite::getType() const -> bn::type_id_t

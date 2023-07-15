@@ -17,6 +17,7 @@ namespace ut::asset
 {
 
 enum class SpriteAnimKind : int16_t;
+enum class WalkAnimKind : int8_t;
 
 struct ISpriteAnimInfo
 {
@@ -67,6 +68,18 @@ public:
 
 public:
     bn::array<uint16_t, GfxIdxCnt> gfxIdxes;
+};
+
+struct WalkAnimInfo
+{
+public:
+    static auto get(WalkAnimKind) -> const WalkAnimInfo&;
+
+public:
+    SpriteAnimKind up;
+    SpriteAnimKind down;
+    SpriteAnimKind left;
+    SpriteAnimKind right;
 };
 
 } // namespace ut::asset

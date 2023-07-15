@@ -224,8 +224,11 @@ class TilemapConverter:
 
         # Entities
         SpriteCpnt = namedtuple(
-            "SpriteCpnt", "sprItem, gfxIdx, isEnabled, updateZOrderOnMove, zOrder"
+            "SpriteCpnt",
+            "isEnabled, sprItem, gfxIdx, updateZOrderOnMove, zOrder, bgPriority",
         )
+        SprAnimCpnt = namedtuple("SprAnimCpnt", "isEnabled, kind")
+        WalkAnimCtrlCpnt = namedtuple("WalkAnimCtrlCpnt", "isEnabled, kind")
 
         entities = []
         spr_items = set()
@@ -248,13 +251,19 @@ class TilemapConverter:
 
             # cpnt::Sprite
             spr = obj.properties.get("sprite")
-            if spr and spr.addComponent == True:
+            if spr and spr.addComponent:
                 if not obj.image:
                     raise Exception(
                         f"obj has cpnt::Sprite but doesn't have an image in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
                     )
                 if not (-32768 <= spr.zOrder <= 32767):
-                    raise Exception(f"invalid sprite.zOrder in `{mtilemap_name}` (x={obj.x}, y={obj.y})")
+                    raise Exception(
+                        f"invalid sprite.zOrder in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+                if not (0 <= spr.bgPriority <= 3):
+                    raise Exception(
+                        f"invalid sprite.bgPriority in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
 
                 img_path = obj.image[0]
                 img_name = os.path.splitext(os.path.basename(img_path))[0]
@@ -266,9 +275,32 @@ class TilemapConverter:
                 sprItem = img_name
                 gfxIdx = int(tile_y // img_height)
                 entity["sprite"] = SpriteCpnt(
-                    sprItem, gfxIdx, spr.isEnabled, spr.updateZOrderOnMove, spr.zOrder
+                    spr.isEnabled,
+                    sprItem,
+                    gfxIdx,
+                    spr.updateZOrderOnMove,
+                    spr.zOrder,
+                    spr.bgPriority,
                 )
                 spr_items.add(sprItem)
+
+                # cpnt::SpriteAnim
+                if (
+                    type(spr.sprAnim) == pytmx.TiledClassType
+                    and spr.sprAnim.addComponent
+                ):
+                    sprAnim = spr.sprAnim
+                    entity["sprAnim"] = SprAnimCpnt(sprAnim.isEnabled, sprAnim.kind)
+
+                    # cpnt::WalkAnimCtrl
+                    if (
+                        type(sprAnim.walkAnimCtrl) == pytmx.TiledClassType
+                        and sprAnim.walkAnimCtrl.addComponent
+                    ):
+                        walk = sprAnim.walkAnimCtrl
+                        entity["walkAnimCtrl"] = WalkAnimCtrlCpnt(
+                            walk.isEnabled, walk.kind
+                        )
 
             # Add entity
             if len(entity) <= no_component_entity_len:
@@ -414,6 +446,7 @@ class TilemapConverter:
 
             output_header.write('#include "mtile/MTilemap.hpp"' + "\n\n")
 
+            output_header.write('#include "asset/SpriteAnimKind.hpp"' + "\n")
             output_header.write('#include "gen/EntityId.hpp"' + "\n\n")
 
             output_header.write(
@@ -455,13 +488,34 @@ class TilemapConverter:
                 output_header.write("EntityInfo{")
                 output_header.write(f"game::ent::gen::EntityId::{entity['id']},")
                 output_header.write(f"bn::fixed_point({entity['x']},{entity['y']}),")
+
+                # cpnt::Sprite
                 if "sprite" in entity:
                     spr: SpriteCpnt = entity["sprite"]
                     output_header.write(
-                        f"EntityInfo::Sprite(bn::sprite_items::{spr.sprItem},{spr.gfxIdx},{spr.zOrder},{str(spr.isEnabled).lower()},{str(spr.updateZOrderOnMove).lower()}),"
+                        f"EntityInfo::Sprite(bn::sprite_items::{spr.sprItem},{spr.gfxIdx},{spr.zOrder},{spr.bgPriority},{str(spr.isEnabled).lower()},{str(spr.updateZOrderOnMove).lower()}),"
                     )
                 else:
                     output_header.write("bn::nullopt,")
+
+                # cpnt::SpriteAnim
+                if "sprAnim" in entity:
+                    sprAnim: SprAnimCpnt = entity["sprAnim"]
+                    output_header.write(
+                        f"EntityInfo::SpriteAnim(asset::SpriteAnimKind::{sprAnim.kind},{str(sprAnim.isEnabled).lower()}),"
+                    )
+                else:
+                    output_header.write("bn::nullopt,")
+
+                # cpnt::WalkAnimCtrl
+                if "walkAnimCtrl" in entity:
+                    walk: WalkAnimCtrlCpnt = entity["walkAnimCtrl"]
+                    output_header.write(
+                        f"EntityInfo::WalkAnimCtrl(asset::WalkAnimKind::{walk.kind},{str(walk.isEnabled).lower()}),"
+                    )
+                else:
+                    output_header.write("bn::nullopt,")
+
                 output_header.write("},")
 
             output_header.write("};" + "\n\n")
@@ -588,7 +642,8 @@ class TilemapConverter:
         mtilemap_header_path = f"build_ut/include/gen/{mtilemap_header_filename}"
 
         return (
-            inc_build.should_build(tileset_png_path, bg_lower_build_path)
+            inc_build.should_build("tools/tilemap_converter.py", mtilemap_header_path)
+            or inc_build.should_build(tileset_png_path, bg_lower_build_path)
             or inc_build.should_build(tileset_tsx_path, bg_lower_build_path)
             or inc_build.should_build(tmx_path, bg_lower_build_path)
             or inc_build.should_build(tmx_path, mtilemap_header_path)
