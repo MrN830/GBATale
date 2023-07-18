@@ -160,36 +160,32 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="77" type="Entity" gid="1366" x="128" y="163" width="16" height="16">
+  <object id="77" type="Entity" gid="1366" x="128" y="171" width="16" height="16">
    <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="SAVE_POINT"/>
-       </properties>
-      </property>
+      <property name="kind" propertytype="SpriteAnimKind" value="SAVE_POINT"/>
      </properties>
     </property>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
-  <object id="72" type="WarpPoint" x="128" y="176">
+  <object id="72" type="WarpPoint" x="128" y="192">
    <properties>
     <property name="warpId" propertytype="WarpId" value="INIT"/>
    </properties>
    <point/>
   </object>
-  <object id="73" type="WarpPoint" x="128" y="96">
+  <object id="73" type="WarpPoint" x="128" y="112">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
    <point/>
   </object>
-  <object id="74" type="WarpPoint" x="128" y="344">
+  <object id="74" type="WarpPoint" x="128" y="360">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>

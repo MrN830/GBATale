@@ -29,6 +29,8 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     if (bn::dmg_music::playing())
         bn::dmg_music::stop();
 
+    _camMngr.setCamFollowEntityDiff({0, -16});
+
     const auto room = sceneContext.gameState.getRoom();
     _roomChanger.instantChange(room, mtile::WarpId::INIT, _gameContext);
     _worldBg.allocateGraphics();

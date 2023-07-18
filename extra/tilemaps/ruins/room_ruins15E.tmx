@@ -73,7 +73,7 @@
  </objectgroup>
  <objectgroup id="3" name="Entity"/>
  <objectgroup id="8" name="Warp" locked="1">
-  <object id="49" type="WarpPoint" x="128" y="88">
+  <object id="49" type="WarpPoint" x="128" y="104">
    <properties>
     <property name="warpId" propertytype="WarpId" value="X"/>
    </properties>

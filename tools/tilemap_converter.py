@@ -91,6 +91,30 @@ class TilemapConverter:
             output_header.write("};" + "\n")
             output_header.write("} // namespace ut::game::ent::gen" + "\n")
 
+    def write_colls_header(self):
+        with open("build_ut/include/gen/StaticCollInfos.hpp") as output_header:
+            write_timestamp(output_header, "tool/tilemap_converter.py")
+            output_header.write("#pragma once" + "\n")
+            output_header.write('#include "game/coll/CollInfo.hpp"' + "\n")
+            output_header.write("#include <bn_array.h>" + "\n")
+
+            output_header.write("namespace ut::game::coll::gen {" + "\n")
+
+            for i, colls in enumerate(self.static_coll_infos):
+                output_header.write(
+                    f"inline constexpr const bn::array<RectCollInfo,{len(colls)}> _staticCollInfos{i}"
+                    + "{\n"
+                )
+                output_header.write(
+                    "".join(
+                        f"RectCollInfo(bn::fixed_point({coll.x},{coll.y}),bn::fixed_size({coll.w},{coll.h})),"
+                        for coll in colls
+                    )
+                )
+                output_header.write("};\n")
+
+            output_header.write("} // namespace ut::game::coll::gen" + "\n")
+
     def convert(self, tmx_path: str) -> bool:
         """Convert a single `*.tmx` tilemap"""
 
@@ -222,93 +246,6 @@ class TilemapConverter:
         bg_upper2: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGUpper2")
         bg_lower: pytmx.TiledTileLayer = tiled_map.get_layer_by_name("BGLower")
 
-        # Entities
-        SpriteCpnt = namedtuple(
-            "SpriteCpnt",
-            "isEnabled, sprItem, gfxIdx, updateZOrderOnMove, zOrder, bgPriority",
-        )
-        SprAnimCpnt = namedtuple("SprAnimCpnt", "isEnabled, kind")
-        WalkAnimCtrlCpnt = namedtuple("WalkAnimCtrlCpnt", "isEnabled, kind")
-
-        entities = []
-        spr_items = set()
-
-        for obj in l_entity:
-            fixed_y = obj.y + obj.height  # why?
-            if obj.type != "Entity":
-                raise Exception(
-                    f"{obj.type=} found in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
-                )
-
-            entity = {
-                "id": obj.name if obj.name else "NONE",
-                "x": obj.x,
-                "y": fixed_y if obj.image else obj.y,
-            }
-            no_component_entity_len = len(entity)
-            if obj.name:
-                self.entity_ids.add(obj.name)
-
-            # cpnt::Sprite
-            spr = obj.properties.get("sprite")
-            if spr and spr.addComponent:
-                if not obj.image:
-                    raise Exception(
-                        f"obj has cpnt::Sprite but doesn't have an image in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
-                    )
-                if not (-32768 <= spr.zOrder <= 32767):
-                    raise Exception(
-                        f"invalid sprite.zOrder in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
-                    )
-                if not (0 <= spr.bgPriority <= 3):
-                    raise Exception(
-                        f"invalid sprite.bgPriority in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
-                    )
-
-                img_path = obj.image[0]
-                img_name = os.path.splitext(os.path.basename(img_path))[0]
-                img_json_path = os.path.splitext(img_path)[0] + ".json"
-                img_height = json.load(open(img_json_path, "r"))["height"]
-                tile_prop = tiled_map.get_tile_properties_by_gid(obj.gid)
-                tile_y = tile_prop.get("y", 0.0)
-
-                sprItem = img_name
-                gfxIdx = int(tile_y // img_height)
-                entity["sprite"] = SpriteCpnt(
-                    spr.isEnabled,
-                    sprItem,
-                    gfxIdx,
-                    spr.updateZOrderOnMove,
-                    spr.zOrder,
-                    spr.bgPriority,
-                )
-                spr_items.add(sprItem)
-
-                # cpnt::SpriteAnim
-                if (
-                    type(spr.sprAnim) == pytmx.TiledClassType
-                    and spr.sprAnim.addComponent
-                ):
-                    sprAnim = spr.sprAnim
-                    entity["sprAnim"] = SprAnimCpnt(sprAnim.isEnabled, sprAnim.kind)
-
-                    # cpnt::WalkAnimCtrl
-                    if (
-                        type(sprAnim.walkAnimCtrl) == pytmx.TiledClassType
-                        and sprAnim.walkAnimCtrl.addComponent
-                    ):
-                        walk = sprAnim.walkAnimCtrl
-                        entity["walkAnimCtrl"] = WalkAnimCtrlCpnt(
-                            walk.isEnabled, walk.kind
-                        )
-
-            # Add entity
-            if len(entity) <= no_component_entity_len:
-                print(
-                    f"[WARN] entity with NO component found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
-                )
-            entities.append(entity)
-
         # Walls
         RectWall = namedtuple("RectWall", "x, y, w, h")
         TriWall = namedtuple("TriWall", "x, y, l, direc")
@@ -388,6 +325,141 @@ class TilemapConverter:
                 f"[ERR] Invalid Wall collider found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
             )
             raise TilemapConverter.InvalidWallColliderException(obj_pos)
+
+        # Entities
+        ColliderPack = namedtuple("ColliderPack", "isEnabled, isTrigger, collInfos")
+        SpriteCpnt = namedtuple(
+            "SpriteCpnt",
+            "isEnabled, sprItem, gfxIdx, updateZOrderOnMove, zOrder, bgPriority",
+        )
+        SprAnimCpnt = namedtuple("SprAnimCpnt", "isEnabled, kind")
+        WalkAnimCtrlCpnt = namedtuple("WalkAnimCtrlCpnt", "isEnabled, kind")
+
+        entities = []
+        spr_items = set()
+
+        for obj in l_entity:
+            if obj.type != "Entity":
+                raise Exception(
+                    f"{obj.type=} found in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                )
+
+            entity = {
+                "id": obj.name if obj.name else "NONE",
+                "x": obj.x if obj.image else obj.x + obj.width / 2,
+                "y": obj.y + obj.height if obj.image else obj.y + obj.height,
+            }
+            no_component_entity_len = len(entity)
+            if obj.name:
+                self.entity_ids.add(obj.name)
+
+            def get_sprItem_gfxIdx():
+                img_path = obj.image[0]
+                img_name = os.path.splitext(os.path.basename(img_path))[0]
+                img_json_path = os.path.splitext(img_path)[0] + ".json"
+                img_height = json.load(open(img_json_path, "r"))["height"]
+                tile_prop = tiled_map.get_tile_properties_by_gid(obj.gid)
+                tile_y = tile_prop.get("y", 0.0)
+
+                sprItem = img_name
+                gfxIdx = int(tile_y // img_height)
+                return sprItem, gfxIdx
+
+            # cpnt::ColliderPack
+            collPack = obj.properties.get("colliderPack")
+            if collPack:
+
+                def get_coll_infos(colls):
+                    coll_infos = []
+                    for coll in colls:
+                        rect = get_rect_wall(coll.as_points)
+                        if not rect:
+                            raise Exception(
+                                f"Invalid colliderPack found in `{mtilemap_name}` Entity layer (x={obj.x}, y={obj.y})"
+                            )
+                        coll_infos.append(rect)
+                    return coll_infos
+
+                # tile colliders
+                if "colliders" in obj.properties:
+                    colls = obj.properties["colliders"]
+                    collInfos = get_coll_infos([coll for coll in colls])
+                    collInfos = [
+                        RectWall(
+                            collInfo.x - obj.width / 2,
+                            collInfo.y - obj.height,
+                            collInfo.w,
+                            collInfo.h,
+                        )
+                        for collInfo in collInfos
+                    ]
+                else:  # entity rect collider
+                    collInfos = get_coll_infos([obj])
+                    collInfos[0] = RectWall(
+                        0,
+                        -collInfos[0].h / 2,
+                        collInfos[0].w,
+                        collInfos[0].h,
+                    )
+
+                entity["colliderPack"] = ColliderPack(
+                    collPack.isEnabled, collPack.isTrigger, collInfos
+                )
+
+            # cpnt::Sprite
+            spr = obj.properties.get("sprite")
+            if spr:
+                if not obj.image:
+                    raise Exception(
+                        f"obj has cpnt::Sprite but doesn't have an image in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+                if not (-32768 <= spr.zOrder <= 32767):
+                    raise Exception(
+                        f"invalid sprite.zOrder in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+                if not (0 <= spr.bgPriority <= 3):
+                    raise Exception(
+                        f"invalid sprite.bgPriority in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+
+                sprItem, gfxIdx = get_sprItem_gfxIdx()
+
+                entity["sprite"] = SpriteCpnt(
+                    spr.isEnabled,
+                    sprItem,
+                    gfxIdx,
+                    spr.updateZOrderOnMove,
+                    spr.zOrder,
+                    spr.bgPriority,
+                )
+                spr_items.add(sprItem)
+
+            # cpnt::SpriteAnim
+            sprAnim = obj.properties.get("spriteAnim")
+            if sprAnim:
+                if not spr:
+                    raise Exception(
+                        f"obj has cpnt::SpriteAnim but doesn't have cpnt::Sprite in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+
+                entity["sprAnim"] = SprAnimCpnt(sprAnim.isEnabled, sprAnim.kind)
+
+            # cpnt::WalkAnimCtrl
+            walk = obj.properties.get("walkAnimCtrl")
+            if walk:
+                if not sprAnim:
+                    raise Exception(
+                        f"obj has cpnt::WalkAnimCtrl but doesn't have cpnt::SpriteAnim in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+
+                entity["walkAnimCtrl"] = WalkAnimCtrlCpnt(walk.isEnabled, walk.kind)
+
+            # Add entity
+            if len(entity) <= no_component_entity_len:
+                print(
+                    f"[WARN] entity with NO component found in `{mtilemap_name}` (x={obj_pos.x}, y={obj_pos.y})"
+                )
+            entities.append(entity)
 
         # Warps & warp points
         Warp = namedtuple("Warp", "rect, roomName, warpId")
@@ -478,16 +550,43 @@ class TilemapConverter:
             output_header.write(f"using namespace ut::game::coll;" + "\n")
             output_header.write(f"using namespace ut::game::ent;" + "\n\n")
 
-            # no temporary arrays (workaround GCC bug -> temporary constexpr array not constexpr issue)
+            # arrays vary in size
+
+            # coll infos
+            for i, entity in enumerate(entities):
+                if "colliderPack" in entity:
+                    collPack: ColliderPack = entity["colliderPack"]
+                    output_header.write(
+                        f"inline constexpr bn::array<RectCollInfo, {len(collPack.collInfos)}> _{mtilemap_name}_collInfos_{i}"
+                        + "{\n"
+                    )
+                    output_header.write(
+                        "".join(
+                            f"RectCollInfo(bn::fixed_point({coll.x},{coll.y}),bn::fixed_size({coll.w},{coll.h})),"
+                            for coll in collPack.collInfos
+                        )
+                    )
+                    output_header.write("};\n")
+
+            # entities
             output_header.write(
                 f"inline constexpr bn::array<EntityInfo,{len(entities)}> _{mtilemap_name}_entities"
                 + "{\n"
             )
 
-            for entity in entities:
+            for i, entity in enumerate(entities):
                 output_header.write("EntityInfo{")
                 output_header.write(f"game::ent::gen::EntityId::{entity['id']},")
                 output_header.write(f"bn::fixed_point({entity['x']},{entity['y']}),")
+
+                # cpnt::ColliderPack
+                if "colliderPack" in entity:
+                    collPack: ColliderPack = entity["colliderPack"]
+                    output_header.write(
+                        f"EntityInfo::ColliderPack(_{mtilemap_name}_collInfos_{i},{str(collPack.isEnabled).lower()},{str(collPack.isTrigger).lower()}),"
+                    )
+                else:
+                    output_header.write("bn::nullopt,")
 
                 # cpnt::Sprite
                 if "sprite" in entity:

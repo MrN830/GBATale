@@ -76,341 +76,301 @@
   <object id="60" x="576" y="96" width="16" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="Entity" opacity="0.6">
-  <object id="8" type="Entity" gid="1362" x="312" y="52" width="16" height="16">
+  <object id="8" type="Entity" gid="1362" x="312" y="60" width="16" height="16">
    <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
+      <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="11" type="Entity" gid="1362" x="472" y="52" width="16" height="16">
+  <object id="11" type="Entity" gid="1362" x="472" y="60" width="16" height="16">
    <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
+      <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="13" type="Entity" gid="1362" x="504" y="52" width="16" height="16">
+  <object id="13" type="Entity" gid="1362" x="504" y="60" width="16" height="16">
    <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
+      <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="42" type="Entity" gid="1363" x="112" y="88" width="16" height="16">
+  <object id="42" type="Entity" gid="1363" x="112" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="61" type="Entity" gid="1381" x="304" y="64" width="32" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="62" type="Entity" gid="1381" x="464" y="64" width="32" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="63" type="Entity" gid="1387" x="200" y="80" width="16" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="61" type="Entity" gid="1381" x="304" y="48" width="32" height="32">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="62" type="Entity" gid="1381" x="464" y="48" width="32" height="32">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="63" type="Entity" gid="1387" x="200" y="64" width="16" height="32">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
-   </properties>
-  </object>
-  <object id="64" type="Entity" gid="1389" x="216" y="64" width="16" height="32">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
-       </properties>
-      </property>
-      <property name="zOrder" type="int" value="32767"/>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="65" type="Entity" gid="1382" x="200" y="88" width="16" height="16">
+  <object id="64" type="Entity" gid="1389" x="216" y="80" width="16" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="66" type="Entity" gid="1383" x="216" y="88" width="16" height="16">
+  <object id="65" type="Entity" gid="1382" x="200" y="96" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="73" type="Entity" gid="1384" x="200" y="136" width="16" height="16">
+  <object id="66" type="Entity" gid="1383" x="216" y="96" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="74" type="Entity" gid="1386" x="216" y="136" width="16" height="16">
+  <object id="73" type="Entity" gid="1384" x="200" y="144" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="75" type="Entity" gid="1382" x="200" y="152" width="16" height="16">
+  <object id="74" type="Entity" gid="1386" x="216" y="144" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_R"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="76" type="Entity" gid="1383" x="216" y="152" width="16" height="16">
+  <object id="75" type="Entity" gid="1382" x="200" y="160" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="77" type="Entity" gid="1387" x="392" y="64" width="16" height="32">
+  <object id="76" type="Entity" gid="1383" x="216" y="160" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="78" type="Entity" gid="1389" x="408" y="64" width="16" height="32">
+  <object id="77" type="Entity" gid="1387" x="392" y="80" width="16" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="79" type="Entity" gid="1382" x="392" y="88" width="16" height="16">
+  <object id="78" type="Entity" gid="1389" x="408" y="80" width="16" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="80" type="Entity" gid="1383" x="408" y="88" width="16" height="16">
+  <object id="79" type="Entity" gid="1382" x="392" y="96" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="81" type="Entity" gid="1384" x="392" y="136" width="16" height="16">
+  <object id="80" type="Entity" gid="1383" x="408" y="96" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="82" type="Entity" gid="1386" x="408" y="136" width="16" height="16">
+  <object id="81" type="Entity" gid="1384" x="392" y="144" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="83" type="Entity" gid="1382" x="392" y="152" width="16" height="16">
+  <object id="82" type="Entity" gid="1386" x="408" y="144" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_R"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="84" type="Entity" gid="1383" x="408" y="152" width="16" height="16">
+  <object id="83" type="Entity" gid="1382" x="392" y="160" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="84" type="Entity" gid="1383" x="408" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
      </properties>
     </property>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
-  <object id="56" type="WarpPoint" x="112" y="144">
+  <object id="56" type="WarpPoint" x="112" y="160">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
    <point/>
   </object>
-  <object id="57" type="WarpPoint" x="568" y="104">
+  <object id="57" type="WarpPoint" x="568" y="120">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>

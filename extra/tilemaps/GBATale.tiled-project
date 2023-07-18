@@ -10,17 +10,32 @@
     ],
     "propertyTypes": [
         {
+            "color": "#ffa0a0a4",
+            "drawFill": false,
+            "id": 17,
+            "members": [
+                {
+                    "name": "isEnabled",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "name": "isTrigger",
+                    "type": "bool",
+                    "value": false
+                }
+            ],
+            "name": "ColliderPack",
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
+        },
+        {
             "color": "#ff5656d3",
             "drawFill": true,
             "id": 11,
             "members": [
-                {
-                    "name": "sprite",
-                    "propertyType": "Sprite",
-                    "type": "class",
-                    "value": {
-                    }
-                }
             ],
             "name": "Entity",
             "type": "class",
@@ -34,11 +49,6 @@
             "id": 12,
             "members": [
                 {
-                    "name": "addComponent",
-                    "type": "bool",
-                    "value": false
-                },
-                {
                     "name": "bgPriority",
                     "type": "int",
                     "value": 2
@@ -47,13 +57,6 @@
                     "name": "isEnabled",
                     "type": "bool",
                     "value": true
-                },
-                {
-                    "name": "sprAnim",
-                    "propertyType": "SpriteAnim",
-                    "type": "class",
-                    "value": {
-                    }
                 },
                 {
                     "name": "updateZOrderOnMove",
@@ -78,11 +81,6 @@
             "id": 13,
             "members": [
                 {
-                    "name": "addComponent",
-                    "type": "bool",
-                    "value": false
-                },
-                {
                     "name": "isEnabled",
                     "type": "bool",
                     "value": true
@@ -92,13 +90,6 @@
                     "propertyType": "SpriteAnimKind",
                     "type": "string",
                     "value": "NONE"
-                },
-                {
-                    "name": "walkAnimCtrl",
-                    "propertyType": "WalkAnimCtrl",
-                    "type": "class",
-                    "value": {
-                    }
                 }
             ],
             "name": "SpriteAnim",
@@ -133,11 +124,6 @@
             "drawFill": false,
             "id": 16,
             "members": [
-                {
-                    "name": "addComponent",
-                    "type": "bool",
-                    "value": false
-                },
                 {
                     "name": "isEnabled",
                     "type": "bool",

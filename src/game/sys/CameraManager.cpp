@@ -26,9 +26,11 @@ void CameraManager::update(GameContext& ctx)
 {
     if (_camFollowEntity)
     {
-        _camera.set_position(_camFollowEntity->getPosition());
+        _camera.set_position(_camFollowEntity->getPosition() + _camFollowEntityDiff);
         snapCamToRoom(ctx);
-        ctx.isDialogUpper = (_camFollowEntity->getPosition().y() - _camera.position().y() >= DIALOG_UPPER_Y_DIFF);
+        ctx.isDialogUpper =
+            (_camFollowEntity->getPosition().y() - (_camera.position().y() - _camFollowEntityDiff.y()) >=
+             DIALOG_UPPER_Y_DIFF);
     }
 }
 
@@ -40,6 +42,11 @@ auto CameraManager::getCamFollowEntity() const -> const ent::Entity*
 void CameraManager::setCamFollowEntity(const ent::Entity* entity)
 {
     _camFollowEntity = entity;
+}
+
+void CameraManager::setCamFollowEntityDiff(const bn::fixed_point& diff)
+{
+    _camFollowEntityDiff = diff;
 }
 
 auto CameraManager::getCamera() -> bn::camera_ptr&

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="animated_terrain" tilewidth="64" tileheight="32" tilecount="10" columns="0" objectalignment="center">
+<tileset version="1.10" tiledversion="1.10.1" name="animated_terrain" tilewidth="64" tileheight="32" tilecount="10" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" x="0" y="0" width="16" height="16">
   <image width="16" height="240" source="../../graphics/sprite/tr_fake_water.bmp"/>

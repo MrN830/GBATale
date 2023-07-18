@@ -181,13 +181,13 @@
  </objectgroup>
  <objectgroup id="3" name="Entity"/>
  <objectgroup id="8" name="Warp" locked="1">
-  <object id="57" type="WarpPoint" x="24" y="88">
+  <object id="57" type="WarpPoint" x="24" y="104">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
    <point/>
   </object>
-  <object id="58" type="WarpPoint" x="440" y="184">
+  <object id="58" type="WarpPoint" x="440" y="200">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>

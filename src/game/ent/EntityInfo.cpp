@@ -1,6 +1,7 @@
 #include "game/ent/EntityInfo.hpp"
 
 #include "game/GameContext.hpp"
+#include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
@@ -16,6 +17,16 @@ void EntityInfo::create(GameContext& ctx) const
 
     ent::Entity& entity = entMngr._entPool.create(this->id, this->position);
     entMngr._entities.push_front(entity);
+
+    // cpnt::ColliderPack
+    if (this->collPack.has_value())
+    {
+        cpnt::ColliderPack& collPackCpnt = entMngr._cpntHeap.create<cpnt::ColliderPack>(entity, collPack->isTrigger);
+        entity.addComponent(collPackCpnt);
+
+        collPackCpnt.setEnabled(collPack->isEnabled);
+        collPackCpnt.setStaticCollInfos(collPack->staticCollInfos);
+    }
 
     // cpnt::Sprite
     if (this->sprite.has_value())

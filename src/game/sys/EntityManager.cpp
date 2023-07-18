@@ -113,9 +113,9 @@ void EntityManager::createFrisk(const bn::fixed_point position)
     const auto& sprSize = bn::sprite_items::ch_frisk_base.shape_size();
     const bn::fixed_size collSize = {16, 9};
     const bn::fixed_point collPos = {0 + collSize.width() / 2 - sprSize.width() / 2,
-                                     23 + collSize.height() / 2 - sprSize.height() / 2};
+                                     23 + collSize.height() / 2 - sprSize.height()};
     coll::Collider& coll = _collPool.create(coll::CollInfo(coll::RectCollInfo(collPos, collSize)));
-    collPack.addCollider(coll);
+    collPack.addDynamicCollider(coll);
 }
 
 void EntityManager::removeDestroyed(bool forceRemoveAll)
@@ -151,11 +151,11 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
             }
         }
 
-        // Destroy all colliders within `ColliderPack`
+        // Destroy dynamic colliders within `ColliderPack`
         auto* collPack = entity.getComponent<cpnt::ColliderPack>();
         if (collPack != nullptr)
         {
-            auto& colls = collPack->_colls;
+            auto& colls = collPack->_dynamicColls;
             for (auto cBeforeIt = colls.before_begin(), cIt = colls.begin(); cIt != colls.end();)
             {
                 auto& coll = *cIt;

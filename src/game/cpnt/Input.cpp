@@ -55,7 +55,7 @@ auto Input::fixMoveCmdCollision(const cmd::InputCmd& cmd, GameContext& ctx) -> c
                 continue;
 
             const auto* otherColl = eIt->getComponent<ColliderPack>();
-            if (otherColl == nullptr)
+            if (otherColl == nullptr || !otherColl->isEnabled())
                 continue;
 
             if (!otherColl->isTrigger() && collPack->isCollideWith(*otherColl))

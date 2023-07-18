@@ -82,12 +82,11 @@
   <object id="71" x="0" y="112" width="16" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="72" type="Entity" gid="1367" x="168" y="80" width="16" height="32">
+  <object id="72" type="Entity" gid="1367" x="168" y="96" width="16" height="32">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
     </property>
    </properties>
   </object>
@@ -99,13 +98,13 @@
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
-  <object id="68" type="WarpPoint" x="128" y="72">
+  <object id="68" type="WarpPoint" x="128" y="88">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
    <point/>
   </object>
-  <object id="69" type="WarpPoint" x="24" y="120">
+  <object id="69" type="WarpPoint" x="24" y="136">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>

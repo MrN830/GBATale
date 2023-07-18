@@ -74,29 +74,44 @@
   <object id="48" x="192" y="80" width="16" height="64"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="41" type="Entity" gid="1363" x="128" y="104" width="16" height="16">
+  <object id="41" type="Entity" gid="1363" x="128" y="112" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
+      
      </properties>
     </property>
    </properties>
   </object>
-  <object id="51" type="Entity" gid="1378" x="104" y="80" width="16" height="16">
+  <object id="51" type="Entity" gid="1378" x="104" y="88" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
+      
      </properties>
     </property>
    </properties>
   </object>
-  <object id="52" type="Entity" gid="1379" x="160" y="80" width="32" height="32">
+  <object id="52" type="Entity" gid="1379" x="160" y="96" width="32" height="32">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
+      
      </properties>
     </property>
    </properties>
@@ -109,7 +124,7 @@
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
   </object>
-  <object id="50" type="WarpPoint" x="24" y="104">
+  <object id="50" type="WarpPoint" x="24" y="120">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>

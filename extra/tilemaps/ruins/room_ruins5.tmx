@@ -86,617 +86,787 @@
   <object id="75" x="720" y="112" width="16" height="32"/>
  </objectgroup>
  <objectgroup id="3" name="Entity" opacity="0.6">
-  <object id="76" type="Entity" gid="1364" x="664" y="120" width="16" height="16">
+  <object id="76" type="Entity" gid="1364" x="664" y="128" width="16" height="16">
    <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
+      <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
-   </properties>
-  </object>
-  <object id="77" type="Entity" gid="1364" x="680" y="120" width="16" height="16">
-   <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="78" type="Entity" gid="1364" x="664" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="79" type="Entity" gid="1364" x="680" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="80" type="Entity" gid="1364" x="696" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="81" type="Entity" gid="1364" x="712" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="82" type="Entity" gid="1364" x="712" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="83" type="Entity" gid="1364" x="696" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="84" type="Entity" gid="1364" x="696" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="85" type="Entity" gid="1364" x="712" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="86" type="Entity" gid="1364" x="696" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="87" type="Entity" gid="1364" x="712" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="88" type="Entity" gid="1364" x="728" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="89" type="Entity" gid="1364" x="744" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="90" type="Entity" gid="1364" x="744" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="91" type="Entity" gid="1364" x="728" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="92" type="Entity" gid="1364" x="744" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="93" type="Entity" gid="1364" x="760" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="94" type="Entity" gid="1364" x="744" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="95" type="Entity" gid="1364" x="760" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="96" type="Entity" gid="1364" x="776" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="97" type="Entity" gid="1364" x="792" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="98" type="Entity" gid="1364" x="792" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="99" type="Entity" gid="1364" x="776" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="100" type="Entity" gid="1364" x="824" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="101" type="Entity" gid="1364" x="840" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="102" type="Entity" gid="1364" x="824" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="103" type="Entity" gid="1364" x="840" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="104" type="Entity" gid="1364" x="856" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="105" type="Entity" gid="1364" x="872" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="106" type="Entity" gid="1364" x="872" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="107" type="Entity" gid="1364" x="856" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="108" type="Entity" gid="1364" x="808" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="109" type="Entity" gid="1364" x="824" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="110" type="Entity" gid="1364" x="808" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="111" type="Entity" gid="1364" x="824" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="112" type="Entity" gid="1364" x="840" y="136" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="113" type="Entity" gid="1364" x="840" y="120" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="114" type="Entity" gid="1364" x="760" y="104" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="115" type="Entity" gid="1364" x="760" y="88" width="16" height="16">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-     </properties>
-    </property>
-   </properties>
-  </object>
-  <object id="116" type="Entity" gid="1391" x="672" y="64" width="64" height="32">
-   <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-     <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="117" type="Entity" gid="1387" x="632" y="64" width="16" height="32">
+  <object id="77" type="Entity" gid="1364" x="680" y="128" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="118" type="Entity" gid="1389" x="904" y="64" width="16" height="32">
+  <object id="78" type="Entity" gid="1364" x="664" y="144" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="119" type="Entity" gid="1390" x="672" y="160" width="64" height="32">
+  <object id="79" type="Entity" gid="1364" x="680" y="144" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="120" type="Entity" gid="1382" x="632" y="88" width="16" height="16">
+  <object id="80" type="Entity" gid="1364" x="696" y="144" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="122" type="Entity" gid="1384" x="632" y="152" width="16" height="16">
+  <object id="81" type="Entity" gid="1364" x="712" y="144" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="123" type="Entity" gid="1383" x="904" y="136" width="16" height="16">
+  <object id="82" type="Entity" gid="1364" x="712" y="128" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="124" type="Entity" gid="1385" x="888" y="120" width="16" height="16">
+  <object id="83" type="Entity" gid="1364" x="696" y="128" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="125" type="Entity" gid="1391" x="736" y="64" width="64" height="32">
+  <object id="84" type="Entity" gid="1364" x="696" y="96" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="126" type="Entity" gid="1391" x="800" y="64" width="64" height="32">
+  <object id="85" type="Entity" gid="1364" x="712" y="96" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="127" type="Entity" gid="1391" x="864" y="64" width="64" height="32">
+  <object id="86" type="Entity" gid="1364" x="696" y="112" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="128" type="Entity" gid="1390" x="736" y="160" width="64" height="32">
+  <object id="87" type="Entity" gid="1364" x="712" y="112" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="129" type="Entity" gid="1390" x="800" y="160" width="64" height="32">
+  <object id="88" type="Entity" gid="1364" x="728" y="112" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="130" type="Entity" gid="1390" x="848" y="160" width="64" height="32">
+  <object id="89" type="Entity" gid="1364" x="744" y="112" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
-      <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
      </properties>
     </property>
    </properties>
   </object>
-  <object id="131" type="Entity" gid="1383" x="904" y="152" width="16" height="16">
+  <object id="90" type="Entity" gid="1364" x="744" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="91" type="Entity" gid="1364" x="728" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="92" type="Entity" gid="1364" x="744" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="93" type="Entity" gid="1364" x="760" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="94" type="Entity" gid="1364" x="744" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="95" type="Entity" gid="1364" x="760" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="96" type="Entity" gid="1364" x="776" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="97" type="Entity" gid="1364" x="792" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="98" type="Entity" gid="1364" x="792" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="99" type="Entity" gid="1364" x="776" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="100" type="Entity" gid="1364" x="824" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="101" type="Entity" gid="1364" x="840" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="102" type="Entity" gid="1364" x="824" y="112" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="103" type="Entity" gid="1364" x="840" y="112" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="104" type="Entity" gid="1364" x="856" y="112" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="105" type="Entity" gid="1364" x="872" y="112" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="106" type="Entity" gid="1364" x="872" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="107" type="Entity" gid="1364" x="856" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="108" type="Entity" gid="1364" x="808" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="109" type="Entity" gid="1364" x="824" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="110" type="Entity" gid="1364" x="808" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="111" type="Entity" gid="1364" x="824" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="112" type="Entity" gid="1364" x="840" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="113" type="Entity" gid="1364" x="840" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="114" type="Entity" gid="1364" x="760" y="112" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="115" type="Entity" gid="1364" x="760" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="116" type="Entity" gid="1391" x="672" y="80" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
-      <property name="addComponent" type="bool" value="true"/>
       <property name="bgPriority" type="int" value="3"/>
-      <property name="sprAnim" type="class" propertytype="SpriteAnim">
-       <properties>
-        <property name="addComponent" type="bool" value="true"/>
-        <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
-       </properties>
-      </property>
       <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="117" type="Entity" gid="1387" x="632" y="80" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="118" type="Entity" gid="1389" x="904" y="80" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="119" type="Entity" gid="1390" x="672" y="176" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="120" type="Entity" gid="1382" x="632" y="96" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="122" type="Entity" gid="1384" x="632" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="123" type="Entity" gid="1383" x="904" y="144" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="124" type="Entity" gid="1385" x="888" y="128" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="125" type="Entity" gid="1391" x="736" y="80" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="126" type="Entity" gid="1391" x="800" y="80" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="127" type="Entity" gid="1391" x="864" y="80" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="128" type="Entity" gid="1390" x="736" y="176" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="129" type="Entity" gid="1390" x="800" y="176" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="130" type="Entity" gid="1390" x="848" y="176" width="64" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_M_4X"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="131" type="Entity" gid="1383" x="904" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
      </properties>
     </property>
    </properties>
@@ -709,7 +879,7 @@
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
   </object>
-  <object id="69" type="WarpPoint" x="920" y="88">
+  <object id="69" type="WarpPoint" x="920" y="104">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
@@ -721,7 +891,7 @@
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
-  <object id="71" type="WarpPoint" x="128" y="160">
+  <object id="71" type="WarpPoint" x="128" y="176">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>

@@ -2,6 +2,9 @@
 
 #include <bn_fixed_point.h>
 #include <bn_optional.h>
+#include <bn_span.h>
+
+#include "game/coll/CollInfo.hpp"
 
 namespace bn
 {
@@ -33,6 +36,13 @@ public:
     void create(GameContext&) const;
 
 public:
+    struct ColliderPack
+    {
+        bn::span<const coll::RectCollInfo> staticCollInfos;
+        bool isEnabled : 1;
+        bool isTrigger : 1;
+    };
+
     struct Sprite
     {
         const bn::sprite_item& sprItem;
@@ -59,6 +69,7 @@ public:
     gen::EntityId id;
     bn::fixed_point position;
 
+    bn::optional<ColliderPack> collPack;
     bn::optional<Sprite> sprite;
     bn::optional<SpriteAnim> sprAnim;
     bn::optional<WalkAnimCtrl> walkAnimCtrl;

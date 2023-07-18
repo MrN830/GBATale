@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="20" columns="0" objectalignment="center">
+<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="23" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" x="0" y="0" width="16" height="16">
   <image width="16" height="32" source="../../graphics/sprite/ent_floor_switch.bmp"/>
@@ -40,13 +40,13 @@
  <tile id="7">
   <image width="32" height="64" source="../../graphics/sprite/ent_pillar.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="3" y="48" width="26" height="8"/>
+   <object id="1" x="3" y="56" width="26" height="8"/>
   </objectgroup>
  </tile>
  <tile id="8" x="0" y="0" width="64" height="32">
   <image width="64" height="64" source="../../graphics/sprite/ent_candy_dish.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="18" width="16" height="10"/>
+   <object id="1" x="0" y="20" width="16" height="10"/>
   </objectgroup>
  </tile>
  <tile id="9">
@@ -114,5 +114,17 @@
  </tile>
  <tile id="20">
   <image width="32" height="32" source="../../graphics/sprite/ent_wall_switch_hint.bmp"/>
+ </tile>
+ <tile id="21">
+  <image width="32" height="64" source="../../graphics/sprite/ent_nasty_tree_top_left.bmp"/>
+ </tile>
+ <tile id="22">
+  <image width="64" height="64" source="../../graphics/sprite/ent_nasty_tree_top_right.bmp"/>
+ </tile>
+ <tile id="23">
+  <image width="64" height="64" source="../../graphics/sprite/ent_nasty_tree_bottom.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="8" y="6" width="38" height="18"/>
+  </objectgroup>
  </tile>
 </tileset>
