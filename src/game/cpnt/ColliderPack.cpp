@@ -5,7 +5,7 @@ namespace ut::game::cpnt
 
 static void printCollInfoTypeError(const coll::CollInfo& coll)
 {
-    BN_ERROR("Invalid CollInfo type=", coll.type.internal_id());
+    BN_ERROR("Invalid CollInfo type=", (void*)coll.type.internal_id());
 }
 
 ColliderPack::ColliderPack(ent::Entity& entity, bool isTrigger) : Component(entity), _isTrigger(isTrigger)

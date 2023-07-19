@@ -5,17 +5,30 @@
 #include "asset/SpriteAnimKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
-#include "game/cmd/InputCmd.hpp"
+#include "game/cmd/MoveCmd.hpp"
 #include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
+#include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/Interaction.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/RoomChanger.hpp"
 #include "mtile/MTilemap.hpp"
+#include "scene/Game.hpp"
 
 namespace ut::game::cpnt
 {
 
-PlayerInput::PlayerInput(ent::Entity& entity) : Input(entity)
+namespace
+{
+
+constexpr coll::RectCollInfo DOWN_INTERACTOR = {bn::fixed_point(-0.5, 3), bn::fixed_size(9, 20)};
+constexpr coll::RectCollInfo UP_INTERACTOR = {bn::fixed_point(-0.5, -11.5), bn::fixed_size(9, 13)};
+constexpr coll::RectCollInfo LEFT_INTERACTOR = {bn::fixed_point(-10, -4.5), bn::fixed_size(20, 9)};
+constexpr coll::RectCollInfo RIGHT_INTERACTOR = {bn::fixed_point(+10, -4.5), bn::fixed_size(20, 9)};
+
+}; // namespace
+
+PlayerInput::PlayerInput(ent::Entity& entity, const WalkAnimCtrl& walk) : Input(entity), _walk(walk)
 {
 }
 
@@ -28,9 +41,50 @@ void PlayerInput::handleInput(GameContext& ctx)
 {
     constexpr bn::fixed PLAYER_SPEED = 3;
 
-    cmd::InputCmd cmd;
+    cmd::MoveCmd cmd;
 
-    if (!ctx.isShowingUI)
+    if (bn::keypad::start_pressed() || bn::keypad::l_pressed() || bn::keypad::r_pressed())
+    {
+        // TODO: Disable opening menu on free-to-move cutscenes (e.g. Mettaton's TV show, Undyne's chases)
+        ctx.game.openIngameMenu();
+    }
+    else if (bn::keypad::a_pressed())
+    {
+        const auto interactColl = getInteractCollInfo();
+
+        auto it = ctx.entMngr.beforeBeginIter();
+        while (it != ctx.entMngr.endIter())
+        {
+            it = ctx.entMngr.findIf(
+                [&interactColl](const ent::Entity& entity) -> bool {
+                    const auto* interaction = entity.getComponent<cpnt::inter::Interaction>();
+                    if (interaction == nullptr || !interaction->isEnabled())
+                        return false;
+                    if (!(interaction->getTriggers() & inter::InteractionTriggers::PRESS_A))
+                        return false;
+
+                    const auto* collPack = entity.getComponent<cpnt::ColliderPack>();
+                    if (collPack == nullptr || !collPack->isEnabled())
+                        return false;
+                    if (!collPack->isCollideWith(interactColl))
+                        return false;
+
+                    return true;
+                },
+                it);
+
+            if (it != ctx.entMngr.endIter())
+            {
+                auto* interaction = it->getComponent<cpnt::inter::Interaction>();
+                BN_ASSERT(interaction != nullptr);
+
+                interaction->onInteract();
+            }
+        }
+    }
+
+    // If non FREE, `sendMoveCmd()` will send NO movement, stopping Frisk walking animation.
+    if (ctx.interactState == InteractState::FREE)
     {
         if (bn::keypad::up_held())
         {
@@ -56,10 +110,10 @@ void PlayerInput::handleInput(GameContext& ctx)
 
     cmd = handleWarpCollision(cmd, ctx);
 
-    sendInput(cmd, ctx);
+    sendMoveCmd(cmd, ctx);
 }
 
-auto PlayerInput::handleWarpCollision(const cmd::InputCmd& cmd, GameContext& ctx) -> cmd::InputCmd
+auto PlayerInput::handleWarpCollision(const cmd::MoveCmd& cmd, GameContext& ctx) -> cmd::MoveCmd
 {
     auto result = cmd;
 
@@ -85,6 +139,22 @@ auto PlayerInput::handleWarpCollision(const cmd::InputCmd& cmd, GameContext& ctx
     _entity.setPosition(_entity.getPosition() - cmd.movePos);
 
     return result;
+}
+
+auto PlayerInput::getInteractCollInfo() const -> coll::RectCollInfo
+{
+    using Dirs = core::Directions;
+
+    const auto dir = _walk.getLastAnimDir();
+    BN_ASSERT(dir == Dirs::UP || dir == Dirs::DOWN || dir == Dirs::LEFT || dir == Dirs::RIGHT);
+
+    auto coll = (dir == Dirs::UP     ? UP_INTERACTOR
+                 : dir == Dirs::DOWN ? DOWN_INTERACTOR
+                 : dir == Dirs::LEFT ? LEFT_INTERACTOR
+                                     : RIGHT_INTERACTOR);
+    coll.position += _entity.getPosition();
+
+    return coll;
 }
 
 } // namespace ut::game::cpnt

@@ -46,6 +46,46 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": false,
+            "id": 18,
+            "members": [
+                {
+                    "name": "InteractionCppClass",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "name": "isEnabled",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "name": "triggers",
+                    "propertyType": "InteractionTriggers",
+                    "type": "string",
+                    "value": "PRESS_A"
+                }
+            ],
+            "name": "Interaction",
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
+        },
+        {
+            "id": 19,
+            "name": "InteractionTriggers",
+            "storageType": "string",
+            "type": "enum",
+            "values": [
+                "PRESS_A",
+                "COLLIDE_FRISK",
+                "COLLIDE_OTHERS"
+            ],
+            "valuesAsFlags": true
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": false,
             "id": 12,
             "members": [
                 {

@@ -8,7 +8,7 @@ namespace ut::game::coll
 
 static void printTypeError(const CollInfo& coll)
 {
-    BN_ERROR("Invalid CollInfo type=", coll.type.internal_id());
+    BN_ERROR("Invalid CollInfo type=", (void*)coll.type.internal_id());
 }
 
 static bn::fixed distanceSquared(const bn::fixed_point p1, const bn::fixed_point p2)

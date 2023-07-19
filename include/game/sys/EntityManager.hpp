@@ -1,3 +1,5 @@
+#pragma once
+
 #include <bn_best_fit_allocator.h>
 #include <bn_intrusive_forward_list.h>
 #include <bn_pool.h>
@@ -22,6 +24,10 @@ class MemView;
 namespace ut::game::ent
 {
 struct EntityInfo;
+}
+namespace ut::game::ent::gen
+{
+enum class EntityId : uint16_t;
 }
 
 namespace ut::game::sys
@@ -58,13 +64,28 @@ public:
 public:
     void reloadRoom(GameContext&);
 
-    auto getEntities() const -> const decltype(_entities)&;
+    void createFrisk(const bn::fixed_point position);
 
 public:
-    void createFrisk(const bn::fixed_point position);
+    auto findById(ent::gen::EntityId) -> ent::Entity*;
+    auto findById(ent::gen::EntityId) const -> const ent::Entity*;
+
+    template <typename Cond>
+    auto findIf(Cond condition, decltype(_entities)::iterator prevIt) -> decltype(_entities)::iterator;
+    template <typename Cond>
+    auto findIf(Cond condition, decltype(_entities)::const_iterator prevIt) const
+        -> decltype(_entities)::const_iterator;
+
+    auto beforeBeginIter() -> decltype(_entities)::iterator;
+    auto cBeforeBeginIter() const -> decltype(_entities)::const_iterator;
+
+    auto endIter() -> decltype(_entities)::iterator;
+    auto cEndIter() const -> decltype(_entities)::const_iterator;
 
 private:
     void removeDestroyed(bool forceRemoveAll);
 };
 
 } // namespace ut::game::sys
+
+#include "game/sys/EntityManager.inl"

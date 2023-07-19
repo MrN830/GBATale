@@ -81,11 +81,6 @@ void EntityManager::reloadRoom(GameContext& ctx)
         entInfo.create(ctx);
 }
 
-auto EntityManager::getEntities() const -> const decltype(_entities)&
-{
-    return _entities;
-}
-
 void EntityManager::createFrisk(const bn::fixed_point position)
 {
     ent::Entity& frisk = _entPool.create(ent::gen::EntityId::frisk, position);
@@ -105,7 +100,7 @@ void EntityManager::createFrisk(const bn::fixed_point position)
     walkAnimCtrl.registerWalkAnimKind(asset::WalkAnimKind::FRISK);
     walkAnimCtrl.setStandStillDir(_friskAnimDirection);
 
-    cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk);
+    cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk, walkAnimCtrl);
     frisk.addComponent(input);
 
     cpnt::ColliderPack& collPack = _cpntHeap.create<cpnt::ColliderPack>(frisk, false);
@@ -116,6 +111,50 @@ void EntityManager::createFrisk(const bn::fixed_point position)
                                      23 + collSize.height() / 2 - sprSize.height()};
     coll::Collider& coll = _collPool.create(coll::CollInfo(coll::RectCollInfo(collPos, collSize)));
     collPack.addDynamicCollider(coll);
+}
+
+auto EntityManager::findById(ent::gen::EntityId entityId) -> ent::Entity*
+{
+    if (entityId == ent::gen::EntityId::NONE)
+        return nullptr;
+
+    for (auto it = _entities.begin(); it != _entities.end(); ++it)
+        if (it->getId() == entityId)
+            return &*it;
+
+    return nullptr;
+}
+
+auto EntityManager::findById(ent::gen::EntityId entityId) const -> const ent::Entity*
+{
+    if (entityId == ent::gen::EntityId::NONE)
+        return nullptr;
+
+    for (auto it = _entities.cbegin(); it != _entities.cend(); ++it)
+        if (it->getId() == entityId)
+            return &*it;
+
+    return nullptr;
+}
+
+auto EntityManager::beforeBeginIter() -> decltype(_entities)::iterator
+{
+    return _entities.before_begin();
+}
+
+auto EntityManager::cBeforeBeginIter() const -> decltype(_entities)::const_iterator
+{
+    return _entities.cbefore_begin();
+}
+
+auto EntityManager::endIter() -> decltype(_entities)::iterator
+{
+    return _entities.end();
+}
+
+auto EntityManager::cEndIter() const -> decltype(_entities)::const_iterator
+{
+    return _entities.cend();
 }
 
 void EntityManager::removeDestroyed(bool forceRemoveAll)
@@ -138,17 +177,15 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
         if (&entity == camMngr.getCamFollowEntity())
         {
             camMngr.setCamFollowEntity(nullptr);
+        }
 
-            // TODO: Find Frisk by EntityId,
-            // instead of checking if camera & `cpnt::PlayerInput` attached
-            if (entity.getId() == ent::gen::EntityId::frisk)
-            {
-                const auto* friskWalk = entity.getComponent<cpnt::WalkAnimCtrl>();
-                BN_ASSERT(friskWalk != nullptr);
+        if (entity.getId() == ent::gen::EntityId::frisk)
+        {
+            const auto* friskWalk = entity.getComponent<cpnt::WalkAnimCtrl>();
+            BN_ASSERT(friskWalk != nullptr);
 
-                // Preserve Frisk's direction
-                _friskAnimDirection = friskWalk->getLastAnimDir();
-            }
+            // Preserve Frisk's direction
+            _friskAnimDirection = friskWalk->getLastAnimDir();
         }
 
         // Destroy dynamic colliders within `ColliderPack`

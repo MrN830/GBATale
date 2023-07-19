@@ -5,7 +5,7 @@
 #include "asset/SpriteAnimInfo.hpp"
 #include "asset/SpriteAnimKind.hpp"
 #include "core/Directions.hpp"
-#include "game/cmd/InputCmd.hpp"
+#include "game/cmd/MoveCmd.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 
@@ -13,7 +13,7 @@ namespace ut::game::cpnt
 {
 
 WalkAnimCtrl::WalkAnimCtrl(ent::Entity& entity, SpriteAnim& sprAnim)
-    : Component(entity), _lastAnimDir(core::Directions::NONE), _sprAnim(sprAnim),
+    : Component(entity), _lastAnimDir(core::Directions::DOWN), _sprAnim(sprAnim),
       _walkAnimKind(asset::WalkAnimKind::NONE)
 {
     sprAnim._walkAnimCtrl = this;
@@ -39,7 +39,7 @@ void WalkAnimCtrl::renderOnce()
         ++_curRenderCount;
 }
 
-void WalkAnimCtrl::receiveInputCmd(const cmd::InputCmd& cmd)
+void WalkAnimCtrl::receiveMoveCmd(const cmd::MoveCmd& cmd)
 {
     using AnimKind = asset::SpriteAnimKind;
     using IAnimInfo = asset::ISpriteAnimInfo;

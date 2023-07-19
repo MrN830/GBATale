@@ -43,7 +43,7 @@ bool ColliderPack::isCollideWith(const CInfo& other) const
                 return true;
         }
         else
-            BN_ERROR("Invalid CollInfo type=", info.type.internal_id());
+            BN_ERROR("Invalid CollInfo type=", (void*)info.type.internal_id());
 
         return false;
     };

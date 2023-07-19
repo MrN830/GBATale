@@ -58,7 +58,7 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, SceneContext& context)
 IngameMenu::~IngameMenu()
 {
     BN_ASSERT(getContext().gameContext != nullptr);
-    getContext().gameContext->isShowingUI = false;
+    getContext().gameContext->interactState = game::InteractState::FREE;
 
     _menuState->~MenuState();
 }

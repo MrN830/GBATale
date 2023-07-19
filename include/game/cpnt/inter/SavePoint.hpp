@@ -1,0 +1,18 @@
+#pragma once
+
+#include "game/cpnt/inter/Interaction.hpp"
+
+namespace ut::game::cpnt::inter
+{
+
+class SavePoint final : public Interaction
+{
+public:
+    SavePoint(ent::Entity&, InteractionTriggers);
+
+    auto getInteractionType() const -> bn::type_id_t override;
+
+    void onInteract() override;
+};
+
+} // namespace ut::game::cpnt::inter

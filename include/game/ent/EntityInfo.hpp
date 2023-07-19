@@ -22,6 +22,11 @@ namespace ut::game
 struct GameContext;
 }
 
+namespace ut::game::cpnt::inter
+{
+enum class InteractionTriggers : uint8_t;
+}
+
 namespace ut::game::ent
 {
 
@@ -41,6 +46,13 @@ public:
         bn::span<const coll::RectCollInfo> staticCollInfos;
         bool isEnabled : 1;
         bool isTrigger : 1;
+    };
+
+    struct Interaction
+    {
+        bn::type_id_t type;
+        cpnt::inter::InteractionTriggers triggers;
+        bool isEnabled : 1;
     };
 
     struct Sprite
@@ -70,6 +82,7 @@ public:
     bn::fixed_point position;
 
     bn::optional<ColliderPack> collPack;
+    bn::optional<Interaction> interaction;
     bn::optional<Sprite> sprite;
     bn::optional<SpriteAnim> sprAnim;
     bn::optional<WalkAnimCtrl> walkAnimCtrl;

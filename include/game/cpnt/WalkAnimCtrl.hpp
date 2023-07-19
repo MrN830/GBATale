@@ -13,7 +13,7 @@ enum class Directions : uint8_t;
 }
 namespace ut::game::cmd
 {
-struct InputCmd;
+struct MoveCmd;
 }
 
 namespace ut::game::cpnt
@@ -34,7 +34,7 @@ public:
     void renderOnce();
 
 public:
-    void receiveInputCmd(const cmd::InputCmd&);
+    void receiveMoveCmd(const cmd::MoveCmd&);
 
     bool hasWalkAnim() const;
     void registerWalkAnimKind(asset::WalkAnimKind);

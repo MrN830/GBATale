@@ -328,6 +328,7 @@ class TilemapConverter:
 
         # Entities
         ColliderPack = namedtuple("ColliderPack", "isEnabled, isTrigger, collInfos")
+        Interaction = namedtuple("Interaction", "isEnabled, type, triggers")
         SpriteCpnt = namedtuple(
             "SpriteCpnt",
             "isEnabled, sprItem, gfxIdx, updateZOrderOnMove, zOrder, bgPriority",
@@ -337,6 +338,7 @@ class TilemapConverter:
 
         entities = []
         spr_items = set()
+        interaction_cpp_classes = set()
 
         for obj in l_entity:
             if obj.type != "Entity":
@@ -404,6 +406,26 @@ class TilemapConverter:
 
                 entity["colliderPack"] = ColliderPack(
                     collPack.isEnabled, collPack.isTrigger, collInfos
+                )
+
+            # child of `cpnt::inter::Interaction`
+            interaction = obj.properties.get("interaction")
+            if interaction:
+                if not collPack:
+                    raise Exception(
+                        f"obj has `cpnt::inter::Interaction` but doesn't have `cpnt::ColliderPack` in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+                if not interaction.triggers:
+                    raise Exception(
+                        f"obj has empty `interaction.triggers` in `{mtilemap_name}` (x={obj.x}, y={obj.y})"
+                    )
+
+                interaction_cpp_classes.add(interaction.InteractionCppClass)
+
+                entity["interaction"] = Interaction(
+                    interaction.isEnabled,
+                    interaction.InteractionCppClass,
+                    interaction.triggers.split(","),
                 )
 
             # cpnt::Sprite
@@ -544,6 +566,10 @@ class TilemapConverter:
                 output_header.write(f'#include "bn_sprite_items_{spr_item}.h"\n')
             output_header.write("\n")
 
+            for inter_type in interaction_cpp_classes:
+                output_header.write(f'#include "game/cpnt/inter/{inter_type}.hpp"\n')
+            output_header.write("\n")
+
             output_header.write(f"namespace ut::mtile::gen" + "\n")
             output_header.write("{" + "\n\n")
 
@@ -584,6 +610,15 @@ class TilemapConverter:
                     collPack: ColliderPack = entity["colliderPack"]
                     output_header.write(
                         f"EntityInfo::ColliderPack(_{mtilemap_name}_collInfos_{i},{str(collPack.isEnabled).lower()},{str(collPack.isTrigger).lower()}),"
+                    )
+                else:
+                    output_header.write("bn::nullopt,")
+
+                # child of `cpnt::inter::Interaction`
+                if "interaction" in entity:
+                    interaction: Interaction = entity["interaction"]
+                    output_header.write(
+                        f"EntityInfo::Interaction(bn::type_id<game::cpnt::inter::{interaction.type}>(), ({'|'.join(f'game::cpnt::inter::InteractionTriggers::{tr}' for tr in interaction.triggers)}), {str(interaction.isEnabled).lower()}),"
                     )
                 else:
                     output_header.write("bn::nullopt,")

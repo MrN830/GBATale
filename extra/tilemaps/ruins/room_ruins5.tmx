@@ -2,7 +2,7 @@
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="59" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="132">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
- <tileset firstgid="1382" source="../animated_terrain.tsx"/>
+ <tileset firstgid="1385" source="../animated_terrain.tsx"/>
  <layer id="1" name="BGLower" width="59" height="12">
   <data encoding="csv">
 0,132,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,133,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,132,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,133,0,
@@ -93,6 +93,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -105,6 +111,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -121,6 +133,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -133,6 +151,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -149,6 +173,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -161,6 +191,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -177,6 +213,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -189,6 +231,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -205,6 +253,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -217,6 +271,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -233,6 +293,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -245,6 +311,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -261,6 +333,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -273,6 +351,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -289,6 +373,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -301,6 +391,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -317,6 +413,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -329,6 +431,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -345,6 +453,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -357,6 +471,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -373,6 +493,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -385,6 +511,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -401,6 +533,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -413,6 +551,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -429,6 +573,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -441,6 +591,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -457,6 +613,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -469,6 +631,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -485,6 +653,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -497,6 +671,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -513,6 +693,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -525,6 +711,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -541,6 +733,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -553,6 +751,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -569,6 +773,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -581,6 +791,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -597,6 +813,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -609,6 +831,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -625,6 +853,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -639,6 +873,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AutoHideSpike"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -646,7 +886,7 @@
     </property>
    </properties>
   </object>
-  <object id="116" type="Entity" gid="1391" x="672" y="80" width="64" height="32">
+  <object id="116" type="Entity" gid="1394" x="672" y="80" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -661,7 +901,7 @@
     </property>
    </properties>
   </object>
-  <object id="117" type="Entity" gid="1387" x="632" y="80" width="16" height="32">
+  <object id="117" type="Entity" gid="1390" x="632" y="80" width="16" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -676,7 +916,7 @@
     </property>
    </properties>
   </object>
-  <object id="118" type="Entity" gid="1389" x="904" y="80" width="16" height="32">
+  <object id="118" type="Entity" gid="1392" x="904" y="80" width="16" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -691,7 +931,7 @@
     </property>
    </properties>
   </object>
-  <object id="119" type="Entity" gid="1390" x="672" y="176" width="64" height="32">
+  <object id="119" type="Entity" gid="1393" x="672" y="176" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -706,7 +946,7 @@
     </property>
    </properties>
   </object>
-  <object id="120" type="Entity" gid="1382" x="632" y="96" width="16" height="16">
+  <object id="120" type="Entity" gid="1385" x="632" y="96" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -721,7 +961,7 @@
     </property>
    </properties>
   </object>
-  <object id="122" type="Entity" gid="1384" x="632" y="160" width="16" height="16">
+  <object id="122" type="Entity" gid="1387" x="632" y="160" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -736,7 +976,7 @@
     </property>
    </properties>
   </object>
-  <object id="123" type="Entity" gid="1383" x="904" y="144" width="16" height="16">
+  <object id="123" type="Entity" gid="1386" x="904" y="144" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -751,7 +991,7 @@
     </property>
    </properties>
   </object>
-  <object id="124" type="Entity" gid="1385" x="888" y="128" width="16" height="16">
+  <object id="124" type="Entity" gid="1388" x="888" y="128" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -766,7 +1006,7 @@
     </property>
    </properties>
   </object>
-  <object id="125" type="Entity" gid="1391" x="736" y="80" width="64" height="32">
+  <object id="125" type="Entity" gid="1394" x="736" y="80" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -781,7 +1021,7 @@
     </property>
    </properties>
   </object>
-  <object id="126" type="Entity" gid="1391" x="800" y="80" width="64" height="32">
+  <object id="126" type="Entity" gid="1394" x="800" y="80" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -796,7 +1036,7 @@
     </property>
    </properties>
   </object>
-  <object id="127" type="Entity" gid="1391" x="864" y="80" width="64" height="32">
+  <object id="127" type="Entity" gid="1394" x="864" y="80" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -811,7 +1051,7 @@
     </property>
    </properties>
   </object>
-  <object id="128" type="Entity" gid="1390" x="736" y="176" width="64" height="32">
+  <object id="128" type="Entity" gid="1393" x="736" y="176" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -826,7 +1066,7 @@
     </property>
    </properties>
   </object>
-  <object id="129" type="Entity" gid="1390" x="800" y="176" width="64" height="32">
+  <object id="129" type="Entity" gid="1393" x="800" y="176" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -841,7 +1081,7 @@
     </property>
    </properties>
   </object>
-  <object id="130" type="Entity" gid="1390" x="848" y="176" width="64" height="32">
+  <object id="130" type="Entity" gid="1393" x="848" y="176" width="64" height="32">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -856,7 +1096,7 @@
     </property>
    </properties>
   </object>
-  <object id="131" type="Entity" gid="1383" x="904" y="160" width="16" height="16">
+  <object id="131" type="Entity" gid="1386" x="904" y="160" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>

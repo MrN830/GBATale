@@ -4,7 +4,7 @@
 
 namespace ut::game::cmd
 {
-struct InputCmd;
+struct MoveCmd;
 }
 
 namespace ut::game::cpnt
@@ -17,13 +17,15 @@ public:
 
 protected:
     /// @brief Sends `InputCmd` to the `cpnt::SpriteAnim`, and translates entity position
-    void sendInput(const cmd::InputCmd&, GameContext&);
+    void sendMoveCmd(const cmd::MoveCmd&, GameContext&);
 
 private:
+    void collideWithInteraction(const cmd::MoveCmd&, GameContext&);
+
     /// @brief If the input command moves the entity
     /// to the wall collider (or other non-enterables),
     /// this function reverts it
-    auto fixMoveCmdCollision(const cmd::InputCmd&, GameContext&) -> cmd::InputCmd;
+    auto fixMoveCmdCollision(const cmd::MoveCmd&, GameContext&) -> cmd::MoveCmd;
 };
 
 } // namespace ut::game::cpnt

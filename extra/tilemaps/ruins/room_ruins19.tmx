@@ -135,6 +135,11 @@
   <object id="65" type="Entity" gid="1366" x="72" y="144" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="SavePoint"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
     <property name="spriteAnim" type="class" propertytype="SpriteAnim">
      <properties>

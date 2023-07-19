@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/InteractState.hpp"
 #include "mtile/WarpId.hpp"
 
 namespace bn
@@ -9,7 +10,8 @@ class camera_ptr;
 namespace ut::scene
 {
 struct SceneContext;
-}
+class Game;
+} // namespace ut::scene
 namespace ut::game::sys
 {
 class WorldBg;
@@ -27,7 +29,9 @@ class GameState;
 struct GameContext
 {
     scene::SceneContext& sceneContext;
+    scene::Game& game;
     GameState& state;
+
     game::sys::CameraManager& camMngr;
     game::sys::WorldBg& worldBg;
     game::sys::EntityManager& entMngr;
@@ -37,7 +41,7 @@ struct GameContext
     mtile::WarpId warpId = mtile::WarpId::INIT;
 
     bool isDialogUpper = false;
-    bool isShowingUI = false;
+    InteractState interactState = InteractState::FREE;
 };
 
 } // namespace ut::game

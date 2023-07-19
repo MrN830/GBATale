@@ -93,6 +93,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsFloorSwitch"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -105,6 +111,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsFloorSwitch"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -121,6 +133,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsFloorSwitch"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -133,6 +151,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsFloorSwitch"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -149,6 +173,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsFloorSwitch"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -161,6 +191,12 @@
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
       <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsFloorSwitch"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK,COLLIDE_OTHERS"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -177,14 +213,12 @@
       <property name="isTrigger" type="bool" value="true"/>
      </properties>
     </property>
-    <property name="sprite" type="class" propertytype="Sprite">
-    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
   <object id="62" type="Entity" gid="1377" x="112" y="64" width="32" height="64">
    <properties>
-    <property name="sprite" type="class" propertytype="Sprite">
-    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
  </objectgroup>

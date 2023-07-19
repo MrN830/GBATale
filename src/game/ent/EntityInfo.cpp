@@ -5,6 +5,9 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/AutoHideSpike.hpp"
+#include "game/cpnt/inter/RuinsFloorSwitch.hpp"
+#include "game/cpnt/inter/SavePoint.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -26,6 +29,25 @@ void EntityInfo::create(GameContext& ctx) const
 
         collPackCpnt.setEnabled(collPack->isEnabled);
         collPackCpnt.setStaticCollInfos(collPack->staticCollInfos);
+    }
+
+    // child of `cpnt::inter::Interaction`
+    if (this->interaction.has_value())
+    {
+        cpnt::inter::Interaction* inter = nullptr;
+
+        if (interaction->type == bn::type_id<cpnt::inter::SavePoint>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::SavePoint>(entity, interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::AutoHideSpike>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::AutoHideSpike>(entity, interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::RuinsFloorSwitch>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::RuinsFloorSwitch>(entity, interaction->triggers);
+        else
+            BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
+
+        entity.addComponent(*inter);
+
+        inter->setEnabled(interaction->isEnabled);
     }
 
     // cpnt::Sprite
