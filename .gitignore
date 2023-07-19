@@ -4,8 +4,9 @@
 !.vscode/launch.json
 !.vscode/tasks.json
 
-# python venv
+# python
 *venv/
+__pycache__/
 
 # user dependencies
 user_deps.json
@@ -21,5 +22,6 @@ build_ut/
 
 # emulator output
 *.sav
+*.ss[1-9]
 GBATale-*.png
 *.log
