@@ -22,9 +22,6 @@ class TilemapConverter:
             super().__init__(f"Invalid collider: {coll_pos}")
             self.coll_pos = coll_pos
 
-    def __init__(self):
-        self.entity_ids = {"NONE", "frisk"}
-
     @staticmethod
     def write_roominfo_cpp():
         RoomKind = Enum("RoomKind", TilemapConverter.ROOM_NAMES, start=0)
@@ -72,9 +69,33 @@ class TilemapConverter:
 
             cpp_file.write("} // namespace ut::game" + "\n")
 
-    def write_entity_id_header(self):
+    @staticmethod
+    def write_entity_id_header():
         include_path = f"build_ut/include/gen"
         os.makedirs(include_path, exist_ok=True)
+
+        entity_ids = {"NONE", "frisk"}
+
+        for folder in glob.glob("extra/tilemaps/*"):
+            if not os.path.isdir(folder):
+                continue
+
+            for tmx_path in glob.glob(f"{folder}/*.tmx"):
+                tiled_map = pytmx.TiledMap()
+                tiled_map.parse_json(
+                    json.load(open("extra/tilemaps/GBATale.tiled-project", "r"))[
+                        "propertyTypes"
+                    ]
+                )
+                tiled_map.filename = tmx_path
+                tiled_map.parse_xml(pytmx.ElementTree.parse(tiled_map.filename).getroot())
+
+                l_entity: pytmx.TiledObjectGroup = tiled_map.get_layer_by_name("Entity")
+
+                for obj in l_entity:
+                    if obj.name:
+                        entity_ids.add(obj.name)
+
 
         header_filename = f"EntityId.hpp"
         header_path = f"{include_path}/{header_filename}"
@@ -86,7 +107,7 @@ class TilemapConverter:
 
             output_header.write("namespace ut::game::ent::gen {" + "\n")
             output_header.write("enum class EntityId : uint16_t {" + "\n")
-            for entity_id in self.entity_ids:
+            for entity_id in entity_ids:
                 output_header.write(f"{entity_id}," + "\n")
             output_header.write("};" + "\n")
             output_header.write("} // namespace ut::game::ent::gen" + "\n")
@@ -352,8 +373,6 @@ class TilemapConverter:
                 "y": obj.y + obj.height if obj.image else obj.y + obj.height,
             }
             no_component_entity_len = len(entity)
-            if obj.name:
-                self.entity_ids.add(obj.name)
 
             def get_sprItem_gfxIdx():
                 img_path = obj.image[0]
