@@ -8,13 +8,9 @@ static void printCollInfoTypeError(const coll::CollInfo& coll)
     BN_ERROR("Invalid CollInfo type=", (void*)coll.type.internal_id());
 }
 
-ColliderPack::ColliderPack(ent::Entity& entity, bool isTrigger) : Component(entity), _isTrigger(isTrigger)
+ColliderPack::ColliderPack(ent::Entity& entity, bool isTrigger)
+    : Component(entity, bn::type_id<ColliderPack>()), _isTrigger(isTrigger)
 {
-}
-
-auto ColliderPack::getType() const -> bn::type_id_t
-{
-    return bn::type_id<ColliderPack>();
 }
 
 void ColliderPack::setStaticCollInfos(const bn::span<const coll::RectCollInfo>& staticColls)

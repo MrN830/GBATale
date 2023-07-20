@@ -24,8 +24,6 @@ class SpriteAnim : public Component
 public:
     SpriteAnim(ent::Entity&, cpnt::Sprite&);
 
-    auto getType() const -> bn::type_id_t override;
-
     void render(GameContext&) override;
     void renderOnce();
 

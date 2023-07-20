@@ -14,8 +14,6 @@ class PlayerInput final : public Input
 public:
     PlayerInput(ent::Entity&, const WalkAnimCtrl&);
 
-    auto getType() const -> bn::type_id_t override;
-
     void handleInput(GameContext&) override;
 
 private:

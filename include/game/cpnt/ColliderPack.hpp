@@ -22,8 +22,6 @@ class ColliderPack : public Component
 public:
     ColliderPack(ent::Entity&, bool isTrigger);
 
-    auto getType() const -> bn::type_id_t override;
-
     void setStaticCollInfos(const bn::span<const coll::RectCollInfo>&);
 
     template <typename TColl>

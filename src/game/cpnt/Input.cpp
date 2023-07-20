@@ -15,7 +15,9 @@
 namespace ut::game::cpnt
 {
 
-Input::Input(ent::Entity& entity) : Component(entity)
+Input::~Input() = default;
+
+Input::Input(ent::Entity& entity, bn::type_id_t type) : Component(entity, type)
 {
 }
 

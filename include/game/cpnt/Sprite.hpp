@@ -24,8 +24,6 @@ public:
     Sprite(ent::Entity&, const bn::sprite_item&, int gfxIdx, const bn::camera_ptr*, bool updateZOrderOnMove,
            int bgPriority = consts::WORLD_BG_PRIORITY, int zOrder = Z_ORDER_UNSPECIFIED);
 
-    auto getType() const -> bn::type_id_t override;
-
     void render(GameContext&) override;
 
     void onEntityActiveChanged(bool isEntityActive) override;

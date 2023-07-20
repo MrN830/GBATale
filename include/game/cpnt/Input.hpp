@@ -13,7 +13,8 @@ namespace ut::game::cpnt
 class Input : public Component
 {
 public:
-    Input(ent::Entity&);
+    virtual ~Input() = 0;
+    Input(ent::Entity&, bn::type_id_t);
 
 protected:
     /// @brief Sends `InputCmd` to the `cpnt::SpriteAnim`, and translates entity position

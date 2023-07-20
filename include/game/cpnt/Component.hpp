@@ -19,10 +19,10 @@ namespace ut::game::cpnt
 class Component : public bn::intrusive_forward_list_node_type
 {
 public:
-    virtual ~Component() = default;
-    Component(ent::Entity&);
+    virtual ~Component() = 0;
+    Component(ent::Entity&, bn::type_id_t);
 
-    virtual auto getType() const -> bn::type_id_t = 0;
+    auto getType() const -> bn::type_id_t;
 
     virtual void handleInput(GameContext&){};
     virtual void update(GameContext&){};
@@ -38,6 +38,8 @@ protected:
     ent::Entity& _entity;
 
 private:
+    const bn::type_id_t _type;
+
     bool _isEnabled = true;
 };
 

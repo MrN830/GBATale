@@ -13,7 +13,7 @@ namespace ut::game::cpnt
 {
 
 WalkAnimCtrl::WalkAnimCtrl(ent::Entity& entity, SpriteAnim& sprAnim)
-    : Component(entity), _lastAnimDir(core::Directions::DOWN), _sprAnim(sprAnim),
+    : Component(entity, bn::type_id<WalkAnimCtrl>()), _lastAnimDir(core::Directions::DOWN), _sprAnim(sprAnim),
       _walkAnimKind(asset::WalkAnimKind::NONE)
 {
     sprAnim._walkAnimCtrl = this;
@@ -24,11 +24,6 @@ WalkAnimCtrl::~WalkAnimCtrl()
     // On entity delete, `WalkAnimCtrl` deleted first -> `SpriteAnim` deleted later.
     // So it should be safe  (btw, this dtor seems redundant?)
     _sprAnim._walkAnimCtrl = nullptr;
-}
-
-auto WalkAnimCtrl::getType() const -> bn::type_id_t
-{
-    return bn::type_id<WalkAnimCtrl>();
 }
 
 void WalkAnimCtrl::renderOnce()

@@ -10,8 +10,6 @@ class SavePoint final : public Interaction
 public:
     SavePoint(ent::Entity&, InteractionTriggers);
 
-    auto getInteractionType() const -> bn::type_id_t override;
-
     void onInteract() override;
 };
 

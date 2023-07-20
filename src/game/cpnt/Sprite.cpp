@@ -15,7 +15,7 @@ static constexpr auto bottomOrigin(const bn::sprite_item& sprItem) -> bn::fixed_
 
 Sprite::Sprite(ent::Entity& entity, const bn::sprite_item& sprItem, int gfxIdx, const bn::camera_ptr* camera,
                bool autoAlterZOrder, int bgPriority, int zOrder)
-    : Component(entity), _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
+    : Component(entity, bn::type_id<Sprite>()), _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
       _spr(sprItem.create_sprite(entity.getPosition() + bottomOrigin(sprItem) + _diff, gfxIdx))
 {
     _spr.set_blending_enabled(true);
@@ -28,11 +28,6 @@ Sprite::Sprite(ent::Entity& entity, const bn::sprite_item& sprItem, int gfxIdx, 
 
     if (camera != nullptr)
         _spr.set_camera(*camera);
-}
-
-auto Sprite::getType() const -> bn::type_id_t
-{
-    return bn::type_id<Sprite>();
 }
 
 void Sprite::render(GameContext&)

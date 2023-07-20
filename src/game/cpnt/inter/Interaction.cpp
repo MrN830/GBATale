@@ -8,13 +8,16 @@
 namespace ut::game::cpnt::inter
 {
 
-Interaction::Interaction(ent::Entity& entity, InteractionTriggers triggers) : Component(entity), _triggers(triggers)
+Interaction::~Interaction() = default;
+
+Interaction::Interaction(ent::Entity& entity, bn::type_id_t interactionType, InteractionTriggers triggers)
+    : Component(entity, bn::type_id<Interaction>()), _triggers(triggers), _interactionType(interactionType)
 {
 }
 
-auto Interaction::getType() const -> bn::type_id_t
+auto Interaction::getInteractionType() const -> bn::type_id_t
 {
-    return bn::type_id<Interaction>();
+    return _interactionType;
 }
 
 void Interaction::onInteract()

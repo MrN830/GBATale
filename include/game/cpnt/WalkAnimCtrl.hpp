@@ -29,8 +29,6 @@ public:
     WalkAnimCtrl(ent::Entity&, SpriteAnim&);
     ~WalkAnimCtrl();
 
-    auto getType() const -> bn::type_id_t override;
-
     void renderOnce();
 
 public:

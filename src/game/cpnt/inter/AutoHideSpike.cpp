@@ -19,13 +19,9 @@ enum SpikeGfxIdx
 
 } // namespace
 
-AutoHideSpike::AutoHideSpike(ent::Entity& entity, InteractionTriggers triggers) : Interaction(entity, triggers)
+AutoHideSpike::AutoHideSpike(ent::Entity& entity, InteractionTriggers triggers)
+    : Interaction(entity, bn::type_id<AutoHideSpike>(), triggers)
 {
-}
-
-auto AutoHideSpike::getInteractionType() const -> bn::type_id_t
-{
-    return bn::type_id<AutoHideSpike>();
 }
 
 void AutoHideSpike::onInteract()

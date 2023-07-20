@@ -12,13 +12,8 @@ namespace ut::game::cpnt
 {
 
 SpriteAnim::SpriteAnim(ent::Entity& entity, cpnt::Sprite& sprCpnt)
-    : Component(entity), _sprCpnt(sprCpnt), _curAnimKind(asset::SpriteAnimKind::NONE)
+    : Component(entity, bn::type_id<SpriteAnim>()), _sprCpnt(sprCpnt), _curAnimKind(asset::SpriteAnimKind::NONE)
 {
-}
-
-auto SpriteAnim::getType() const -> bn::type_id_t
-{
-    return bn::type_id<SpriteAnim>();
 }
 
 void SpriteAnim::render(GameContext&)

@@ -10,10 +10,10 @@ namespace ut::game::cpnt::inter
 class Interaction : public Component
 {
 public:
-    Interaction(ent::Entity&, InteractionTriggers);
+    virtual ~Interaction() = 0;
+    Interaction(ent::Entity&, bn::type_id_t interactionType, InteractionTriggers);
 
-    auto getType() const -> bn::type_id_t final;
-    virtual auto getInteractionType() const -> bn::type_id_t = 0;
+    auto getInteractionType() const -> bn::type_id_t;
 
     virtual void onInteract();
     virtual void onInteractionCollisionExit(){};
@@ -28,6 +28,8 @@ private:
     InteractionTriggers _triggers;
 
     bool _isColliding = false;
+
+    const bn::type_id_t _interactionType;
 };
 
 } // namespace ut::game::cpnt::inter
