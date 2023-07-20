@@ -8,7 +8,7 @@ namespace ut::game::cpnt::inter
 class RuinsFloorSwitch : public Interaction
 {
 public:
-    RuinsFloorSwitch(ent::Entity&, InteractionTriggers);
+    RuinsFloorSwitch(ent::Entity&, bool isEnabled, InteractionTriggers);
 
     void onInteract() override;
 

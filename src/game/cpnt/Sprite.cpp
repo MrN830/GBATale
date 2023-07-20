@@ -13,9 +13,9 @@ static constexpr auto bottomOrigin(const bn::sprite_item& sprItem) -> bn::fixed_
     return {0, -sprItem.shape_size().height() / 2};
 }
 
-Sprite::Sprite(ent::Entity& entity, const bn::sprite_item& sprItem, int gfxIdx, const bn::camera_ptr* camera,
-               bool autoAlterZOrder, int bgPriority, int zOrder)
-    : Component(entity, bn::type_id<Sprite>()), _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
+Sprite::Sprite(ent::Entity& entity, bool isEnabled, const bn::sprite_item& sprItem, int gfxIdx,
+               const bn::camera_ptr* camera, bool autoAlterZOrder, int bgPriority, int zOrder)
+    : Component(entity, bn::type_id<Sprite>(), isEnabled), _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
       _spr(sprItem.create_sprite(entity.getPosition() + bottomOrigin(sprItem) + _diff, gfxIdx))
 {
     _spr.set_blending_enabled(true);

@@ -88,22 +88,22 @@ void EntityManager::createFrisk(const bn::fixed_point position)
 
     _context.camMngr.setCamFollowEntity(&frisk);
 
-    cpnt::Sprite& spr =
-        _cpntHeap.create<cpnt::Sprite>(frisk, bn::sprite_items::ch_frisk_base, 1, &_context.camMngr.getCamera(), true);
+    cpnt::Sprite& spr = _cpntHeap.create<cpnt::Sprite>(frisk, true, bn::sprite_items::ch_frisk_base, 1,
+                                                       &_context.camMngr.getCamera(), true);
     frisk.addComponent(spr);
 
-    cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(frisk, spr);
+    cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(frisk, true, spr);
     frisk.addComponent(sprAnim);
 
-    cpnt::WalkAnimCtrl& walkAnimCtrl = _cpntHeap.create<cpnt::WalkAnimCtrl>(frisk, sprAnim);
+    cpnt::WalkAnimCtrl& walkAnimCtrl = _cpntHeap.create<cpnt::WalkAnimCtrl>(frisk, true, sprAnim);
     frisk.addComponent(walkAnimCtrl);
     walkAnimCtrl.registerWalkAnimKind(asset::WalkAnimKind::FRISK);
     walkAnimCtrl.setStandStillDir(_friskAnimDirection);
 
-    cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk, walkAnimCtrl);
+    cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk, true, walkAnimCtrl);
     frisk.addComponent(input);
 
-    cpnt::ColliderPack& collPack = _cpntHeap.create<cpnt::ColliderPack>(frisk, false);
+    cpnt::ColliderPack& collPack = _cpntHeap.create<cpnt::ColliderPack>(frisk, true, false);
     frisk.addComponent(collPack);
     const auto& sprSize = bn::sprite_items::ch_frisk_base.shape_size();
     const bn::fixed_size collSize = {16, 9};

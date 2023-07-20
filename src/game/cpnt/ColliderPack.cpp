@@ -8,8 +8,8 @@ static void printCollInfoTypeError(const coll::CollInfo& coll)
     BN_ERROR("Invalid CollInfo type=", (void*)coll.type.internal_id());
 }
 
-ColliderPack::ColliderPack(ent::Entity& entity, bool isTrigger)
-    : Component(entity, bn::type_id<ColliderPack>()), _isTrigger(isTrigger)
+ColliderPack::ColliderPack(ent::Entity& entity, bool isEnabled, bool isTrigger)
+    : Component(entity, bn::type_id<ColliderPack>(), isEnabled), _isTrigger(isTrigger)
 {
 }
 

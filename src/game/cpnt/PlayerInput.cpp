@@ -28,8 +28,8 @@ constexpr coll::RectCollInfo RIGHT_INTERACTOR = {bn::fixed_point(+10, -4.5), bn:
 
 }; // namespace
 
-PlayerInput::PlayerInput(ent::Entity& entity, const WalkAnimCtrl& walk)
-    : Input(entity, bn::type_id<PlayerInput>()), _walk(walk)
+PlayerInput::PlayerInput(ent::Entity& entity, bool isEnabled,  const WalkAnimCtrl& walk)
+    : Input(entity, bn::type_id<PlayerInput>(), isEnabled), _walk(walk)
 {
 }
 

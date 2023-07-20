@@ -26,7 +26,7 @@ class WalkAnimCtrl : public Component
     friend class SpriteAnim;
 
 public:
-    WalkAnimCtrl(ent::Entity&, SpriteAnim&);
+    WalkAnimCtrl(ent::Entity&, bool isEnabled, SpriteAnim&);
     ~WalkAnimCtrl();
 
     void renderOnce();

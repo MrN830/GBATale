@@ -10,8 +10,9 @@ namespace ut::game::cpnt::inter
 
 Interaction::~Interaction() = default;
 
-Interaction::Interaction(ent::Entity& entity, bn::type_id_t interactionType, InteractionTriggers triggers)
-    : Component(entity, bn::type_id<Interaction>()), _triggers(triggers), _interactionType(interactionType)
+Interaction::Interaction(ent::Entity& entity, bn::type_id_t interactionType, bool isEnabled,
+                         InteractionTriggers triggers)
+    : Component(entity, bn::type_id<Interaction>(), isEnabled), _triggers(triggers), _interactionType(interactionType)
 {
 }
 

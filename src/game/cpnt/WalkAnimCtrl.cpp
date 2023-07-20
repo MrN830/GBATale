@@ -12,9 +12,9 @@
 namespace ut::game::cpnt
 {
 
-WalkAnimCtrl::WalkAnimCtrl(ent::Entity& entity, SpriteAnim& sprAnim)
-    : Component(entity, bn::type_id<WalkAnimCtrl>()), _lastAnimDir(core::Directions::DOWN), _sprAnim(sprAnim),
-      _walkAnimKind(asset::WalkAnimKind::NONE)
+WalkAnimCtrl::WalkAnimCtrl(ent::Entity& entity, bool isEnabled, SpriteAnim& sprAnim)
+    : Component(entity, bn::type_id<WalkAnimCtrl>(), isEnabled), _lastAnimDir(core::Directions::DOWN),
+      _sprAnim(sprAnim), _walkAnimKind(asset::WalkAnimKind::NONE)
 {
     sprAnim._walkAnimCtrl = this;
 }

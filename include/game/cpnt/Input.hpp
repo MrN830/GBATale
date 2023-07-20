@@ -14,7 +14,7 @@ class Input : public Component
 {
 public:
     virtual ~Input() = 0;
-    Input(ent::Entity&, bn::type_id_t);
+    Input(ent::Entity&, bn::type_id_t, bool isEnabled);
 
 protected:
     /// @brief Sends `InputCmd` to the `cpnt::SpriteAnim`, and translates entity position

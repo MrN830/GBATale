@@ -12,7 +12,7 @@ class WalkAnimCtrl;
 class PlayerInput final : public Input
 {
 public:
-    PlayerInput(ent::Entity&, const WalkAnimCtrl&);
+    PlayerInput(ent::Entity&, bool isEnabled, const WalkAnimCtrl&);
 
     void handleInput(GameContext&) override;
 

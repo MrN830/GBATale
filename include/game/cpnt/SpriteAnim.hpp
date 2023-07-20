@@ -22,7 +22,7 @@ class SpriteAnim : public Component
     friend class WalkAnimCtrl;
 
 public:
-    SpriteAnim(ent::Entity&, cpnt::Sprite&);
+    SpriteAnim(ent::Entity&, bool isEnabled, cpnt::Sprite&);
 
     void render(GameContext&) override;
     void renderOnce();

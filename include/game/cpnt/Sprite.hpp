@@ -21,8 +21,8 @@ public:
     static constexpr int Z_ORDER_UNSPECIFIED = -32768;
 
 public:
-    Sprite(ent::Entity&, const bn::sprite_item&, int gfxIdx, const bn::camera_ptr*, bool updateZOrderOnMove,
-           int bgPriority = consts::WORLD_BG_PRIORITY, int zOrder = Z_ORDER_UNSPECIFIED);
+    Sprite(ent::Entity&, bool isEnabled, const bn::sprite_item&, int gfxIdx, const bn::camera_ptr*,
+           bool updateZOrderOnMove, int bgPriority = consts::WORLD_BG_PRIORITY, int zOrder = Z_ORDER_UNSPECIFIED);
 
     void render(GameContext&) override;
 

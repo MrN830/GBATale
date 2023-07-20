@@ -11,8 +11,9 @@
 namespace ut::game::cpnt
 {
 
-SpriteAnim::SpriteAnim(ent::Entity& entity, cpnt::Sprite& sprCpnt)
-    : Component(entity, bn::type_id<SpriteAnim>()), _sprCpnt(sprCpnt), _curAnimKind(asset::SpriteAnimKind::NONE)
+SpriteAnim::SpriteAnim(ent::Entity& entity, bool isEnabled, cpnt::Sprite& sprCpnt)
+    : Component(entity, bn::type_id<SpriteAnim>(), isEnabled), _sprCpnt(sprCpnt),
+      _curAnimKind(asset::SpriteAnimKind::NONE)
 {
 }
 

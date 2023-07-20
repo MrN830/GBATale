@@ -5,7 +5,8 @@ namespace ut::game::cpnt
 
 Component::~Component() = default;
 
-Component::Component(ent::Entity& entity, bn::type_id_t type) : _entity(entity), _type(type)
+Component::Component(ent::Entity& entity, bn::type_id_t type, bool isEnabled)
+    : _entity(entity), _type(type), _isEnabled(isEnabled)
 {
 }
 

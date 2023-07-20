@@ -5,8 +5,8 @@
 namespace ut::game::cpnt::inter
 {
 
-SavePoint::SavePoint(ent::Entity& entity, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<SavePoint>(), triggers)
+SavePoint::SavePoint(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
+    : Interaction(entity, bn::type_id<SavePoint>(), isEnabled, triggers)
 {
 }
 

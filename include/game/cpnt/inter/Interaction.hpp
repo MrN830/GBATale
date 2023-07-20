@@ -11,7 +11,7 @@ class Interaction : public Component
 {
 public:
     virtual ~Interaction() = 0;
-    Interaction(ent::Entity&, bn::type_id_t interactionType, InteractionTriggers);
+    Interaction(ent::Entity&, bn::type_id_t interactionType, bool isEnabled, InteractionTriggers);
 
     auto getInteractionType() const -> bn::type_id_t;
 

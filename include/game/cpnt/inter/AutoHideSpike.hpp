@@ -8,7 +8,7 @@ namespace ut::game::cpnt::inter
 class AutoHideSpike : public Interaction
 {
 public:
-    AutoHideSpike(ent::Entity&, InteractionTriggers);
+    AutoHideSpike(ent::Entity&, bool isEnabled, InteractionTriggers);
 
     void onInteract() override;
     void onInteractionCollisionExit() override;

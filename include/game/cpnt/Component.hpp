@@ -20,7 +20,7 @@ class Component : public bn::intrusive_forward_list_node_type
 {
 public:
     virtual ~Component() = 0;
-    Component(ent::Entity&, bn::type_id_t);
+    Component(ent::Entity&, bn::type_id_t, bool isEnabled);
 
     auto getType() const -> bn::type_id_t;
 
@@ -40,7 +40,7 @@ protected:
 private:
     const bn::type_id_t _type;
 
-    bool _isEnabled = true;
+    bool _isEnabled;
 };
 
 } // namespace ut::game::cpnt

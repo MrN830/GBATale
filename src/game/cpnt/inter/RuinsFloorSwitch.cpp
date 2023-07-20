@@ -20,8 +20,8 @@ enum FloorSwitchGfxIdx
 
 } // namespace
 
-RuinsFloorSwitch::RuinsFloorSwitch(ent::Entity& entity, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<RuinsFloorSwitch>(), triggers)
+RuinsFloorSwitch::RuinsFloorSwitch(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
+    : Interaction(entity, bn::type_id<RuinsFloorSwitch>(), isEnabled, triggers)
 {
 }
 

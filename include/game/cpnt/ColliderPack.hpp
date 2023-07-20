@@ -20,7 +20,7 @@ class ColliderPack : public Component
     friend class sys::EntityManager;
 
 public:
-    ColliderPack(ent::Entity&, bool isTrigger);
+    ColliderPack(ent::Entity&, bool isEnabled, bool isTrigger);
 
     void setStaticCollInfos(const bn::span<const coll::RectCollInfo>&);
 
