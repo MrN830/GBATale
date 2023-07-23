@@ -65,10 +65,23 @@
   <object id="53" x="32" y="144" width="192" height="16"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="37" type="Entity" gid="1375" x="56" y="120" width="16" height="16"/>
+  <object id="37" type="Entity" gid="1375" x="56" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
-  <object id="55" type="WarpPoint" x="128" y="120">
+  <object id="55" type="WarpPoint" x="128" y="136">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>

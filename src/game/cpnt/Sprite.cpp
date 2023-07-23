@@ -8,30 +8,34 @@
 namespace ut::game::cpnt
 {
 
-Sprite::Sprite(ent::Entity& entity, const bn::sprite_item& sprItem, int gfxIdx, const bn::camera_ptr* camera,
-               bool autoAlterZOrder)
-    : Component(entity), _autoAlterZOrder(autoAlterZOrder), _spr(sprItem.create_sprite(entity.getPosition(), gfxIdx))
+static constexpr auto bottomOrigin(const bn::sprite_item& sprItem) -> bn::fixed_point
+{
+    return {0, -sprItem.shape_size().height() / 2};
+}
+
+Sprite::Sprite(ent::Entity& entity, bool isEnabled, const bn::sprite_item& sprItem, int gfxIdx,
+               const bn::camera_ptr* camera, bool autoAlterZOrder, int bgPriority, int zOrder)
+    : Component(entity, bn::type_id<Sprite>(), isEnabled), _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
+      _spr(sprItem.create_sprite(entity.getPosition() + bottomOrigin(sprItem) + _diff, gfxIdx))
 {
     _spr.set_blending_enabled(true);
+    _spr.set_bg_priority(bgPriority);
+
+    if (zOrder == Z_ORDER_UNSPECIFIED)
+        updateZOrder();
+    else
+        _spr.set_z_order(zOrder);
 
     if (camera != nullptr)
         _spr.set_camera(*camera);
-
-    if (_autoAlterZOrder)
-        updateZOrder();
-}
-
-auto Sprite::getType() const -> bn::type_id_t
-{
-    return bn::type_id<Sprite>();
 }
 
 void Sprite::render(GameContext&)
 {
-    const auto absPos = _entity.getPosition() + _diff;
-    _spr.set_position(absPos);
+    const auto centerPos = _entity.getPosition() + bottomOrigin(*_sprItem) + _diff;
+    _spr.set_position(centerPos);
 
-    if (_autoAlterZOrder)
+    if (_updateZOrderOnMove)
         updateZOrder();
 }
 
@@ -52,6 +56,17 @@ void Sprite::setDiff(const bn::fixed_point& diff)
     _diff = diff;
 }
 
+void Sprite::setSprItem(const bn::sprite_item& sprItem, int gfxIdx)
+{
+    _sprItem = &sprItem;
+    _spr.set_item(sprItem, gfxIdx);
+}
+
+void Sprite::setGfxIdx(int gfxIdx)
+{
+    _spr.set_tiles(_sprItem->tiles_item(), gfxIdx);
+}
+
 auto Sprite::getSprPtr() const -> const bn::sprite_ptr&
 {
     return _spr;
@@ -64,9 +79,10 @@ auto Sprite::getSprPtr() -> bn::sprite_ptr&
 
 void Sprite::updateZOrder()
 {
-    const auto absPos = _entity.getPosition() + _diff;
+    // NO bottomOrigin() call required, since entity's position is already in bottom origin
+    const auto bottomPos = _entity.getPosition() + _diff;
 
-    _spr.set_z_order(-absPos.y().floor_integer());
+    _spr.set_z_order(-bottomPos.y().floor_integer());
 }
 
 } // namespace ut::game::cpnt

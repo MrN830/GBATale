@@ -73,8 +73,28 @@
   <object id="47" x="64" y="160" width="128" height="16"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="55" type="Entity" gid="1371" x="160" y="136" width="32" height="16"/>
-  <object id="56" type="Entity" gid="1366" x="96" y="136" width="16" height="16"/>
+  <object id="55" type="Entity" gid="1371" x="160" y="144" width="32" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="56" type="Entity" gid="1366" x="96" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="SavePoint"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="SAVE_POINT"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="49" type="Warp" x="0" y="96" width="16" height="32">
@@ -89,19 +109,19 @@
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
-  <object id="51" type="WarpPoint" x="24" y="104">
+  <object id="51" type="WarpPoint" x="24" y="120">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
    <point/>
   </object>
-  <object id="52" type="WarpPoint" x="232" y="104">
+  <object id="52" type="WarpPoint" x="232" y="120">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
    <point/>
   </object>
-  <object id="53" type="WarpPoint" x="112" y="128">
+  <object id="53" type="WarpPoint" x="112" y="144">
    <properties>
     <property name="warpId" propertytype="WarpId" value="INIT"/>
    </properties>

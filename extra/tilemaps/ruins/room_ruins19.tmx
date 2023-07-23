@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="25" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="69">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="25" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="72">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="16" height="25">
@@ -75,13 +75,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,845,846,847,848,849,850,0,0,0,0,0,
-0,0,0,0,0,885,886,887,888,889,890,0,0,0,0,0,
-0,0,0,0,0,925,926,927,928,929,930,0,0,0,0,0,
-0,0,0,0,0,965,966,967,968,969,970,0,0,0,0,0,
-0,0,0,0,0,1005,1006,1007,1008,1009,1010,0,0,0,0,0,
-0,0,0,0,0,1045,1046,1047,1048,1049,1050,0,0,0,0,0,
-0,0,0,0,0,1085,331,1087,1088,333,1090,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,331,0,0,333,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -131,17 +131,60 @@
   <object id="58" x="48" y="368" width="64" height="32"/>
   <object id="59" x="144" y="368" width="64" height="32"/>
  </objectgroup>
- <objectgroup id="3" name="Entity">
-  <object id="65" type="Entity" gid="1366" x="72" y="136" width="16" height="16"/>
+ <objectgroup id="3" name="Entity" opacity="0.6">
+  <object id="65" type="Entity" gid="1366" x="72" y="144" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="SavePoint"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="SAVE_POINT"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="69" type="Entity" gid="1382" x="107" y="269" width="32" height="64">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="-277"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="70" type="Entity" gid="1383" x="155" y="269" width="64" height="64">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="-277"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="71" type="Entity" gid="1384" x="131" y="333" width="64" height="64">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="zOrder" type="int" value="-277"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
-  <object id="60" type="WarpPoint" x="128" y="368">
+  <object id="60" type="WarpPoint" x="128" y="384">
    <properties>
     <property name="warpId" propertytype="WarpId" value="X"/>
    </properties>
    <point/>
   </object>
-  <object id="62" type="WarpPoint" x="128" y="120">
+  <object id="62" type="WarpPoint" x="128" y="136">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
@@ -159,7 +202,7 @@
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
-  <object id="68" type="WarpPoint" x="72" y="144">
+  <object id="68" type="WarpPoint" x="72" y="160">
    <properties>
     <property name="warpId" propertytype="WarpId" value="INIT"/>
    </properties>

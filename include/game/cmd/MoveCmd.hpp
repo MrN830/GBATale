@@ -7,15 +7,11 @@
 namespace ut::game::cmd
 {
 
-struct InputCmd
+struct MoveCmd
 {
     core::Directions directions = core::Directions::NONE;
     bn::fixed_point movePos;
     bool checkCollision : 1 = true;
-
-    bool confirm : 1 = false;
-    bool cancel : 1 = false;
-    bool menu : 1 = false;
 };
 
 } // namespace ut::game::cmd

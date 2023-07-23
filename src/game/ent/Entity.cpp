@@ -8,6 +8,10 @@
 namespace ut::game::ent
 {
 
+Entity::Entity(gen::EntityId id, const bn::fixed_point& position) : _position(position), _id(id)
+{
+}
+
 void Entity::handleInput(GameContext& context)
 {
     for (auto& cpnt : _components)
@@ -27,6 +31,11 @@ void Entity::render(GameContext& context)
     for (auto& cpnt : _components)
         if (cpnt.isEnabled())
             cpnt.render(context);
+}
+
+auto Entity::getId() const -> gen::EntityId
+{
+    return _id;
 }
 
 bool Entity::isActive() const

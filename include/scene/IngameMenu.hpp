@@ -22,7 +22,7 @@ namespace ut::scene
 class IngameMenu : public Scene
 {
 public:
-    static constexpr int BG_PRIORITY = 2;
+    static constexpr int BG_PRIORITY = consts::INGAME_MENU_BG_PRIORITY;
 
 public:
     friend class game::menu::MainMenu;

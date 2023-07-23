@@ -3,8 +3,16 @@
 namespace ut::game::cpnt
 {
 
-Component::Component(ent::Entity& entity) : _entity(entity)
+Component::~Component() = default;
+
+Component::Component(ent::Entity& entity, bn::type_id_t type, bool isEnabled)
+    : _entity(entity), _type(type), _isEnabled(isEnabled)
 {
+}
+
+auto Component::getType() const -> bn::type_id_t
+{
+    return _type;
 }
 
 void Component::onEntityActiveChanged([[maybe_unused]] bool isEntityActive)

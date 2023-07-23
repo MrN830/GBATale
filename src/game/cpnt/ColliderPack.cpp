@@ -5,16 +5,17 @@ namespace ut::game::cpnt
 
 static void printCollInfoTypeError(const coll::CollInfo& coll)
 {
-    BN_ERROR("Invalid CollInfo type=", coll.type.internal_id());
+    BN_ERROR("Invalid CollInfo type=", (void*)coll.type.internal_id());
 }
 
-ColliderPack::ColliderPack(ent::Entity& entity, bool isTrigger) : Component(entity), _isTrigger(isTrigger)
+ColliderPack::ColliderPack(ent::Entity& entity, bool isEnabled, bool isTrigger)
+    : Component(entity, bn::type_id<ColliderPack>(), isEnabled), _isTrigger(isTrigger)
 {
 }
 
-auto ColliderPack::getType() const -> bn::type_id_t
+void ColliderPack::setStaticCollInfos(const bn::span<const coll::RectCollInfo>& staticColls)
 {
-    return bn::type_id<ColliderPack>();
+    _staticColls = staticColls;
 }
 
 bool ColliderPack::isTrigger() const
@@ -24,33 +25,51 @@ bool ColliderPack::isTrigger() const
 
 bool ColliderPack::isCollideWith(const ColliderPack& otherPack) const
 {
-    for (const auto& otherColl : otherPack._colls)
-    {
-        const auto& otherInfo = otherColl.getInfo();
+    auto checkRectCollision = [this](const coll::RectCollInfo& otherRectInfo, const bn::fixed_point& otherPos) -> bool {
+        auto otherRect = otherRectInfo;
+        otherRect.position += otherPos;
+        return isCollideWith<coll::RectCollInfo>(otherRect);
+    };
 
+    auto checkCollision = [this, &checkRectCollision](const coll::CollInfo& otherInfo,
+                                                      const bn::fixed_point& otherPos) -> bool {
         if (otherInfo.type == bn::type_id<coll::RectCollInfo>())
         {
-            auto otherRect = otherInfo.rect;
-            otherRect.position += otherPack._entity.getPosition();
-            if (isCollideWith<coll::RectCollInfo>(otherRect))
+            if (checkRectCollision(otherInfo.rect, otherPos))
                 return true;
         }
         else if (otherInfo.type == bn::type_id<coll::CircleCollInfo>())
         {
             auto otherCircle = otherInfo.circle;
-            otherCircle.position += otherPack._entity.getPosition();
+            otherCircle.position += otherPos;
             if (isCollideWith<coll::CircleCollInfo>(otherCircle))
                 return true;
         }
         else if (otherInfo.type == bn::type_id<coll::AAIRTriCollInfo>())
         {
             auto otherTri = otherInfo.tri;
-            otherTri.position += otherPack._entity.getPosition();
+            otherTri.position += otherPos;
             if (isCollideWith<coll::AAIRTriCollInfo>(otherTri))
                 return true;
         }
         else
             printCollInfoTypeError(otherInfo);
+
+        return false;
+    };
+
+    const auto& otherPos = otherPack._entity.getPosition();
+
+    for (const auto& otherRectInfo : otherPack._staticColls)
+    {
+        if (checkRectCollision(otherRectInfo, otherPos))
+            return true;
+    }
+    for (const auto& otherColl : otherPack._dynamicColls)
+    {
+        const auto& otherInfo = otherColl.getInfo();
+        if (checkCollision(otherInfo, otherPos))
+            return true;
     }
 
     return false;
@@ -62,6 +81,8 @@ bool ColliderPack::isCollideWith(const coll::CollInfo& otherInfo) const
         return isCollideWith(otherInfo.rect);
     else if (otherInfo.type == bn::type_id<coll::CircleCollInfo>())
         return isCollideWith(otherInfo.circle);
+    else if (otherInfo.type == bn::type_id<coll::AAIRTriCollInfo>())
+        return isCollideWith(otherInfo.tri);
     else
         printCollInfoTypeError(otherInfo);
 

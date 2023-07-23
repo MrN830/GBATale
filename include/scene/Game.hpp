@@ -21,6 +21,9 @@ public:
     bool handleInput() override;
     bool update() override;
 
+public:
+    void openIngameMenu();
+
 private:
     game::sys::CameraManager _camMngr;
     game::sys::WorldBg _worldBg;

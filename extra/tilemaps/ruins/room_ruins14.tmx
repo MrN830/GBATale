@@ -178,12 +178,83 @@
   <object id="65" x="368" y="400" width="16" height="144"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="66" type="Entity" gid="1376" x="150" y="534" width="16" height="16"/>
-  <object id="67" type="Entity" gid="1380" x="184" y="416" width="16" height="32"/>
-  <object id="68" type="Entity" gid="1380" x="472" y="528" width="16" height="32"/>
-  <object id="69" type="Entity" gid="1362" x="312" y="389" width="16" height="16"/>
-  <object id="70" type="Entity" gid="1364" x="488" y="136" width="16" height="16"/>
-  <object id="71" type="Entity" gid="1364" x="488" y="152" width="16" height="16"/>
+  <object id="66" type="Entity" gid="1376" x="150" y="542" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="67" type="Entity" gid="1380" x="184" y="432" width="16" height="32">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="68" type="Entity" gid="1380" x="472" y="544" width="16" height="32">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="69" type="Entity" gid="1362" x="312" y="397" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="70" type="Entity" gid="1364" x="488" y="144" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="71" type="Entity" gid="1364" x="488" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="60" type="Warp" x="0" y="80" width="16" height="32">
@@ -198,13 +269,13 @@
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
-  <object id="62" type="WarpPoint" x="24" y="88">
+  <object id="62" type="WarpPoint" x="24" y="104">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
    <point/>
   </object>
-  <object id="63" type="WarpPoint" x="488" y="136">
+  <object id="63" type="WarpPoint" x="488" y="152">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>

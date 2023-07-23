@@ -6,6 +6,7 @@
 #include <bn_span.h>
 
 #include "game/coll/CollInfo.hpp"
+#include "game/ent/EntityInfo.hpp"
 #include "mtile/SpawnPoints.hpp"
 
 namespace bn
@@ -74,6 +75,7 @@ public:
     constexpr virtual auto getMTileUpper(int mCellX, int mCellY) const -> const MTile& = 0;
     constexpr virtual auto getMTileUpper2(int mCellX, int mCellY) const -> const MTile& = 0;
 
+    constexpr virtual auto getEntities() const -> bn::span<const game::ent::EntityInfo> = 0;
     constexpr virtual auto getRectWalls() const -> bn::span<const game::coll::RectCollInfo> = 0;
     constexpr virtual auto getTriWalls() const -> bn::span<const game::coll::AAIRTriCollInfo> = 0;
 
@@ -87,15 +89,18 @@ public:
  * @tparam `MWidth` Meta-cell width
  * @tparam `MHeight` Meta-cell height
  */
-template <int MWidth, int MHeight, int RectWallCount, int TriWallCount, int WarpCount>
+template <int MWidth, int MHeight, int EntityCount, int RectWallCount, int TriWallCount, int WarpCount>
 struct MTilemap : MTilemapBase
 {
     using BoardType = bn::array<MTile, MWidth * MHeight>;
+
+    using Entities = bn::array<game::ent::EntityInfo, EntityCount>;
     using RectWalls = bn::array<game::coll::RectCollInfo, RectWallCount>;
     using TriWalls = bn::array<game::coll::AAIRTriCollInfo, TriWallCount>;
     using Warps = bn::array<Warp, WarpCount>;
 
 private:
+    const Entities _entities;
     const RectWalls _rectWalls;
     const TriWalls _triWalls;
     const Warps _warps;
@@ -105,11 +110,12 @@ public:
     constexpr MTilemap(const bn::regular_bg_tiles_item& tilesLower_, const bn::regular_bg_tiles_item& tilesUpper_,
                        const bn::regular_bg_tiles_item& tilesUpper2_, const bn::bg_palette_item& palLower_,
                        const bn::bg_palette_item& palUpper_, const bn::bg_palette_item& palUpper2_,
-                       const RectWalls& rectWalls, const TriWalls& triWalls, const Warps& warps,
-                       const WarpPoints& warpPoints, const BoardType& lower, const BoardType& upper,
+                       const Entities& entities, const RectWalls& rectWalls, const TriWalls& triWalls,
+                       const Warps& warps, const WarpPoints& warpPoints, const BoardType& lower, const BoardType& upper,
                        const BoardType& upper2)
         : MTilemapBase(tilesLower_, tilesUpper_, tilesUpper2_, palLower_, palUpper_, palUpper2_, warpPoints),
-          _rectWalls(rectWalls), _triWalls(triWalls), _warps(warps), _lower(lower), _upper(upper), _upper2(upper2)
+          _entities(entities), _rectWalls(rectWalls), _triWalls(triWalls), _warps(warps), _lower(lower), _upper(upper),
+          _upper2(upper2)
     {
     }
 
@@ -146,6 +152,11 @@ public:
             return EMPTY_M_TILE;
 
         return _upper2[mCellY * MWidth + mCellX];
+    }
+
+    constexpr bn::span<const game::ent::EntityInfo> getEntities() const
+    {
+        return _entities;
     }
 
     constexpr bn::span<const game::coll::RectCollInfo> getRectWalls() const override

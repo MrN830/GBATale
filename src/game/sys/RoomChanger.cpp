@@ -33,6 +33,7 @@ void RoomChanger::update(GameContext& ctx)
         ctx.fadeMngr.startFadeIn(FI_FRAMES);
 
         _room = RoomKind::NONE;
+        ctx.interactState = InteractState::FREE;
     }
 }
 
@@ -44,6 +45,8 @@ bool RoomChanger::isChanging() const
 void RoomChanger::reqChange(RoomKind room, mtile::WarpId warpId, GameContext& ctx)
 {
     BN_ASSERT(room != RoomKind::NONE);
+
+    ctx.interactState = InteractState::ROOM_CHANGE;
 
     _room = room;
     ctx.warpId = warpId;
@@ -67,7 +70,7 @@ void RoomChanger::instantChange(RoomKind room, mtile::WarpId warpId, GameContext
 void RoomChanger::changeRoom(GameContext& ctx)
 {
     ctx.state.setRoom(_room);
-    ctx.entMngr.reloadRoom();
+    ctx.entMngr.reloadRoom(ctx);
 
     const auto* mTilemap = getRoomMTilemap(_room);
     BN_ASSERT(mTilemap != nullptr, "No mTilemap for room=", (int)_room);

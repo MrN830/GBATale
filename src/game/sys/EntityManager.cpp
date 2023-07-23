@@ -12,9 +12,11 @@
 #include "game/cpnt/PlayerInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
-#include "game/ent/Entity.hpp"
+#include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "mtile/MTilemap.hpp"
+
+#include "gen/EntityId.hpp"
 
 #if UT_MEM_VIEW
 #include "debug/MemView.hpp"
@@ -62,7 +64,7 @@ void EntityManager::update()
     removeDestroyed(false);
 }
 
-void EntityManager::reloadRoom()
+void EntityManager::reloadRoom(GameContext& ctx)
 {
     removeDestroyed(true);
 
@@ -73,46 +75,86 @@ void EntityManager::reloadRoom()
     const bn::fixed_point* friskPos = mTilemap->getWarpPoint(_context.warpId);
     BN_ASSERT(friskPos != nullptr, "Invalid Frisk warp point=", (int)_context.warpId, " in room=", (int)room);
 
+    // Load entities from new room
     createFrisk(*friskPos);
-
-    // TODO: Load entities from new room
-}
-
-auto EntityManager::getEntities() const -> const decltype(_entities)&
-{
-    return _entities;
+    for (const auto& entInfo : mTilemap->getEntities())
+        entInfo.create(ctx);
 }
 
 void EntityManager::createFrisk(const bn::fixed_point position)
 {
-    ent::Entity& frisk = _entPool.create();
+    ent::Entity& frisk = _entPool.create(ent::gen::EntityId::frisk, position);
     _entities.push_front(frisk);
 
-    frisk.setPosition(position);
     _context.camMngr.setCamFollowEntity(&frisk);
 
-    cpnt::Sprite& spr =
-        _cpntHeap.create<cpnt::Sprite>(frisk, bn::sprite_items::ch_frisk_base, 1, &_context.camMngr.getCamera(), true);
+    cpnt::Sprite& spr = _cpntHeap.create<cpnt::Sprite>(frisk, true, bn::sprite_items::ch_frisk_base, 1,
+                                                       &_context.camMngr.getCamera(), true);
     frisk.addComponent(spr);
 
-    using AnimKind = asset::SpriteAnimKind;
-    cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(frisk, spr);
+    cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(frisk, true, spr);
     frisk.addComponent(sprAnim);
-    sprAnim.registerDirectionAnimKinds(AnimKind::FRISK_WALK_UP, AnimKind::FRISK_WALK_DOWN, AnimKind::FRISK_WALK_LEFT,
-                                       AnimKind::FRISK_WALK_RIGHT);
-    sprAnim.setStandStillDir(_friskAnimDirection);
 
-    cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk);
+    cpnt::WalkAnimCtrl& walkAnimCtrl = _cpntHeap.create<cpnt::WalkAnimCtrl>(frisk, true, sprAnim);
+    frisk.addComponent(walkAnimCtrl);
+    walkAnimCtrl.registerWalkAnimKind(asset::WalkAnimKind::FRISK);
+    walkAnimCtrl.setStandStillDir(_friskAnimDirection);
+
+    cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk, true, walkAnimCtrl);
     frisk.addComponent(input);
 
-    cpnt::ColliderPack& collPack = _cpntHeap.create<cpnt::ColliderPack>(frisk, false);
+    cpnt::ColliderPack& collPack = _cpntHeap.create<cpnt::ColliderPack>(frisk, true, false);
     frisk.addComponent(collPack);
     const auto& sprSize = bn::sprite_items::ch_frisk_base.shape_size();
     const bn::fixed_size collSize = {16, 9};
     const bn::fixed_point collPos = {0 + collSize.width() / 2 - sprSize.width() / 2,
-                                     23 + collSize.height() / 2 - sprSize.height() / 2};
+                                     23 + collSize.height() / 2 - sprSize.height()};
     coll::Collider& coll = _collPool.create(coll::CollInfo(coll::RectCollInfo(collPos, collSize)));
-    collPack.addCollider(coll);
+    collPack.addDynamicCollider(coll);
+}
+
+auto EntityManager::findById(ent::gen::EntityId entityId) -> ent::Entity*
+{
+    if (entityId == ent::gen::EntityId::NONE)
+        return nullptr;
+
+    for (auto it = _entities.begin(); it != _entities.end(); ++it)
+        if (it->getId() == entityId)
+            return &*it;
+
+    return nullptr;
+}
+
+auto EntityManager::findById(ent::gen::EntityId entityId) const -> const ent::Entity*
+{
+    if (entityId == ent::gen::EntityId::NONE)
+        return nullptr;
+
+    for (auto it = _entities.cbegin(); it != _entities.cend(); ++it)
+        if (it->getId() == entityId)
+            return &*it;
+
+    return nullptr;
+}
+
+auto EntityManager::beforeBeginIter() -> decltype(_entities)::iterator
+{
+    return _entities.before_begin();
+}
+
+auto EntityManager::cBeforeBeginIter() const -> decltype(_entities)::const_iterator
+{
+    return _entities.cbefore_begin();
+}
+
+auto EntityManager::endIter() -> decltype(_entities)::iterator
+{
+    return _entities.end();
+}
+
+auto EntityManager::cEndIter() const -> decltype(_entities)::const_iterator
+{
+    return _entities.cend();
 }
 
 void EntityManager::removeDestroyed(bool forceRemoveAll)
@@ -135,24 +177,22 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
         if (&entity == camMngr.getCamFollowEntity())
         {
             camMngr.setCamFollowEntity(nullptr);
-
-            // TODO: Find Frisk by EntityId,
-            // instead of checking if camera & `cpnt::PlayerInput` attached
-            if (entity.getComponent<cpnt::PlayerInput>() != nullptr)
-            {
-                const auto* friskAnim = entity.getComponent<cpnt::SpriteAnim>();
-                BN_ASSERT(friskAnim != nullptr);
-
-                // Preserve Frisk's direction
-                _friskAnimDirection = friskAnim->getLastAnimDir();
-            }
         }
 
-        // Destroy all colliders within `ColliderPack`
+        if (entity.getId() == ent::gen::EntityId::frisk)
+        {
+            const auto* friskWalk = entity.getComponent<cpnt::WalkAnimCtrl>();
+            BN_ASSERT(friskWalk != nullptr);
+
+            // Preserve Frisk's direction
+            _friskAnimDirection = friskWalk->getLastAnimDir();
+        }
+
+        // Destroy dynamic colliders within `ColliderPack`
         auto* collPack = entity.getComponent<cpnt::ColliderPack>();
         if (collPack != nullptr)
         {
-            auto& colls = collPack->_colls;
+            auto& colls = collPack->_dynamicColls;
             for (auto cBeforeIt = colls.before_begin(), cIt = colls.begin(); cIt != colls.end();)
             {
                 auto& coll = *cIt;

@@ -2,6 +2,8 @@
 
 #include "game/cpnt/Component.hpp"
 
+#include <bn_span.h>
+
 #include "game/coll/Collider.hpp"
 
 namespace ut::game::sys
@@ -18,13 +20,13 @@ class ColliderPack : public Component
     friend class sys::EntityManager;
 
 public:
-    ColliderPack(ent::Entity&, bool isTrigger);
+    ColliderPack(ent::Entity&, bool isEnabled, bool isTrigger);
 
-    auto getType() const -> bn::type_id_t override;
+    void setStaticCollInfos(const bn::span<const coll::RectCollInfo>&);
 
     template <typename TColl>
         requires std::is_base_of_v<coll::Collider, TColl>
-    void addCollider(TColl& coll);
+    void addDynamicCollider(TColl& coll);
 
     bool isTrigger() const;
 
@@ -35,8 +37,10 @@ public:
     bool isCollideWith(const CInfo& other) const;
 
 private:
-    bn::intrusive_forward_list<coll::Collider> _colls;
     const bool _isTrigger;
+
+    bn::span<const coll::RectCollInfo> _staticColls;
+    bn::intrusive_forward_list<coll::Collider> _dynamicColls;
 };
 
 } // namespace ut::game::cpnt

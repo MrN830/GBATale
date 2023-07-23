@@ -73,13 +73,13 @@
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
-  <object id="51" type="WarpPoint" x="24" y="104">
+  <object id="51" type="WarpPoint" x="24" y="120">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
    <point/>
   </object>
-  <object id="52" type="WarpPoint" x="128" y="72">
+  <object id="52" type="WarpPoint" x="128" y="88">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>

@@ -5,6 +5,7 @@
 #include <bn_display.h>
 #include <bn_regular_bg_map_cell_info.h>
 
+#include "consts.hpp"
 #include "mtile/MTilemap.hpp"
 #include "util/Math.hpp"
 
@@ -114,6 +115,10 @@ void WorldBg::allocateGraphics()
     _bgLower->set_camera(_camera);
     _bgUpper->set_camera(_camera);
     _bgUpper2->set_camera(_camera);
+
+    _bgLower->set_priority(consts::WORLD_BG_PRIORITY);
+    _bgUpper->set_priority(consts::WORLD_BG_PRIORITY);
+    _bgUpper2->set_priority(consts::WORLD_BG_PRIORITY);
 
     _bgLower->set_z_order(30);
     _bgUpper->set_z_order(20);

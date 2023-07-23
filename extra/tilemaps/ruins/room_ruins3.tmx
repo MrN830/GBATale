@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="37" height="11" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="61">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="37" height="11" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="85">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
+ <tileset firstgid="1382" source="../animated_terrain.tsx"/>
  <layer id="1" name="BGLower" width="37" height="11">
   <data encoding="csv">
 0,132,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,133,0,
 0,176,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,13,174,0,
 0,176,12,12,12,43,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,13,214,215,
-0,176,52,52,52,52,52,52,52,52,52,52,8,10,52,52,52,52,52,52,52,52,52,52,8,10,52,52,52,52,52,52,52,52,53,11,12,
-0,176,322,322,322,322,322,322,322,322,322,322,614,616,322,322,322,322,322,328,322,322,322,322,614,616,322,322,322,328,322,322,322,322,322,11,12,
-0,176,322,322,322,322,322,322,322,322,322,322,497,498,322,322,322,322,202,321,201,322,322,322,497,498,322,322,202,321,201,322,322,322,322,51,52,
+0,176,52,52,52,52,52,52,52,52,52,52,0,0,52,52,52,52,52,52,52,52,52,52,0,0,52,52,52,52,52,52,52,52,53,11,12,
+0,176,322,322,322,322,322,322,322,322,322,322,0,0,322,322,322,322,322,328,322,322,322,322,0,0,322,322,322,328,322,322,322,322,322,11,12,
+0,176,322,322,322,322,322,322,322,322,322,322,0,0,322,322,322,322,202,321,201,322,322,322,0,0,322,322,202,321,201,322,322,322,322,51,52,
 0,176,322,322,322,322,241,321,321,321,321,321,329,329,321,321,321,321,321,321,321,321,321,321,329,329,321,321,321,321,321,321,321,321,321,257,321,
 0,176,322,322,322,322,321,321,321,321,321,321,330,330,321,321,321,321,321,321,321,321,321,321,330,330,321,321,321,321,321,321,321,321,321,257,321,
-0,176,322,322,322,322,321,321,161,322,322,322,494,496,322,322,322,322,322,322,322,322,322,322,494,496,322,322,322,322,322,322,322,322,322,134,135,
-0,176,322,322,322,322,321,321,322,322,322,322,497,498,322,322,322,322,322,322,322,322,322,322,497,498,322,322,322,322,322,322,322,322,322,174,0,
+0,176,322,322,322,322,321,321,161,322,322,322,0,0,322,322,322,322,322,322,322,322,322,322,0,0,322,322,322,322,322,322,322,322,322,134,135,
+0,176,322,322,322,322,321,321,322,322,322,322,0,0,322,322,322,322,322,322,322,322,322,322,0,0,322,322,322,322,322,322,322,322,322,174,0,
 0,172,135,135,135,136,321,321,134,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,135,173,0
 </data>
  </layer>
@@ -36,8 +37,8 @@
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,405,406,0,0,0,0,0,0,0,0,405,406,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,445,446,0,0,0,0,0,0,0,0,445,446,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -74,22 +75,302 @@
   <object id="52" x="384" y="128" width="32" height="32"/>
   <object id="60" x="576" y="96" width="16" height="32"/>
  </objectgroup>
- <objectgroup id="3" name="Entity">
-  <object id="8" type="Entity" gid="1362" x="312" y="52" width="16" height="16"/>
-  <object id="9" type="Entity" gid="403" x="472" y="52" width="16" height="16"/>
-  <object id="11" type="Entity" gid="1362" x="472" y="52" width="16" height="16"/>
-  <object id="12" type="Entity" gid="403" x="504" y="52" width="16" height="16"/>
-  <object id="13" type="Entity" gid="1362" x="504" y="52" width="16" height="16"/>
-  <object id="42" type="Entity" gid="1363" x="112" y="88" width="16" height="16"/>
+ <objectgroup id="3" name="Entity" opacity="0.6">
+  <object id="8" type="Entity" gid="1362" x="312" y="60" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="11" type="Entity" gid="1362" x="472" y="60" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="13" type="Entity" gid="1362" x="504" y="60" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="42" type="Entity" gid="1363" x="112" y="96" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="61" type="Entity" gid="1381" x="304" y="64" width="32" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="62" type="Entity" gid="1381" x="464" y="64" width="32" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="63" type="Entity" gid="1387" x="200" y="80" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="64" type="Entity" gid="1389" x="216" y="80" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="65" type="Entity" gid="1382" x="200" y="96" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="66" type="Entity" gid="1383" x="216" y="96" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="73" type="Entity" gid="1384" x="200" y="144" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="74" type="Entity" gid="1386" x="216" y="144" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="75" type="Entity" gid="1382" x="200" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="76" type="Entity" gid="1383" x="216" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="77" type="Entity" gid="1387" x="392" y="80" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="78" type="Entity" gid="1389" x="408" y="80" width="16" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_OPEN_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="79" type="Entity" gid="1382" x="392" y="96" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="80" type="Entity" gid="1383" x="408" y="96" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="81" type="Entity" gid="1384" x="392" y="144" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="82" type="Entity" gid="1386" x="408" y="144" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_SHADOW_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="83" type="Entity" gid="1382" x="392" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_L"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="84" type="Entity" gid="1383" x="408" y="160" width="16" height="16">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="bgPriority" type="int" value="3"/>
+      <property name="zOrder" type="int" value="32767"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FAKE_WATER_R"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
-  <object id="56" type="WarpPoint" x="112" y="144">
+  <object id="56" type="WarpPoint" x="112" y="160">
    <properties>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
    <point/>
   </object>
-  <object id="57" type="WarpPoint" x="568" y="104">
+  <object id="57" type="WarpPoint" x="568" y="120">
    <properties>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
