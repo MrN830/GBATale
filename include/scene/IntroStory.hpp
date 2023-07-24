@@ -35,7 +35,7 @@ private:
 private:
     const bn::fixed_rect _prevWindowRect;
 
-    bn::regular_bg_ptr _bg;
+    bn::optional<bn::regular_bg_ptr> _bg;
     bn::blending_transparency_alpha_to_action _bgFade;
     bn::optional<bn::regular_bg_move_to_action> _bgMove;
     bn::optional<bn::dmg_music_volume_to_action> _musFade;
