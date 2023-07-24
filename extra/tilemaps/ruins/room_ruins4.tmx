@@ -84,10 +84,8 @@
  <objectgroup id="3" name="Entity">
   <object id="72" type="Entity" gid="1367" x="168" y="96" width="16" height="32">
    <properties>
-    <property name="colliderPack" type="class" propertytype="ColliderPack">
-    </property>
-    <property name="sprite" type="class" propertytype="Sprite">
-    </property>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
  </objectgroup>

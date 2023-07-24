@@ -155,7 +155,8 @@
                 "FAKE_WATER_OPEN_M",
                 "FAKE_WATER_OPEN_R",
                 "FAKE_WATER_SHADOW_M_4X",
-                "FAKE_WATER_OPEN_M_4X"
+                "FAKE_WATER_OPEN_M_4X",
+                "FROGGIT"
             ],
             "valuesAsFlags": false
         },

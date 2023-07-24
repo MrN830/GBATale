@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="23" columns="0" objectalignment="bottom">
+<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="24" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" x="0" y="0" width="16" height="16">
   <image width="16" height="32" source="../../graphics/sprite/ent_floor_switch.bmp"/>
@@ -34,7 +34,7 @@
  <tile id="6">
   <image width="16" height="32" source="../../graphics/sprite/ent_dummy.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="3" y="20" width="11" height="12"/>
+   <object id="1" x="4" y="21" width="11" height="11"/>
   </objectgroup>
  </tile>
  <tile id="7">
@@ -125,6 +125,12 @@
   <image width="64" height="64" source="../../graphics/sprite/ent_nasty_tree_bottom.bmp"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="8" y="6" width="38" height="18"/>
+  </objectgroup>
+ </tile>
+ <tile id="24" x="0" y="0" width="16" height="32">
+  <image width="16" height="96" source="../../graphics/sprite/ent_froggit.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="22" width="16" height="10"/>
   </objectgroup>
  </tile>
 </tileset>
