@@ -6,8 +6,7 @@
 #include "game/menu/MenuStateType.hpp"
 #include "scene/IngameMenu.hpp"
 
-#include "bn_regular_bg_items_bg_ingame_menu_dialog1.h"
-#include "bn_regular_bg_items_bg_ingame_menu_dialog2.h"
+#include "bn_regular_bg_items_bg_ingame_menu.h"
 
 namespace ut::game::menu
 {
@@ -17,8 +16,9 @@ DialogMenu::DialogMenu(scene::IngameMenu& scene)
 {
     BN_ASSERT(!scene._dialogs.empty(), "DialogMenu with empty dialogs");
 
-    scene._bg.set_item(scene.isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_dialog2
-                                             : bn::regular_bg_items::bg_ingame_menu_dialog1);
+    scene._bg.set_item(bn::regular_bg_items::bg_ingame_menu, scene.isDialogUpper()
+                                                                 ? scene::IngameMenu::BgMapIdx::DIALOG_L
+                                                                 : scene::IngameMenu::BgMapIdx::DIALOG_U);
     scene._cursor.set_visible(false);
 
     using DSKind = core::Dialog::Settings::Kind;

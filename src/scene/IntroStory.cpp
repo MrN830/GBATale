@@ -12,16 +12,9 @@
 
 #include "gen/TextData.hpp"
 
-#include "bn_regular_bg_items_bg_intro1.h"
-#include "bn_regular_bg_items_bg_intro10.h"
-#include "bn_regular_bg_items_bg_intro2.h"
-#include "bn_regular_bg_items_bg_intro3.h"
-#include "bn_regular_bg_items_bg_intro4.h"
-#include "bn_regular_bg_items_bg_intro5.h"
-#include "bn_regular_bg_items_bg_intro6.h"
-#include "bn_regular_bg_items_bg_intro7.h"
-#include "bn_regular_bg_items_bg_intro8.h"
-#include "bn_regular_bg_items_bg_intro9.h"
+#include "bn_regular_bg_items_bg_intro_chara.h"
+#include "bn_regular_bg_items_bg_intro_last.h"
+#include "bn_regular_bg_items_bg_intro_war.h"
 
 #include "bn_dmg_music_items_once_upon_a_time.h"
 
@@ -34,8 +27,9 @@ namespace
 struct IntroBgFade
 {
     const bn::regular_bg_item* bgItem;
-    int fadeInStart;
-    int fadeOutStart;
+    uint16_t mapIdx;
+    int16_t fadeInStart;
+    int16_t fadeOutStart;
 };
 
 constexpr int FPS = 30;
@@ -50,16 +44,16 @@ constexpr int BG_MOVE_START_FRAME = 61 * FPS + 19;
 constexpr int BG_MOVE_FRAMES = 229;
 
 constexpr IntroBgFade INTRO_BGS[INTRO_BG_COUNT] = {
-    {&bn::regular_bg_items::bg_intro1, -1, 6 * FPS + 15},
-    {&bn::regular_bg_items::bg_intro2, 6 * FPS + 29, 12 * FPS + 3},
-    {&bn::regular_bg_items::bg_intro3, 12 * FPS + 17, 17 * FPS + 27},
-    {&bn::regular_bg_items::bg_intro4, 18 * FPS + 11, 24 * FPS + 0},
-    {&bn::regular_bg_items::bg_intro5, 29 * FPS + 5, 34 * FPS + 0},
-    {&bn::regular_bg_items::bg_intro6, 34 * FPS + 14, 40 * FPS + 15},
-    {&bn::regular_bg_items::bg_intro7, 40 * FPS + 29, 45 * FPS + 18},
-    {&bn::regular_bg_items::bg_intro8, 46 * FPS + 2, 51 * FPS + 3},
-    {&bn::regular_bg_items::bg_intro9, 51 * FPS + 17, 56 * FPS + 21},
-    {&bn::regular_bg_items::bg_intro10, 57 * FPS + 8, 74 * FPS + 27},
+    {&bn::regular_bg_items::bg_intro_war, 0, -1, 6 * FPS + 15},
+    {&bn::regular_bg_items::bg_intro_war, 1, 6 * FPS + 29, 12 * FPS + 3},
+    {&bn::regular_bg_items::bg_intro_war, 2, 12 * FPS + 17, 17 * FPS + 27},
+    {&bn::regular_bg_items::bg_intro_war, 3, 18 * FPS + 11, 24 * FPS + 0},
+    {&bn::regular_bg_items::bg_intro_chara, 0, 29 * FPS + 5, 34 * FPS + 0},
+    {&bn::regular_bg_items::bg_intro_chara, 1, 34 * FPS + 14, 40 * FPS + 15},
+    {&bn::regular_bg_items::bg_intro_chara, 2, 40 * FPS + 29, 45 * FPS + 18},
+    {&bn::regular_bg_items::bg_intro_chara, 3, 46 * FPS + 2, 51 * FPS + 3},
+    {&bn::regular_bg_items::bg_intro_chara, 4, 51 * FPS + 17, 56 * FPS + 21},
+    {&bn::regular_bg_items::bg_intro_last, 0, 57 * FPS + 8, 74 * FPS + 27},
 };
 
 const core::Dialog DIALOGS[] = {
@@ -96,17 +90,21 @@ const core::Dialog DIALOGS[] = {
 constexpr int NEXT_SCENE_FRAMES = 75 * FPS + 27;
 constexpr int SKIP_NEXT_SCENE_FRAMES = 30;
 
-constexpr bn::fixed_point LAST_BG_START_POS = {8, -122};
-constexpr bn::fixed_point LAST_BG_END_POS = {8, 91};
+constexpr bn::fixed_point BG_START_POS = {0, -2};
+constexpr bn::fixed_point LAST_BG_START_POS = {0, -122};
+constexpr bn::fixed_point LAST_BG_END_POS = {0, 91};
 
 auto buildIntroBg(int idx0) -> bn::regular_bg_ptr
 {
     BN_ASSERT(0 <= idx0 && idx0 < INTRO_BG_COUNT);
+    const auto& introBg = INTRO_BGS[idx0];
 
-    bn::regular_bg_builder builder(*INTRO_BGS[idx0].bgItem);
+    bn::regular_bg_builder builder(*introBg.bgItem, introBg.mapIdx);
     builder.set_blending_enabled(true);
     if (idx0 == INTRO_BG_COUNT - 1)
         builder.set_position(LAST_BG_START_POS);
+    else
+        builder.set_position(BG_START_POS);
 
     auto bg = builder.build();
     bn::rect_window::outside().set_show_bg(bg, false);
@@ -225,7 +223,10 @@ void IntroStory::updateBgFade()
         if (_bgFade.done() && _isFadeOut)
         {
             if (++_introBgIdx0 < INTRO_BG_COUNT)
+            {
+                _bg.reset(); // reset first to avoid VRAM overflow
                 _bg = buildIntroBg(_introBgIdx0);
+            }
         }
     }
 
@@ -259,7 +260,7 @@ void IntroStory::startNextBgFade()
 void IntroStory::updateBgMove()
 {
     if (_elapsedFrames == BG_MOVE_START_FRAME)
-        _bgMove = bn::regular_bg_move_to_action(_bg, BG_MOVE_FRAMES, LAST_BG_END_POS);
+        _bgMove = bn::regular_bg_move_to_action(*_bg, BG_MOVE_FRAMES, LAST_BG_END_POS);
 
     if (_bgMove && !_bgMove->done())
         _bgMove->update();

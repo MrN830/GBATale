@@ -18,6 +18,9 @@ public:
     auto update() -> MenuStateType override;
 
 private:
+    auto lowerTextDiff() const -> bn::fixed_point;
+
+private:
     bn::vector<bn::sprite_ptr, 40> _text;
 };
 

@@ -5,6 +5,7 @@
 
 #include "bn_sprite_items_ch_frisk_base.h"
 #include "bn_sprite_items_ch_toriel.h"
+#include "bn_sprite_items_ent_froggit.h"
 #include "bn_sprite_items_ent_save_point.h"
 #include "bn_sprite_items_tr_fake_water.h"
 #include "bn_sprite_items_tr_fake_water_4x.h"
@@ -24,6 +25,10 @@ constexpr int CHARACTER_WAIT_UPDATE = 5 - 1;
 constexpr SpriteAnimInfo<2> save_point{
     bn::sprite_items::ent_save_point, Dirs::NONE, bn::fixed_point{0, 0}, 5 - 1, true, false, false, false,
     bn::array<uint16_t, 2>{0, 1},
+};
+constexpr SpriteAnimInfo<4> froggit{
+    bn::sprite_items::ent_froggit,      Dirs::NONE, bn::fixed_point{0, 0}, 10 - 1, true, false, false, false,
+    bn::array<uint16_t, 4>{0, 1, 2, 1},
 };
 
 // animated terrain
@@ -160,7 +165,7 @@ constexpr SpriteAnimInfo<4> toriel_walk_right{
 };
 
 constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
-    &save_point,
+    &save_point,        &froggit,
 
     &fake_water_l,      &fake_water_r,      &fake_water_shadow_l, &fake_water_shadow_m,    &fake_water_shadow_r,
     &fake_water_open_l, &fake_water_open_m, &fake_water_open_r,   &fake_water_shadow_m_4x, &fake_water_open_m_4x,

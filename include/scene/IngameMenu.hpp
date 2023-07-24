@@ -21,7 +21,7 @@ namespace ut::scene
 
 class IngameMenu : public Scene
 {
-public:
+private:
     static constexpr int BG_PRIORITY = consts::INGAME_MENU_BG_PRIORITY;
 
 public:
@@ -64,6 +64,21 @@ private:
     bn::sprite_ptr _cursor;
     bn::vector<bn::sprite_ptr, 12> _text;
     bn::vector<bn::string<consts::DIALOG_MAX_CHARS>, game::menu::DialogMenu::DIALOGS> _dialogs;
+
+private:
+    enum BgMapIdx
+    {
+        MAIN_U,
+        MAIN_L,
+        ITEM_U,
+        ITEM_L,
+        STAT_U,
+        STAT_L,
+        CELL_U,
+        CELL_L,
+        DIALOG_U,
+        DIALOG_L
+    };
 };
 
 } // namespace ut::scene

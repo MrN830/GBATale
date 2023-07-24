@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="11" height="9" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="53">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="11" height="9" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="55">
  <tileset firstgid="1" source="ruins.tsx"/>
+ <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="11" height="9">
   <data encoding="csv">
 0,132,215,215,215,215,215,215,215,215,133,
@@ -59,7 +60,19 @@
   <object id="46" x="0" y="64" width="32" height="32"/>
   <object id="47" x="160" y="64" width="16" height="64"/>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
+ <objectgroup id="3" name="Entity">
+  <object id="54" type="Entity" gid="1385" x="72" y="80" width="16" height="32">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="FROGGIT"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="49" type="Warp" x="0" y="96" width="16" height="32">
    <properties>

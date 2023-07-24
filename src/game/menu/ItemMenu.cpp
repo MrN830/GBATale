@@ -13,8 +13,7 @@
 #include "game/menu/MenuStateType.hpp"
 #include "scene/IngameMenu.hpp"
 
-#include "bn_regular_bg_items_bg_ingame_menu_item1.h"
-#include "bn_regular_bg_items_bg_ingame_menu_item2.h"
+#include "bn_regular_bg_items_bg_ingame_menu.h"
 
 namespace ut::game::menu
 {
@@ -23,16 +22,17 @@ namespace
 {
 
 constexpr auto TOP_LEFT_ORIGIN = -bn::fixed_point{bn::display::width() / 2, bn::display::height() / 2};
+constexpr auto LOWER_TEXT_DIFF = bn::fixed_point{0, 4};
 
-constexpr auto ITEM_MARGIN = bn::fixed_point{0, 13};
-constexpr auto CURSOR_DIFF = bn::fixed_point{-9, 0};
+constexpr auto ITEM_MARGIN = bn::fixed_point{0, 14};
+constexpr auto CURSOR_DIFF = bn::fixed_point{-6, 0};
 
-constexpr auto FIRST_ITEM_TEXT_POS = bn::fixed_point{90, 15} + TOP_LEFT_ORIGIN;
+constexpr auto FIRST_ITEM_TEXT_POS = bn::fixed_point{91, 18} + TOP_LEFT_ORIGIN;
 constexpr auto FIRST_ITEM_CURSOR_POS = FIRST_ITEM_TEXT_POS + CURSOR_DIFF;
 
-constexpr auto USE_TEXT_POS = bn::fixed_point{90, 128} + TOP_LEFT_ORIGIN;
-constexpr auto INFO_TEXT_POS = bn::fixed_point{135, 128} + TOP_LEFT_ORIGIN;
-constexpr auto DROP_TEXT_POS = bn::fixed_point{190, 128} + TOP_LEFT_ORIGIN;
+constexpr auto USE_TEXT_POS = bn::fixed_point{91, 138} + TOP_LEFT_ORIGIN;
+constexpr auto INFO_TEXT_POS = bn::fixed_point{129, 138} + TOP_LEFT_ORIGIN;
+constexpr auto DROP_TEXT_POS = bn::fixed_point{174, 138} + TOP_LEFT_ORIGIN;
 
 constexpr bn::fixed_point USAGE_CURSOR_POSS[3] = {
     USE_TEXT_POS + CURSOR_DIFF,
@@ -47,20 +47,21 @@ ItemMenu::ItemMenu(scene::IngameMenu& scene)
 {
     BN_ASSERT(_itemCount > 0, "ItemMenu when no item in pocket");
 
-    scene._bg.set_item(scene.isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_item2
-                                             : bn::regular_bg_items::bg_ingame_menu_item1);
+    scene._bg.set_item(bn::regular_bg_items::bg_ingame_menu, scene.isDialogUpper()
+                                                                 ? scene::IngameMenu::BgMapIdx::ITEM_L
+                                                                 : scene::IngameMenu::BgMapIdx::ITEM_U);
     moveCursorItem(false);
 
     auto& textGen = scene.getContext().textGens.get(asset::FontKind::MAIN);
-    textGen.generate(USE_TEXT_POS, "USE", _text);
-    textGen.generate(INFO_TEXT_POS, "INFO", _text);
-    textGen.generate(DROP_TEXT_POS, "DROP", _text);
+    textGen.generate(USE_TEXT_POS + lowerTextDiff(), "USE", _text);
+    textGen.generate(INFO_TEXT_POS + lowerTextDiff(), "INFO", _text);
+    textGen.generate(DROP_TEXT_POS + lowerTextDiff(), "DROP", _text);
 
     const auto& items = scene.getContext().gameState.getItems();
     for (int i = 0; i < _itemCount; ++i)
     {
         const auto& item = ItemInfo::get(items[i]);
-        textGen.generate(FIRST_ITEM_TEXT_POS + ITEM_MARGIN * i, item.getName(), _text);
+        textGen.generate(FIRST_ITEM_TEXT_POS + ITEM_MARGIN * i + lowerTextDiff(), item.getName(), _text);
     }
 
     for (auto& spr : _text)
@@ -163,7 +164,7 @@ void ItemMenu::moveCursorItem(bool playSfx)
     if (playSfx)
         asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
 
-    _scene._cursor.set_position(FIRST_ITEM_CURSOR_POS + ITEM_MARGIN * _itemIdx);
+    _scene._cursor.set_position(FIRST_ITEM_CURSOR_POS + ITEM_MARGIN * _itemIdx + lowerTextDiff());
 }
 
 void ItemMenu::moveCursorUsage(bool playSfx)
@@ -171,7 +172,12 @@ void ItemMenu::moveCursorUsage(bool playSfx)
     if (playSfx)
         asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
 
-    _scene._cursor.set_position(USAGE_CURSOR_POSS[_usageIdx]);
+    _scene._cursor.set_position(USAGE_CURSOR_POSS[_usageIdx] + lowerTextDiff());
+}
+
+auto ItemMenu::lowerTextDiff() const -> bn::fixed_point
+{
+    return (_scene.isDialogUpper() ? LOWER_TEXT_DIFF : bn::fixed_point(0, 0));
 }
 
 } // namespace ut::game::menu
