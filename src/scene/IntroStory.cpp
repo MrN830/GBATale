@@ -91,8 +91,8 @@ constexpr int NEXT_SCENE_FRAMES = 75 * FPS + 27;
 constexpr int SKIP_NEXT_SCENE_FRAMES = 30;
 
 constexpr bn::fixed_point BG_START_POS = {0, -2};
-constexpr bn::fixed_point LAST_BG_START_POS = {8, -122};
-constexpr bn::fixed_point LAST_BG_END_POS = {8, 91};
+constexpr bn::fixed_point LAST_BG_START_POS = {0, -122};
+constexpr bn::fixed_point LAST_BG_END_POS = {0, 91};
 
 auto buildIntroBg(int idx0) -> bn::regular_bg_ptr
 {
