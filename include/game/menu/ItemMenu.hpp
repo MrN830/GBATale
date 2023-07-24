@@ -37,6 +37,8 @@ private:
     void moveCursorItem(bool playSfx);
     void moveCursorUsage(bool playSfx);
 
+    auto lowerTextDiff() const -> bn::fixed_point;
+
 private:
     const int _itemCount;
     bn::vector<bn::sprite_ptr, 5 * 8 + 3> _text;

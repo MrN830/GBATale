@@ -11,8 +11,7 @@
 #include "game/GameState.hpp"
 #include "game/menu/MenuStateType.hpp"
 
-#include "bn_regular_bg_items_bg_ingame_menu_main1.h"
-#include "bn_regular_bg_items_bg_ingame_menu_main2.h"
+#include "bn_regular_bg_items_bg_ingame_menu.h"
 #include "bn_sprite_items_spr_soul_heart.h"
 #include "bn_sprite_palette_items_pal_black_white.h"
 #include "bn_sprite_palette_items_pal_fttiny_white.h"
@@ -43,8 +42,8 @@ constexpr bn::fixed_point MENU_TEXT_POSS[3] = {
 IngameMenu::IngameMenu(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _menuItemCount(context.gameState.getHasPhone() ? 3 : 2),
       _isDialogUpper(context.gameContext ? context.gameContext->isDialogUpper : false),
-      _bg((isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_main2 : bn::regular_bg_items::bg_ingame_menu_main1)
-              .create_bg(0, 0)),
+      _bg(bn::regular_bg_items::bg_ingame_menu.create_bg(
+          0, 0, (isDialogUpper() ? BgMapIdx::MAIN_L : BgMapIdx::MAIN_U))),
       _cursor(bn::sprite_items::spr_soul_heart.create_sprite(0, 0))
 {
     changeMenuState(MenuStateType::MAIN, false);

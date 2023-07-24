@@ -9,8 +9,7 @@
 #include "game/menu/MenuStateType.hpp"
 #include "scene/IngameMenu.hpp"
 
-#include "bn_regular_bg_items_bg_ingame_menu_main1.h"
-#include "bn_regular_bg_items_bg_ingame_menu_main2.h"
+#include "bn_regular_bg_items_bg_ingame_menu.h"
 
 namespace ut::game::menu
 {
@@ -21,9 +20,9 @@ namespace
 constexpr auto TOP_LEFT_ORIGIN = -bn::fixed_point{bn::display::width() / 2, bn::display::height() / 2};
 
 constexpr bn::fixed_point CURSOR_POSS[3] = {
-    bn::fixed_point{14, 58} + TOP_LEFT_ORIGIN,
-    bn::fixed_point{14, 72} + TOP_LEFT_ORIGIN,
-    bn::fixed_point{14, 86} + TOP_LEFT_ORIGIN,
+    bn::fixed_point{17, 58} + TOP_LEFT_ORIGIN,
+    bn::fixed_point{17, 72} + TOP_LEFT_ORIGIN,
+    bn::fixed_point{17, 86} + TOP_LEFT_ORIGIN,
 };
 
 } // namespace
@@ -32,8 +31,9 @@ MainMenu::MainMenu(scene::IngameMenu& scene) : MenuState(scene)
 {
     asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
 
-    scene._bg.set_item(scene.isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_main2
-                                             : bn::regular_bg_items::bg_ingame_menu_main1);
+    scene._bg.set_item(bn::regular_bg_items::bg_ingame_menu, scene.isDialogUpper()
+                                                                 ? scene::IngameMenu::BgMapIdx::MAIN_L
+                                                                 : scene::IngameMenu::BgMapIdx::MAIN_U);
     moveCursor(false);
 }
 

@@ -7,8 +7,7 @@
 #include "game/menu/MenuStateType.hpp"
 #include "scene/IngameMenu.hpp"
 
-#include "bn_regular_bg_items_bg_ingame_menu_cell1.h"
-#include "bn_regular_bg_items_bg_ingame_menu_cell2.h"
+#include "bn_regular_bg_items_bg_ingame_menu.h"
 
 namespace ut::game::menu
 {
@@ -24,8 +23,9 @@ constexpr auto START_POS = bn::fixed_point{80, 16} + TOP_LEFT_ORIGIN;
 
 CellMenu::CellMenu(scene::IngameMenu& scene) : MenuState(scene)
 {
-    scene._bg.set_item(scene.isDialogUpper() ? bn::regular_bg_items::bg_ingame_menu_cell2
-                                             : bn::regular_bg_items::bg_ingame_menu_cell1);
+    scene._bg.set_item(bn::regular_bg_items::bg_ingame_menu, scene.isDialogUpper()
+                                                                 ? scene::IngameMenu::BgMapIdx::CELL_L
+                                                                 : scene::IngameMenu::BgMapIdx::CELL_U);
     scene._cursor.set_visible(false);
 
     auto& textGen = scene.getContext().textGens.get(asset::FontKind::MAIN);
