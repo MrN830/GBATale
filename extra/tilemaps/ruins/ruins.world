@@ -122,7 +122,7 @@
         {
             "fileName": "room_ruins13.tmx",
             "height": 208,
-            "width": 432,
+            "width": 448,
             "x": 5168,
             "y": -1184
         },
@@ -130,14 +130,14 @@
             "fileName": "room_ruins14.tmx",
             "height": 576,
             "width": 512,
-            "x": 5600,
+            "x": 5616,
             "y": -1168
         },
         {
             "fileName": "room_ruins15A.tmx",
             "height": 336,
             "width": 288,
-            "x": 6112,
+            "x": 6128,
             "y": -1152
         },
         {
@@ -165,7 +165,7 @@
             "fileName": "room_ruins15E.tmx",
             "height": 192,
             "width": 256,
-            "x": 6112,
+            "x": 6128,
             "y": -1344
         },
         {
