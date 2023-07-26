@@ -23,6 +23,7 @@ public:
 
 public:
     void openIngameMenu();
+    void startDialog();
 
 private:
     game::sys::CameraManager _camMngr;
@@ -30,6 +31,10 @@ private:
     game::sys::EntityManager _entMngr;
     game::sys::FadeManager _fadeMngr;
     game::sys::RoomChanger _roomChanger;
+
+    game::InteractStateStack _interactStack;
+
+    bn::vector<bn::string_view, consts::DIALOG_MAX_LINES> _msg;
 
     game::GameContext _gameContext;
 };

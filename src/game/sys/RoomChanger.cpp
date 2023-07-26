@@ -33,7 +33,9 @@ void RoomChanger::update(GameContext& ctx)
         ctx.fadeMngr.startFadeIn(FI_FRAMES);
 
         _room = RoomKind::NONE;
-        ctx.interactState = InteractState::FREE;
+
+        BN_ASSERT(ctx.interactStack.top() == InteractState::ROOM_CHANGE);
+        ctx.interactStack.pop();
     }
 }
 
@@ -46,7 +48,7 @@ void RoomChanger::reqChange(RoomKind room, mtile::WarpId warpId, GameContext& ct
 {
     BN_ASSERT(room != RoomKind::NONE);
 
-    ctx.interactState = InteractState::ROOM_CHANGE;
+    ctx.interactStack.push(InteractState::ROOM_CHANGE);
 
     _room = room;
     ctx.warpId = warpId;

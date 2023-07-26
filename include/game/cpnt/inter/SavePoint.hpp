@@ -10,7 +10,7 @@ class SavePoint final : public Interaction
 public:
     SavePoint(ent::Entity&, bool isEnabled, InteractionTriggers);
 
-    void onInteract() override;
+    void onInteract(GameContext&) override;
 };
 
 } // namespace ut::game::cpnt::inter

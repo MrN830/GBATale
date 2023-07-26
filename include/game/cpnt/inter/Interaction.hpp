@@ -15,8 +15,8 @@ public:
 
     auto getInteractionType() const -> bn::type_id_t;
 
-    virtual void onInteract();
-    virtual void onInteractionCollisionExit(){};
+    virtual void onInteract(GameContext&);
+    virtual void onInteractionCollisionExit(GameContext&){};
 
     void update(GameContext&) override;
 

@@ -28,7 +28,7 @@ constexpr coll::RectCollInfo RIGHT_INTERACTOR = {bn::fixed_point(+10, -4.5), bn:
 
 }; // namespace
 
-PlayerInput::PlayerInput(ent::Entity& entity, bool isEnabled,  const WalkAnimCtrl& walk)
+PlayerInput::PlayerInput(ent::Entity& entity, bool isEnabled, const WalkAnimCtrl& walk)
     : Input(entity, bn::type_id<PlayerInput>(), isEnabled), _walk(walk)
 {
 }
@@ -74,13 +74,13 @@ void PlayerInput::handleInput(GameContext& ctx)
                 auto* interaction = it->getComponent<cpnt::inter::Interaction>();
                 BN_ASSERT(interaction != nullptr);
 
-                interaction->onInteract();
+                interaction->onInteract(ctx);
             }
         }
     }
 
     // If non FREE, `sendMoveCmd()` will send NO movement, stopping Frisk walking animation.
-    if (ctx.interactState == InteractState::FREE)
+    if (ctx.interactStack.top() == InteractState::FREE)
     {
         if (bn::keypad::up_held())
         {

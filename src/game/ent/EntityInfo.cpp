@@ -6,6 +6,7 @@
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
+#include "game/cpnt/inter/Readable.hpp"
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
 #include "game/sys/CameraManager.hpp"
@@ -45,6 +46,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::RuinsFloorSwitch>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::RuinsFloorSwitch>(entity, interaction->isEnabled,
                                                                              interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::Readable>())
+            inter =
+                &entMngr._cpntHeap.create<cpnt::inter::Readable>(entity, interaction->isEnabled, interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 

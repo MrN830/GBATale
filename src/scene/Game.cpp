@@ -19,7 +19,8 @@ constexpr int FI_FRAMES = 12;
 
 Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     : Scene(sceneStack, sceneContext), _worldBg(_camMngr.getCamera()), _entMngr(_gameContext),
-      _gameContext{sceneContext, *this, sceneContext.gameState, _camMngr, _worldBg, _entMngr, _fadeMngr, _roomChanger}
+      _gameContext{sceneContext, *this,     sceneContext.gameState, _camMngr,       _worldBg,
+                   _entMngr,     _fadeMngr, _roomChanger,           _interactStack, _msg}
 {
     sceneContext.menuCursorIdx = 0;
     sceneContext.gameContext = &_gameContext;
@@ -49,7 +50,7 @@ Game::~Game()
 
 bool Game::handleInput()
 {
-    if (_gameContext.interactState != game::InteractState::FREE)
+    if (_gameContext.interactStack.top() != game::InteractState::FREE)
         return true;
 
     _entMngr.handleInput();
@@ -70,8 +71,14 @@ bool Game::update()
 
 void Game::openIngameMenu()
 {
-    _gameContext.interactState = game::InteractState::MENU;
+    _gameContext.interactStack.push(game::InteractState::MENU);
     reqStackPush(SceneId::INGAME_MENU);
+}
+
+void Game::startDialog()
+{
+    _gameContext.interactStack.push(game::InteractState::INTERACT);
+    reqStackPush(SceneId::INGAME_DIALOG);
 }
 
 } // namespace ut::scene

@@ -3,6 +3,7 @@
 #include <bn_keypad.h>
 #include <bn_log.h>
 #include <bn_sound_item.h>
+#include <bn_utf8_character.h>
 #include <bn_vector.h>
 
 #include "asset/SfxKind.hpp"
@@ -125,12 +126,12 @@ void DialogWriter::update()
                 continue;
             }
 
-            const char ch = dialog.text[_nextCharIdx];
-            const bn::string_view chStr = dialog.text.substr(_nextCharIdx, 1);
+            const bn::utf8_character ch = dialog.text[_nextCharIdx];
+            const bn::string_view chStr = dialog.text.substr(_nextCharIdx, ch.size());
             const int chWidth = textGen.width(chStr);
 
             // play sfx on writing non-whitespace character
-            if (ch != ' ' && !_isInstantWrite)
+            if (ch.size() == 1 && dialog.text[_nextCharIdx] != ' ' && !_isInstantWrite)
             {
                 const auto sfx = asset::getSfx(settings.sfx);
                 if (sfx)
@@ -193,7 +194,8 @@ void DialogWriter::update()
             }
 
             _curLineWidth += chWidth;
-            if (++_nextCharIdx >= dialog.text.size())
+            _nextCharIdx += ch.size();
+            if (_nextCharIdx >= dialog.text.size())
                 _isWaitInput = true;
         }
 

@@ -79,7 +79,7 @@ void Input::collideWithInteraction(const cmd::MoveCmd& cmd, GameContext& ctx)
                 auto* interaction = it->getComponent<inter::Interaction>();
                 BN_ASSERT(interaction != nullptr);
 
-                interaction->onInteract();
+                interaction->onInteract(ctx);
             }
         }
 

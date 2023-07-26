@@ -42,8 +42,8 @@ constexpr bn::fixed_point MENU_TEXT_POSS[3] = {
 IngameMenu::IngameMenu(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context), _menuItemCount(context.gameState.getHasPhone() ? 3 : 2),
       _isDialogUpper(context.gameContext ? context.gameContext->isDialogUpper : false),
-      _bg(bn::regular_bg_items::bg_ingame_menu.create_bg(
-          0, 0, (isDialogUpper() ? BgMapIdx::MAIN_L : BgMapIdx::MAIN_U))),
+      _bg(bn::regular_bg_items::bg_ingame_menu.create_bg(0, 0,
+                                                         (isDialogUpper() ? BgMapIdx::MAIN_L : BgMapIdx::MAIN_U))),
       _cursor(bn::sprite_items::spr_soul_heart.create_sprite(0, 0))
 {
     changeMenuState(MenuStateType::MAIN, false);
@@ -57,7 +57,8 @@ IngameMenu::IngameMenu(SceneStack& sceneStack, SceneContext& context)
 IngameMenu::~IngameMenu()
 {
     BN_ASSERT(getContext().gameContext != nullptr);
-    getContext().gameContext->interactState = game::InteractState::FREE;
+    BN_ASSERT(getContext().gameContext->interactStack.top() == game::InteractState::MENU);
+    getContext().gameContext->interactStack.pop();
 
     _menuState->~MenuState();
 }
