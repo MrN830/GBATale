@@ -25,3 +25,7 @@ build_ut/
 *.ss[1-9]
 GBATale-*.png
 *.log
+
+#build assistance
+data.win
+modtool/
