@@ -11,6 +11,7 @@
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
+#include "game/RoomInfo.hpp"
 #include "util/String.hpp"
 
 #include "bn_regular_bg_items_bg_startmenu.h"
@@ -56,14 +57,14 @@ Title::Title(SceneStack& sceneStack, SceneContext& context)
 
     textGen.generate(NAME_POS, state.getCharName(), _saveInfoTexts);
 
-    const bn::string_view ROOM_NAME = "Ruins - Entrance";
+    const auto& roomName = game::getRoomName(state.getRoom());
     bn::fixed_point roomPos = ROOM_POS_LEFT;
-    if (textGen.width(ROOM_NAME) >= TIME_POS.x() - NAME_POS.x())
+    if (textGen.width(roomName) >= TIME_POS.x() - NAME_POS.x())
     {
         textGen.set_center_alignment();
         roomPos = ROOM_POS_CENTER;
     }
-    textGen.generate(roomPos, ROOM_NAME, _saveInfoTexts);
+    textGen.generate(roomPos, roomName, _saveInfoTexts);
 
     textGen.set_center_alignment();
     textGen.generate(LV_POS, bn::format<14>("LV {}", state.getLv()), _saveInfoTexts);

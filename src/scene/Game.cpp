@@ -36,7 +36,7 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     _roomChanger.instantChange(room, mtile::WarpId::INIT, _gameContext);
     _worldBg.allocateGraphics();
 
-    if (sceneContext.gameState.getRSavedCount() <= 0)
+    if (sceneContext.gameState.getRoom() == game::RoomKind::ROOM_AREA1)
     {
         bn::blending::set_fade_alpha(1);
         _fadeMngr.startFadeIn(FI_FRAMES);
@@ -66,6 +66,9 @@ bool Game::update()
     _worldBg.render();
     _fadeMngr.render();
 
+    // Game time should be updated in battle, too.
+    getContext().gameState.getTime().addTicks(1);
+
     return true;
 }
 
@@ -73,6 +76,12 @@ void Game::openIngameMenu()
 {
     _gameContext.interactStack.push(game::InteractState::MENU);
     reqStackPush(SceneId::INGAME_MENU);
+}
+
+void Game::openSavePrompt()
+{
+    _gameContext.interactStack.push(game::InteractState::INTERACT);
+    reqStackPush(SceneId::SAVE_PROMPT);
 }
 
 void Game::startDialog()

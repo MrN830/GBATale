@@ -13,6 +13,7 @@
 #include "scene/IntroLogo.hpp"
 #include "scene/IntroStory.hpp"
 #include "scene/NewGameTitle.hpp"
+#include "scene/SavePrompt.hpp"
 #include "scene/Title.hpp"
 
 #include "config.hpp"
@@ -82,6 +83,7 @@ void registerScenes(scene::SceneStack& sceneStack)
     sceneStack.registerScene<Game>(SceneId::GAME);
     sceneStack.registerScene<IngameMenu>(SceneId::INGAME_MENU);
     sceneStack.registerScene<IngameDialog>(SceneId::INGAME_DIALOG);
+    sceneStack.registerScene<SavePrompt>(SceneId::SAVE_PROMPT);
 
 #if UT_TEST_SCENE
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);

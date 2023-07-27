@@ -19,6 +19,7 @@ enum class SceneId
     GAME,
     INGAME_MENU,
     INGAME_DIALOG,
+    SAVE_PROMPT,
 
 #if UT_TEST_SCENE
     SAVE_TEST,

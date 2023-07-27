@@ -40,7 +40,8 @@ IngameDialog::~IngameDialog()
     auto& ctx = *getContext().gameContext;
 
     BN_ASSERT(ctx.interactStack.top() == game::InteractState::INTERACT);
-    ctx.interactStack.pop();
+    if (!ctx.isSavePromptRequested)
+        ctx.interactStack.pop();
 
     ctx.msg.clear();
 }
@@ -60,7 +61,14 @@ bool IngameDialog::update()
     _dialogWriter.update();
 
     if (!_dialogWriter.isStarted())
+    {
         reqStackPop();
+
+        auto* ctx = getContext().gameContext;
+        BN_ASSERT(ctx != nullptr);
+        if (ctx->isSavePromptRequested)
+            reqStackPush(SceneId::SAVE_PROMPT);
+    }
 
     return true;
 }

@@ -23,6 +23,7 @@ public:
 
 public:
     void openIngameMenu();
+    void openSavePrompt();
     void startDialog();
 
 private:

@@ -22,6 +22,8 @@ void SavePoint::onInteract(GameContext& ctx)
 {
     Interaction::onInteract(ctx);
 
+    ctx.isSavePromptRequested = true;
+
     asset::getSfx(asset::SfxKind::HEAL_BIG)->play();
 
     const int lackingHp = ctx.state.getMaxHp() - ctx.state.getCurHp();
@@ -43,7 +45,8 @@ void SavePoint::onInteract(GameContext& ctx)
     case RoomKind::ROOM_CASTLE_ELEVATOROUT:
     case RoomKind::ROOM_TRUELAB_HUB:
     case RoomKind::ROOM_TRUELAB_BEDROOM:
-        // TODO: Show save prompt directly
+        // Show save prompt directly
+        ctx.game.openSavePrompt();
         return;
 
     case RoomKind::ROOM_RUINS1:

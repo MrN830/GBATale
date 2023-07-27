@@ -31,7 +31,7 @@ class TilemapConverter:
             room_header_exists[eval(f"RoomKind.{room_name.upper()}.value")] = True
 
         os.makedirs("build_ut/src", exist_ok=True)
-        with open("build_ut/src/RoomInfo.cpp", "w") as cpp_file:
+        with open("build_ut/src/RoomInfoGen.cpp", "w") as cpp_file:
             write_timestamp(cpp_file, "tool/tilemap_converter.py")
 
             cpp_file.write('#include "game/RoomInfo.hpp"' + "\n\n")
@@ -88,14 +88,15 @@ class TilemapConverter:
                     ]
                 )
                 tiled_map.filename = tmx_path
-                tiled_map.parse_xml(pytmx.ElementTree.parse(tiled_map.filename).getroot())
+                tiled_map.parse_xml(
+                    pytmx.ElementTree.parse(tiled_map.filename).getroot()
+                )
 
                 l_entity: pytmx.TiledObjectGroup = tiled_map.get_layer_by_name("Entity")
 
                 for obj in l_entity:
                     if obj.name:
                         entity_ids.add(obj.name)
-
 
         header_filename = f"EntityId.hpp"
         header_path = f"{include_path}/{header_filename}"

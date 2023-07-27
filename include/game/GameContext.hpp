@@ -45,6 +45,7 @@ struct GameContext
     mtile::WarpId warpId = mtile::WarpId::INIT;
 
     bool isDialogUpper = false;
+    bool isSavePromptRequested = false;
 };
 
 } // namespace ut::game
