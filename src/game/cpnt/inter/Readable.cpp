@@ -21,11 +21,13 @@ void Readable::onInteract(GameContext& ctx)
 {
     Interaction::onInteract(ctx);
 
+    auto& flags = ctx.state.getFlags();
+
     ctx.msg.clear();
     const auto room = ctx.state.getRoom();
     switch (room)
     {
-        // TODO: Add conditions, currently comment out (`EntityId`s, flags, ...)
+        // TODO: Add conditions, currently comment out (`EntityId`s)
         // TODO: Add readable message cases out of ruins
         using namespace ut::asset;
 
@@ -154,7 +156,7 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_83));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_photo)
         {
-            if (false) // if (`true_pacifist` global.flag[7])
+            if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_67));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_63));
@@ -205,7 +207,7 @@ void Readable::onInteract(GameContext& ctx)
     case RoomKind::ROOM_CASTLE_COFFINS2:
         if (false) // if (murderlv >= 16)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_103));
-        else if (false) // else if (`true_pacifist` (global.flag[7]))
+        else if (flags.true_pacifist)
         {
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_96));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_97));
@@ -230,7 +232,7 @@ void Readable::onInteract(GameContext& ctx)
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::toriel_socks)
         {
-            if (false) // if (`true_pacifist` (global.flag[7]))
+            if (flags.true_pacifist)
             {
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_118));
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_119));
@@ -248,11 +250,11 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_127));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_128));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_129));
-            // TODO: Set `know_water_sausage` (global.flag[50]) to `true`
+            flags.know_water_sausage = true;
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::bed)
         {
-            if (false) // if (`true_pacifist` (global.flag[7]))
+            if (flags.true_pacifist)
             {
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_74));
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_75));
@@ -292,7 +294,7 @@ void Readable::onInteract(GameContext& ctx)
             else
             {
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room5_74));
-                if (false) // if (`true_pacifist` (global.flag[7]))
+                if (flags.true_pacifist)
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room5_78));
                 else
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room5_75));
@@ -322,16 +324,16 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_142));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::mirror)
         {
-            if (false) // if (`kills_ruins` (global.flag[202]) >= 20)
+            if (flags.kills_ruins >= 20)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_66));
-            else if (false) // if (`true_pacifist` (global.flag[7]))
+            else if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_64));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_63));
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::water_sausage)
         {
-            if (false) // if (`know_water_sausage` (global.flag[50]))
+            if (flags.know_water_sausage)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_136));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_135));
@@ -363,9 +365,9 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_144));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_pie)
         {
-            if (false) // if (`true_pacifist` (global.flag[7]))
+            if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_144));
-            else if (false) // else if (`got_bscotch_pie` (global.flag[103]))
+            else if (flags.got_bscotch_pie)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_141));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_140));
@@ -374,14 +376,14 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_84));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::cupboard)
         {
-            if (false) // if (`kills_ruins` (global.flag[202]) >= 20)
+            if (flags.kills_ruins >= 20)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_77));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_76));
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::stove)
         {
-            if (false) // if (`status_toriel` == KILLED (global.flag[45] == 4))
+            if (flags.status_toriel == GameFlags::StatusToriel::KILLED)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_79));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_78));

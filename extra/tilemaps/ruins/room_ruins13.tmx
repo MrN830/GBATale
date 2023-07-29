@@ -90,9 +90,14 @@
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="55" type="Entity" gid="1385" x="120" y="96" width="16" height="32">
+  <object id="55" name="left" type="Entity" gid="1385" x="120" y="96" width="16" height="32">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="TalkFroggit"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
     <property name="spriteAnim" type="class" propertytype="SpriteAnim">
      <properties>
@@ -101,9 +106,14 @@
     </property>
    </properties>
   </object>
-  <object id="56" type="Entity" gid="1385" x="216" y="96" width="16" height="32">
+  <object id="56" name="mid" type="Entity" gid="1385" x="216" y="96" width="16" height="32">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="TalkFroggit"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
     <property name="spriteAnim" type="class" propertytype="SpriteAnim">
      <properties>
@@ -112,9 +122,14 @@
     </property>
    </properties>
   </object>
-  <object id="57" type="Entity" gid="1385" x="312" y="96" width="16" height="32">
+  <object id="57" name="right" type="Entity" gid="1385" x="312" y="96" width="16" height="32">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="TalkFroggit"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
     <property name="spriteAnim" type="class" propertytype="SpriteAnim">
      <properties>

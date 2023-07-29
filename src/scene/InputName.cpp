@@ -68,7 +68,7 @@ constexpr char getCh(int btnIdx)
 } // namespace
 
 InputName::InputName(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _inputText(context.gameState.getCharName().substr(0, 6))
+    : Scene(sceneStack, context, SceneId::INPUT_NAME), _inputText(context.gameState.getCharName().substr(0, 6))
 {
     // If `Frisk` save exists, clear the input text
     if (context.gameState.getRSavedCount() >= 1 && bn::string_view(util::toLowerAscii(_inputText)) == "frisk")

@@ -22,8 +22,9 @@ static constexpr bn::string_view INFO_TEXT_LINES[] = {
 };
 
 WorldBgTest::WorldBgTest(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _camera(bn::camera_ptr::create(INIT_CAM_POS)), _worldBg(_camera),
-      _infoTextGen(common::variable_8x16_sprite_font), _info("WorldBgTest", INFO_TEXT_LINES, _infoTextGen)
+    : Scene(sceneStack, context, SceneId::WORLD_BG_TEST), _camera(bn::camera_ptr::create(INIT_CAM_POS)),
+      _worldBg(_camera), _infoTextGen(common::variable_8x16_sprite_font),
+      _info("WorldBgTest", INFO_TEXT_LINES, _infoTextGen)
 {
     if (bn::music::playing())
         bn::music::stop();

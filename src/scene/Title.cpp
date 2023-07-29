@@ -35,7 +35,7 @@ constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 } // namespace
 
 Title::Title(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0)),
+    : Scene(sceneStack, context, SceneId::TITLE), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0)),
       _isContinueSelected(context.menuCursorIdx != 1)
 {
     // TODO: Change music considering story progression
@@ -52,7 +52,7 @@ Title::Title(SceneStack& sceneStack, SceneContext& context)
 
     // we have to reload `charName` from SRAM, because it can be modified on `InputName`,
     // but it's not the real saved `charName`.
-    game::GameState state;
+    game::GameState state(context.rng);
     state.loadFromRegularSave();
 
     textGen.generate(NAME_POS, state.getCharName(), _saveInfoTexts);
@@ -100,7 +100,7 @@ bool Title::handleInput()
 
             // we have to reload `charName` from SRAM, because it can be modified on `InputName`,
             // but it's not the real saved `charName`.
-            game::GameState state;
+            game::GameState state(getContext().rng);
             state.loadFromRegularSave();
 
             reqStackClear();

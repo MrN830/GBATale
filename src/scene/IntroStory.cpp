@@ -130,8 +130,8 @@ auto buildMusFadeOut(int frames) -> bn::dmg_music_volume_to_action
 } // namespace
 
 IntroStory::IntroStory(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _prevWindowRect(bn::rect_window::internal().boundaries()), _bg(buildIntroBg(0)),
-      _bgFade(1, 1), _dialogWriter(getContext().textGens)
+    : Scene(sceneStack, context, SceneId::INTRO_STORY), _prevWindowRect(bn::rect_window::internal().boundaries()),
+      _bg(buildIntroBg(0)), _bgFade(1, 1), _dialogWriter(getContext().textGens)
 {
     bn::rect_window::internal().set_boundaries(6 - bn::display::height() / 2, 32 - bn::display::width() / 2,
                                                102 - bn::display::height() / 2, 208 - bn::display::width() / 2);

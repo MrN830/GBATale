@@ -32,6 +32,20 @@ void SceneStack::update()
     applyPendingChanges();
 }
 
+auto SceneStack::getTopScene() const -> const Scene&
+{
+    BN_ASSERT(!isEmpty());
+
+    return *_stack.back();
+}
+
+auto SceneStack::getTopScene() -> Scene&
+{
+    BN_ASSERT(!isEmpty());
+
+    return *_stack.back();
+}
+
 void SceneStack::pushScene(SceneId sceneId)
 {
     BN_ASSERT(!_pendingChanges.full(), "`SceneStack::_pendingChanges` is full");

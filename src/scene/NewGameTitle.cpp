@@ -26,7 +26,8 @@ constexpr bn::string_view TEXTS[TEXT_LINE_COUNT] = {
 
 } // namespace
 
-NewGameTitle::NewGameTitle(SceneStack& sceneStack, SceneContext& context) : Scene(sceneStack, context)
+NewGameTitle::NewGameTitle(SceneStack& sceneStack, SceneContext& context)
+    : Scene(sceneStack, context, SceneId::NEW_GAME_TITLE)
 {
     const auto& titleMenuMusic = *asset::getMusic(asset::MusicKind::TITLE_MENU_1);
     if (!bn::music::playing() || *bn::music::playing_item() != titleMenuMusic)

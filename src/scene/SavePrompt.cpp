@@ -40,7 +40,7 @@ constexpr auto CURSOR_RETURN_POS = RETURN_POS + bn::fixed_point{-8, 0};
 } // namespace
 
 SavePrompt::SavePrompt(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_save_prompt.create_bg(0, 0)),
+    : Scene(sceneStack, context, SceneId::SAVE_PROMPT), _bg(bn::regular_bg_items::bg_save_prompt.create_bg(0, 0)),
       _cursor(bn::sprite_items::spr_soul_heart.create_sprite(CURSOR_SAVE_POS))
 {
     auto* ctx = getContext().gameContext;
@@ -116,7 +116,7 @@ void SavePrompt::redrawTexts()
     if (_isSaved)
         textGen.set_palette_item(yellow);
 
-    game::GameState state;
+    game::GameState state(getContext().rng);
     state.loadFromRegularSave();
 
     textGen.generate(NAME_POS, state.isNewRegularSave() ? "EMPTY" : state.getCharName(), _saveInfoTexts);

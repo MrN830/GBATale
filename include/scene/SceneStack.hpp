@@ -37,6 +37,9 @@ public:
     void handleInput();
     void update();
 
+    auto getTopScene() const -> const Scene&;
+    auto getTopScene() -> Scene&;
+
     void pushScene(SceneId);
     void popScene();
     void clearScene();

@@ -30,6 +30,13 @@ private:
 
     bn::vector<core::Dialog, consts::DIALOG_MAX_LINES> _dialogs;
     bn::vector<bn::sprite_ptr, consts::DIALOG_MAX_SPRITES> _text;
+
+public:
+    auto getWriter() const -> const core::DialogWriter&;
+    auto getWriter() -> core::DialogWriter&;
+
+    auto getDialogs() -> decltype((_dialogs));
+    auto getDialogs() const -> decltype((_dialogs));
 };
 
 } // namespace ut::scene

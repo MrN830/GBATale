@@ -64,18 +64,22 @@ bool DialogWriter::isWaitInput() const
     return _isWaitInput;
 }
 
-void DialogWriter::instantWrite()
+bool DialogWriter::instantWrite()
 {
     if (!isStarted())
-        return;
+        return false;
 
     const auto& dialog = _dialogs[_dialogIdx];
 
     // TODO: Optimize this super naive implementation
+    const int prevCharIdx = _nextCharIdx;
+
     _isInstantWrite = true;
     while (isStarted() && !isWaitInput() && _nextCharIdx < dialog.text.size())
         update();
     _isInstantWrite = false;
+
+    return prevCharIdx != _nextCharIdx;
 }
 
 void DialogWriter::keyInput()
@@ -203,6 +207,11 @@ void DialogWriter::update()
     }
 
     ++_elapsedFrames;
+}
+
+int DialogWriter::getCurDialogIdx() const
+{
+    return _dialogIdx;
 }
 
 void DialogWriter::resetStringProcessInfos()
@@ -370,6 +379,24 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
 
     case SpecialToken::Kind::FACE_EMOTION: {
         BN_LOG("SpecialToken::Kind::FACE_EMOTICON not implemented");
+        break;
+    }
+
+    case SpecialToken::Kind::COLOR: {
+        const auto& dialog = _dialogs[_dialogIdx];
+        const auto& settings = Dialog::Settings::get(dialog.settingsKind);
+
+        if (settings.font == asset::FontKind::MAIN)
+        {
+            const auto color = (asset::TextColorKind)specialToken.number;
+            const auto& palette = asset::getTextColor(color);
+
+            auto& textGen = _textGens.get(settings.font);
+            textGen.set_palette_item(palette);
+        }
+        else
+            BN_ERROR("Font color change not implemented for font=", (int)settings.font);
+
         break;
     }
 

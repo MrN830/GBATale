@@ -5,8 +5,24 @@
 namespace ut::scene
 {
 
-Scene::Scene(SceneStack& sceneStack, SceneContext& context) : _sceneStack(sceneStack), _context(context)
+Scene::Scene(SceneStack& sceneStack, SceneContext& context, SceneId sceneId)
+    : _sceneStack(sceneStack), _context(context), _sceneId(sceneId)
 {
+}
+
+auto Scene::getId() const -> SceneId
+{
+    return _sceneId;
+}
+
+auto Scene::getSceneStack() const -> const SceneStack&
+{
+    return _sceneStack;
+}
+
+auto Scene::getSceneStack() -> SceneStack&
+{
+    return _sceneStack;
 }
 
 void Scene::reqStackPush(SceneId sceneId)

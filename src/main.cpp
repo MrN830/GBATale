@@ -42,7 +42,7 @@ int main()
 
     ut::core::TextGens textGens;
     ut::core::Random rng;
-    ut::game::GameState gameState;
+    ut::game::GameState gameState(rng);
 
 #if UT_MEM_VIEW
     // Press `SELECT` to see the `memView` when it's enabled

@@ -3,6 +3,7 @@
 #include <bn_keypad.h>
 
 #include "game/GameContext.hpp"
+#include "game/GameState.hpp"
 
 #include "bn_regular_bg_items_bg_battle_dialog.h"
 
@@ -15,7 +16,7 @@ constexpr auto UPPER_DIALOG_DIFF = bn::fixed_point{0, -100};
 }
 
 IngameDialog::IngameDialog(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)),
+    : Scene(sceneStack, context, SceneId::INGAME_DIALOG), _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)),
       _dialogWriter(context.textGens, consts::INGAME_MENU_BG_PRIORITY)
 {
     BN_ASSERT(context.gameContext != nullptr);
@@ -51,7 +52,10 @@ bool IngameDialog::handleInput()
     if (bn::keypad::a_pressed())
         _dialogWriter.keyInput();
     if (bn::keypad::b_pressed())
-        _dialogWriter.instantWrite();
+    {
+        if (_dialogWriter.instantWrite())
+            getContext().gameState.getFlags().dialogues_skipped++;
+    }
 
     return false; // Stop handling input in game world
 }
@@ -71,6 +75,26 @@ bool IngameDialog::update()
     }
 
     return true;
+}
+
+auto IngameDialog::getWriter() const -> const core::DialogWriter&
+{
+    return _dialogWriter;
+}
+
+auto IngameDialog::getWriter() -> core::DialogWriter&
+{
+    return _dialogWriter;
+}
+
+auto IngameDialog::getDialogs() -> decltype((_dialogs))
+{
+    return _dialogs;
+}
+
+auto IngameDialog::getDialogs() const -> decltype((_dialogs))
+{
+    return _dialogs;
 }
 
 } // namespace ut::scene

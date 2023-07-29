@@ -68,7 +68,7 @@ def dump_and_convert_textdata():
 
     # Get override textdata
     text_data_override = {}
-    with open(text_data_override_path, "r") as f:
+    with open(text_data_override_path, "r", encoding="utf8") as f:
         text_data_override = json.loads(f.read())
 
     # Generate header file

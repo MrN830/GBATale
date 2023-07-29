@@ -9,6 +9,8 @@
 #include <bn_vector.h>
 
 #include "core/PlayTime.hpp"
+#include "core/Random.hpp"
+#include "game/GameFlags.hpp"
 
 namespace ut::scene::test
 {
@@ -42,12 +44,12 @@ public:
     };
 
 public:
-    GameState();
+    GameState(core::Random& rng);
 
     bool isNewRegularSave() const;
 
     // This doesn't reset the charName (not a `True Reset`)
-    void resetToNewRegularSave();
+    void resetToNewRegularSave(core::Random& rng);
 
     /**
      * @brief Loads both regular & persist saves from SRAM.
@@ -89,6 +91,7 @@ private: // SRAM saved fields
     bn::array<int32_t, 8> _phone;
     ItemKind _weapon;
     ItemKind _armor;
+    GameFlags _flags;
     bn::fixed _plot;
     bool _hasPhone;
     RoomKind _room;
@@ -121,6 +124,9 @@ public: // SRAM saved fields
 
     auto getWeapon() const -> ItemKind;
     auto getArmor() const -> ItemKind;
+
+    auto getFlags() const -> const GameFlags&;
+    auto getFlags() -> GameFlags&;
 
     bool getHasPhone() const;
     auto getRoom() const -> RoomKind;
@@ -172,6 +178,7 @@ private:
         bn::array<int32_t, 8> phone;
         ItemKind weapon;
         ItemKind armor;
+        GameFlags flag;
         bn::fixed plot;
         bool menuChoice2;
         RoomKind room;

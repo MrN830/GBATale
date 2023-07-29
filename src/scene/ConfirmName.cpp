@@ -39,7 +39,7 @@ constexpr int GAME_SCENE_FRAMES = 5.5 * FPS;
 } // namespace
 
 ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _whiteOut(WHITE_OUT_FRAMES, 1)
+    : Scene(sceneStack, context, SceneId::CONFIRM_NAME), _whiteOut(WHITE_OUT_FRAMES, 1)
 {
     auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
@@ -58,7 +58,7 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
     if (context.gameState.getRSavedCount() >= 1)
     {
         // check if save file charName is `Frisk`
-        game::GameState state;
+        game::GameState state(context.rng);
         state.loadFromRegularSave();
 
         if ("frisk" != bn::string_view(util::toLowerAscii(bn::string<NAME_MAX_LEN>(state.getCharName()))))
@@ -191,7 +191,7 @@ bool ConfirmName::handleInput()
         if (_isYesSelected)
         {
             // Go to `scene::Game` with white-out transition
-            getContext().gameState.resetToNewRegularSave();
+            getContext().gameState.resetToNewRegularSave(getContext().rng);
             _tip.clear();
             _no.clear();
             _yes.clear();

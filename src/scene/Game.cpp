@@ -18,7 +18,7 @@ constexpr int FI_FRAMES = 12;
 }
 
 Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
-    : Scene(sceneStack, sceneContext), _worldBg(_camMngr.getCamera()), _entMngr(_gameContext),
+    : Scene(sceneStack, sceneContext, SceneId::GAME), _worldBg(_camMngr.getCamera()), _entMngr(_gameContext),
       _gameContext{sceneContext, *this,     sceneContext.gameState, _camMngr,       _worldBg,
                    _entMngr,     _fadeMngr, _roomChanger,           _interactStack, _msg}
 {

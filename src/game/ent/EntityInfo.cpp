@@ -9,6 +9,7 @@
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
+#include "game/cpnt/inter/TalkFroggit.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -49,6 +50,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::Readable>())
             inter =
                 &entMngr._cpntHeap.create<cpnt::inter::Readable>(entity, interaction->isEnabled, interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::TalkFroggit>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::TalkFroggit>(entity, interaction->isEnabled,
+                                                                        interaction->triggers, ctx);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
