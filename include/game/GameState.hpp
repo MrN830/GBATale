@@ -17,6 +17,11 @@ namespace ut::scene::test
 class SaveTest;
 }
 
+namespace ut::asset
+{
+enum class BgmKind : uint8_t;
+}
+
 namespace ut::game
 {
 
@@ -94,6 +99,7 @@ private: // SRAM saved fields
     GameFlags _flags;
     bn::fixed _plot;
     bool _hasPhone;
+    asset::BgmKind _worldBgm;
     RoomKind _room;
     core::PlayTime _time;
 
@@ -129,6 +135,7 @@ public: // SRAM saved fields
     auto getFlags() -> GameFlags&;
 
     bool getHasPhone() const;
+    auto getWorldBgm() const -> asset::BgmKind;
     auto getRoom() const -> RoomKind;
 
     auto getTime() const -> const core::PlayTime&;
@@ -144,6 +151,7 @@ public:
     void setArmor(ItemKind);
 
     void setHasPhone(bool hasPhone);
+    void setWorldBgm(asset::BgmKind);
     void setRoom(RoomKind);
 
     void setTime(const core::PlayTime& time);
@@ -156,11 +164,13 @@ private:
 
 private:
     static constexpr auto SAVE_VER = "ut00001";
+    static constexpr int SRAM_REGU_SAVE_SIZE = 1 * 1024;
+    static constexpr int SRAM_PERSI_SAVE_SIZE = 1 * 1024;
 
     static constexpr int SRAM_REGU_SAVE_1 = 0;
-    static constexpr int SRAM_PERSI_SAVE_1 = 8 * 1024;
-    static constexpr int SRAM_REGU_SAVE_2 = 16 * 1024;
-    static constexpr int SRAM_PERSI_SAVE_2 = 24 * 1024;
+    static constexpr int SRAM_PERSI_SAVE_1 = SRAM_REGU_SAVE_SIZE;
+    static constexpr int SRAM_REGU_SAVE_2 = SRAM_REGU_SAVE_SIZE + SRAM_PERSI_SAVE_SIZE;
+    static constexpr int SRAM_PERSI_SAVE_2 = 2 * SRAM_REGU_SAVE_SIZE + SRAM_PERSI_SAVE_SIZE;
 
     struct RegularSave
     {
@@ -181,6 +191,7 @@ private:
         GameFlags flag;
         bn::fixed plot;
         bool menuChoice2;
+        asset::BgmKind song;
         RoomKind room;
         uint32_t time;
 
@@ -195,6 +206,9 @@ private:
 
         bool isValid() const;
     };
+
+    static_assert(sizeof(RegularSave) <= SRAM_REGU_SAVE_SIZE);
+    static_assert(sizeof(PersistSave) <= SRAM_PERSI_SAVE_SIZE);
 };
 
 bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState&);

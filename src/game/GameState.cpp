@@ -5,6 +5,7 @@
 
 #include "crc32/Crc32.h"
 
+#include "asset/Bgm.hpp"
 #include "game/ItemInfo.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/StatInfo.hpp"
@@ -51,6 +52,7 @@ void GameState::resetToNewRegularSave(core::Random& rng)
 
     _plot = 0;
     _hasPhone = false;
+    _worldBgm = asset::BgmKind::NONE;
     _room = RoomKind::ROOM_AREA1;
     _time = core::PlayTime(0);
 }
@@ -129,6 +131,7 @@ void GameState::saveRegular()
     rSave.flag = _flags;
     rSave.plot = _plot;
     rSave.menuChoice2 = _hasPhone;
+    rSave.song = _worldBgm;
     rSave.room = _room;
     rSave.time = _time.getTicks();
 
@@ -258,6 +261,11 @@ bool GameState::getHasPhone() const
     return _hasPhone;
 }
 
+auto GameState::getWorldBgm() const -> asset::BgmKind
+{
+    return _worldBgm;
+}
+
 auto GameState::getRoom() const -> RoomKind
 {
     return _room;
@@ -309,6 +317,11 @@ void GameState::setHasPhone(bool hasPhone)
     _hasPhone = hasPhone;
 }
 
+void GameState::setWorldBgm(asset::BgmKind bgm)
+{
+    _worldBgm = bgm;
+}
+
 void GameState::setRoom(RoomKind room)
 {
     _room = room;
@@ -358,6 +371,7 @@ void GameState::loadFromRSave(const RegularSave& rSave)
     _flags = rSave.flag;
     _plot = rSave.plot;
     _hasPhone = rSave.menuChoice2;
+    _worldBgm = rSave.song;
     _room = rSave.room;
     _time = core::PlayTime(rSave.time);
     _rSavedCount = rSave.savedCount;

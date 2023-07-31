@@ -4,10 +4,10 @@
 #include <bn_display.h>
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
-#include <bn_music.h>
 #include <bn_sound.h>
 #include <bn_sound_item.h>
 
+#include "asset/Bgm.hpp"
 #include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
 #include "core/Dialog.hpp"
@@ -198,8 +198,7 @@ bool ConfirmName::handleInput()
             _gameSceneCountdown = GAME_SCENE_FRAMES;
             bn::blending::set_fade_color(bn::blending::fade_color_type::WHITE);
 
-            if (bn::music::playing())
-                bn::music::stop();
+            asset::Bgm::stop();
             asset::getSfx(asset::SfxKind::CYMBAL_RISER)->play(3.0 / 4);
         }
         else

@@ -1,11 +1,10 @@
 #include "scene/Game.hpp"
 
 #include <bn_display.h>
-#include <bn_dmg_music.h>
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
-#include <bn_music.h>
 
+#include "asset/Bgm.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 
@@ -25,10 +24,7 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     sceneContext.menuCursorIdx = 0;
     sceneContext.gameContext = &_gameContext;
 
-    if (bn::music::playing())
-        bn::music::stop();
-    if (bn::dmg_music::playing())
-        bn::dmg_music::stop();
+    asset::Bgm::stop();
 
     _camMngr.setCamFollowEntityDiff({0, -16});
 

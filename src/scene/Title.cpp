@@ -4,10 +4,8 @@
 #include <bn_fixed_point.h>
 #include <bn_format.h>
 #include <bn_keypad.h>
-#include <bn_music.h>
-#include <bn_music_item.h>
 
-#include "asset/MusicKind.hpp"
+#include "asset/Bgm.hpp"
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
@@ -39,9 +37,8 @@ Title::Title(SceneStack& sceneStack, SceneContext& context)
       _isContinueSelected(context.menuCursorIdx != 1)
 {
     // TODO: Change music considering story progression
-    const auto& titleMenuMusic = *asset::getMusic(asset::MusicKind::TITLE_MENU_1);
-    if (!bn::music::playing() || *bn::music::playing_item() != titleMenuMusic)
-        titleMenuMusic.play(1.0 / 6);
+    if (asset::Bgm::getPlayingBgmKind() != asset::BgmKind::START_MENU)
+        asset::Bgm::play(asset::BgmKind::START_MENU);
 
     auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();

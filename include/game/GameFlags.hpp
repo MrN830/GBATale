@@ -2,6 +2,7 @@
 
 #include <cstdint>
 
+#include "asset/BgmKind.hpp"
 #include "game/ItemInfo.hpp"
 
 namespace ut::game
@@ -237,7 +238,7 @@ struct GameFlags
     };
     DatedNapstablook dated_napstablook = DatedNapstablook::INIT; // [93]
 
-    // TODO: Add [94]
+    asset::BgmKind current_napstablook_song = asset::BgmKind::NONE; // [94]
 
     bool aaron_woshua_event : 1 = false; // [95]
     uint32_t conversation_emblem = 0;    // [96]

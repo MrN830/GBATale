@@ -1,5 +1,6 @@
 #include <bn_core.h>
 
+#include "asset/Bgm.hpp"
 #include "core/Random.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
@@ -66,6 +67,7 @@ int main()
 #endif
         rng.update();
         asset::updateDelayedSfxs();
+        asset::Bgm::update();
         bn::core::update();
     }
 }
