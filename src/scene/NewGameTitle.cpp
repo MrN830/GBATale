@@ -2,10 +2,8 @@
 
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
-#include <bn_music.h>
-#include <bn_music_item.h>
 
-#include "asset/MusicKind.hpp"
+#include "asset/Bgm.hpp"
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
 
@@ -26,11 +24,11 @@ constexpr bn::string_view TEXTS[TEXT_LINE_COUNT] = {
 
 } // namespace
 
-NewGameTitle::NewGameTitle(SceneStack& sceneStack, SceneContext& context) : Scene(sceneStack, context)
+NewGameTitle::NewGameTitle(SceneStack& sceneStack, SceneContext& context)
+    : Scene(sceneStack, context, SceneId::NEW_GAME_TITLE)
 {
-    const auto& titleMenuMusic = *asset::getMusic(asset::MusicKind::TITLE_MENU_1);
-    if (!bn::music::playing() || *bn::music::playing_item() != titleMenuMusic)
-        titleMenuMusic.play(1.0 / 6);
+    if (asset::Bgm::getPlayingBgmKind() != asset::BgmKind::START_MENU)
+        asset::Bgm::play(asset::BgmKind::START_MENU);
 
     auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();

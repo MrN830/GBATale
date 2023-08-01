@@ -25,14 +25,14 @@ RuinsFloorSwitch::RuinsFloorSwitch(ent::Entity& entity, bool isEnabled, Interact
 {
 }
 
-void RuinsFloorSwitch::onInteract()
+void RuinsFloorSwitch::onInteract(GameContext& ctx)
 {
     if (isPressed)
         return;
 
     isPressed = true;
 
-    Interaction::onInteract();
+    Interaction::onInteract(ctx);
 
     asset::getSfx(asset::SfxKind::SWITCH_TRIGGER)->play();
 

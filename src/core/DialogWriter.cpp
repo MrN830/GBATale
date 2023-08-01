@@ -3,6 +3,7 @@
 #include <bn_keypad.h>
 #include <bn_log.h>
 #include <bn_sound_item.h>
+#include <bn_utf8_character.h>
 #include <bn_vector.h>
 
 #include "asset/SfxKind.hpp"
@@ -63,18 +64,22 @@ bool DialogWriter::isWaitInput() const
     return _isWaitInput;
 }
 
-void DialogWriter::instantWrite()
+bool DialogWriter::instantWrite()
 {
     if (!isStarted())
-        return;
+        return false;
 
     const auto& dialog = _dialogs[_dialogIdx];
 
     // TODO: Optimize this super naive implementation
+    const int prevCharIdx = _nextCharIdx;
+
     _isInstantWrite = true;
     while (isStarted() && !isWaitInput() && _nextCharIdx < dialog.text.size())
         update();
     _isInstantWrite = false;
+
+    return prevCharIdx != _nextCharIdx;
 }
 
 void DialogWriter::keyInput()
@@ -125,12 +130,12 @@ void DialogWriter::update()
                 continue;
             }
 
-            const char ch = dialog.text[_nextCharIdx];
-            const bn::string_view chStr = dialog.text.substr(_nextCharIdx, 1);
+            const bn::utf8_character ch = dialog.text[_nextCharIdx];
+            const bn::string_view chStr = dialog.text.substr(_nextCharIdx, ch.size());
             const int chWidth = textGen.width(chStr);
 
             // play sfx on writing non-whitespace character
-            if (ch != ' ' && !_isInstantWrite)
+            if (ch.size() == 1 && dialog.text[_nextCharIdx] != ' ' && !_isInstantWrite)
             {
                 const auto sfx = asset::getSfx(settings.sfx);
                 if (sfx)
@@ -193,7 +198,8 @@ void DialogWriter::update()
             }
 
             _curLineWidth += chWidth;
-            if (++_nextCharIdx >= dialog.text.size())
+            _nextCharIdx += ch.size();
+            if (_nextCharIdx >= dialog.text.size())
                 _isWaitInput = true;
         }
 
@@ -201,6 +207,11 @@ void DialogWriter::update()
     }
 
     ++_elapsedFrames;
+}
+
+int DialogWriter::getCurDialogIdx() const
+{
+    return _dialogIdx;
 }
 
 void DialogWriter::resetStringProcessInfos()
@@ -368,6 +379,24 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
 
     case SpecialToken::Kind::FACE_EMOTION: {
         BN_LOG("SpecialToken::Kind::FACE_EMOTICON not implemented");
+        break;
+    }
+
+    case SpecialToken::Kind::COLOR: {
+        const auto& dialog = _dialogs[_dialogIdx];
+        const auto& settings = Dialog::Settings::get(dialog.settingsKind);
+
+        if (settings.font == asset::FontKind::MAIN)
+        {
+            const auto color = (asset::TextColorKind)specialToken.number;
+            const auto& palette = asset::getTextColor(color);
+
+            auto& textGen = _textGens.get(settings.font);
+            textGen.set_palette_item(palette);
+        }
+        else
+            BN_ERROR("Font color change not implemented for font=", (int)settings.font);
+
         break;
     }
 

@@ -9,7 +9,7 @@
 namespace ut::scene::test
 {
 
-SaveTest::SaveTest(SceneStack& sceneStack, SceneContext& context) : Scene(sceneStack, context)
+SaveTest::SaveTest(SceneStack& sceneStack, SceneContext& context) : Scene(sceneStack, context, SceneId::SAVE_TEST)
 {
 }
 
@@ -32,7 +32,7 @@ bool SaveTest::handleInput()
         BN_LOG("=== Save ===");
 
         auto& gameState = getContext().gameState;
-        gameState.resetToNewRegularSave();
+        gameState.resetToNewRegularSave(getContext().rng);
 
         // tweaked save
         if (bn::keypad::b_held())

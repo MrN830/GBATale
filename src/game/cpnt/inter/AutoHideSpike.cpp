@@ -24,9 +24,9 @@ AutoHideSpike::AutoHideSpike(ent::Entity& entity, bool isEnabled, InteractionTri
 {
 }
 
-void AutoHideSpike::onInteract()
+void AutoHideSpike::onInteract(GameContext& ctx)
 {
-    Interaction::onInteract();
+    Interaction::onInteract(ctx);
 
     auto* spr = _entity.getComponent<cpnt::Sprite>();
     BN_ASSERT(spr != nullptr);
@@ -36,7 +36,7 @@ void AutoHideSpike::onInteract()
     _spikeReappearCountdown = -1;
 }
 
-void AutoHideSpike::onInteractionCollisionExit()
+void AutoHideSpike::onInteractionCollisionExit(GameContext&)
 {
     _spikeReappearCountdown = SPIKE_APPEAR_FRAMES;
 }

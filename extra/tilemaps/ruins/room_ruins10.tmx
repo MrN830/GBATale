@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="29" height="37" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="62">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="29" height="37" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="64">
  <tileset firstgid="1" source="ruins.tsx"/>
  <layer id="1" name="BGLower" width="29" height="37">
   <data encoding="csv">
@@ -179,7 +179,36 @@
   <object id="54" x="192" y="560" width="240" height="16"/>
   <object id="55" x="432" y="464" width="16" height="96"/>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
+ <objectgroup id="3" name="Entity">
+  <object id="62" name="up" type="Entity" x="368" y="128" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="63" name="down" type="Entity" x="368" y="448" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="57" type="WarpPoint" x="24" y="104">
    <properties>

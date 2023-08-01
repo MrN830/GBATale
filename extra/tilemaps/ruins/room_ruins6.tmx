@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="69" height="11" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="70">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="69" height="11" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="72">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="69" height="11">
@@ -74,9 +74,16 @@
  <objectgroup id="3" name="Entity">
   <object id="69" type="Entity" gid="1368" x="960" y="80" width="32" height="64">
    <properties>
-    <property name="colliderPack" type="class" propertytype="ColliderPack">
-    </property>
-    <property name="sprite" type="class" propertytype="Sprite">
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="71" name="bgm" type="Entity" x="0" y="0" width="16" height="16">
+   <properties>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="StartBgm"/>
+     </properties>
     </property>
    </properties>
   </object>
@@ -90,12 +97,14 @@
   </object>
   <object id="66" type="Warp" x="1088" y="80" width="16" height="32">
    <properties>
+    <property name="isBgmFadeOut" type="bool" value="true"/>
     <property name="roomName" value="room_ruins7"/>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
   <object id="67" type="Warp" x="0" y="80" width="16" height="32">
    <properties>
+    <property name="isBgmFadeOut" type="bool" value="true"/>
     <property name="roomName" value="room_ruins5"/>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>

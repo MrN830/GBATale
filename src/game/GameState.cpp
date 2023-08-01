@@ -5,6 +5,7 @@
 
 #include "crc32/Crc32.h"
 
+#include "asset/Bgm.hpp"
 #include "game/ItemInfo.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/StatInfo.hpp"
@@ -12,9 +13,9 @@
 namespace ut::game
 {
 
-GameState::GameState() : _time(0)
+GameState::GameState(core::Random& rng) : _time(0)
 {
-    resetToNewRegularSave();
+    resetToNewRegularSave(rng);
     _charName = "";
     _rSavedCount = 0;
 
@@ -28,7 +29,7 @@ bool GameState::isNewRegularSave() const
     return _rSavedCount <= 0;
 }
 
-void GameState::resetToNewRegularSave()
+void GameState::resetToNewRegularSave(core::Random& rng)
 {
     _lv = 1;
     _exp = 0;
@@ -45,8 +46,13 @@ void GameState::resetToNewRegularSave()
     _phone = {};
     _weapon = ItemKind::STICK;
     _armor = ItemKind::BANDAGE;
+
+    _flags = GameFlags();
+    _flags.fun = rng.get_int(1, 101);
+
     _plot = 0;
     _hasPhone = false;
+    _worldBgm = asset::BgmKind::NONE;
     _room = RoomKind::ROOM_AREA1;
     _time = core::PlayTime(0);
 }
@@ -122,8 +128,10 @@ void GameState::saveRegular()
     rSave.phone = _phone;
     rSave.weapon = _weapon;
     rSave.armor = _armor;
+    rSave.flag = _flags;
     rSave.plot = _plot;
     rSave.menuChoice2 = _hasPhone;
+    rSave.song = _worldBgm;
     rSave.room = _room;
     rSave.time = _time.getTicks();
 
@@ -238,9 +246,24 @@ auto GameState::getArmor() const -> ItemKind
     return _armor;
 }
 
+auto GameState::getFlags() const -> const GameFlags&
+{
+    return _flags;
+}
+
+auto GameState::getFlags() -> GameFlags&
+{
+    return _flags;
+}
+
 bool GameState::getHasPhone() const
 {
     return _hasPhone;
+}
+
+auto GameState::getWorldBgm() const -> asset::BgmKind
+{
+    return _worldBgm;
 }
 
 auto GameState::getRoom() const -> RoomKind
@@ -294,6 +317,11 @@ void GameState::setHasPhone(bool hasPhone)
     _hasPhone = hasPhone;
 }
 
+void GameState::setWorldBgm(asset::BgmKind bgm)
+{
+    _worldBgm = bgm;
+}
+
 void GameState::setRoom(RoomKind room)
 {
     _room = room;
@@ -340,8 +368,10 @@ void GameState::loadFromRSave(const RegularSave& rSave)
     _phone = rSave.phone;
     _weapon = rSave.weapon;
     _armor = rSave.armor;
+    _flags = rSave.flag;
     _plot = rSave.plot;
     _hasPhone = rSave.menuChoice2;
+    _worldBgm = rSave.song;
     _room = rSave.room;
     _time = core::PlayTime(rSave.time);
     _rSavedCount = rSave.savedCount;

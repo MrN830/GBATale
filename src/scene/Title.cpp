@@ -4,13 +4,12 @@
 #include <bn_fixed_point.h>
 #include <bn_format.h>
 #include <bn_keypad.h>
-#include <bn_music.h>
-#include <bn_music_item.h>
 
-#include "asset/MusicKind.hpp"
+#include "asset/Bgm.hpp"
 #include "asset/TextColor.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
+#include "game/RoomInfo.hpp"
 #include "util/String.hpp"
 
 #include "bn_regular_bg_items_bg_startmenu.h"
@@ -34,13 +33,12 @@ constexpr auto RESET_POS = bn::fixed_point{187, 92} + TOP_LEFT_ORIGIN;
 } // namespace
 
 Title::Title(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0)),
+    : Scene(sceneStack, context, SceneId::TITLE), _bg(bn::regular_bg_items::bg_startmenu.create_bg(0, 0)),
       _isContinueSelected(context.menuCursorIdx != 1)
 {
     // TODO: Change music considering story progression
-    const auto& titleMenuMusic = *asset::getMusic(asset::MusicKind::TITLE_MENU_1);
-    if (!bn::music::playing() || *bn::music::playing_item() != titleMenuMusic)
-        titleMenuMusic.play(1.0 / 6);
+    if (asset::Bgm::getPlayingBgmKind() != asset::BgmKind::START_MENU)
+        asset::Bgm::play(asset::BgmKind::START_MENU);
 
     auto& textGen = context.textGens.get(asset::FontKind::MAIN);
     const auto prevAlign = textGen.alignment();
@@ -51,19 +49,19 @@ Title::Title(SceneStack& sceneStack, SceneContext& context)
 
     // we have to reload `charName` from SRAM, because it can be modified on `InputName`,
     // but it's not the real saved `charName`.
-    game::GameState state;
+    game::GameState state(context.rng);
     state.loadFromRegularSave();
 
     textGen.generate(NAME_POS, state.getCharName(), _saveInfoTexts);
 
-    const bn::string_view ROOM_NAME = "Ruins - Entrance";
+    const auto& roomName = game::getRoomName(state.getRoom());
     bn::fixed_point roomPos = ROOM_POS_LEFT;
-    if (textGen.width(ROOM_NAME) >= TIME_POS.x() - NAME_POS.x())
+    if (textGen.width(roomName) >= TIME_POS.x() - NAME_POS.x())
     {
         textGen.set_center_alignment();
         roomPos = ROOM_POS_CENTER;
     }
-    textGen.generate(roomPos, ROOM_NAME, _saveInfoTexts);
+    textGen.generate(roomPos, roomName, _saveInfoTexts);
 
     textGen.set_center_alignment();
     textGen.generate(LV_POS, bn::format<14>("LV {}", state.getLv()), _saveInfoTexts);
@@ -99,7 +97,7 @@ bool Title::handleInput()
 
             // we have to reload `charName` from SRAM, because it can be modified on `InputName`,
             // but it's not the real saved `charName`.
-            game::GameState state;
+            game::GameState state(getContext().rng);
             state.loadFromRegularSave();
 
             reqStackClear();

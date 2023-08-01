@@ -1,5 +1,6 @@
 #include <bn_core.h>
 
+#include "asset/Bgm.hpp"
 #include "core/Random.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
@@ -7,11 +8,13 @@
 
 #include "scene/ConfirmName.hpp"
 #include "scene/Game.hpp"
+#include "scene/IngameDialog.hpp"
 #include "scene/IngameMenu.hpp"
 #include "scene/InputName.hpp"
 #include "scene/IntroLogo.hpp"
 #include "scene/IntroStory.hpp"
 #include "scene/NewGameTitle.hpp"
+#include "scene/SavePrompt.hpp"
 #include "scene/Title.hpp"
 
 #include "config.hpp"
@@ -40,7 +43,7 @@ int main()
 
     ut::core::TextGens textGens;
     ut::core::Random rng;
-    ut::game::GameState gameState;
+    ut::game::GameState gameState(rng);
 
 #if UT_MEM_VIEW
     // Press `SELECT` to see the `memView` when it's enabled
@@ -64,6 +67,7 @@ int main()
 #endif
         rng.update();
         asset::updateDelayedSfxs();
+        asset::Bgm::update();
         bn::core::update();
     }
 }
@@ -80,6 +84,8 @@ void registerScenes(scene::SceneStack& sceneStack)
     sceneStack.registerScene<ConfirmName>(SceneId::CONFIRM_NAME);
     sceneStack.registerScene<Game>(SceneId::GAME);
     sceneStack.registerScene<IngameMenu>(SceneId::INGAME_MENU);
+    sceneStack.registerScene<IngameDialog>(SceneId::INGAME_DIALOG);
+    sceneStack.registerScene<SavePrompt>(SceneId::SAVE_PROMPT);
 
 #if UT_TEST_SCENE
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);

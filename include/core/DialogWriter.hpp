@@ -63,10 +63,12 @@ public:
     bool isStarted() const;
     bool isWaitInput() const;
 
-    void instantWrite();
+    bool instantWrite();
     void keyInput();
 
     void update();
+
+    int getCurDialogIdx() const;
 
 private:
     void resetStringProcessInfos();

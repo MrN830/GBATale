@@ -21,7 +21,7 @@ auto Interaction::getInteractionType() const -> bn::type_id_t
     return _interactionType;
 }
 
-void Interaction::onInteract()
+void Interaction::onInteract(GameContext&)
 {
     if (!!(_triggers & InteractionTriggers::COLLIDE))
         _isColliding = true;
@@ -80,7 +80,7 @@ void Interaction::update(GameContext& ctx)
     _isColliding = isStillColliding;
 
     if (!isStillColliding)
-        onInteractionCollisionExit();
+        onInteractionCollisionExit(ctx);
 }
 
 auto Interaction::getTriggers() const -> InteractionTriggers

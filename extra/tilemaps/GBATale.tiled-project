@@ -46,6 +46,33 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": false,
+            "id": 20,
+            "members": [
+                {
+                    "name": "EventComponentCppClass",
+                    "type": "string",
+                    "value": ""
+                },
+                {
+                    "name": "isAutoFire",
+                    "type": "bool",
+                    "value": true
+                },
+                {
+                    "name": "isEnabled",
+                    "type": "bool",
+                    "value": true
+                }
+            ],
+            "name": "EventComponent",
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": false,
             "id": 18,
             "members": [
                 {
@@ -199,6 +226,11 @@
             "drawFill": true,
             "id": 8,
             "members": [
+                {
+                    "name": "isBgmFadeOut",
+                    "type": "bool",
+                    "value": false
+                },
                 {
                     "name": "roomName",
                     "type": "string",

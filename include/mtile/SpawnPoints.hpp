@@ -12,6 +12,7 @@ struct Warp
     game::coll::RectCollInfo collInfo;
     game::RoomKind room;
     WarpId warpId;
+    bool isBgmFadeOut;
 };
 
 } // namespace ut::mtile

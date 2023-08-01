@@ -8,6 +8,8 @@
 #include "core/Dialog.hpp"
 #include "core/DialogWriter.hpp"
 
+#include "consts.hpp"
+
 namespace ut::game::menu
 {
 
@@ -26,7 +28,7 @@ private:
     core::DialogWriter _dialogWriter;
 
     bn::vector<core::Dialog, DIALOGS> _dialogs;
-    bn::vector<bn::sprite_ptr, 25> _text;
+    bn::vector<bn::sprite_ptr, consts::DIALOG_MAX_SPRITES> _text;
 };
 
 } // namespace ut::game::menu

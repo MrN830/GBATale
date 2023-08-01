@@ -1,13 +1,12 @@
 #include "scene/IntroStory.hpp"
 
 #include <bn_display.h>
-#include <bn_dmg_music.h>
 #include <bn_keypad.h>
-#include <bn_music.h>
 #include <bn_rect_window.h>
 #include <bn_regular_bg_builder.h>
 #include <bn_sound.h>
 
+#include "asset/Bgm.hpp"
 #include "core/Dialog.hpp"
 
 #include "gen/TextData.hpp"
@@ -15,8 +14,6 @@
 #include "bn_regular_bg_items_bg_intro_chara.h"
 #include "bn_regular_bg_items_bg_intro_last.h"
 #include "bn_regular_bg_items_bg_intro_war.h"
-
-#include "bn_dmg_music_items_once_upon_a_time.h"
 
 namespace ut::scene
 {
@@ -122,27 +119,16 @@ auto buildBgFadeOut(int frames) -> bn::blending_transparency_alpha_to_action
     return bn::blending_transparency_alpha_to_action(frames, 0);
 }
 
-auto buildMusFadeOut(int frames) -> bn::dmg_music_volume_to_action
-{
-    return bn::dmg_music_volume_to_action(frames, 0);
-}
-
 } // namespace
 
 IntroStory::IntroStory(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _prevWindowRect(bn::rect_window::internal().boundaries()), _bg(buildIntroBg(0)),
-      _bgFade(1, 1), _dialogWriter(getContext().textGens)
+    : Scene(sceneStack, context, SceneId::INTRO_STORY), _prevWindowRect(bn::rect_window::internal().boundaries()),
+      _bg(buildIntroBg(0)), _bgFade(1, 1), _dialogWriter(getContext().textGens)
 {
     bn::rect_window::internal().set_boundaries(6 - bn::display::height() / 2, 32 - bn::display::width() / 2,
                                                102 - bn::display::height() / 2, 208 - bn::display::width() / 2);
 
-    if (bn::music::playing())
-        bn::music::stop();
-    if (bn::dmg_music::playing())
-        bn::dmg_music::stop();
-
-    const auto& introMusic = bn::dmg_music_items::once_upon_a_time;
-    introMusic.play();
+    asset::Bgm::play(asset::BgmKind::ONCE_UPON_A_TIME);
 
     _dialogWriter.start(DIALOGS, _texts);
 }
@@ -152,7 +138,7 @@ IntroStory::~IntroStory()
     bn::blending::set_transparency_alpha(1);
     bn::rect_window::internal().set_boundaries(_prevWindowRect);
 
-    bn::dmg_music::stop();
+    asset::Bgm::stop();
 }
 
 bool IntroStory::handleInput()
@@ -163,7 +149,7 @@ bool IntroStory::handleInput()
         _skipCountdown = SKIP_NEXT_SCENE_FRAMES;
         _isFadeOut = true;
         _bgFade = buildBgFadeOut(LAST_FADE_OUT_FRAMES);
-        _musFade = buildMusFadeOut(LAST_FADE_OUT_FRAMES);
+        asset::Bgm::fadeOutAndStash(LAST_FADE_OUT_FRAMES);
         _texts.clear();
 
         bn::sound::stop_all();
@@ -194,9 +180,6 @@ bool IntroStory::update()
     }
 
     updateBgMove();
-
-    if (_musFade && !_musFade->done())
-        _musFade->update();
 
     if (_elapsedFrames >= NEXT_SCENE_FRAMES)
     {
@@ -253,7 +236,7 @@ void IntroStory::startNextBgFade()
         const int fadeOutFrames = isLastFadeOut ? LAST_FADE_OUT_FRAMES : FADE_OUT_FRAMES;
         _bgFade = buildBgFadeOut(fadeOutFrames);
         if (isLastFadeOut)
-            _musFade = buildMusFadeOut(fadeOutFrames);
+            asset::Bgm::fadeOutAndStash(fadeOutFrames);
     }
 }
 

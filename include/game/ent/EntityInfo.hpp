@@ -55,6 +55,13 @@ public:
         bool isEnabled : 1;
     };
 
+    struct EventComponent
+    {
+        bn::type_id_t type;
+        bool isEnabled : 1;
+        bool isAutoFire : 1;
+    };
+
     struct Sprite
     {
         const bn::sprite_item& sprItem;
@@ -83,6 +90,7 @@ public:
 
     bn::optional<ColliderPack> collPack;
     bn::optional<Interaction> interaction;
+    bn::optional<EventComponent> eventCpnt;
     bn::optional<Sprite> sprite;
     bn::optional<SpriteAnim> sprAnim;
     bn::optional<WalkAnimCtrl> walkAnimCtrl;

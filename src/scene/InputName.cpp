@@ -3,9 +3,9 @@
 #include <bn_display.h>
 #include <bn_fixed_point.h>
 #include <bn_keypad.h>
-#include <bn_music.h>
 #include <bn_string.h>
 
+#include "asset/Bgm.hpp"
 #include "asset/TextColor.hpp"
 #include "core/Random.hpp"
 #include "core/TextGens.hpp"
@@ -68,7 +68,7 @@ constexpr char getCh(int btnIdx)
 } // namespace
 
 InputName::InputName(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context), _inputText(context.gameState.getCharName().substr(0, 6))
+    : Scene(sceneStack, context, SceneId::INPUT_NAME), _inputText(context.gameState.getCharName().substr(0, 6))
 {
     // If `Frisk` save exists, clear the input text
     if (context.gameState.getRSavedCount() >= 1 && bn::string_view(util::toLowerAscii(_inputText)) == "frisk")
@@ -341,7 +341,7 @@ void InputName::activate()
             if (inputStr == GASTER)
             {
                 _gasterCountdown = GASTER_FRAMES;
-                bn::music::stop();
+                asset::Bgm::stop();
             }
         }
     }

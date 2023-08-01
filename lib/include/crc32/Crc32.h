@@ -9,7 +9,7 @@
 // if running on an embedded system, you might consider shrinking the
 // big Crc32Lookup table by undefining these lines:
 // #define CRC32_USE_LOOKUP_TABLE_BYTE
-// #define CRC32_USE_LOOKUP_TABLE_SLICING_BY_4
+#define CRC32_USE_LOOKUP_TABLE_SLICING_BY_4
 // #define CRC32_USE_LOOKUP_TABLE_SLICING_BY_8
 // #define CRC32_USE_LOOKUP_TABLE_SLICING_BY_16
 // - crc32_bitwise  doesn't need it at all

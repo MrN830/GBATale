@@ -1,5 +1,6 @@
 #include "game/sys/RoomChanger.hpp"
 
+#include "asset/Bgm.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
@@ -33,7 +34,9 @@ void RoomChanger::update(GameContext& ctx)
         ctx.fadeMngr.startFadeIn(FI_FRAMES);
 
         _room = RoomKind::NONE;
-        ctx.interactState = InteractState::FREE;
+
+        BN_ASSERT(ctx.interactStack.top() == InteractState::ROOM_CHANGE);
+        ctx.interactStack.pop();
     }
 }
 
@@ -42,25 +45,26 @@ bool RoomChanger::isChanging() const
     return _room != RoomKind::NONE;
 }
 
-void RoomChanger::reqChange(RoomKind room, mtile::WarpId warpId, GameContext& ctx)
+void RoomChanger::reqChange(const mtile::Warp& warp, GameContext& ctx)
 {
-    BN_ASSERT(room != RoomKind::NONE);
+    BN_ASSERT(warp.room != RoomKind::NONE);
 
-    ctx.interactState = InteractState::ROOM_CHANGE;
-
-    _room = room;
-    ctx.warpId = warpId;
+    ctx.interactStack.push(InteractState::ROOM_CHANGE);
 
     _countdown = FO_FRAMES;
     ctx.fadeMngr.startFadeOut(FO_FRAMES);
+    bgmFadeOut(warp, ctx);
+
+    _room = warp.room;
+    ctx.warpId = warp.warpId;
 }
 
-void RoomChanger::instantChange(RoomKind room, mtile::WarpId warpId, GameContext& ctx)
+void RoomChanger::instantChange(const mtile::Warp& warp, GameContext& ctx)
 {
-    BN_ASSERT(room != RoomKind::NONE);
+    BN_ASSERT(warp.room != RoomKind::NONE);
 
-    _room = room;
-    ctx.warpId = warpId;
+    _room = warp.room;
+    ctx.warpId = warp.warpId;
 
     changeRoom(ctx);
 
@@ -75,6 +79,19 @@ void RoomChanger::changeRoom(GameContext& ctx)
     const auto* mTilemap = getRoomMTilemap(_room);
     BN_ASSERT(mTilemap != nullptr, "No mTilemap for room=", (int)_room);
     ctx.worldBg.setMTilemap(*mTilemap);
+}
+
+void RoomChanger::bgmFadeOut(const mtile::Warp& warp, GameContext& ctx)
+{
+    if (!warp.isBgmFadeOut)
+        return;
+    if (ctx.state.getFlags().true_pacifist)
+        return;
+
+    // TODO: On Undyne chase, DO NOT fade-out BGM
+
+    if (asset::Bgm::isPlaying())
+        asset::Bgm::fadeOutAndStash(FO_FRAMES);
 }
 
 } // namespace ut::game::sys

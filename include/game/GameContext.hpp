@@ -1,12 +1,12 @@
 #pragma once
 
-#include "game/InteractState.hpp"
+#include <bn_string_view.h>
+
+#include "game/InteractStateStack.hpp"
 #include "mtile/WarpId.hpp"
 
-namespace bn
-{
-class camera_ptr;
-}
+#include "consts.hpp"
+
 namespace ut::scene
 {
 struct SceneContext;
@@ -38,10 +38,14 @@ struct GameContext
     game::sys::FadeManager& fadeMngr;
     game::sys::RoomChanger& roomChanger;
 
+    InteractStateStack& interactStack;
+
+    bn::vector<bn::string_view, consts::DIALOG_MAX_LINES>& msg;
+
     mtile::WarpId warpId = mtile::WarpId::INIT;
 
     bool isDialogUpper = false;
-    InteractState interactState = InteractState::FREE;
+    bool isSavePromptRequested = false;
 };
 
 } // namespace ut::game

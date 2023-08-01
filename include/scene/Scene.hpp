@@ -19,7 +19,7 @@ public:
 public:
     virtual ~Scene() = default;
 
-    Scene(SceneStack&, SceneContext&);
+    Scene(SceneStack&, SceneContext&, SceneId);
 
     /**
      * @brief Handle input on this scene.
@@ -35,6 +35,12 @@ public:
      */
     [[nodiscard]] virtual bool update() = 0;
 
+public:
+    auto getId() const -> SceneId;
+
+    auto getSceneStack() const -> const SceneStack&;
+    auto getSceneStack() -> SceneStack&;
+
 protected:
     void reqStackPush(SceneId);
     void reqStackPop();
@@ -46,6 +52,7 @@ protected:
 private:
     SceneStack& _sceneStack;
     SceneContext& _context;
+    const SceneId _sceneId;
 };
 
 } // namespace ut::scene
