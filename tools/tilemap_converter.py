@@ -351,6 +351,7 @@ class TilemapConverter:
         # Entities
         ColliderPack = namedtuple("ColliderPack", "isEnabled, isTrigger, collInfos")
         Interaction = namedtuple("Interaction", "isEnabled, type, triggers")
+        EventComponent = namedtuple("EventComponent", "isEnabled, type, isAutoFire")
         SpriteCpnt = namedtuple(
             "SpriteCpnt",
             "isEnabled, sprItem, gfxIdx, updateZOrderOnMove, zOrder, bgPriority",
@@ -361,6 +362,7 @@ class TilemapConverter:
         entities = []
         spr_items = set()
         interaction_cpp_classes = set()
+        ev_cpnt_cpp_classes = set()
 
         for obj in l_entity:
             if obj.type != "Entity":
@@ -448,6 +450,17 @@ class TilemapConverter:
                     interaction.triggers.split(","),
                 )
 
+            # child of `cpnt::ev::EventComponent`
+            ev_cpnt = obj.properties.get("eventComponent")
+            if ev_cpnt:
+                ev_cpnt_cpp_classes.add(ev_cpnt.EventComponentCppClass)
+
+                entity["eventComponent"] = EventComponent(
+                    ev_cpnt.isEnabled,
+                    ev_cpnt.EventComponentCppClass,
+                    ev_cpnt.isAutoFire,
+                )
+
             # cpnt::Sprite
             spr = obj.properties.get("sprite")
             if spr:
@@ -504,7 +517,7 @@ class TilemapConverter:
             entities.append(entity)
 
         # Warps & warp points
-        Warp = namedtuple("Warp", "rect, roomName, warpId")
+        Warp = namedtuple("Warp", "rect, roomName, warpId, isBgmFadeOut")
         WarpPoint = namedtuple("WarpPoint", "x, y")
         warp_ids = ["INIT", "A", "B", "C", "D", "X"]
 
@@ -540,7 +553,9 @@ class TilemapConverter:
                         f"Invalid sized warp found in `{mtilemap_name}` Warp layer (x={obj.x}, y={obj.y})"
                     )
 
-                warps.append(Warp(rect, roomName, warpId))
+                isBgmFadeOut = obj.properties.get("isBgmFadeOut", False)
+
+                warps.append(Warp(rect, roomName, warpId, isBgmFadeOut))
 
             else:  # obj.type == "WarpPoint"
                 idx = warp_ids.index(warpId)
@@ -588,6 +603,8 @@ class TilemapConverter:
 
             for inter_type in interaction_cpp_classes:
                 output_header.write(f'#include "game/cpnt/inter/{inter_type}.hpp"\n')
+            for ev_cpnt_type in ev_cpnt_cpp_classes:
+                output_header.write(f'#include "game/cpnt/ev/{ev_cpnt_type}.hpp"\n')
             output_header.write("\n")
 
             output_header.write(f"namespace ut::mtile::gen" + "\n")
@@ -639,6 +656,15 @@ class TilemapConverter:
                     interaction: Interaction = entity["interaction"]
                     output_header.write(
                         f"EntityInfo::Interaction(bn::type_id<game::cpnt::inter::{interaction.type}>(), ({'|'.join(f'game::cpnt::inter::InteractionTriggers::{tr}' for tr in interaction.triggers)}), {str(interaction.isEnabled).lower()}),"
+                    )
+                else:
+                    output_header.write("bn::nullopt,")
+
+                # child of `cpnt::ev::EventComponent`
+                if "eventComponent" in entity:
+                    ev_cpnt: EventComponent = entity["eventComponent"]
+                    output_header.write(
+                        f"EntityInfo::EventComponent(bn::type_id<game::cpnt::ev::{ev_cpnt.type}>(),{str(ev_cpnt.isEnabled).lower()},{str(ev_cpnt.isAutoFire).lower()}),"
                     )
                 else:
                     output_header.write("bn::nullopt,")
@@ -726,7 +752,7 @@ class TilemapConverter:
             output_header.write("{" + "\n")
             output_header.write(
                 "".join(
-                    f"Warp(RectCollInfo(bn::fixed_point({warp.rect.x},{warp.rect.y}),bn::fixed_size({warp.rect.w},{warp.rect.h})),game::RoomKind::{warp.roomName},WarpId::{warp.warpId}),"
+                    f"Warp(RectCollInfo(bn::fixed_point({warp.rect.x},{warp.rect.y}),bn::fixed_size({warp.rect.w},{warp.rect.h})),game::RoomKind::{warp.roomName},WarpId::{warp.warpId},{str(warp.isBgmFadeOut).lower()}),"
                     for warp in warps
                 )
             )

@@ -110,6 +110,7 @@
  <objectgroup id="9" name="Warp" locked="1">
   <object id="61" type="Warp" x="112" y="80" width="32" height="16">
    <properties>
+    <property name="isBgmFadeOut" type="bool" value="true"/>
     <property name="roomName" value="room_ruins1"/>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>

@@ -7,6 +7,7 @@
 #include "asset/Bgm.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "mtile/SpawnPoints.hpp"
 
 namespace ut::scene
 {
@@ -24,12 +25,12 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     sceneContext.menuCursorIdx = 0;
     sceneContext.gameContext = &_gameContext;
 
-    asset::Bgm::stop();
+    asset::Bgm::play(sceneContext.gameState.getWorldBgm());
 
     _camMngr.setCamFollowEntityDiff({0, -16});
 
-    const auto room = sceneContext.gameState.getRoom();
-    _roomChanger.instantChange(room, mtile::WarpId::INIT, _gameContext);
+    const mtile::Warp warp({}, sceneContext.gameState.getRoom(), mtile::WarpId::INIT, false);
+    _roomChanger.instantChange(warp, _gameContext);
     _worldBg.allocateGraphics();
 
     if (sceneContext.gameState.getRoom() == game::RoomKind::ROOM_AREA1)

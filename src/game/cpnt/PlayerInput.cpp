@@ -125,7 +125,7 @@ auto PlayerInput::handleWarpCollision(const cmd::MoveCmd& cmd, GameContext& ctx)
     {
         if (collPack->isCollideWith(warp.collInfo))
         {
-            ctx.roomChanger.reqChange(warp.room, warp.warpId, ctx);
+            ctx.roomChanger.reqChange(warp, ctx);
             // Prevent animation direction change on diagonal wall collision
             result.movePos = {0, 0};
             break;

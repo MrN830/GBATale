@@ -4,7 +4,7 @@
 
 namespace ut::mtile
 {
-enum class WarpId : int8_t;
+struct Warp;
 }
 
 namespace ut::game
@@ -25,11 +25,13 @@ public:
 
     bool isChanging() const;
 
-    void reqChange(RoomKind room, mtile::WarpId, GameContext&);
-    void instantChange(RoomKind room, mtile::WarpId, GameContext&);
+    void reqChange(const mtile::Warp&, GameContext&);
+    void instantChange(const mtile::Warp&, GameContext&);
 
 private:
     void changeRoom(GameContext&);
+
+    void bgmFadeOut(const mtile::Warp&, GameContext&);
 
 private:
     int _countdown = -1;

@@ -5,6 +5,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/StartBgm.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
@@ -57,6 +58,19 @@ void EntityInfo::create(GameContext& ctx) const
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
         entity.addComponent(*inter);
+    }
+
+    // child of `cpnt::ev::EventComponent`
+    if (this->eventCpnt.has_value())
+    {
+        cpnt::ev::EventComponent* evCpnt = nullptr;
+
+        if (eventCpnt->type == bn::type_id<cpnt::ev::StartBgm>())
+            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::StartBgm>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+        else
+            BN_ERROR("Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
+
+        entity.addComponent(*evCpnt);
     }
 
     // cpnt::Sprite

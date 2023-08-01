@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="59">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="60">
  <tileset firstgid="1" source="ruins.tsx"/>
  <layer id="1" name="BGLower" width="30" height="20">
   <data encoding="csv">
@@ -107,7 +107,17 @@
   <object id="51" x="448" y="224" width="32" height="16"/>
   <object id="52" x="192" y="64" width="96" height="16"/>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
+ <objectgroup id="3" name="Entity">
+  <object id="59" name="bgm" type="Entity" x="0" y="0" width="16" height="16">
+   <properties>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="StartBgm"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="8" name="Warp" locked="1">
   <object id="53" type="WarpPoint" x="24" y="264">
    <properties>

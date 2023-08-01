@@ -22,7 +22,7 @@ static constexpr bn::array<Bgm, (int)BgmKind::TOTAL_COUNT> BGMS = {
     {BgmKind::START_MENU, &bn::music_items::menu, nullptr, 1.0 / 6},
     {BgmKind::YOUR_BEST_FRIEND, &bn::music_items::your_best_friend, nullptr},
     {BgmKind::FALLEN_DOWN, &bn::music_items::fallen_down, nullptr},
-    {BgmKind::RUINS, &bn::music_items::ruins, nullptr},
+    {BgmKind::RUINS, &bn::music_items::ruins, nullptr, 1.0 / 4},
     {BgmKind::UWA_SO_TEMPERATE, nullptr, nullptr},
     {BgmKind::ANTICIPATION, &bn::music_items::anticipation, nullptr},
     {BgmKind::UNNECESSARY_TENSION, &bn::music_items::unnecessary_tension, nullptr},
@@ -330,7 +330,7 @@ auto Bgm::getVolume() -> bn::fixed
     if (bgm.dmgMusic)
         return bn::dmg_music::left_volume();
     else if (bgm.directMusic)
-        return bn::music::volume() * (1 / bgm.directVolume);
+        return bn::music::volume() / bgm.directVolume;
 
     BN_ERROR("Should not reach here");
     return 0;
