@@ -1,0 +1,48 @@
+{
+    "maps": [
+        {
+            "fileName": "room_asrielroom.tmx",
+            "height": 160,
+            "width": 176,
+            "x": 1472,
+            "y": -112
+        },
+        {
+            "fileName": "room_torielroom.tmx",
+            "height": 192,
+            "width": 192,
+            "x": 1696,
+            "y": -144
+        },
+        {
+            "fileName": "room_torhouse3.tmx",
+            "height": 128,
+            "width": 592,
+            "x": 1472,
+            "y": 48
+        },
+        {
+            "fileName": "room_torhouse2.tmx",
+            "height": 192,
+            "width": 256,
+            "x": 960,
+            "y": 0
+        },
+        {
+            "fileName": "room_torhouse1.tmx",
+            "height": 192,
+            "width": 256,
+            "x": 1216,
+            "y": 0
+        },
+        {
+            "fileName": "room_kitchen.tmx",
+            "height": 128,
+            "width": 160,
+            "x": 960,
+            "y": -128
+        }
+    ],
+    "onlyShowAdjacentMaps": false,
+    "type": "world"
+}

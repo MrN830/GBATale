@@ -91,33 +91,31 @@ void Readable::onInteract(GameContext& ctx)
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_74));
         break;
     case RoomKind::ROOM_TORHOUSE1:
-        // TODO: Add tilemap `EntityId`s on `room_torhouse1.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::home_books)
+        if (_entity.getId() == ent::gen::EntityId::books)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_75));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_calendar)
+        else if (_entity.getId() == ent::gen::EntityId::calendar)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_114));
         else
             BN_ERROR("Invalid readable in `room_torhouse1`");
         break;
     case RoomKind::ROOM_ASGHOUSE1:
         // TODO: Add tilemap `EntityId`s on `room_asghouse1.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::home_calendar)
+        if (false) // if (_entity.getId() == ent::gen::EntityId::calendar)
         {
             if (false) // if (murderlv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_79));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_78));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_flower)
+        else if (false) // else if (_entity.getId() == ent::gen::EntityId::flower)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_115));
         else
             BN_ERROR("Invalid readable in `room_asghouse1`");
         break;
     case RoomKind::ROOM_TORHOUSE2:
-        // TODO: Add tilemap `EntityId`s on `room_torhouse2.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::home_tools)
+        if (_entity.getId() == ent::gen::EntityId::home_tools)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_81));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::history_book)
+        else if (_entity.getId() == ent::gen::EntityId::history_book)
         {
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_80));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_81));
@@ -131,7 +129,7 @@ void Readable::onInteract(GameContext& ctx)
         break;
     case RoomKind::ROOM_ASGHOUSE2:
         // TODO: Add tilemap `EntityId`s on `room_asghouse2.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::home_books)
+        if (false) // if (_entity.getId() == ent::gen::EntityId::books)
         {
             if (false) // if (murderlv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_105));
@@ -143,41 +141,40 @@ void Readable::onInteract(GameContext& ctx)
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_tools)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_82));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_fire)
+        else if (false) // else if (_entity.getId() == ent::gen::EntityId::fire)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_79));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_flower)
+        else if (false) // else if (_entity.getId() == ent::gen::EntityId::flower)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_67));
         else
             BN_ERROR("Invalid readable in `room_asghouse2`");
         break;
     case RoomKind::ROOM_ASRIELROOM:
-        // TODO: Add tilemap `EntityId`s on `room_asrielroom.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::home_toys)
+        if (_entity.getId() == ent::gen::EntityId::toys)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_83));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_photo)
+        else if (_entity.getId() == ent::gen::EntityId::photo)
         {
             if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_67));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_63));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_shoes)
+        else if (_entity.getId() == ent::gen::EntityId::shoes)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_60));
         else
             BN_ERROR("Invalid readable in `room_asrielroom`");
         break;
     case RoomKind::ROOM_ASRIELROOM_FINAL:
         // TODO: Add tilemap `EntityId`s on `room_asrielroom_final.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::home_toys)
+        if (false) // if (_entity.getId() == ent::gen::EntityId::toys)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_84));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_photo)
+        else if (false) // else if (_entity.getId() == ent::gen::EntityId::photo)
         {
             if (false) // if (murdurlv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_75));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_72));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_drawing)
+        else if (false) // else if (_entity.getId() == ent::gen::EntityId::drawing)
         {
             if (false) // if (murdurlv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_66));
@@ -221,16 +218,14 @@ void Readable::onInteract(GameContext& ctx)
         }
         break;
     case RoomKind::ROOM_TORIELROOM:
-        // TODO: Add tilemap `EntityId`s on `room_torielroom.tmx`
-
-        if (false) // if (_entity.getId() == ent::gen::EntityId::toriel_bucket)
+        if (_entity.getId() == ent::gen::EntityId::bucket)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_124));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::toriel_diary)
+        else if (_entity.getId() == ent::gen::EntityId::diary)
         {
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1824));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1825));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::toriel_socks)
+        else if (_entity.getId() == ent::gen::EntityId::socks)
         {
             if (flags.true_pacifist)
             {
@@ -245,14 +240,14 @@ void Readable::onInteract(GameContext& ctx)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_113));
             }
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::toriel_books)
+        else if (_entity.getId() == ent::gen::EntityId::books)
         {
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_127));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_128));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_129));
             flags.know_water_sausage = true;
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::bed)
+        else if (_entity.getId() == ent::gen::EntityId::bed)
         {
             if (flags.true_pacifist)
             {
@@ -319,10 +314,9 @@ void Readable::onInteract(GameContext& ctx)
             BN_ERROR("Invalid readable in `room_castle_throneroom`");
         break;
     case RoomKind::ROOM_TORHOUSE3:
-        // TODO: Add tilemap `EntityId`s on `room_torhouse2.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::room_under_renovations)
+        if (_entity.getId() == ent::gen::EntityId::room_under_renovations)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_142));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::mirror)
+        else if (_entity.getId() == ent::gen::EntityId::mirror)
         {
             if (flags.kills_ruins >= 20)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_66));
@@ -331,14 +325,14 @@ void Readable::onInteract(GameContext& ctx)
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_63));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::water_sausage)
+        else if (_entity.getId() == ent::gen::EntityId::water_sausage)
         {
             if (flags.know_water_sausage)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_136));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_135));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_drawer)
+        else if (_entity.getId() == ent::gen::EntityId::home_drawer)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_83));
         else
             BN_ERROR("Invalid readable in `room_torhouse3`");
@@ -347,7 +341,7 @@ void Readable::onInteract(GameContext& ctx)
         // TODO: Add tilemap `EntityId`s on `room_asghouse3.tmx`
         if (false) // if (_entity.getId() == ent::gen::EntityId::room_under_renovations)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_143));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_flower)
+        else if (false) // else if (_entity.getId() == ent::gen::EntityId::flower)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_111));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::mirror)
         {
@@ -360,10 +354,9 @@ void Readable::onInteract(GameContext& ctx)
             BN_ERROR("Invalid readable in `room_asghouse3`");
         break;
     case RoomKind::ROOM_KITCHEN:
-        // TODO: Add tilemap `EntityId`s on `room_kitchen.tmx`
-        if (false) // if (_entity.getId() == ent::gen::EntityId::fridge)
+        if (_entity.getId() == ent::gen::EntityId::fridge)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_144));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_pie)
+        else if (_entity.getId() == ent::gen::EntityId::pie)
         {
             if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_144));
@@ -372,16 +365,16 @@ void Readable::onInteract(GameContext& ctx)
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_140));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_sink)
+        else if (_entity.getId() == ent::gen::EntityId::sink)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_84));
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::cupboard)
+        else if (_entity.getId() == ent::gen::EntityId::cupboard)
         {
             if (flags.kills_ruins >= 20)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_77));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_76));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::stove)
+        else if (_entity.getId() == ent::gen::EntityId::stove)
         {
             if (flags.status_toriel == GameFlags::StatusToriel::KILLED)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_79));
@@ -400,7 +393,7 @@ void Readable::onInteract(GameContext& ctx)
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_147));
         }
-        else if (false) // else if (_entity.getId() == ent::gen::EntityId::home_sink)
+        else if (false) // else if (_entity.getId() == ent::gen::EntityId::sink)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_85));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::cupboard)
         {

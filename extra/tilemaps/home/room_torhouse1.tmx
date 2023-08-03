@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="17">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="34">
  <tileset firstgid="1" source="home.tsx"/>
  <layer id="1" name="BGLower" width="16" height="12">
   <data encoding="csv">
@@ -49,7 +49,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="Wall">
+ <objectgroup id="2" name="Wall" locked="1">
   <object id="2" x="0" y="0" width="32" height="118"/>
   <object id="5" x="0" y="160" width="32" height="32"/>
   <object id="6" x="32" y="176" width="80" height="16"/>
@@ -58,8 +58,92 @@
   <object id="11" x="224" y="0" width="32" height="118"/>
   <object id="12" x="32" y="0" width="192" height="48"/>
   <object id="14" x="107.455" y="83.4545" width="64.3636" height="3.09091"/>
-  <object id="15" x="136.727" y="79.6364" width="35.0909" height="10.3636"/>
+  <object id="15" x="129" y="80" width="42.8179" height="10"/>
+  <object id="17" x="60" y="48" width="84" height="3.09091"/>
+  <object id="18" x="60" y="51" width="48" height="5"/>
+  <object id="19" x="108" y="51" width="15" height="3"/>
+  <object id="20" x="157" y="76" width="15" height="18"/>
+  <object id="21" x="143" y="78" width="15" height="14"/>
+  <object id="22" x="115" y="82" width="15" height="6"/>
+  <object id="23" x="32" y="48" width="28" height="16"/>
+  <object id="24" x="193" y="48" width="31" height="10"/>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
- <objectgroup id="4" name="Warp"/>
+ <objectgroup id="3" name="Entity">
+  <object id="31" name="bgm" type="Entity" x="0" y="0" width="16" height="16">
+   <properties>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="StartBgm"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="32" name="calendar" type="Entity" x="35" y="48" width="17" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="33" name="books" type="Entity" x="200" y="48" width="16" height="10">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="Warp" locked="1">
+  <object id="25" type="Warp" x="0" y="118" width="16" height="42">
+   <properties>
+    <property name="roomName" value="room_torhouse2"/>
+    <property name="warpId" propertytype="WarpId" value="A"/>
+   </properties>
+  </object>
+  <object id="26" type="Warp" x="240" y="118" width="16" height="42">
+   <properties>
+    <property name="roomName" value="room_torhouse3"/>
+    <property name="warpId" propertytype="WarpId" value="C"/>
+   </properties>
+  </object>
+  <object id="27" type="Warp" x="112" y="188" width="32" height="4">
+   <properties>
+    <property name="isBgmFadeOut" type="bool" value="true"/>
+    <property name="roomName" value="room_ruins19"/>
+    <property name="warpId" propertytype="WarpId" value="B"/>
+   </properties>
+  </object>
+  <object id="28" type="WarpPoint" x="24" y="152">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="B"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="29" type="WarpPoint" x="230" y="152">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="D"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="30" type="WarpPoint" x="128" y="182">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="A"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
 </map>
