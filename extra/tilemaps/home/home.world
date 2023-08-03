@@ -37,10 +37,10 @@
         },
         {
             "fileName": "room_kitchen.tmx",
-            "height": 128,
-            "width": 160,
+            "height": 160,
+            "width": 240,
             "x": 960,
-            "y": -128
+            "y": -160
         }
     ],
     "onlyShowAdjacentMaps": false,
