@@ -33,7 +33,7 @@ DialogMenu::DialogMenu(scene::IngameMenu& scene)
 auto DialogMenu::handleInput() -> MenuStateType
 {
     if (bn::keypad::a_pressed())
-        _dialogWriter.keyInput();
+        _dialogWriter.confirmKeyInput();
     if (bn::keypad::b_pressed())
         _dialogWriter.instantWrite();
 

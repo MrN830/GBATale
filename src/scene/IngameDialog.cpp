@@ -2,8 +2,10 @@
 
 #include <bn_keypad.h>
 
+#include "core/ChoiceMsgKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
+#include "gen/TextData.hpp"
 
 #include "bn_regular_bg_items_bg_battle_dialog.h"
 
@@ -26,13 +28,7 @@ IngameDialog::IngameDialog(SceneStack& sceneStack, SceneContext& context)
     if (ctx.isDialogUpper)
         _bg.set_position(_bg.position() + UPPER_DIALOG_DIFF);
 
-    BN_ASSERT(!ctx.msg.empty(), "IngameDialog with empty gameContext.msg");
-    using DSKind = core::Dialog::Settings::Kind;
-    const auto dialogSettings = (ctx.isDialogUpper ? DSKind::WORLD_UPPER : DSKind::WORLD_LOWER);
-    for (const auto& str : ctx.msg)
-        _dialogs.push_back(core::Dialog{dialogSettings, str});
-
-    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+    start();
 }
 
 IngameDialog::~IngameDialog()
@@ -45,12 +41,19 @@ IngameDialog::~IngameDialog()
         ctx.interactStack.pop();
 
     ctx.msg.clear();
+    ctx.leftChoiceMsg = core::ChoiceMsgKind::NONE;
+    ctx.rightChoiceMsg = core::ChoiceMsgKind::NONE;
 }
 
 bool IngameDialog::handleInput()
 {
     if (bn::keypad::a_pressed())
-        _dialogWriter.keyInput();
+    {
+        auto result = _dialogWriter.confirmKeyInput();
+
+        if (result != core::DialogWriter::TextChoice::NONE)
+            resetToChoiceMsg(result);
+    }
     if (bn::keypad::b_pressed())
     {
         if (_dialogWriter.instantWrite())
@@ -77,6 +80,22 @@ bool IngameDialog::update()
     return true;
 }
 
+void IngameDialog::start()
+{
+    auto* ctx = getContext().gameContext;
+    BN_ASSERT(ctx != nullptr);
+
+    BN_ASSERT(!ctx->msg.empty(), "IngameDialog with empty gameContext.msg");
+    using DSKind = core::Dialog::Settings::Kind;
+
+    _dialogs.clear();
+    const auto dialogSettings = (ctx->isDialogUpper ? DSKind::WORLD_UPPER : DSKind::WORLD_LOWER);
+    for (const auto& str : ctx->msg)
+        _dialogs.push_back(core::Dialog{dialogSettings, str});
+
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+}
+
 auto IngameDialog::getWriter() const -> const core::DialogWriter&
 {
     return _dialogWriter;
@@ -95,6 +114,78 @@ auto IngameDialog::getDialogs() -> decltype((_dialogs))
 auto IngameDialog::getDialogs() const -> decltype((_dialogs))
 {
     return _dialogs;
+}
+
+void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
+{
+    auto* ctx = getContext().gameContext;
+    BN_ASSERT(ctx != nullptr);
+
+    using Choice = core::DialogWriter::TextChoice;
+    using CMKind = core::ChoiceMsgKind;
+
+    BN_ASSERT(choice != Choice::NONE);
+    const auto choiceMsg = (choice == Choice::LEFT ? ctx->leftChoiceMsg : ctx->rightChoiceMsg);
+    BN_ASSERT(choiceMsg != CMKind::NONE);
+
+    ctx->msg.clear();
+
+    auto& flags = ctx->state.getFlags();
+
+    switch (choiceMsg)
+    {
+        using namespace ut::asset;
+
+    case CMKind::YELLOW_NAME_HELPFUL:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4486));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4487));
+        break;
+    case CMKind::YELLOW_NAME_BAD:
+        ctx->leftChoiceMsg = CMKind::KEEP_YELLOW_NAMES;
+        ctx->rightChoiceMsg = CMKind::NO_MORE_YELLOW_NAMES;
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4491));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4492));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4493));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4494));
+        break;
+
+    case CMKind::KEEP_YELLOW_NAMES:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4501));
+        break;
+    case CMKind::NO_MORE_YELLOW_NAMES:
+        flags.name_color = game::GameFlags::NameColor::WHITE;
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4505));
+        break;
+
+    case CMKind::NO_NAME_COLOR_GREAT:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4519));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4520));
+        break;
+    case CMKind::BRING_NAME_COLOR_BACK:
+        flags.name_color = game::GameFlags::NameColor::PINK;
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4524));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4525));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4526));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4527));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4528));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4529));
+        break;
+
+    case CMKind::TORIEL_DIARY_YES:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1830));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1831));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1832));
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1833));
+        break;
+    case CMKind::TORIEL_DIARY_NO:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1835));
+        break;
+
+    default:
+        BN_ERROR("Invalid ChoiceMsgKind=", (int)choiceMsg);
+    }
+
+    start();
 }
 
 } // namespace ut::scene

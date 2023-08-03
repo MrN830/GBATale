@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bn_array.h>
 #include <bn_sprite_font.h>
 #include <bn_utf8_characters_map.h>
 
@@ -23,9 +24,9 @@ inline constexpr int8_t font_main_character_widths[] = {
     4,  // 41 )
     7,  // 42 *
     6,  // 43 +
-    2,  // 44 ,
+    4,  // 44 ,
     6,  // 45 -
-    2,  // 46 .
+    4,  // 46 .
     5,  // 47 /
     6,  // 48 0
     6,  // 49 1
@@ -115,11 +116,21 @@ inline constexpr int8_t font_main_character_widths[] = {
     11, // 🅢 Select
 };
 
+inline constexpr bn::array<int8_t, sizeof(font_main_character_widths)> font_main_character_fixed_widths = []() {
+    bn::array<int8_t, sizeof(font_main_character_widths)> result;
+    result.fill(6);
+    return result;
+}();
+
 inline constexpr bn::span<const bn::utf8_character> font_main_utf8_characters_span(font_main_utf8_characters);
 
 inline constexpr auto font_main_utf8_characters_map = bn::utf8_characters_map<font_main_utf8_characters_span>();
 
 inline constexpr bn::sprite_font font_main(bn::sprite_items::ft_main, font_main_utf8_characters_map.reference(),
                                            font_main_character_widths, 1);
+
+inline constexpr bn::sprite_font font_main_fixed_width(bn::sprite_items::ft_main,
+                                                       font_main_utf8_characters_map.reference(),
+                                                       font_main_character_fixed_widths, 1);
 
 } // namespace ut::asset

@@ -5,6 +5,7 @@
 #include "game/RoomInfo.hpp"
 #include "scene/Game.hpp"
 
+#include "core/ChoiceMsgKind.hpp"
 #include "gen/EntityId.hpp"
 #include "gen/TextData.hpp"
 
@@ -222,6 +223,8 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_124));
         else if (_entity.getId() == ent::gen::EntityId::diary)
         {
+            ctx.leftChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_YES;
+            ctx.rightChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_NO;
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1824));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1825));
         }

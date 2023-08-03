@@ -9,6 +9,7 @@ namespace ut::asset
 
 static constexpr const bn::sprite_font* FONTS[(int)FontKind::TOTAL_COUNT] = {
     &font_main,
+    &font_main_fixed_width,
     &font_crypt,
     &font_tiny,
 };

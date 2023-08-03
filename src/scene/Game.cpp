@@ -5,6 +5,7 @@
 #include <bn_keypad.h>
 
 #include "asset/Bgm.hpp"
+#include "core/ChoiceMsgKind.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "mtile/SpawnPoints.hpp"
@@ -19,8 +20,18 @@ constexpr int FI_FRAMES = 12;
 
 Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     : Scene(sceneStack, sceneContext, SceneId::GAME), _worldBg(_camMngr.getCamera()), _entMngr(_gameContext),
-      _gameContext{sceneContext, *this,     sceneContext.gameState, _camMngr,       _worldBg,
-                   _entMngr,     _fadeMngr, _roomChanger,           _interactStack, _msg}
+      _gameContext{sceneContext,
+                   *this,
+                   sceneContext.gameState,
+                   _camMngr,
+                   _worldBg,
+                   _entMngr,
+                   _fadeMngr,
+                   _roomChanger,
+                   _interactStack,
+                   _msg,
+                   core::ChoiceMsgKind::NONE,
+                   core::ChoiceMsgKind::NONE}
 {
     sceneContext.menuCursorIdx = 0;
     sceneContext.gameContext = &_gameContext;
