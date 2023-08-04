@@ -21,6 +21,7 @@
 
 #if UT_TEST_SCENE
 #include "scene/test/SaveTest.hpp"
+#include "scene/test/TextChoiceTest.hpp"
 #include "scene/test/WorldBgTest.hpp"
 #endif
 #if UT_MEM_VIEW
@@ -90,5 +91,6 @@ void registerScenes(scene::SceneStack& sceneStack)
 #if UT_TEST_SCENE
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);
     sceneStack.registerScene<test::WorldBgTest>(SceneId::WORLD_BG_TEST);
+    sceneStack.registerScene<test::TextChoiceTest>(SceneId::TEXT_CHOICE_TEST);
 #endif
 }

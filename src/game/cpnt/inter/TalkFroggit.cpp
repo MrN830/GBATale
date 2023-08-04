@@ -1,5 +1,6 @@
 #include "game/cpnt/inter/TalkFroggit.hpp"
 
+#include "core/ChoiceMsgKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
@@ -50,6 +51,7 @@ void TalkFroggit::onInteract(GameContext& ctx)
     switch (room)
     {
         using namespace ut::asset;
+        using CMKind = core::ChoiceMsgKind;
 
     case RoomKind::ROOM_RUINS7:
         if (flags.true_pacifist)
@@ -140,8 +142,52 @@ void TalkFroggit::onInteract(GameContext& ctx)
         }
         else if (_entity.getId() == ent::gen::EntityId::right)
         {
-            // TODO: Implement yellow name tag froggit talk
-            ctx.msg.push_back("Not implemented yet.");
+            if (flags.true_pacifist)
+            {
+                if (flags.name_color == GameFlags::NameColor::YELLOW)
+                {
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_140));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_141));
+                }
+                else if (flags.name_color == GameFlags::NameColor::WHITE)
+                {
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_145));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_146));
+                }
+                else if (flags.name_color == GameFlags::NameColor::PINK)
+                {
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_150));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_151));
+                }
+                else
+                    BN_ERROR("Invalid GameFlags::NameColor=", (int)flags.name_color);
+            }
+            else
+            {
+                if (flags.name_color == GameFlags::NameColor::YELLOW)
+                {
+                    ctx.leftChoiceMsg = CMKind::YELLOW_NAME_HELPFUL;
+                    ctx.rightChoiceMsg = CMKind::YELLOW_NAME_BAD;
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4477));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4478));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4479));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4480));
+                }
+                else if (flags.name_color == GameFlags::NameColor::WHITE)
+                {
+                    ctx.leftChoiceMsg = CMKind::NO_NAME_COLOR_GREAT;
+                    ctx.rightChoiceMsg = CMKind::BRING_NAME_COLOR_BACK;
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4511));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4512));
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4513));
+                }
+                else if (flags.name_color == GameFlags::NameColor::PINK)
+                {
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4535));
+                }
+                else
+                    BN_ERROR("Invalid GameFlags::NameColor=", (int)flags.name_color);
+            }
         }
         else
             BN_ERROR("Invalid TalkFroggit in `room_ruins13`");

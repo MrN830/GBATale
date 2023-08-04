@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bn_display.h>
+#include <bn_fixed_point.h>
 #include <bn_optional.h>
 #include <bn_span.h>
 #include <bn_sprite_ptr.h>
@@ -16,6 +17,8 @@ struct SpecialToken
 {
     enum class Kind
     {
+        VARIABLE,
+
         PAUSE,
         LINE_BREAK,
         STOP_WAIT_INPUT,
@@ -25,8 +28,10 @@ struct SpecialToken
 
         FACE_EMOTION,
         FACE_KIND,
+        ANIM_INDEX,
 
         TEXT_CHOICE,
+        MENU_SELECTION,
 
         DISABLE_TEXT_SOUND,
         ENABLE_TEXT_SOUND,
@@ -55,6 +60,14 @@ struct SpecialToken
 class DialogWriter
 {
 public:
+    enum class TextChoice
+    {
+        NONE,
+        LEFT,
+        RIGHT
+    };
+
+public:
     DialogWriter(TextGens&, int bgPriority = 3);
 
     void reset();
@@ -64,7 +77,8 @@ public:
     bool isWaitInput() const;
 
     bool instantWrite();
-    void keyInput();
+
+    auto confirmKeyInput() -> TextChoice;
 
     void update();
 
@@ -77,6 +91,9 @@ private:
     void handleSpecialToken(const SpecialToken&);
 
     void nextDialog();
+
+private:
+    bool isCurDialogChoice() const;
 
 private:
     TextGens& _textGens;
@@ -92,12 +109,24 @@ private:
     int _pauseCountdown;
     int _curLineWidth;
     int _sprLineWidth;
+    int _curLineIdx;
     bn::fixed _curLineY;
     bool _forceNewSprite;
 
     bool _isInstantWrite;
     bool _isWaitInput;
     bool _isCloseRequested;
+
+    // check whether to use fixed width (text choice)
+    bool _isStartOfLine;
+    bool _isNextCharChoice;
+
+    // text choice (e.g. yes/no)
+    bool _isLeftSelected;
+    int _prevCharSpaceCnt;
+    bn::fixed_point _leftChoicePos;
+    bn::fixed_point _rightChoicePos;
+    bn::optional<bn::sprite_ptr> _heartSpr;
 };
 
 } // namespace ut::core

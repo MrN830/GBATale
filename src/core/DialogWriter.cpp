@@ -11,12 +11,20 @@
 #include "core/Dialog.hpp"
 #include "core/TextGens.hpp"
 
+#include "consts.hpp"
+
+#include "bn_sprite_items_spr_soul_heart.h"
+
 namespace ut::core
 {
 
 namespace
 {
+
 constexpr int MAX_SPRITE_WIDTH = 32;
+
+constexpr auto TEXT_CHOICE_HEART_DIFF = bn::fixed_point{-6, 0};
+
 } // namespace
 
 DialogWriter::DialogWriter(TextGens& textGens, int bgPriority) : _textGens(textGens), _bgPriority(bgPriority)
@@ -82,21 +90,46 @@ bool DialogWriter::instantWrite()
     return prevCharIdx != _nextCharIdx;
 }
 
-void DialogWriter::keyInput()
+auto DialogWriter::confirmKeyInput() -> TextChoice
 {
     if (!isWaitInput())
-        return;
+        return TextChoice::NONE;
 
     _isWaitInput = false;
+
+    // text choice (e.g. yes/no)
+    auto result = TextChoice::NONE;
+    if (_heartSpr.has_value())
+    {
+        _heartSpr.reset();
+
+        result = (_isLeftSelected ? TextChoice::LEFT : TextChoice::RIGHT);
+    }
 
     if (_isCloseRequested)
         reset();
     else
         nextDialog();
+
+    return result;
 }
 
 void DialogWriter::update()
 {
+    // text choice (e.g. yes/no)
+    if (_heartSpr.has_value())
+    {
+        if (bn::keypad::left_pressed() || bn::keypad::right_pressed())
+        {
+            _isLeftSelected = !_isLeftSelected;
+            _heartSpr->set_position(_isLeftSelected ? _leftChoicePos : _rightChoicePos);
+
+            asset::getSfx(asset::SfxKind::MENU_CURSOR)->play();
+        }
+
+        return;
+    }
+
     if (!isStarted() || isWaitInput())
         return;
 
@@ -113,7 +146,18 @@ void DialogWriter::update()
         const auto& dialog = _dialogs[_dialogIdx];
         const auto& settings = Dialog::Settings::get(dialog.settingsKind);
 
-        auto& textGen = _textGens.get(settings.font);
+        // fix width for choice option texts
+        if (isCurDialogChoice() && !_isNextCharChoice && _isStartOfLine && _nextCharIdx < dialog.text.size())
+        {
+            const bn::utf8_character ch = dialog.text[_nextCharIdx];
+            const bn::string_view chStr = dialog.text.substr(_nextCharIdx, ch.size());
+            if (chStr == " ")
+                _isNextCharChoice = true;
+
+            _isStartOfLine = false;
+        }
+
+        auto& textGen = _textGens.get(_isNextCharChoice ? asset::FontKind::MAIN_FIXED_WIDTH : settings.font);
 
         // time to write a new character
         if (_elapsedFrames % settings.speed == 0 && _nextCharIdx < dialog.text.size())
@@ -123,6 +167,9 @@ void DialogWriter::update()
             {
                 handleSpecialToken(*specialToken);
                 _forceNewSprite = true;
+
+                if (_nextCharIdx >= dialog.text.size())
+                    _isWaitInput = true;
 
                 if (!isStarted() || isWaitInput())
                     return;
@@ -135,7 +182,7 @@ void DialogWriter::update()
             const int chWidth = textGen.width(chStr);
 
             // play sfx on writing non-whitespace character
-            if (ch.size() == 1 && dialog.text[_nextCharIdx] != ' ' && !_isInstantWrite)
+            if (chStr != " " && !_isInstantWrite)
             {
                 const auto sfx = asset::getSfx(settings.sfx);
                 if (sfx)
@@ -152,11 +199,19 @@ void DialogWriter::update()
                 _curLineWidth = 0;
                 _sprLineWidth = 0;
                 _forceNewSprite = true;
+                ++_curLineIdx;
                 _curLineY += settings.lineHeight;
             }
 
             const bn::fixed_point chPos(settings.pos.x() + _curLineWidth, _curLineY);
             const bn::fixed_point sprPos(settings.pos.x() + _sprLineWidth, _curLineY);
+
+            // find text choice pos
+            if (chStr != " " && _prevCharSpaceCnt >= 2)
+            {
+                _leftChoicePos = _rightChoicePos;
+                _rightChoicePos = chPos + TEXT_CHOICE_HEART_DIFF;
+            }
 
             auto generateNewSpriteText = [this](bn::sprite_text_generator& textGen_, const bn::fixed_point& chPos_,
                                                 const bn::string_view& chStr_) {
@@ -199,6 +254,7 @@ void DialogWriter::update()
 
             _curLineWidth += chWidth;
             _nextCharIdx += ch.size();
+            _prevCharSpaceCnt = (chStr == " " ? _prevCharSpaceCnt + 1 : 0);
             if (_nextCharIdx >= dialog.text.size())
                 _isWaitInput = true;
         }
@@ -222,8 +278,16 @@ void DialogWriter::resetStringProcessInfos()
     _pauseCountdown = -1;
     _curLineWidth = 0;
     _sprLineWidth = 0;
+    _curLineIdx = 0;
     _curLineY = -bn::display::height();
     _forceNewSprite = true;
+
+    _isStartOfLine = true;
+    _isNextCharChoice = false;
+
+    _prevCharSpaceCnt = 0;
+    _isLeftSelected = true;
+    _heartSpr.reset();
 }
 
 auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<SpecialToken>
@@ -237,7 +301,7 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
         _nextCharIdx += 2;
         return SpecialToken(SpecialToken::Kind::PAUSE, str[1] - '0');
     }
-    else if (str.starts_with("&"))
+    else if (str.starts_with("&") || str.starts_with("#"))
     {
         _nextCharIdx += 1;
         return SpecialToken(SpecialToken::Kind::LINE_BREAK, UNUSED);
@@ -246,6 +310,11 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
     {
         _nextCharIdx += 2;
         return SpecialToken(SpecialToken::Kind::STOP_WAIT_INPUT_CLOSE, UNUSED);
+    }
+    else if (str.starts_with("/*"))
+    {
+        _nextCharIdx += 2;
+        return SpecialToken(SpecialToken::Kind::MENU_SELECTION, UNUSED);
     }
     else if (str.starts_with("/"))
     {
@@ -262,6 +331,11 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
         _nextCharIdx += 1;
         return SpecialToken(SpecialToken::Kind::NEXT_MSG, UNUSED);
     }
+    else if (str.starts_with(R"(\[)"))
+    {
+        _nextCharIdx += 4;
+        return SpecialToken(SpecialToken::Kind::VARIABLE, str[2]);
+    }
     else if (str.starts_with(R"(\E)"))
     {
         _nextCharIdx += 3;
@@ -271,6 +345,11 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
     {
         _nextCharIdx += 3;
         return SpecialToken(SpecialToken::Kind::FACE_KIND, str[2] - '0');
+    }
+    else if (str.starts_with(R"(\M)"))
+    {
+        _nextCharIdx += 3;
+        return SpecialToken(SpecialToken::Kind::ANIM_INDEX, str[2] - '0');
     }
     else if (str.starts_with(R"(\C)"))
     {
@@ -347,6 +426,11 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
 {
     switch (specialToken.kind)
     {
+    case SpecialToken::Kind::VARIABLE: {
+        BN_LOG("SpecialToken::Kind::VARIABLE not implemented");
+        break;
+    }
+
     case SpecialToken::Kind::PAUSE:
         _pauseCountdown = specialToken.number * 10 - 1;
         break;
@@ -355,10 +439,13 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
         const auto& dialog = _dialogs[_dialogIdx];
         const auto& settings = Dialog::Settings::get(dialog.settingsKind);
 
+        ++_curLineIdx;
         _curLineY += settings.lineHeight;
         _curLineWidth = 0;
         _sprLineWidth = 0;
         _forceNewSprite = true;
+
+        _isStartOfLine = true;
 
         break;
     }
@@ -377,8 +464,24 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
         break;
     }
 
+    case SpecialToken::Kind::CLOSE: {
+        reset();
+        break;
+    }
+
     case SpecialToken::Kind::FACE_EMOTION: {
         BN_LOG("SpecialToken::Kind::FACE_EMOTICON not implemented");
+        break;
+    }
+
+    case SpecialToken::Kind::TEXT_CHOICE: {
+        _heartSpr = bn::sprite_items::spr_soul_heart.create_sprite(_leftChoicePos);
+        _heartSpr->set_bg_priority(consts::INGAME_MENU_BG_PRIORITY);
+        break;
+    }
+
+    case SpecialToken::Kind::ANIM_INDEX: {
+        BN_LOG("SpecialToken::Kind::ANIM_INDEX not implemented");
         break;
     }
 
@@ -410,6 +513,14 @@ void DialogWriter::nextDialog()
     _dialogIdx += 1;
     resetStringProcessInfos();
     _outputVec->clear();
+}
+
+bool DialogWriter::isCurDialogChoice() const
+{
+    BN_ASSERT(0 <= _dialogIdx && _dialogIdx < _dialogs.size());
+    const auto& dialog = _dialogs[_dialogIdx];
+
+    return dialog.text.ends_with(R"(\C)") ||  dialog.text.ends_with(R"(\C )");
 }
 
 } // namespace ut::core

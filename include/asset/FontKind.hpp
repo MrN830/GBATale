@@ -11,6 +11,7 @@ namespace ut::asset
 enum class FontKind
 {
     MAIN,
+    MAIN_FIXED_WIDTH,
     CRYPT,
     TINY,
 

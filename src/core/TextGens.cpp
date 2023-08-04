@@ -8,8 +8,8 @@ namespace ut::core
 {
 
 TextGens::TextGens()
-    : _textGens{bn::sprite_text_generator(asset::font_main), bn::sprite_text_generator(asset::font_crypt),
-                bn::sprite_text_generator(asset::font_tiny)}
+    : _textGens{bn::sprite_text_generator(asset::font_main), bn::sprite_text_generator(asset::font_main_fixed_width),
+                bn::sprite_text_generator(asset::font_crypt), bn::sprite_text_generator(asset::font_tiny)}
 {
 }
 
