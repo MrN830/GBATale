@@ -520,7 +520,7 @@ bool DialogWriter::isCurDialogChoice() const
     BN_ASSERT(0 <= _dialogIdx && _dialogIdx < _dialogs.size());
     const auto& dialog = _dialogs[_dialogIdx];
 
-    return dialog.text.ends_with(R"(\C)");
+    return dialog.text.ends_with(R"(\C)") ||  dialog.text.ends_with(R"(\C )");
 }
 
 } // namespace ut::core
