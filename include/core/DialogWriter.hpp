@@ -17,6 +17,8 @@ struct SpecialToken
 {
     enum class Kind
     {
+        VARIABLE,
+
         PAUSE,
         LINE_BREAK,
         STOP_WAIT_INPUT,
@@ -26,8 +28,10 @@ struct SpecialToken
 
         FACE_EMOTION,
         FACE_KIND,
+        ANIM_INDEX,
 
         TEXT_CHOICE,
+        MENU_SELECTION,
 
         DISABLE_TEXT_SOUND,
         ENABLE_TEXT_SOUND,
@@ -105,6 +109,7 @@ private:
     int _pauseCountdown;
     int _curLineWidth;
     int _sprLineWidth;
+    int _curLineIdx;
     bn::fixed _curLineY;
     bool _forceNewSprite;
 
@@ -117,8 +122,8 @@ private:
     bool _isNextCharChoice;
 
     // text choice (e.g. yes/no)
-    bool _isPrevCharSpace;
     bool _isLeftSelected;
+    int _prevCharSpaceCnt;
     bn::fixed_point _leftChoicePos;
     bn::fixed_point _rightChoicePos;
     bn::optional<bn::sprite_ptr> _heartSpr;

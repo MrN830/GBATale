@@ -24,6 +24,7 @@ enum class SceneId
 #if UT_TEST_SCENE
     SAVE_TEST,
     WORLD_BG_TEST,
+    TEXT_CHOICE_TEST,
 #endif
 
     TOTAL_COUNT

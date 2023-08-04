@@ -118,7 +118,7 @@ inline constexpr int8_t font_main_character_widths[] = {
 
 inline constexpr bn::array<int8_t, sizeof(font_main_character_widths)> font_main_character_fixed_widths = []() {
     bn::array<int8_t, sizeof(font_main_character_widths)> result;
-    result.fill(6);
+    result.fill(7);
     return result;
 }();
 
@@ -131,6 +131,6 @@ inline constexpr bn::sprite_font font_main(bn::sprite_items::ft_main, font_main_
 
 inline constexpr bn::sprite_font font_main_fixed_width(bn::sprite_items::ft_main,
                                                        font_main_utf8_characters_map.reference(),
-                                                       font_main_character_fixed_widths, 1);
+                                                       font_main_character_fixed_widths, 0);
 
 } // namespace ut::asset

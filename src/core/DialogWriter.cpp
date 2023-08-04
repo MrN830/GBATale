@@ -199,14 +199,15 @@ void DialogWriter::update()
                 _curLineWidth = 0;
                 _sprLineWidth = 0;
                 _forceNewSprite = true;
+                ++_curLineIdx;
                 _curLineY += settings.lineHeight;
             }
 
             const bn::fixed_point chPos(settings.pos.x() + _curLineWidth, _curLineY);
             const bn::fixed_point sprPos(settings.pos.x() + _sprLineWidth, _curLineY);
 
-            // find text choice pos (i.e. word start pos)
-            if (chStr != " " && _isPrevCharSpace)
+            // find text choice pos
+            if (chStr != " " && _prevCharSpaceCnt >= 2)
             {
                 _leftChoicePos = _rightChoicePos;
                 _rightChoicePos = chPos + TEXT_CHOICE_HEART_DIFF;
@@ -253,7 +254,7 @@ void DialogWriter::update()
 
             _curLineWidth += chWidth;
             _nextCharIdx += ch.size();
-            _isPrevCharSpace = (chStr == " ");
+            _prevCharSpaceCnt = (chStr == " " ? _prevCharSpaceCnt + 1 : 0);
             if (_nextCharIdx >= dialog.text.size())
                 _isWaitInput = true;
         }
@@ -277,14 +278,15 @@ void DialogWriter::resetStringProcessInfos()
     _pauseCountdown = -1;
     _curLineWidth = 0;
     _sprLineWidth = 0;
+    _curLineIdx = 0;
     _curLineY = -bn::display::height();
     _forceNewSprite = true;
 
     _isStartOfLine = true;
     _isNextCharChoice = false;
 
+    _prevCharSpaceCnt = 0;
     _isLeftSelected = true;
-    _isPrevCharSpace = true;
     _heartSpr.reset();
 }
 
@@ -299,7 +301,7 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
         _nextCharIdx += 2;
         return SpecialToken(SpecialToken::Kind::PAUSE, str[1] - '0');
     }
-    else if (str.starts_with("&"))
+    else if (str.starts_with("&") || str.starts_with("#"))
     {
         _nextCharIdx += 1;
         return SpecialToken(SpecialToken::Kind::LINE_BREAK, UNUSED);
@@ -308,6 +310,11 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
     {
         _nextCharIdx += 2;
         return SpecialToken(SpecialToken::Kind::STOP_WAIT_INPUT_CLOSE, UNUSED);
+    }
+    else if (str.starts_with("/*"))
+    {
+        _nextCharIdx += 2;
+        return SpecialToken(SpecialToken::Kind::MENU_SELECTION, UNUSED);
     }
     else if (str.starts_with("/"))
     {
@@ -324,6 +331,11 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
         _nextCharIdx += 1;
         return SpecialToken(SpecialToken::Kind::NEXT_MSG, UNUSED);
     }
+    else if (str.starts_with(R"(\[)"))
+    {
+        _nextCharIdx += 4;
+        return SpecialToken(SpecialToken::Kind::VARIABLE, str[2]);
+    }
     else if (str.starts_with(R"(\E)"))
     {
         _nextCharIdx += 3;
@@ -333,6 +345,11 @@ auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<Spec
     {
         _nextCharIdx += 3;
         return SpecialToken(SpecialToken::Kind::FACE_KIND, str[2] - '0');
+    }
+    else if (str.starts_with(R"(\M)"))
+    {
+        _nextCharIdx += 3;
+        return SpecialToken(SpecialToken::Kind::ANIM_INDEX, str[2] - '0');
     }
     else if (str.starts_with(R"(\C)"))
     {
@@ -409,6 +426,11 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
 {
     switch (specialToken.kind)
     {
+    case SpecialToken::Kind::VARIABLE: {
+        BN_LOG("SpecialToken::Kind::VARIABLE not implemented");
+        break;
+    }
+
     case SpecialToken::Kind::PAUSE:
         _pauseCountdown = specialToken.number * 10 - 1;
         break;
@@ -417,6 +439,7 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
         const auto& dialog = _dialogs[_dialogIdx];
         const auto& settings = Dialog::Settings::get(dialog.settingsKind);
 
+        ++_curLineIdx;
         _curLineY += settings.lineHeight;
         _curLineWidth = 0;
         _sprLineWidth = 0;
@@ -454,6 +477,11 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
     case SpecialToken::Kind::TEXT_CHOICE: {
         _heartSpr = bn::sprite_items::spr_soul_heart.create_sprite(_leftChoicePos);
         _heartSpr->set_bg_priority(consts::INGAME_MENU_BG_PRIORITY);
+        break;
+    }
+
+    case SpecialToken::Kind::ANIM_INDEX: {
+        BN_LOG("SpecialToken::Kind::ANIM_INDEX not implemented");
         break;
     }
 
