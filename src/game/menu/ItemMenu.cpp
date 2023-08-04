@@ -141,6 +141,7 @@ auto ItemMenu::handleUsageSelect() -> MenuStateType
         else if (_usageIdx == Usage::DROP)
         {
             _scene._dialogs.push_back(ItemActivator::drop(_itemIdx, gameState));
+            _scene.redrawTexts();
         }
 
         return MenuStateType::DIALOG;

@@ -10,6 +10,10 @@ class Readable final : public Interaction
 public:
     Readable(ent::Entity&, bool isEnabled, InteractionTriggers);
 
+    void awake(GameContext&) override;
+
+    void dropCandyDish(GameContext&);
+
     void onInteract(GameContext&) override;
 
 private:

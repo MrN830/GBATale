@@ -56,7 +56,7 @@ def dump_and_convert_textdata():
         v = v.replace("\*D", "[Right]")
         v = v.replace("\*Z", "Ⓐ")
         v = v.replace("\*X", "Ⓑ")
-        v = v.replace("\*C", "Ⓢ/🄻/🅁")
+        v = v.replace("\*C", "Ⓢ,🄻,🅁")
 
         return (k, v)
 

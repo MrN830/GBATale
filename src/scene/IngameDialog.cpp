@@ -5,6 +5,10 @@
 #include "core/ChoiceMsgKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
+#include "game/cpnt/inter/Readable.hpp"
+#include "game/sys/EntityManager.hpp"
+
+#include "gen/EntityId.hpp"
 #include "gen/TextData.hpp"
 
 #include "bn_regular_bg_items_bg_battle_dialog.h"
@@ -130,11 +134,59 @@ void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
 
     ctx->msg.clear();
 
-    auto& flags = ctx->state.getFlags();
+    auto& state = ctx->state;
+    auto& flags = state.getFlags();
 
     switch (choiceMsg)
     {
         using namespace ut::asset;
+
+    case CMKind::TAKE_CANDY_YES: {
+        auto& items = state.getItems();
+        if (items.full())
+            ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1635));
+        else
+        {
+            items.push_back(game::ItemKind::MONSTER_CANDY);
+            flags.candy_taken += 1;
+
+            if (flags.candy_taken == 1)
+                ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1624));
+            else if (flags.candy_taken == 2)
+                ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1625));
+            else if (flags.candy_taken == 3)
+            {
+                if (flags.hardmode)
+                {
+                    flags.candy_taken += 1;
+                    ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1631));
+                }
+                else
+                    ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1626));
+            }
+            else if (flags.candy_taken == 4)
+            {
+                using namespace ut::game::cpnt::inter;
+
+                auto* candyDish = ctx->entMngr.findById(game::ent::gen::EntityId::candy_dish);
+                BN_ASSERT(candyDish != nullptr);
+                auto* cdInter = candyDish->getComponent<Interaction>();
+                BN_ASSERT(cdInter != nullptr);
+                BN_ASSERT(cdInter->getInteractionType() == bn::type_id<Readable>());
+                auto& readable = static_cast<Readable&>(*cdInter);
+
+                readable.dropCandyDish(*ctx);
+
+                ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1628));
+            }
+            else
+                BN_ERROR("Invalid flags.candy_taken=", (int)flags.candy_taken);
+        }
+        break;
+    }
+    case CMKind::TAKE_CANDY_NO:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1639));
+        break;
 
     case CMKind::YELLOW_NAME_HELPFUL:
         ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4486));

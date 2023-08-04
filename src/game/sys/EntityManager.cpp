@@ -79,6 +79,11 @@ void EntityManager::reloadRoom(GameContext& ctx)
     createFrisk(*friskPos);
     for (const auto& entInfo : mTilemap->getEntities())
         entInfo.create(ctx);
+
+    // initialize 
+    for (auto& entity : _entities)
+        for (auto& component : entity._components)
+            component.awake(ctx);
 }
 
 void EntityManager::createFrisk(const bn::fixed_point position)

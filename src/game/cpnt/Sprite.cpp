@@ -20,6 +20,7 @@ Sprite::Sprite(ent::Entity& entity, bool isEnabled, const bn::sprite_item& sprIt
 {
     _spr.set_blending_enabled(true);
     _spr.set_bg_priority(bgPriority);
+    _spr.set_visible(_entity.isActive() && isEnabled);
 
     if (zOrder == Z_ORDER_UNSPECIFIED)
         updateZOrder();

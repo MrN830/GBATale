@@ -61,8 +61,8 @@ struct GameFlags
     bool pushed_rock_1 : 1 = false;                // [30]
     bool pushed_rock_2 : 1 = false;                // [31]
     bool pushed_rock_3 : 1 = false;                // [32]
-    uint8_t candy_taken = 0;                       // [33]
-    bool pushed_rock_4 : 1 = false;                // [34]
+    bool pushed_rock_4 : 1 = false;                // [33]
+    uint8_t candy_taken = 0;                       // [34]
     bool spared_napstablook : 1 = false;           // [35]
     bool waited_toriel : 1 = false;                // [36]
 
