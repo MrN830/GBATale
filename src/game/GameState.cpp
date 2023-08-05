@@ -9,6 +9,7 @@
 #include "game/ItemInfo.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/StatInfo.hpp"
+#include "util/String.hpp"
 
 namespace ut::game
 {
@@ -49,6 +50,14 @@ void GameState::resetToNewRegularSave(core::Random& rng)
 
     _flags = GameFlags();
     _flags.fun = rng.get_int(1, 101);
+    if ("frisk" == bn::string_view(util::toLowerAscii(bn::string<CHAR_NAME_MAX_LEN>(_charName))))
+        _flags.hardmode = true;
+
+    bn::string<CHAR_NAME_MAX_LEN> charName = _charName;
+    auto lowerName = util::toLowerAscii(charName);
+    const bn::string_view name = lowerName;
+    if (name == "frisk")
+        _flags.hardmode = true;
 
     _plot = 0;
     _hasPhone = false;

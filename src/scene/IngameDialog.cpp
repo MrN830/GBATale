@@ -143,6 +143,20 @@ void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
 
     case CMKind::TAKE_CANDY_YES: {
         auto& items = state.getItems();
+
+        auto dropCandyDish = [ctx]() {
+            using namespace ut::game::cpnt::inter;
+
+            auto* candyDish = ctx->entMngr.findById(game::ent::gen::EntityId::candy_dish);
+            BN_ASSERT(candyDish != nullptr);
+            auto* cdInter = candyDish->getComponent<Interaction>();
+            BN_ASSERT(cdInter != nullptr);
+            BN_ASSERT(cdInter->getInteractionType() == bn::type_id<Readable>());
+            auto& readable = static_cast<Readable&>(*cdInter);
+
+            readable.dropCandyDish(*ctx);
+        };
+
         if (items.full())
             ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1635));
         else
@@ -159,6 +173,7 @@ void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
                 if (flags.hardmode)
                 {
                     flags.candy_taken += 1;
+                    dropCandyDish();
                     ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1631));
                 }
                 else
@@ -166,17 +181,7 @@ void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
             }
             else if (flags.candy_taken == 4)
             {
-                using namespace ut::game::cpnt::inter;
-
-                auto* candyDish = ctx->entMngr.findById(game::ent::gen::EntityId::candy_dish);
-                BN_ASSERT(candyDish != nullptr);
-                auto* cdInter = candyDish->getComponent<Interaction>();
-                BN_ASSERT(cdInter != nullptr);
-                BN_ASSERT(cdInter->getInteractionType() == bn::type_id<Readable>());
-                auto& readable = static_cast<Readable&>(*cdInter);
-
-                readable.dropCandyDish(*ctx);
-
+                dropCandyDish();
                 ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1628));
             }
             else
