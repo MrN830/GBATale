@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="11" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="71">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="11" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="72">
  <tileset firstgid="1" source="home.tsx"/>
+ <tileset firstgid="1185" source="../entities.tsx"/>
  <layer id="7" name="BGLower" width="11" height="10">
   <data encoding="csv">
 763,764,765,766,767,768,769,770,771,772,773,

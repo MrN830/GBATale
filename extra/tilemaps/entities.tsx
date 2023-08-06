@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="24" columns="0" objectalignment="bottom">
+<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="34" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" x="0" y="0" width="16" height="16">
   <image width="16" height="32" source="../../graphics/sprite/ent_floor_switch.bmp"/>
@@ -132,5 +132,35 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="22" width="16" height="10"/>
   </objectgroup>
+ </tile>
+ <tile id="29">
+  <image width="32" height="32" source="../../graphics/sprite/ent_dinnerchair_left.bmp"/>
+ </tile>
+ <tile id="30">
+  <image width="32" height="32" source="../../graphics/sprite/ent_dinnerchair_middle.bmp"/>
+ </tile>
+ <tile id="31">
+  <image width="32" height="32" source="../../graphics/sprite/ent_dinnerchair_right.bmp"/>
+ </tile>
+ <tile id="32">
+  <image width="64" height="64" source="../../graphics/sprite/ent_dinnertable_left.bmp"/>
+ </tile>
+ <tile id="33">
+  <image width="32" height="64" source="../../graphics/sprite/ent_dinnertable_right.bmp"/>
+ </tile>
+ <tile id="34" x="0" y="0" width="32" height="16">
+  <image width="32" height="48" source="../../graphics/sprite/ent_pie.bmp"/>
+ </tile>
+ <tile id="35">
+  <image width="16" height="32" source="../../graphics/sprite/ent_bedroomchair.bmp"/>
+ </tile>
+ <tile id="36">
+  <image width="32" height="32" source="../../graphics/sprite/ent_cactus_bottom.bmp"/>
+ </tile>
+ <tile id="37">
+  <image width="32" height="16" source="../../graphics/sprite/ent_cactus_top.bmp"/>
+ </tile>
+ <tile id="38">
+  <image width="32" height="32" source="../../graphics/sprite/ent_bedsheets.bmp"/>
  </tile>
 </tileset>

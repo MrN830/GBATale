@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="68">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="15" height="10" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="70">
  <tileset firstgid="1" source="home.tsx"/>
+ <tileset firstgid="1185" source="../entities.tsx"/>
  <layer id="7" name="BGLower" width="15" height="10">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -50,7 +51,7 @@
   <object id="58" x="16" y="142" width="21" height="18"/>
   <object id="59" x="68" y="142" width="76" height="18"/>
  </objectgroup>
- <objectgroup id="3" name="Entity">
+ <objectgroup id="3" name="Entity" class="Entity">
   <object id="63" name="fridge" type="Entity" x="24" y="80" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="58">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="61">
  <tileset firstgid="1" source="home.tsx"/>
+ <tileset firstgid="1185" source="../entities.tsx"/>
  <layer id="7" name="BGLower" width="12" height="12">
   <data encoding="csv">
 751,752,753,754,755,756,757,758,759,760,761,762,
@@ -58,7 +59,7 @@
   <object id="49" x="46" y="176" width="11" height="16"/>
   <object id="57" x="131" y="55" width="45" height="16"/>
  </objectgroup>
- <objectgroup id="3" name="Entity">
+ <objectgroup id="3" name="Entity" opacity="0.71">
   <object id="52" name="bucket" type="Entity" x="30" y="158" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
@@ -125,8 +126,30 @@
     </property>
    </properties>
   </object>
+  <object id="58" type="Entity" gid="1220" x="61" y="144" width="16" height="32">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="59" type="Entity" gid="1221" x="162" y="174" width="32" height="32">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+  <object id="60" type="Entity" gid="1222" x="162" y="142" width="32" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isEnabled" type="bool" value="false"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup id="4" name="Warp" locked="1">
+ <objectgroup draworder="index" id="4" name="Warp" locked="1">
   <object id="50" type="Warp" x="57" y="184" width="30" height="8">
    <properties>
     <property name="roomName" value="room_torhouse3"/>
