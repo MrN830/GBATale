@@ -111,6 +111,11 @@
   <object id="57" type="Entity" gid="1372" x="176" y="80" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
@@ -123,6 +128,11 @@
   <object id="60" type="Entity" gid="1374" x="96" y="256" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>

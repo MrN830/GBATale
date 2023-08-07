@@ -116,12 +116,22 @@
   <object id="56" type="Entity" gid="1373" x="88" y="272" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
   <object id="57" type="Entity" gid="1374" x="216" y="224" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>

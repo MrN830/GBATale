@@ -354,7 +354,7 @@ class TilemapConverter:
         EventComponent = namedtuple("EventComponent", "isEnabled, type, isAutoFire")
         SpriteCpnt = namedtuple(
             "SpriteCpnt",
-            "isEnabled, sprItem, gfxIdx, updateZOrderOnMove, zOrder, bgPriority",
+            "isEnabled, sprItem, gfxIdx, isBlendingEnabled, updateZOrderOnMove, zOrder, bgPriority",
         )
         SprAnimCpnt = namedtuple("SprAnimCpnt", "isEnabled, kind")
         WalkAnimCtrlCpnt = namedtuple("WalkAnimCtrlCpnt", "isEnabled, kind")
@@ -483,6 +483,7 @@ class TilemapConverter:
                     spr.isEnabled,
                     sprItem,
                     gfxIdx,
+                    spr.isBlendingEnabled,
                     spr.updateZOrderOnMove,
                     spr.zOrder,
                     spr.bgPriority,
@@ -673,7 +674,7 @@ class TilemapConverter:
                 if "sprite" in entity:
                     spr: SpriteCpnt = entity["sprite"]
                     output_header.write(
-                        f"EntityInfo::Sprite(bn::sprite_items::{spr.sprItem},{spr.gfxIdx},{spr.zOrder},{spr.bgPriority},{str(spr.isEnabled).lower()},{str(spr.updateZOrderOnMove).lower()}),"
+                        f"EntityInfo::Sprite(bn::sprite_items::{spr.sprItem},{spr.gfxIdx},{spr.zOrder},{spr.bgPriority},{str(spr.isEnabled).lower()},{str(spr.isBlendingEnabled).lower()},{str(spr.updateZOrderOnMove).lower()}),"
                     )
                 else:
                     output_header.write("bn::nullopt,")

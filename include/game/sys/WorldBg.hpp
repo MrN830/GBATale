@@ -40,6 +40,8 @@ public:
     void freeGraphics();
     void allocateGraphics();
 
+    void setBlendingEnabled(bool isEnabled);
+
 private:
     /**
      * @brief Redraw GBA cells (half meta-cells)
@@ -75,6 +77,8 @@ private:
     bn::optional<bn::regular_bg_map_ptr> _bgMapUpper2;
 
     const mtile::MTilemapBase* _mTilemap;
+
+    bool _isBlendingEnabled = false;
 
     bn::fixed_point _pos;
     bn::fixed_point _prevCamPos;

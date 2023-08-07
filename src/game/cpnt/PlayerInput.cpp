@@ -37,70 +37,75 @@ void PlayerInput::handleInput(GameContext& ctx)
 {
     constexpr bn::fixed PLAYER_SPEED = 3;
 
+    const auto interactState = ctx.interactStack.top();
+
     cmd::MoveCmd cmd;
 
-    if (bn::keypad::start_pressed() || bn::keypad::l_pressed() || bn::keypad::r_pressed())
+    if (interactState == InteractState::FREE)
     {
-        // TODO: Disable opening menu on free-to-move cutscenes (e.g. Mettaton's TV show, Undyne's chases)
-        ctx.game.openIngameMenu();
-    }
-    else if (bn::keypad::a_pressed())
-    {
-        const auto interactColl = getInteractCollInfo();
-
-        auto it = ctx.entMngr.beforeBeginIter();
-        while (it != ctx.entMngr.endIter())
+        if (bn::keypad::start_pressed() || bn::keypad::l_pressed() || bn::keypad::r_pressed())
         {
-            it = ctx.entMngr.findIf(
-                [&interactColl](const ent::Entity& entity) -> bool {
-                    const auto* interaction = entity.getComponent<cpnt::inter::Interaction>();
-                    if (interaction == nullptr || !interaction->isEnabled())
-                        return false;
-                    if (!(interaction->getTriggers() & inter::InteractionTriggers::PRESS_A))
-                        return false;
+            // TODO: Disable opening menu on free-to-move cutscenes (e.g. Mettaton's TV show, Undyne's chases)
+            ctx.game.openIngameMenu();
+        }
+        else if (bn::keypad::a_pressed())
+        {
+            const auto interactColl = getInteractCollInfo();
 
-                    const auto* collPack = entity.getComponent<cpnt::ColliderPack>();
-                    if (collPack == nullptr || !collPack->isEnabled())
-                        return false;
-                    if (!collPack->isCollideWith(interactColl))
-                        return false;
-
-                    return true;
-                },
-                it);
-
-            if (it != ctx.entMngr.endIter())
+            auto it = ctx.entMngr.beforeBeginIter();
+            while (it != ctx.entMngr.endIter())
             {
-                auto* interaction = it->getComponent<cpnt::inter::Interaction>();
-                BN_ASSERT(interaction != nullptr);
+                it = ctx.entMngr.findIf(
+                    [&interactColl](const ent::Entity& entity) -> bool {
+                        const auto* interaction = entity.getComponent<cpnt::inter::Interaction>();
+                        if (interaction == nullptr || !interaction->isEnabled())
+                            return false;
+                        if (!(interaction->getTriggers() & inter::InteractionTriggers::PRESS_A))
+                            return false;
 
-                interaction->onInteract(ctx);
+                        const auto* collPack = entity.getComponent<cpnt::ColliderPack>();
+                        if (collPack == nullptr || !collPack->isEnabled())
+                            return false;
+                        if (!collPack->isCollideWith(interactColl))
+                            return false;
+
+                        return true;
+                    },
+                    it);
+
+                if (it != ctx.entMngr.endIter())
+                {
+                    auto* interaction = it->getComponent<cpnt::inter::Interaction>();
+                    BN_ASSERT(interaction != nullptr);
+
+                    interaction->onInteract(ctx);
+                }
             }
         }
-    }
 
-    // If non FREE, `sendMoveCmd()` will send NO movement, stopping Frisk walking animation.
-    if (ctx.interactStack.top() == InteractState::FREE)
-    {
-        if (bn::keypad::up_held())
+        // If non FREE, `sendMoveCmd()` will send NO movement, stopping Frisk walking animation.
+        if (ctx.interactStack.top() == InteractState::FREE)
         {
-            cmd.directions |= core::Directions::UP;
-            cmd.movePos.set_y(cmd.movePos.y() - PLAYER_SPEED);
-        }
-        else if (bn::keypad::down_held())
-        {
-            cmd.directions |= core::Directions::DOWN;
-            cmd.movePos.set_y(cmd.movePos.y() + PLAYER_SPEED);
-        }
-        if (bn::keypad::left_held())
-        {
-            cmd.directions |= core::Directions::LEFT;
-            cmd.movePos.set_x(cmd.movePos.x() - PLAYER_SPEED);
-        }
-        else if (bn::keypad::right_held())
-        {
-            cmd.directions |= core::Directions::RIGHT;
-            cmd.movePos.set_x(cmd.movePos.x() + PLAYER_SPEED);
+            if (bn::keypad::up_held())
+            {
+                cmd.directions |= core::Directions::UP;
+                cmd.movePos.set_y(cmd.movePos.y() - PLAYER_SPEED);
+            }
+            else if (bn::keypad::down_held())
+            {
+                cmd.directions |= core::Directions::DOWN;
+                cmd.movePos.set_y(cmd.movePos.y() + PLAYER_SPEED);
+            }
+            if (bn::keypad::left_held())
+            {
+                cmd.directions |= core::Directions::LEFT;
+                cmd.movePos.set_x(cmd.movePos.x() - PLAYER_SPEED);
+            }
+            else if (bn::keypad::right_held())
+            {
+                cmd.directions |= core::Directions::RIGHT;
+                cmd.movePos.set_x(cmd.movePos.x() + PLAYER_SPEED);
+            }
         }
     }
 

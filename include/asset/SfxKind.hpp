@@ -29,6 +29,7 @@ enum class SfxKind
     SWALLOW,
     ITEM,
     SWITCH_TRIGGER,
+    FALL,
     PHONE,
     SAVE,
 

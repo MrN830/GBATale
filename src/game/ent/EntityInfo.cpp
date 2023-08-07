@@ -7,6 +7,8 @@
 #include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/cpnt/ev/StartBgm.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
+#include "game/cpnt/inter/HoleFall.hpp"
+#include "game/cpnt/inter/HoleUp.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
@@ -54,6 +56,12 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::TalkFroggit>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TalkFroggit>(entity, interaction->isEnabled,
                                                                         interaction->triggers, ctx);
+        else if (interaction->type == bn::type_id<cpnt::inter::HoleFall>())
+            inter =
+                &entMngr._cpntHeap.create<cpnt::inter::HoleFall>(entity, interaction->isEnabled, interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::HoleUp>())
+            inter =
+                &entMngr._cpntHeap.create<cpnt::inter::HoleUp>(entity, interaction->isEnabled, interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
@@ -77,8 +85,8 @@ void EntityInfo::create(GameContext& ctx) const
     if (this->sprite.has_value())
     {
         cpnt::Sprite& spr = entMngr._cpntHeap.create<cpnt::Sprite>(
-            entity, sprite->isEnabled, sprite->sprItem, sprite->gfxIdx, &ctx.camMngr.getCamera(), sprite->isMoving,
-            sprite->bgPriority, sprite->zOrder);
+            entity, sprite->isEnabled, sprite->sprItem, sprite->gfxIdx, sprite->isBlendingEnabled,
+            &ctx.camMngr.getCamera(), sprite->isMoving, sprite->bgPriority, sprite->zOrder);
         entity.addComponent(spr);
 
         // cpnt::SpriteAnim

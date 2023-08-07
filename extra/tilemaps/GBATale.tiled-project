@@ -121,6 +121,11 @@
                     "value": 2
                 },
                 {
+                    "name": "isBlendingEnabled",
+                    "type": "bool",
+                    "value": false
+                },
+                {
                     "name": "isEnabled",
                     "type": "bool",
                     "value": true
