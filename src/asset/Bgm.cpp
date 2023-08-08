@@ -11,6 +11,7 @@
 #include <bn_optional.h>
 
 #include "bn_dmg_music_items_once_upon_a_time.h"
+#include "bn_dmg_music_items_your_best_friend.h"
 #include "bn_music_items.h"
 
 namespace ut::asset
@@ -20,7 +21,7 @@ static constexpr bn::array<Bgm, (int)BgmKind::TOTAL_COUNT> BGMS = {
     Bgm{BgmKind::NONE, nullptr, nullptr},
     {BgmKind::ONCE_UPON_A_TIME, nullptr, &bn::dmg_music_items::once_upon_a_time},
     {BgmKind::START_MENU, &bn::music_items::menu, nullptr, 1.0 / 6},
-    {BgmKind::YOUR_BEST_FRIEND, &bn::music_items::your_best_friend, nullptr},
+    {BgmKind::YOUR_BEST_FRIEND, nullptr, &bn::dmg_music_items::your_best_friend},
     {BgmKind::FALLEN_DOWN, &bn::music_items::fallen_down, nullptr},
     {BgmKind::RUINS, &bn::music_items::ruins, nullptr, 1.0 / 4},
     {BgmKind::UWA_SO_TEMPERATE, nullptr, nullptr},
