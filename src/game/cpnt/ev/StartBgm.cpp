@@ -41,6 +41,11 @@ void StartBgm::onEvent(GameContext& ctx)
             bgmKind = asset::BgmKind::HOME;
         break;
 
+    case RoomKind::ROOM_BASEMENT1:
+        if (!flags.true_pacifist)
+            bgmKind = asset::BgmKind::BASEMENT;
+        break;
+
     default:
         BN_ERROR("StartBgm in invalid room=", (int)room);
     }

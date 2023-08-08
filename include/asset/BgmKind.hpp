@@ -14,6 +14,7 @@ enum class BgmKind : uint8_t
     YOUR_BEST_FRIEND,
     FALLEN_DOWN,
     RUINS,
+    BASEMENT,
     UWA_SO_TEMPERATE,
     ANTICIPATION,
     UNNECESSARY_TENSION,

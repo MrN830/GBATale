@@ -111,13 +111,13 @@
   <object id="61" type="Warp" x="112" y="80" width="32" height="16">
    <properties>
     <property name="isBgmFadeOut" type="bool" value="true"/>
-    <property name="roomName" value="room_ruins1"/>
+    <property name="roomName" value="room_tundra1"/>
     <property name="warpId" propertytype="WarpId" value="A"/>
    </properties>
   </object>
   <object id="62" type="Warp" x="96" y="280" width="64" height="8">
    <properties>
-    <property name="roomName" value="room_area1"/>
+    <property name="roomName" value="room_basement5"/>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
   </object>

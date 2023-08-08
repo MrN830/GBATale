@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="25" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="4">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="25" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="13">
  <tileset firstgid="1" source="../ruins/ruins.tsx"/>
  <layer id="1" name="BGLower" width="25" height="7">
   <data encoding="csv">
@@ -34,10 +34,64 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="6" name="Wall">
+ <objectgroup id="6" name="Wall" locked="1">
   <object id="2" x="64" y="96" width="336" height="16"/>
-  <object id="3" x="64" y="48" width="336" height="16"/>
+  <object id="3" x="78" y="48" width="322" height="16"/>
+  <object id="6" x="51" y="96">
+   <polygon points="0,0 0,-22 22,0"/>
+  </object>
  </objectgroup>
- <objectgroup id="5" name="Entity"/>
- <objectgroup id="4" name="Warp"/>
+ <objectgroup id="5" name="Entity">
+  <object id="12" name="bgm" type="Entity" x="0" y="0" width="16" height="16">
+   <properties>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="StartBgm"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="Warp" locked="1">
+  <object id="4" type="Warp" x="35" y="56" width="16" height="16">
+   <properties>
+    <property name="isBgmFadeOut" type="bool" value="true"/>
+    <property name="roomName" value="room_torhouse1"/>
+    <property name="warpId" propertytype="WarpId" value="X"/>
+   </properties>
+  </object>
+  <object id="7" type="Warp" x="44" y="40" width="16" height="16">
+   <properties>
+    <property name="isBgmFadeOut" type="bool" value="true"/>
+    <property name="roomName" value="room_torhouse1"/>
+    <property name="warpId" propertytype="WarpId" value="X"/>
+   </properties>
+  </object>
+  <object id="8" type="Warp" x="61" y="46" width="16" height="16">
+   <properties>
+    <property name="isBgmFadeOut" type="bool" value="true"/>
+    <property name="roomName" value="room_torhouse1"/>
+    <property name="warpId" propertytype="WarpId" value="X"/>
+   </properties>
+  </object>
+  <object id="9" type="Warp" x="384" y="64" width="16" height="32">
+   <properties>
+    <property name="isBgmFadeOut" type="bool" value="false"/>
+    <property name="roomName" value="room_basement2"/>
+    <property name="warpId" propertytype="WarpId" value="A"/>
+   </properties>
+  </object>
+  <object id="10" type="WarpPoint" x="376" y="88">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="B"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="11" type="WarpPoint" x="86" y="83">
+   <properties>
+    <property name="warpId" propertytype="WarpId" value="X"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
 </map>

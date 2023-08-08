@@ -41,6 +41,48 @@
             "width": 240,
             "x": 960,
             "y": -160
+        },
+        {
+            "fileName": "room_basement1.tmx",
+            "height": 112,
+            "width": 400,
+            "x": 1264,
+            "y": 208
+        },
+        {
+            "fileName": "room_basement2.tmx",
+            "height": 112,
+            "width": 400,
+            "x": 1664,
+            "y": 208
+        },
+        {
+            "fileName": "room_basement3.tmx",
+            "height": 160,
+            "width": 240,
+            "x": 2064,
+            "y": 176
+        },
+        {
+            "fileName": "room_basement4.tmx",
+            "height": 192,
+            "width": 192,
+            "x": 2096,
+            "y": -16
+        },
+        {
+            "fileName": "room_basement5.tmx",
+            "height": 1296,
+            "width": 64,
+            "x": 2160,
+            "y": -1312
+        },
+        {
+            "fileName": "room_ruinsexit.tmx",
+            "height": 288,
+            "width": 256,
+            "x": 2064,
+            "y": -1600
         }
     ],
     "onlyShowAdjacentMaps": false,
