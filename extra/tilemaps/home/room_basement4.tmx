@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="12" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="25">
+ <tileset firstgid="1" name="Ruins1" tilewidth="16" tileheight="16" tilecount="1360" columns="40">
+  <image source="../ruins/ruins_tileset.png" width="640" height="544"/>
+ </tileset>
+ <tileset firstgid="1361" source="../entities.tsx"/>
+ <layer id="1" name="BGLower" width="12" height="12">
+  <data encoding="csv">
+0,132,215,215,216,818,818,214,215,215,133,0,
+132,216,85,85,86,818,818,84,85,85,214,133,
+176,86,85,85,86,818,818,84,85,85,84,174,
+176,86,125,125,126,818,818,124,125,125,84,174,
+176,126,361,361,361,361,361,361,361,361,124,174,
+176,361,361,361,361,361,361,361,361,361,361,174,
+176,361,361,361,361,361,361,361,361,361,361,174,
+172,136,361,361,361,361,361,361,361,361,134,173,
+0,172,135,136,361,361,361,361,134,135,173,0,
+0,0,0,176,361,361,361,361,174,0,0,0,
+0,0,0,176,361,361,361,361,174,0,0,0,
+0,0,0,176,361,361,361,361,174,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="BGUpper" width="12" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="BGUpper2" width="12" height="12">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="7" name="Wall">
+  <object id="15" x="32" y="128" width="32" height="64"/>
+  <object id="16" x="128" y="128" width="32" height="64"/>
+  <object id="17" x="160" y="112" width="16" height="16"/>
+  <object id="18" x="16" y="112" width="16" height="16"/>
+  <object id="19" x="32" y="16" width="48" height="48"/>
+  <object id="20" x="112" y="16" width="48" height="48"/>
+  <object id="21" x="160" y="64" width="16" height="16"/>
+  <object id="22" x="176" y="80" width="16" height="32"/>
+  <object id="23" x="16" y="64" width="16" height="16"/>
+  <object id="24" x="0" y="80" width="16" height="32"/>
+ </objectgroup>
+ <objectgroup id="6" name="Entity">
+  <object id="14" type="Entity" gid="1377" x="96" y="64" width="32" height="64">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="Warp"/>
+</map>
