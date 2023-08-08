@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="34" columns="0" objectalignment="bottom">
+<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="39" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" x="0" y="0" width="16" height="16">
   <image width="16" height="32" source="../../graphics/sprite/ent_floor_switch.bmp"/>
@@ -162,5 +162,35 @@
  </tile>
  <tile id="38">
   <image width="32" height="32" source="../../graphics/sprite/ent_bedsheets.bmp"/>
+ </tile>
+ <tile id="39">
+  <image width="64" height="32" source="../../graphics/sprite/ent_frontrail_left.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="24" y="10" width="40" height="6"/>
+  </objectgroup>
+ </tile>
+ <tile id="40">
+  <image width="64" height="32" source="../../graphics/sprite/ent_frontrail_middle.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="10" width="64" height="6"/>
+  </objectgroup>
+ </tile>
+ <tile id="41">
+  <image width="32" height="16" source="../../graphics/sprite/ent_frontrail_right.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="10" width="21" height="6"/>
+  </objectgroup>
+ </tile>
+ <tile id="42">
+  <image width="32" height="64" source="../../graphics/sprite/ent_leftrail.bmp"/>
+  <objectgroup draworder="index" id="4">
+   <object id="3" x="25" y="4" width="7" height="60"/>
+  </objectgroup>
+ </tile>
+ <tile id="43">
+  <image width="32" height="64" source="../../graphics/sprite/ent_rightrail.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="4" width="7" height="38"/>
+  </objectgroup>
  </tile>
 </tileset>
