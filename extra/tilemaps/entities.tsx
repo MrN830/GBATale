@@ -135,18 +135,33 @@
  </tile>
  <tile id="29">
   <image width="32" height="32" source="../../graphics/sprite/ent_dinnerchair_left.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="20" y="20" width="12" height="12"/>
+  </objectgroup>
  </tile>
  <tile id="30">
   <image width="32" height="32" source="../../graphics/sprite/ent_dinnerchair_middle.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="6" y="24" width="20" height="8"/>
+  </objectgroup>
  </tile>
  <tile id="31">
   <image width="32" height="32" source="../../graphics/sprite/ent_dinnerchair_right.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="15" width="13" height="17"/>
+  </objectgroup>
  </tile>
  <tile id="32">
   <image width="64" height="64" source="../../graphics/sprite/ent_dinnertable_left.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="4" y="29" width="60" height="35"/>
+  </objectgroup>
  </tile>
  <tile id="33">
   <image width="32" height="64" source="../../graphics/sprite/ent_dinnertable_right.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0" y="29" width="12" height="35"/>
+  </objectgroup>
  </tile>
  <tile id="34" x="0" y="0" width="32" height="16">
   <image width="32" height="48" source="../../graphics/sprite/ent_pie.bmp"/>
@@ -166,13 +181,13 @@
  <tile id="39">
   <image width="64" height="32" source="../../graphics/sprite/ent_frontrail_left.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="24" y="10" width="40" height="6"/>
+   <object id="1" x="24" y="26" width="40" height="6"/>
   </objectgroup>
  </tile>
  <tile id="40">
   <image width="64" height="32" source="../../graphics/sprite/ent_frontrail_middle.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="10" width="64" height="6"/>
+   <object id="1" x="0" y="26" width="64" height="6"/>
   </objectgroup>
  </tile>
  <tile id="41">
@@ -184,13 +199,13 @@
  <tile id="42">
   <image width="32" height="64" source="../../graphics/sprite/ent_leftrail.bmp"/>
   <objectgroup draworder="index" id="4">
-   <object id="3" x="25" y="4" width="7" height="60"/>
+   <object id="3" x="26" y="8" width="5" height="56"/>
   </objectgroup>
  </tile>
  <tile id="43">
   <image width="32" height="64" source="../../graphics/sprite/ent_rightrail.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="4" width="7" height="38"/>
+   <object id="1" x="1" y="30" width="5" height="34"/>
   </objectgroup>
  </tile>
 </tileset>

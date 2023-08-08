@@ -67,7 +67,7 @@
   <object id="21" x="143" y="78" width="15" height="14"/>
   <object id="22" x="115" y="82" width="15" height="6"/>
   <object id="23" x="32" y="48" width="28" height="16"/>
-  <object id="24" x="193" y="48" width="31" height="10"/>
+  <object id="24" x="197" y="48" width="27" height="10"/>
  </objectgroup>
  <objectgroup id="3" name="Entity" opacity="0.8">
   <object id="31" name="bgm" type="Entity" x="0" y="0" width="16" height="16">
@@ -107,19 +107,19 @@
     </property>
    </properties>
   </object>
-  <object id="35" type="Entity" gid="1227" x="44" y="106" width="32" height="64">
+  <object id="35" type="Entity" gid="1227" x="44" y="105" width="32" height="64">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="36" type="Entity" gid="1224" x="63" y="129" width="64" height="32">
+  <object id="36" type="Entity" gid="1224" x="63" y="113" width="64" height="32">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="37" type="Entity" gid="1225" x="127" y="129" width="64" height="32">
+  <object id="37" type="Entity" gid="1225" x="127" y="113" width="64" height="32">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
     <property name="sprite" type="class" propertytype="Sprite"/>
@@ -131,7 +131,7 @@
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="39" type="Entity" gid="1228" x="191" y="128" width="32" height="64">
+  <object id="39" type="Entity" gid="1228" x="189" y="105" width="32" height="64">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
     <property name="sprite" type="class" propertytype="Sprite"/>

@@ -100,7 +100,7 @@
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="39" type="Entity" gid="1214" x="36" y="145" width="32" height="32">
+  <object id="39" type="Entity" gid="1214" x="36" y="143" width="32" height="32">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
     <property name="sprite" type="class" propertytype="Sprite"/>
