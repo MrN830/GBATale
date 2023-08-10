@@ -9,6 +9,8 @@ enum class ChoiceMsgKind : uint16_t
 {
     NONE = 0,
 
+    CLOSE_IMMEDIATELY,
+
     TAKE_CANDY_YES,
     TAKE_CANDY_NO,
 
@@ -22,7 +24,10 @@ enum class ChoiceMsgKind : uint16_t
     BRING_NAME_COLOR_BACK,
 
     TORIEL_DIARY_YES,
-    TORIEL_DIARY_NO,
+
+    PRESS_COLOR_SWITCH_OPEN,
+    PRESS_COLOR_SWITCH_NOTHING_HAPPENED,
+    PRESS_COLOR_SWITCH_TOO_MANY_TIMES,
 };
 
 }; // namespace ut::core

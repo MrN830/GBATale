@@ -64,6 +64,7 @@ void HoleFall::onInteract(GameContext& ctx)
         _holeSprs.pop_front();
 
     const auto room = ctx.state.getRoom();
+    auto& flags = ctx.state.getFlags();
 
     if (_holeSprs.size() >= 10 && room == RoomKind::ROOM_RUINS10)
     {
@@ -75,15 +76,15 @@ void HoleFall::onInteract(GameContext& ctx)
     {
         asset::getSfx(asset::SfxKind::SWITCH_TRIGGER)->play();
 
+        if (isWrongSwitchFall(ctx))
+            flags.wrong_switches_pressed += 1;
+
         ctx.interactStack.push(InteractState::FALLING);
 
         _holeSprs.push_back(bn::sprite_items::spr_hole.create_sprite(_frisk->getPosition()));
         _holeSprs.back().set_z_order(32767);
         _holeSprs.back().set_bg_priority(consts::WORLD_BG_PRIORITY);
         _holeSprs.back().set_camera(ctx.camMngr.getCamera());
-
-        auto* friskSpr = _frisk->getComponent<cpnt::Sprite>();
-        BN_ASSERT(friskSpr != nullptr);
 
         const int waitRedraw = (isWrongSwitchFall(ctx) ? WRONG_SWITCH_FALL_WAIT_REDRAW : FRISK_FALL_WAIT_REDRAW);
         _redrawCountdown = waitRedraw + 1;

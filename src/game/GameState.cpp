@@ -6,6 +6,7 @@
 #include "crc32/Crc32.h"
 
 #include "asset/Bgm.hpp"
+#include "game/GamePlot.hpp"
 #include "game/ItemInfo.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/StatInfo.hpp"
@@ -59,7 +60,7 @@ void GameState::resetToNewRegularSave(core::Random& rng)
     if (name == "frisk")
         _flags.hardmode = true;
 
-    _plot = 0;
+    _plot = GamePlot::NEW_GAME;
     _hasPhone = false;
     _worldBgm = asset::BgmKind::NONE;
     _room = RoomKind::ROOM_AREA1;
@@ -265,6 +266,11 @@ auto GameState::getFlags() -> GameFlags&
     return _flags;
 }
 
+auto GameState::getPlot() const -> GamePlot
+{
+    return _plot;
+}
+
 bool GameState::getHasPhone() const
 {
     return _hasPhone;
@@ -319,6 +325,11 @@ void GameState::setWeapon(ItemKind weapon)
 void GameState::setArmor(ItemKind armor)
 {
     _armor = armor;
+}
+
+void GameState::setPlot(GamePlot plot)
+{
+    _plot = plot;
 }
 
 void GameState::setHasPhone(bool hasPhone)
@@ -417,7 +428,7 @@ bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState& gs)
     oss << "rSavCnt: " << gs._rSavedCount << '\n';
     oss << "pSavCnt: " << gs._pSavedCount << '\n';
     oss << "room: " << (int)gs._room << '\n';
-    oss << "plot: " << gs._plot << '\n';
+    oss << "plot: " << (int)gs._plot << '\n';
     oss << "charName: " << gs._charName << '\n';
     oss << "lv: " << gs._lv << '\n';
     oss << "exp: " << gs._exp << '\n';

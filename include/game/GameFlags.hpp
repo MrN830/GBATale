@@ -51,20 +51,20 @@ struct GameFlags
     };
     NameColor name_color = NameColor::YELLOW; // [22]
 
-    uint32_t spared = 0;                           // [23]
-    uint32_t escaped = 0;                          // [24]
-    uint32_t dialogues_skipped = 0;                // [25]
-    uint8_t murderlevel_override = 0;              // [26]
-    bool spared_specific : 1 = false;              // [27]
-    bool fast_text_skip : 1 = false;               // [28]
-    bool tutorial_froggit_encountered : 1 = false; // [29]
-    bool pushed_rock_1 : 1 = false;                // [30]
-    bool pushed_rock_2 : 1 = false;                // [31]
-    bool pushed_rock_3 : 1 = false;                // [32]
-    bool pushed_rock_4 : 1 = false;                // [33]
+    uint32_t spared = 0;              // [23]
+    uint32_t escaped = 0;             // [24]
+    uint32_t dialogues_skipped = 0;   // [25]
+    uint8_t murderlevel_override = 0; // [26]
+    bool spared_specific : 1 = false; // [27]
+    bool fast_text_skip : 1 = false;  // [28]
+
+    bool tutorial_froggit_encountered : 1 = false; // [30]
+    bool pushed_rock_1 : 1 = false;                // [31]
+    bool pushed_rock_2 : 1 = false;                // [32]
+    bool pushed_rock_3 : 1 = false;                // [33]
     uint8_t candy_taken = 0;                       // [34]
-    bool spared_napstablook : 1 = false;           // [35]
-    bool waited_toriel : 1 = false;                // [36]
+    bool pushed_rock_4 : 1 = false;                // [35]
+    bool spared_napstablook : 1 = false;           // [36]
 
     enum class DogCallStatus : uint8_t
     {

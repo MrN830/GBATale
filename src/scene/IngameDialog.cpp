@@ -1,10 +1,15 @@
 #include "scene/IngameDialog.hpp"
 
 #include <bn_keypad.h>
+#include <bn_sound_item.h>
 
+#include "asset/SfxKind.hpp"
 #include "core/ChoiceMsgKind.hpp"
 #include "game/GameContext.hpp"
+#include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
+#include "game/RoomInfo.hpp"
+#include "game/cpnt/inter/PlotSpike.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -64,7 +69,7 @@ bool IngameDialog::handleInput()
             getContext().gameState.getFlags().dialogues_skipped++;
     }
 
-    return false; // Stop handling input in game world
+    return true;
 }
 
 bool IngameDialog::update()
@@ -136,10 +141,16 @@ void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
 
     auto& state = ctx->state;
     auto& flags = state.getFlags();
+    const auto room = state.getRoom();
+    const auto plot = state.getPlot();
 
     switch (choiceMsg)
     {
         using namespace ut::asset;
+
+    case CMKind::CLOSE_IMMEDIATELY:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1835));
+        break;
 
     case CMKind::TAKE_CANDY_YES: {
         auto& items = state.getItems();
@@ -234,8 +245,72 @@ void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
         ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1832));
         ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1833));
         break;
-    case CMKind::TORIEL_DIARY_NO:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1835));
+
+    case CMKind::PRESS_COLOR_SWITCH_OPEN: {
+        using Room = game::RoomKind;
+        using Plot = game::GamePlot;
+
+        flags.ruins_switches_pressed += 1;
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1806));
+
+        auto hideAllSpikesInRoom = [ctx]() {
+            auto it = ctx->entMngr.beforeBeginIter();
+            do
+            {
+                it = ctx->entMngr.findIf(
+                    [](const game::ent::Entity& entity) -> bool {
+                        const auto* inter = entity.getComponent<game::cpnt::inter::Interaction>();
+                        return (inter != nullptr &&
+                                inter->getInteractionType() == bn::type_id<game::cpnt::inter::PlotSpike>());
+                    },
+                    it);
+
+                if (it != ctx->entMngr.endIter())
+                {
+                    auto* inter = it->getComponent<game::cpnt::inter::Interaction>();
+                    BN_ASSERT(inter != nullptr);
+                    BN_ASSERT(inter->getInteractionType() == bn::type_id<game::cpnt::inter::PlotSpike>());
+                    auto* plotSpike = static_cast<game::cpnt::inter::PlotSpike*>(inter);
+
+                    plotSpike->hideSpike();
+                }
+
+            } while (it != ctx->entMngr.endIter());
+        };
+
+        if (room == Room::ROOM_RUINS15B && (int)plot < (int)Plot::BLUE_SWITCH_FLIPPED)
+        {
+            state.setPlot(Plot::BLUE_SWITCH_FLIPPED);
+
+            asset::getSfx(asset::SfxKind::SWITCH_PULL_N)->play();
+            hideAllSpikesInRoom();
+        }
+        else if (room == Room::ROOM_RUINS15C && (int)plot < (int)Plot::RED_SWITCH_FLIPPED)
+        {
+            state.setPlot(Plot::RED_SWITCH_FLIPPED);
+
+            asset::getSfx(asset::SfxKind::SWITCH_PULL_N)->play();
+            hideAllSpikesInRoom();
+        }
+        else if (room == Room::ROOM_RUINS15D && (int)plot < (int)Plot::GREEN_SWITCH_FLIPPED)
+        {
+            state.setPlot(Plot::GREEN_SWITCH_FLIPPED);
+
+            asset::getSfx(asset::SfxKind::SWITCH_PULL_N)->play();
+            hideAllSpikesInRoom();
+        }
+        break;
+    }
+    case CMKind::PRESS_COLOR_SWITCH_NOTHING_HAPPENED:
+        flags.ruins_switches_pressed += 1;
+
+        if (flags.ruins_switches_pressed > 25)
+            ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1790));
+        else
+            ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1788));
+        break;
+    case CMKind::PRESS_COLOR_SWITCH_TOO_MANY_TIMES:
+        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1790));
         break;
 
     default:

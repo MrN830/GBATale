@@ -122,6 +122,11 @@
   <object id="58" type="Entity" gid="1373" x="48" y="112" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsColorSwitch"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
@@ -156,6 +161,12 @@
   </object>
   <object id="64" type="Entity" gid="1364" x="232" y="112" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="PlotSpike"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -165,6 +176,12 @@
   </object>
   <object id="65" type="Entity" gid="1364" x="232" y="128" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="PlotSpike"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>

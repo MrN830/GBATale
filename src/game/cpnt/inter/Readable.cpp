@@ -271,7 +271,7 @@ void Readable::onInteract(GameContext& ctx)
         else if (_entity.getId() == ent::gen::EntityId::diary)
         {
             ctx.leftChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_YES;
-            ctx.rightChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_NO;
+            ctx.rightChoiceMsg = core::ChoiceMsgKind::CLOSE_IMMEDIATELY;
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1824));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1825));
         }
