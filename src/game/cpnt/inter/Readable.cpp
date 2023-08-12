@@ -410,7 +410,7 @@ void Readable::onInteract(GameContext& ctx)
         {
             if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_144));
-            else if (flags.got_bscotch_pie)
+            else if (flags.got_bscotch_pie != GameFlags::GotBscotchPie::INIT)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_141));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_140));

@@ -181,6 +181,11 @@
   <object id="66" type="Entity" gid="1376" x="150" y="542" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="ItemPickup"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>

@@ -9,6 +9,7 @@
 #include "game/cpnt/inter/AutoHideSpike.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
 #include "game/cpnt/inter/HoleUp.hpp"
+#include "game/cpnt/inter/ItemPickup.hpp"
 #include "game/cpnt/inter/PlotSpike.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/cpnt/inter/RuinsColorSwitch.hpp"
@@ -68,6 +69,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::TalkFroggit>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TalkFroggit>(entity, interaction->isEnabled,
                                                                         interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::ItemPickup>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::ItemPickup>(entity, interaction->isEnabled,
+                                                                       interaction->triggers);
         else if (interaction->type == bn::type_id<cpnt::inter::HoleFall>())
             inter =
                 &entMngr._cpntHeap.create<cpnt::inter::HoleFall>(entity, interaction->isEnabled, interaction->triggers);

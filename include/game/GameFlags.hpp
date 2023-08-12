@@ -244,7 +244,7 @@ struct GameFlags
     uint32_t conversation_emblem = 0;    // [96]
     bool creepy_friend_seen : 1 = false; // [97]
 
-    enum class SavedMkid
+    enum class SavedMkid : uint8_t
     {
         RAN_AWAY = 0,
         WATCH_UNDYNE_SAVES = 1,
@@ -255,8 +255,16 @@ struct GameFlags
     uint32_t undyne_difficulty = 0; // [99]
     bool got_ribbon : 1 = false;    // [100]
 
-    bool got_toyknife : 1 = false;            // [102]
-    bool got_bscotch_pie : 1 = false;         // [103]
+    bool got_toyknife : 1 = false; // [102]
+
+    enum class GotBscotchPie : uint8_t
+    {
+        INIT = 0,
+        IN_ROOM = 1,
+        GOT = 2,
+    };
+    GotBscotchPie got_bscotch_pie = GotBscotchPie::INIT; // [103]
+
     bool got_quiche : 1 = false;              // [104]
     bool got_tutu : 1 = false;                // [105]
     bool got_ballet_shoes : 1 = false;        // [106]
