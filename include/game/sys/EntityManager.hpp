@@ -67,7 +67,20 @@ public:
     void createFrisk(const bn::fixed_point position);
 
 public:
+    /**
+     * @brief Finds the first entity with a given `EntityId`.
+     *
+     * You CANNOT find entities with duplicated `EntityId`s in a same room with this method.
+     * If you want that, you need to use `findIf()` instead.
+     */
     auto findById(ent::gen::EntityId) -> ent::Entity*;
+
+    /**
+     * @brief Finds the first entity with a given `EntityId`.
+     *
+     * You CANNOT find entities with duplicated `EntityId`s in a same room with this method.
+     * If you want that, you need to use `findIf()` instead.
+     */
     auto findById(ent::gen::EntityId) const -> const ent::Entity*;
 
     template <typename Cond>
