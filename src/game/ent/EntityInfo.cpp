@@ -5,6 +5,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/SetPieImage.hpp"
 #include "game/cpnt/ev/StartBgm.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
@@ -91,6 +92,8 @@ void EntityInfo::create(GameContext& ctx) const
 
         if (eventCpnt->type == bn::type_id<cpnt::ev::StartBgm>())
             evCpnt = &entMngr._cpntHeap.create<cpnt::ev::StartBgm>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::SetPieImage>())
+            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::SetPieImage>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
         else
             BN_ERROR("Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
 
