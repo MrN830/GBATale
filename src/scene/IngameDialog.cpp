@@ -9,7 +9,7 @@
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
-#include "game/cpnt/inter/PlotSpike.hpp"
+#include "game/cpnt/ev/PlotSpike.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -259,18 +259,18 @@ void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
             {
                 it = ctx->entMngr.findIf(
                     [](const game::ent::Entity& entity) -> bool {
-                        const auto* inter = entity.getComponent<game::cpnt::inter::Interaction>();
-                        return (inter != nullptr &&
-                                inter->getInteractionType() == bn::type_id<game::cpnt::inter::PlotSpike>());
+                        const auto* evCpnt = entity.getComponent<game::cpnt::ev::EventComponent>();
+                        return (evCpnt != nullptr &&
+                                evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
                     },
                     it);
 
                 if (it != ctx->entMngr.endIter())
                 {
-                    auto* inter = it->getComponent<game::cpnt::inter::Interaction>();
-                    BN_ASSERT(inter != nullptr);
-                    BN_ASSERT(inter->getInteractionType() == bn::type_id<game::cpnt::inter::PlotSpike>());
-                    auto* plotSpike = static_cast<game::cpnt::inter::PlotSpike*>(inter);
+                    auto* evCpnt = it->getComponent<game::cpnt::ev::EventComponent>();
+                    BN_ASSERT(evCpnt != nullptr);
+                    BN_ASSERT(evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
+                    auto* plotSpike = static_cast<game::cpnt::ev::PlotSpike*>(evCpnt);
 
                     plotSpike->hideSpike();
                 }

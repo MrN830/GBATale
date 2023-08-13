@@ -106,7 +106,7 @@
   <object id="48" x="32" y="304" width="224" height="16"/>
   <object id="49" x="32" y="64" width="112" height="16"/>
  </objectgroup>
- <objectgroup id="3" name="Entity">
+ <objectgroup id="3" name="Entity" opacity="0.6">
   <object id="55" type="Entity" gid="1372" x="40" y="144" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
@@ -161,9 +161,10 @@
   <object id="61" type="Entity" gid="1364" x="88" y="96" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
-    <property name="interaction" type="class" propertytype="Interaction">
+    <property name="eventComponent" type="class" propertytype="EventComponent">
      <properties>
-      <property name="InteractionCppClass" value="PlotSpike"/>
+      <property name="EventComponentCppClass" value="PlotSpike"/>
+      <property name="isAutoFire" type="bool" value="false"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">
@@ -176,9 +177,10 @@
   <object id="62" type="Entity" gid="1364" x="72" y="96" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
-    <property name="interaction" type="class" propertytype="Interaction">
+    <property name="eventComponent" type="class" propertytype="EventComponent">
      <properties>
-      <property name="InteractionCppClass" value="PlotSpike"/>
+      <property name="EventComponentCppClass" value="PlotSpike"/>
+      <property name="isAutoFire" type="bool" value="false"/>
      </properties>
     </property>
     <property name="sprite" type="class" propertytype="Sprite">

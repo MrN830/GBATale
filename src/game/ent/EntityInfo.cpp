@@ -5,13 +5,13 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/PlotSpike.hpp"
 #include "game/cpnt/ev/SetPieImage.hpp"
 #include "game/cpnt/ev/StartBgm.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
 #include "game/cpnt/inter/HoleUp.hpp"
 #include "game/cpnt/inter/ItemPickup.hpp"
-#include "game/cpnt/inter/PlotSpike.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/cpnt/inter/RuinsColorSwitch.hpp"
 #include "game/cpnt/inter/RuinsColorSwitchHelp.hpp"
@@ -52,9 +52,6 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::AutoHideSpike>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::AutoHideSpike>(entity, interaction->isEnabled,
                                                                           interaction->triggers);
-        else if (interaction->type == bn::type_id<cpnt::inter::PlotSpike>())
-            inter = &entMngr._cpntHeap.create<cpnt::inter::PlotSpike>(entity, interaction->isEnabled,
-                                                                      interaction->triggers);
         else if (interaction->type == bn::type_id<cpnt::inter::RuinsFloorSwitch>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::RuinsFloorSwitch>(entity, interaction->isEnabled,
                                                                              interaction->triggers);
@@ -92,8 +89,12 @@ void EntityInfo::create(GameContext& ctx) const
 
         if (eventCpnt->type == bn::type_id<cpnt::ev::StartBgm>())
             evCpnt = &entMngr._cpntHeap.create<cpnt::ev::StartBgm>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::PlotSpike>())
+            evCpnt =
+                &entMngr._cpntHeap.create<cpnt::ev::PlotSpike>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
         else if (eventCpnt->type == bn::type_id<cpnt::ev::SetPieImage>())
-            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::SetPieImage>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            evCpnt =
+                &entMngr._cpntHeap.create<cpnt::ev::SetPieImage>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
         else
             BN_ERROR("Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
 

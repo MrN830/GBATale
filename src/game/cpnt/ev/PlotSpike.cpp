@@ -1,4 +1,4 @@
-#include "game/cpnt/inter/PlotSpike.hpp"
+#include "game/cpnt/ev/PlotSpike.hpp"
 
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
@@ -8,7 +8,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/ent/Entity.hpp"
 
-namespace ut::game::cpnt::inter
+namespace ut::game::cpnt::ev
 {
 
 namespace
@@ -22,8 +22,8 @@ enum SpikeGfxIdx
 
 } // namespace
 
-PlotSpike::PlotSpike(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<PlotSpike>(), isEnabled, triggers)
+PlotSpike::PlotSpike(ent::Entity& entity, bool isEnabled, bool isAutoFire)
+    : EventComponent(entity, bn::type_id<PlotSpike>(), isEnabled, isAutoFire)
 {
 }
 
@@ -62,4 +62,4 @@ void PlotSpike::hideSpike()
     _collPack->setEnabled(false);
 }
 
-} // namespace ut::game::cpnt::inter
+} // namespace ut::game::cpnt::ev
