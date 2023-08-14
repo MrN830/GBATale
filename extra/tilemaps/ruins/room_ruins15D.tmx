@@ -111,18 +111,33 @@
   <object id="57" type="Entity" gid="1372" x="176" y="80" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
   <object id="58" type="Entity" gid="1373" x="48" y="112" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsColorSwitch"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
   <object id="60" type="Entity" gid="1374" x="96" y="256" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
@@ -146,6 +161,13 @@
   </object>
   <object id="64" type="Entity" gid="1364" x="232" y="112" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="PlotSpike"/>
+      <property name="isAutoFire" type="bool" value="false"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -155,6 +177,13 @@
   </object>
   <object id="65" type="Entity" gid="1364" x="232" y="128" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="PlotSpike"/>
+      <property name="isAutoFire" type="bool" value="false"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>

@@ -8,13 +8,15 @@ namespace ut::game::cpnt::inter
 class TalkFroggit final : public Interaction
 {
 public:
-    TalkFroggit(ent::Entity&, bool isEnabled, InteractionTriggers, game::GameContext&);
+    TalkFroggit(ent::Entity&, bool isEnabled, InteractionTriggers);
+
+    void awake(GameContext&) override;
 
     void onInteract(GameContext&) override;
     void update(GameContext&) override;
 
 private:
-    const bool _isDialogSkipAdviceFroggit : 1;
+    bool _isDialogSkipAdviceFroggit : 1 = false;
 
     bool _isDialogSkipAdviceStarted : 1 = false;
     bool _isDialogSkipAdviceChanged : 1 = false;

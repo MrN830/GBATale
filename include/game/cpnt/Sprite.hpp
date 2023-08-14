@@ -21,8 +21,9 @@ public:
     static constexpr int Z_ORDER_UNSPECIFIED = -32768;
 
 public:
-    Sprite(ent::Entity&, bool isEnabled, const bn::sprite_item&, int gfxIdx, const bn::camera_ptr*,
-           bool updateZOrderOnMove, int bgPriority = consts::WORLD_BG_PRIORITY, int zOrder = Z_ORDER_UNSPECIFIED);
+    Sprite(ent::Entity&, bool isEnabled, const bn::sprite_item&, int gfxIdx, bool isBlendingEnabled,
+           const bn::camera_ptr*, bool updateZOrderOnMove, int bgPriority = consts::WORLD_BG_PRIORITY,
+           int zOrder = Z_ORDER_UNSPECIFIED);
 
     void render(GameContext&) override;
 
@@ -31,6 +32,8 @@ public:
 
 public:
     void setDiff(const bn::fixed_point& diff);
+
+    bool isBlendingEnabled() const;
 
     void setSprItem(const bn::sprite_item&, int gfxIdx);
     void setGfxIdx(int gfxIdx);
@@ -42,6 +45,7 @@ private:
     void updateZOrder();
 
 private:
+    const bool _isBlendingEnabled;
     const bool _updateZOrderOnMove;
     const bn::sprite_item* _sprItem;
 

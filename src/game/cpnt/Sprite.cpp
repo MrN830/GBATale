@@ -1,5 +1,6 @@
 #include "game/cpnt/Sprite.hpp"
 
+#include <bn_blending.h>
 #include <bn_camera_ptr.h>
 #include <bn_sprite_item.h>
 
@@ -13,13 +14,17 @@ static constexpr auto bottomOrigin(const bn::sprite_item& sprItem) -> bn::fixed_
     return {0, -sprItem.shape_size().height() / 2};
 }
 
-Sprite::Sprite(ent::Entity& entity, bool isEnabled, const bn::sprite_item& sprItem, int gfxIdx,
+Sprite::Sprite(ent::Entity& entity, bool isEnabled, const bn::sprite_item& sprItem, int gfxIdx, bool isBlendingEnabled,
                const bn::camera_ptr* camera, bool autoAlterZOrder, int bgPriority, int zOrder)
-    : Component(entity, bn::type_id<Sprite>(), isEnabled), _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
+    : Component(entity, bn::type_id<Sprite>(), isEnabled), _isBlendingEnabled(isBlendingEnabled),
+      _updateZOrderOnMove(autoAlterZOrder), _sprItem(&sprItem),
       _spr(sprItem.create_sprite(entity.getPosition() + bottomOrigin(sprItem) + _diff, gfxIdx))
 {
-    _spr.set_blending_enabled(true);
+    if (_isBlendingEnabled || bn::blending::fade_alpha() > 0)
+        _spr.set_blending_enabled(true);
+
     _spr.set_bg_priority(bgPriority);
+    _spr.set_visible(_entity.isActive() && isEnabled);
 
     if (zOrder == Z_ORDER_UNSPECIFIED)
         updateZOrder();
@@ -54,6 +59,11 @@ void Sprite::setEnabled(bool isEnabled)
 void Sprite::setDiff(const bn::fixed_point& diff)
 {
     _diff = diff;
+}
+
+bool Sprite::isBlendingEnabled() const
+{
+    return _isBlendingEnabled;
 }
 
 void Sprite::setSprItem(const bn::sprite_item& sprItem, int gfxIdx)

@@ -72,7 +72,7 @@ bool IngameMenu::handleInput()
     else if (nextMenu != MenuStateType::NONE)
         changeMenuState(nextMenu);
 
-    return false; // only control menu, not world.
+    return true;
 }
 
 bool IngameMenu::update()

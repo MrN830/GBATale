@@ -79,6 +79,11 @@ void EntityManager::reloadRoom(GameContext& ctx)
     createFrisk(*friskPos);
     for (const auto& entInfo : mTilemap->getEntities())
         entInfo.create(ctx);
+
+    // initialize
+    for (auto& entity : _entities)
+        for (auto& component : entity._components)
+            component.awake(ctx);
 }
 
 void EntityManager::createFrisk(const bn::fixed_point position)
@@ -88,7 +93,7 @@ void EntityManager::createFrisk(const bn::fixed_point position)
 
     _context.camMngr.setCamFollowEntity(&frisk);
 
-    cpnt::Sprite& spr = _cpntHeap.create<cpnt::Sprite>(frisk, true, bn::sprite_items::ch_frisk_base, 1,
+    cpnt::Sprite& spr = _cpntHeap.create<cpnt::Sprite>(frisk, true, bn::sprite_items::ch_frisk_base, 1, false,
                                                        &_context.camMngr.getCamera(), true);
     frisk.addComponent(spr);
 

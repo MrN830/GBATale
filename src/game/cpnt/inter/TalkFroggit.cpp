@@ -14,11 +14,16 @@
 namespace ut::game::cpnt::inter
 {
 
-TalkFroggit::TalkFroggit(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers, game::GameContext& ctx)
-    : Interaction(entity, bn::type_id<TalkFroggit>(), isEnabled, triggers),
-      _isDialogSkipAdviceFroggit(ctx.state.getRoom() == RoomKind::ROOM_RUINS13 &&
-                                 _entity.getId() == ent::gen::EntityId::left)
+TalkFroggit::TalkFroggit(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
+    : Interaction(entity, bn::type_id<TalkFroggit>(), isEnabled, triggers)
 {
+}
+
+void TalkFroggit::awake(GameContext& ctx)
+{
+    _isDialogSkipAdviceFroggit =
+        (ctx.state.getRoom() == RoomKind::ROOM_RUINS13 && _entity.getId() == ent::gen::EntityId::left);
+
     const int kills = ctx.state.getKills();
     const auto room = ctx.state.getRoom();
 

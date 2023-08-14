@@ -94,7 +94,7 @@ bool SavePrompt::handleInput()
         _cursor.set_position(_isSaveSelected ? CURSOR_SAVE_POS : CURSOR_RETURN_POS);
     }
 
-    return false; // no world movement
+    return true;
 }
 
 bool SavePrompt::update()

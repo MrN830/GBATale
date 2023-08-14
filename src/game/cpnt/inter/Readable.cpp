@@ -3,6 +3,7 @@
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/Sprite.hpp"
 #include "scene/Game.hpp"
 
 #include "core/ChoiceMsgKind.hpp"
@@ -16,6 +17,36 @@ Readable::Readable(ent::Entity& entity, bool isEnabled, InteractionTriggers trig
     : Interaction(entity, bn::type_id<Readable>(), isEnabled, triggers)
 {
     // TODO: Destroy certain readables when condition is met
+}
+
+void Readable::awake(GameContext& ctx)
+{
+    using EntityId = ent::gen::EntityId;
+
+    if (_entity.getId() == EntityId::candy_dish)
+    {
+        const auto& flags = ctx.state.getFlags();
+        if (flags.candy_taken >= 4)
+            dropCandyDish(ctx);
+    }
+}
+
+void Readable::dropCandyDish(GameContext& ctx)
+{
+    using EntityId = ent::gen::EntityId;
+    BN_ASSERT(_entity.getId() == EntityId::candy_dish, "dropCandyDish() called for non `candy_dish`");
+
+    auto* dishSpr = _entity.getComponent<Sprite>();
+    BN_ASSERT(dishSpr != nullptr);
+
+    auto* candy = ctx.entMngr.findById(EntityId::candy);
+    BN_ASSERT(candy != nullptr);
+    auto* candySpr = candy->getComponent<Sprite>();
+    BN_ASSERT(candySpr != nullptr);
+
+    constexpr int CANDY_DISH_DROPPED_GFXIDX = 1;
+    dishSpr->setGfxIdx(CANDY_DISH_DROPPED_GFXIDX);
+    candySpr->setEnabled(true);
 }
 
 void Readable::onInteract(GameContext& ctx)
@@ -46,6 +77,22 @@ void Readable::onInteract(GameContext& ctx)
         break;
     case RoomKind::ROOM_RUINS5:
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_67));
+        break;
+    case RoomKind::ROOM_RUINS7A:
+        if (flags.candy_taken >= 4)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1606));
+        else
+        {
+            ctx.leftChoiceMsg = core::ChoiceMsgKind::TAKE_CANDY_YES;
+            ctx.rightChoiceMsg = core::ChoiceMsgKind::TAKE_CANDY_NO;
+
+            if (flags.candy_taken == 0)
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1604));
+            else
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1603));
+
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1607));
+        }
         break;
     case RoomKind::ROOM_RUINS9:
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_68));
@@ -224,7 +271,7 @@ void Readable::onInteract(GameContext& ctx)
         else if (_entity.getId() == ent::gen::EntityId::diary)
         {
             ctx.leftChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_YES;
-            ctx.rightChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_NO;
+            ctx.rightChoiceMsg = core::ChoiceMsgKind::CLOSE_IMMEDIATELY;
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1824));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1825));
         }
@@ -363,7 +410,7 @@ void Readable::onInteract(GameContext& ctx)
         {
             if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_144));
-            else if (flags.got_bscotch_pie)
+            else if (flags.got_bscotch_pie != GameFlags::GotBscotchPie::INIT)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_141));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_140));

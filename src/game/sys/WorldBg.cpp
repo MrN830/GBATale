@@ -1,6 +1,7 @@
 #include "game/sys/WorldBg.hpp"
 
 #include <bn_assert.h>
+#include <bn_blending.h>
 #include <bn_camera_ptr.h>
 #include <bn_display.h>
 #include <bn_regular_bg_map_cell_info.h>
@@ -124,15 +125,35 @@ void WorldBg::allocateGraphics()
     _bgUpper->set_z_order(20);
     _bgUpper2->set_z_order(10);
 
-    _bgLower->set_blending_enabled(true);
-    _bgUpper->set_blending_enabled(true);
-    _bgUpper2->set_blending_enabled(true);
+    if (_isBlendingEnabled || bn::blending::fade_alpha() > 0)
+    {
+        _isBlendingEnabled = true;
+
+        _bgLower->set_blending_enabled(true);
+        _bgUpper->set_blending_enabled(true);
+        _bgUpper2->set_blending_enabled(true);
+    }
 
     if (redrawGBACells(true))
     {
         _bgMapLower->reload_cells_ref();
         _bgMapUpper->reload_cells_ref();
         _bgMapUpper2->reload_cells_ref();
+    }
+}
+
+void WorldBg::setBlendingEnabled(bool isEnabled)
+{
+    if (_isBlendingEnabled == isEnabled)
+        return;
+
+    _isBlendingEnabled = isEnabled;
+
+    if (isGraphicsAllocated())
+    {
+        _bgLower->set_blending_enabled(isEnabled);
+        _bgUpper->set_blending_enabled(isEnabled);
+        _bgUpper2->set_blending_enabled(isEnabled);
     }
 }
 

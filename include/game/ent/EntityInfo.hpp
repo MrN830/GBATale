@@ -69,6 +69,7 @@ public:
         int16_t zOrder;
         uint8_t bgPriority : 2;
         bool isEnabled : 1;
+        bool isBlendingEnabled : 1;
         bool isMoving : 1;
     };
 

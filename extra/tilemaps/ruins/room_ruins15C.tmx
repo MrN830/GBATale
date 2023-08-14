@@ -106,22 +106,37 @@
   <object id="48" x="32" y="304" width="224" height="16"/>
   <object id="49" x="32" y="64" width="112" height="16"/>
  </objectgroup>
- <objectgroup id="3" name="Entity">
+ <objectgroup id="3" name="Entity" opacity="0.6">
   <object id="55" type="Entity" gid="1372" x="40" y="144" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="RuinsColorSwitch"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
   <object id="56" type="Entity" gid="1373" x="88" y="272" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
   <object id="57" type="Entity" gid="1374" x="216" y="224" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="HoleFall"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
@@ -145,6 +160,13 @@
   </object>
   <object id="61" type="Entity" gid="1364" x="88" y="96" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="PlotSpike"/>
+      <property name="isAutoFire" type="bool" value="false"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -154,6 +176,13 @@
   </object>
   <object id="62" type="Entity" gid="1364" x="72" y="96" width="16" height="16">
    <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="eventComponent" type="class" propertytype="EventComponent">
+     <properties>
+      <property name="EventComponentCppClass" value="PlotSpike"/>
+      <property name="isAutoFire" type="bool" value="false"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="32767"/>
@@ -176,14 +205,14 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="8" name="Warp" locked="1">
+ <objectgroup id="8" name="Warp">
   <object id="50" type="Warp" x="272" y="240" width="16" height="32">
    <properties>
     <property name="roomName" value="room_ruins15B"/>
     <property name="warpId" propertytype="WarpId" value="B"/>
    </properties>
   </object>
-  <object id="51" type="Warp" x="64" y="64" width="32" height="16">
+  <object id="51" type="Warp" x="68" y="64" width="24" height="16">
    <properties>
     <property name="roomName" value="room_ruins15D"/>
     <property name="warpId" propertytype="WarpId" value="A"/>

@@ -27,6 +27,7 @@ namespace ut::game
 
 enum class ItemKind : uint8_t;
 enum class RoomKind : int16_t;
+enum class GamePlot : uint16_t;
 
 class GameState final
 {
@@ -97,7 +98,7 @@ private: // SRAM saved fields
     ItemKind _weapon;
     ItemKind _armor;
     GameFlags _flags;
-    bn::fixed _plot;
+    GamePlot _plot;
     bool _hasPhone;
     asset::BgmKind _worldBgm;
     RoomKind _room;
@@ -134,6 +135,8 @@ public: // SRAM saved fields
     auto getFlags() const -> const GameFlags&;
     auto getFlags() -> GameFlags&;
 
+    auto getPlot() const -> GamePlot;
+
     bool getHasPhone() const;
     auto getWorldBgm() const -> asset::BgmKind;
     auto getRoom() const -> RoomKind;
@@ -150,6 +153,8 @@ public:
     void setWeapon(ItemKind);
     void setArmor(ItemKind);
 
+    void setPlot(GamePlot plot);
+
     void setHasPhone(bool hasPhone);
     void setWorldBgm(asset::BgmKind);
     void setRoom(RoomKind);
@@ -163,7 +168,7 @@ private:
     void loadFromPSave(const PersistSave&);
 
 private:
-    static constexpr auto SAVE_VER = "ut00001";
+    static constexpr auto SAVE_VER = "ut00002";
     static constexpr int SRAM_REGU_SAVE_SIZE = 1 * 1024;
     static constexpr int SRAM_PERSI_SAVE_SIZE = 1 * 1024;
 
@@ -189,7 +194,7 @@ private:
         ItemKind weapon;
         ItemKind armor;
         GameFlags flag;
-        bn::fixed plot;
+        GamePlot plot;
         bool menuChoice2;
         asset::BgmKind song;
         RoomKind room;

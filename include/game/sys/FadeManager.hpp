@@ -3,13 +3,18 @@
 #include <bn_blending_actions.h>
 #include <bn_optional.h>
 
+namespace ut::game
+{
+struct GameContext;
+}
+
 namespace ut::game::sys
 {
 
 class FadeManager final
 {
 public:
-    FadeManager();
+    FadeManager(GameContext&);
 
     void render();
 
@@ -21,6 +26,11 @@ public:
     void startFadeOut(int durationUpdates);
 
 private:
+    void setAllFadeBlend(bool isEnabled);
+
+private:
+    GameContext& _context;
+
     bn::optional<bn::blending_fade_alpha_to_action> _fade;
     bool _isFadeOut = false;
 };

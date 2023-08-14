@@ -22,6 +22,14 @@ public:
     virtual ~Component() = 0;
     Component(ent::Entity&, bn::type_id_t, bool isEnabled);
 
+    /**
+     * @brief Initialization (phase 2)
+     *
+     * This method is called after all the entities & components in a room are created.
+     * Note that it's only created (i.e. `awake()` is not yet called for other components)
+     */
+    virtual void awake(GameContext&){};
+
     auto getType() const -> bn::type_id_t;
 
     virtual void handleInput(GameContext&){};

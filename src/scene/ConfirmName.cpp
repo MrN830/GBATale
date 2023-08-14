@@ -66,23 +66,23 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
     }
 
     if (isChosenName)
-        tip = "A name has already&been chosen.";
+        tip = "A name has already#been chosen.";
     else if (name == "gaster")
         tip = "";
     else if (name == "frisk")
-        tip = "WARNING: This name will&make your life hell.&Proceed anyway?";
+        tip = "WARNING: This name will#make your life hell.#Proceed anyway?";
     else if (name == "aaaaaa")
         tip = "Not very creative...?";
     else if (name == "asgore")
         tip = "You cannot.", _isAllowed = false;
     else if (name == "toriel")
-        tip = "I think you should&think of your own&name, my child.", _isAllowed = false;
+        tip = "I think you should#think of your own#name, my child.", _isAllowed = false;
     else if (name == "sans")
         tip = "nope.", _isAllowed = false;
     else if (name == "undyne")
         tip = "Get your OWN name!", _isAllowed = false;
     else if (name == "flowey")
-        tip = "I already CHOSE&that name.", _isAllowed = false;
+        tip = "I already CHOSE#that name.", _isAllowed = false;
     else if (name == "chara")
         tip = "The true name.";
     else if (name == "alphys")
@@ -92,17 +92,17 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
     else if (name == "papyru")
         tip = "I'LL ALLOW IT!!!!";
     else if (name == "napsta" || name == "blooky")
-        tip = "...........&(They're powerless to&stop you.)";
+        tip = "...........#(They're powerless to#stop you.)";
     else if (name == "murder" || name == "mercy")
-        tip = "That's a little on-&the nose, isn't it...?";
+        tip = "That's a little on-#the nose, isn't it...?";
     else if (name == "asriel")
         tip = "...", _isAllowed = false;
     else if (name == "catty")
-        tip = "Bratty! Bratty!&That's MY name!";
+        tip = "Bratty! Bratty!#That's MY name!";
     else if (name == "bratty")
         tip = "Like, OK I guess.";
     else if (name == "mtt" || name == "metta" || name == "mett")
-        tip = "OOOOH!!! ARE YOU&PROMOTING MY BRAND?";
+        tip = "OOOOH!!! ARE YOU#PROMOTING MY BRAND?";
     else if (name == "gerson")
         tip = "Wah ha ha! Why not?";
     else if (name == "shyren")
@@ -116,7 +116,7 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
     else if (name == "jerry")
         tip = "Jerry.";
     else if (name == "bpants")
-        tip = "You are really scraping the&bottom of the barrel.";
+        tip = "You are really scraping the#bottom of the barrel.";
 
     core::Dialog dialog[] = {{core::Dialog::Settings::Kind::CONFIRM_NAME, tip}};
 
@@ -136,7 +136,10 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
 
         for (int i = 0; i < _nameSpr.size(); ++i)
         {
-            const auto& spr = _nameSpr[i];
+            auto& spr = _nameSpr[i];
+
+            spr.set_blending_enabled(true);
+
             // Scale text from the 'real' center origin
             const auto centerDiffX = spr.x() - textCenterX;
             const bn::fixed_point finalPos(spr.x() + centerDiffX, spr.y() + MOVE_DIFF_Y);

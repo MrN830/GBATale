@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="64" tileheight="64" tilecount="39" columns="0" objectalignment="bottom">
+<tileset version="1.10" tiledversion="1.10.1" name="entities" tilewidth="240" tileheight="128" tilecount="42" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" x="0" y="0" width="16" height="16">
   <image width="16" height="32" source="../../graphics/sprite/ent_floor_switch.bmp"/>
@@ -43,10 +43,10 @@
    <object id="1" x="3" y="56" width="26" height="8"/>
   </objectgroup>
  </tile>
- <tile id="8" x="0" y="0" width="64" height="32">
-  <image width="64" height="64" source="../../graphics/sprite/ent_candy_dish.bmp"/>
+ <tile id="8" x="0" y="0" width="32" height="32">
+  <image width="32" height="64" source="../../graphics/sprite/ent_candy_dish.bmp"/>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="20" width="16" height="10"/>
+   <object id="1" x="0" y="22" width="16" height="10"/>
   </objectgroup>
  </tile>
  <tile id="9">
@@ -133,6 +133,30 @@
    <object id="1" x="0" y="22" width="16" height="10"/>
   </objectgroup>
  </tile>
+ <tile id="25">
+  <image width="32" height="8" source="../../graphics/sprite/ent_candy.bmp"/>
+ </tile>
+ <tile id="26">
+  <image width="240" height="128" source="ruins/room_ruins10_hole.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="8" y="8" width="48" height="112"/>
+   <object id="2" x="204" y="32" width="36" height="24"/>
+   <object id="3" x="204" y="56" width="12" height="44"/>
+   <object id="4" x="103.5" y="32" width="1" height="63"/>
+   <object id="5" x="151.5" y="80" width="1" height="48"/>
+  </objectgroup>
+ </tile>
+ <tile id="27">
+  <image width="208" height="112" source="ruins/room_ruins14_hole.png"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="7.5" y="7.5" width="1" height="1"/>
+   <object id="2" x="7.5" y="103.5" width="1" height="1"/>
+   <object id="3" x="199.5" y="7.5" width="1" height="1"/>
+   <object id="4" x="199.5" y="103.5" width="1" height="1"/>
+   <object id="5" x="103.5" y="7.5" width="1" height="1"/>
+   <object id="6" x="103.5" y="103.5" width="1" height="1"/>
+  </objectgroup>
+ </tile>
  <tile id="29">
   <image width="32" height="32" source="../../graphics/sprite/ent_dinnerchair_left.bmp"/>
   <objectgroup draworder="index" id="2">
@@ -165,6 +189,9 @@
  </tile>
  <tile id="34" x="0" y="0" width="32" height="16">
   <image width="32" height="48" source="../../graphics/sprite/ent_pie.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="9" y="7" width="14" height="8"/>
+  </objectgroup>
  </tile>
  <tile id="35">
   <image width="16" height="32" source="../../graphics/sprite/ent_bedroomchair.bmp"/>
