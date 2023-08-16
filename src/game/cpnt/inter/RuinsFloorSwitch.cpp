@@ -25,10 +25,10 @@ RuinsFloorSwitch::RuinsFloorSwitch(ent::Entity& entity, bool isEnabled, Interact
 {
 }
 
-void RuinsFloorSwitch::onInteract(GameContext& ctx)
+auto RuinsFloorSwitch::onInteract(GameContext& ctx) -> task::Task
 {
     if (isPressed)
-        return;
+        co_return;
 
     isPressed = true;
 
@@ -39,6 +39,8 @@ void RuinsFloorSwitch::onInteract(GameContext& ctx)
     auto* spr = _entity.getComponent<cpnt::Sprite>();
     BN_ASSERT(spr != nullptr);
     spr->setGfxIdx(FloorSwitchGfxIdx::PRESSED);
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::inter

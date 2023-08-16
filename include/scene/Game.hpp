@@ -7,6 +7,7 @@
 #include "game/sys/EntityManager.hpp"
 #include "game/sys/FadeManager.hpp"
 #include "game/sys/RoomChanger.hpp"
+#include "game/sys/TaskManager.hpp"
 #include "game/sys/WorldBg.hpp"
 
 namespace ut::scene
@@ -27,6 +28,7 @@ public:
     void startDialog();
 
 private:
+    game::sys::TaskManager _taskMngr;
     game::sys::CameraManager _camMngr;
     game::sys::WorldBg _worldBg;
     game::sys::EntityManager _entMngr;

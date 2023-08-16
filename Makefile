@@ -13,7 +13,7 @@
 # ROMCODE is a uppercase ASCII, max 4 characters text string containing the output ROM code.
 # USERFLAGS is a list of additional compiler flags:
 #     Pass -flto to enable link-time optimization.
-#     Pass -Og to improve debugging.
+#     Pass -O0 or -Og to try to make debugging work.
 # USERASFLAGS is a list of additional assembler flags.
 # USERLDFLAGS is a list of additional linker flags:
 #     Pass -flto=<number_of_cpu_cores> to enable parallel link-time optimization.
@@ -30,7 +30,7 @@ BUILD       :=  build
 USERBUILD   :=  build_ut
 LIBBUTANO   :=  butano/butano
 PYTHON      :=  python
-SOURCES     :=  src $(USERBUILD)/src src/asset src/core src/scene src/scene/test src/game src/game/ent src/game/cpnt src/game/cpnt/inter src/game/cpnt/ev src/game/sys src/game/cmd src/game/coll src/game/menu src/mtile src/debug lib/src/crc32 butano/common/src
+SOURCES     :=  src $(USERBUILD)/src src/asset src/core src/scene src/scene/test src/game src/game/ent src/game/cpnt src/game/cpnt/inter src/game/cpnt/ev src/game/task src/game/sys src/game/cmd src/game/coll src/game/menu src/mtile src/debug lib/src/crc32 butano/common/src
 INCLUDES    :=  include lib/include $(USERBUILD)/include butano/common/include
 DATA        :=
 GRAPHICS    :=  graphics $(USERBUILD)/graphics graphics/font graphics/font/palette graphics/bg graphics/bg/palette graphics/sprite graphics/sprite/palette butano/common/graphics
@@ -38,7 +38,8 @@ AUDIO       :=  audio/music audio/sound
 DMGAUDIO    :=  dmg_audio
 ROMTITLE    :=  UNDERTALE
 ROMCODE     :=  2UTE
-USERFLAGS   :=  -DUT_MEM_VIEW=true -DUT_TEST_SCENE=true -D__BYTE_ORDER=__LITTLE_ENDIAN
+# `-Wno-switch-default` => coroutine warning bug : https://gcc.gnu.org/bugzilla/show_bug.cgi?id=109867
+USERFLAGS   :=  -DUT_MEM_VIEW=true -DUT_TEST_SCENE=true -D__BYTE_ORDER=__LITTLE_ENDIAN -Wno-switch-default
 USERASFLAGS :=  
 USERLDFLAGS :=  
 USERLIBDIRS :=  

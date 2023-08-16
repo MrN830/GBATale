@@ -1,5 +1,8 @@
 #include "game/cpnt/ev/EventComponent.hpp"
 
+#include "game/GameContext.hpp"
+#include "game/sys/TaskManager.hpp"
+
 namespace ut::game::cpnt::ev
 {
 
@@ -18,8 +21,11 @@ void EventComponent::update(GameContext& ctx)
 {
     if (_isAutoFire && !_hasAutoFired)
     {
-        onEvent(ctx);
         _hasAutoFired = true;
+
+        auto task = onEvent(ctx);
+        if (!task.done())
+            ctx.taskMngr.addTask(std::move(task));
     }
 }
 

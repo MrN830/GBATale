@@ -53,12 +53,12 @@ void HoleFall::awake(GameContext& ctx)
     BN_ASSERT(_frisk != nullptr);
 }
 
-void HoleFall::onInteract(GameContext& ctx)
+auto HoleFall::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
     if (ctx.interactStack.top() != InteractState::FREE)
-        return;
+        co_return;
 
     if (_holeSprs.full())
         _holeSprs.pop_front();
@@ -89,6 +89,8 @@ void HoleFall::onInteract(GameContext& ctx)
         const int waitRedraw = (isWrongSwitchFall(ctx) ? WRONG_SWITCH_FALL_WAIT_REDRAW : FRISK_FALL_WAIT_REDRAW);
         _redrawCountdown = waitRedraw + 1;
     }
+
+    co_return;
 }
 
 void HoleFall::update(GameContext& ctx)

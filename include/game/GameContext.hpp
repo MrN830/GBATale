@@ -19,6 +19,7 @@ class Game;
 namespace ut::game::sys
 {
 class WorldBg;
+class TaskManager;
 class EntityManager;
 class CameraManager;
 class FadeManager;
@@ -36,6 +37,7 @@ struct GameContext
     scene::Game& game;
     GameState& state;
 
+    game::sys::TaskManager& taskMngr;
     game::sys::CameraManager& camMngr;
     game::sys::WorldBg& worldBg;
     game::sys::EntityManager& entMngr;

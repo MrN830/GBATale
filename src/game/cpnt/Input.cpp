@@ -9,6 +9,7 @@
 #include "game/cpnt/inter/Interaction.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
+#include "game/sys/TaskManager.hpp"
 #include "gen/EntityId.hpp"
 #include "mtile/MTilemap.hpp"
 
@@ -79,7 +80,9 @@ void Input::collideWithInteraction(const cmd::MoveCmd& cmd, GameContext& ctx)
                 auto* interaction = it->getComponent<inter::Interaction>();
                 BN_ASSERT(interaction != nullptr);
 
-                interaction->onInteract(ctx);
+                auto task = interaction->onInteract(ctx);
+                if (!task.done())
+                    ctx.taskMngr.addTask(std::move(task));
             }
         }
 

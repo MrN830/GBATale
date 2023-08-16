@@ -25,7 +25,7 @@ SetPieImage::SetPieImage(ent::Entity& entity, bool isEnabled, bool isAutoFire)
 {
 }
 
-void SetPieImage::onEvent(GameContext& ctx)
+auto SetPieImage::onEvent(GameContext& ctx) -> task::Task
 {
     const auto& flags = ctx.state.getFlags();
 
@@ -35,6 +35,8 @@ void SetPieImage::onEvent(GameContext& ctx)
     const int gfxIdx =
         (flags.got_bscotch_pie != GameFlags::GotBscotchPie::INIT) ? PieGfxIdx::BIG_SLICED : PieGfxIdx::BIG_FULL;
     spr->setGfxIdx(gfxIdx);
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::ev

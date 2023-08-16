@@ -49,7 +49,7 @@ void Readable::dropCandyDish(GameContext& ctx)
     candySpr->setEnabled(true);
 }
 
-void Readable::onInteract(GameContext& ctx)
+auto Readable::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
@@ -470,6 +470,8 @@ void Readable::onInteract(GameContext& ctx)
     ctx.game.startDialog();
 
     ++_readCount;
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::inter

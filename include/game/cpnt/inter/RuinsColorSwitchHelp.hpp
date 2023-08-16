@@ -12,7 +12,7 @@ public:
 
     void awake(GameContext&) override;
 
-    void onInteract(GameContext&) override;
+    auto onInteract(GameContext&)  -> task::Task override;
 };
 
 } // namespace ut::game::cpnt::inter

@@ -45,7 +45,7 @@ void TalkFroggit::awake(GameContext& ctx)
     }
 }
 
-void TalkFroggit::onInteract(GameContext& ctx)
+auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
@@ -209,6 +209,8 @@ void TalkFroggit::onInteract(GameContext& ctx)
     }
 
     ctx.game.startDialog();
+
+    co_return;
 }
 
 void TalkFroggit::update(GameContext& ctx)

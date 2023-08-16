@@ -14,7 +14,7 @@ public:
 
     void dropCandyDish(GameContext&);
 
-    void onInteract(GameContext&) override;
+    auto onInteract(GameContext&) -> task::Task override;
 
 private:
     int _readCount = 0;

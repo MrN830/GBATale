@@ -10,7 +10,7 @@ class StartBgm : public EventComponent
 public:
     StartBgm(ent::Entity&, bool isEnabled, bool isAutoFire);
 
-    void onEvent(GameContext&) override;
+    auto onEvent(GameContext&) -> task::Task override;
 };
 
 } // namespace ut::game::cpnt::ev

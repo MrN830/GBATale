@@ -56,6 +56,11 @@ void PlotSpike::awake(GameContext& ctx)
     }
 }
 
+auto PlotSpike::onEvent(GameContext&) -> task::Task
+{
+    co_return;
+}
+
 void PlotSpike::hideSpike()
 {
     _spr->setGfxIdx(SpikeGfxIdx::HIDE);

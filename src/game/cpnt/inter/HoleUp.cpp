@@ -33,16 +33,18 @@ void HoleUp::awake(GameContext& ctx)
     BN_ASSERT(_frisk != nullptr);
 }
 
-void HoleUp::onInteract(GameContext& ctx)
+auto HoleUp::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
     if (ctx.interactStack.top() != InteractState::FREE)
-        return;
+        co_return;
 
     ctx.interactStack.push(InteractState::FALLING);
 
     _delayCountdown = START_GO_UP_DELAY + 1;
+
+    co_return;
 }
 
 void HoleUp::update(GameContext& ctx)

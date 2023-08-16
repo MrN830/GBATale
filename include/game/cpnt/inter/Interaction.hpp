@@ -3,6 +3,7 @@
 #include "game/cpnt/Component.hpp"
 
 #include "game/cpnt/inter/InteractionTriggers.hpp"
+#include "game/task/Task.hpp"
 
 namespace ut::game::cpnt::inter
 {
@@ -15,7 +16,7 @@ public:
 
     auto getInteractionType() const -> bn::type_id_t;
 
-    virtual void onInteract(GameContext&);
+    virtual auto onInteract(GameContext&) -> task::Task;
     virtual void onInteractionCollisionExit(GameContext&){};
 
     void update(GameContext&) override;

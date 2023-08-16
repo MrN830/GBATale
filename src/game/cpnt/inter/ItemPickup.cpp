@@ -4,6 +4,7 @@
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/ent/Entity.hpp"
+#include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
 
 #include "gen/TextData.hpp"
@@ -21,7 +22,7 @@ void ItemPickup::awake(GameContext& ctx)
     destroyIfAlreadyGot(ctx);
 }
 
-void ItemPickup::onInteract(GameContext& ctx)
+auto ItemPickup::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
@@ -81,10 +82,14 @@ void ItemPickup::onInteract(GameContext& ctx)
         BN_ERROR("ItemPickup in invalid room=", (int)room);
     }
 
-    // TODO: Remove item after the dialog ends
+    ctx.game.startDialog();
+
+    co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
+
+    // Remove item after the dialog ends
     destroyIfAlreadyGot(ctx);
 
-    ctx.game.startDialog();
+    co_return;
 }
 
 void ItemPickup::destroyIfAlreadyGot(GameContext& ctx)

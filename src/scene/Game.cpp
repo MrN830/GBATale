@@ -23,6 +23,7 @@ Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
       _fadeMngr(_gameContext), _gameContext{sceneContext,
                                             *this,
                                             sceneContext.gameState,
+                                            _taskMngr,
                                             _camMngr,
                                             _worldBg,
                                             _entMngr,
@@ -65,6 +66,7 @@ bool Game::handleInput()
 
 bool Game::update()
 {
+    _taskMngr.update();
     _roomChanger.update(_gameContext);
     _entMngr.update();
     _camMngr.update(_gameContext);

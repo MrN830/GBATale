@@ -12,6 +12,7 @@
 #include "game/cpnt/ev/PlotSpike.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/sys/EntityManager.hpp"
+#include "game/sys/TaskManager.hpp"
 
 #include "gen/EntityId.hpp"
 #include "gen/TextData.hpp"
@@ -82,6 +83,9 @@ bool IngameDialog::update()
 
         auto* ctx = getContext().gameContext;
         BN_ASSERT(ctx != nullptr);
+
+        ctx->taskMngr.onSignal({game::task::TaskSignal::Kind::DIALOG_END});
+
         if (ctx->isSavePromptRequested)
             reqStackPush(SceneId::SAVE_PROMPT);
     }

@@ -16,7 +16,7 @@ RuinsColorSwitch::RuinsColorSwitch(ent::Entity& entity, bool isEnabled, Interact
 {
 }
 
-void RuinsColorSwitch::onInteract(GameContext& ctx)
+auto RuinsColorSwitch::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
@@ -44,6 +44,8 @@ void RuinsColorSwitch::onInteract(GameContext& ctx)
         BN_ERROR("RuinsColorSwitch in invalid room=", (int)room);
 
     ctx.game.startDialog();
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::inter
