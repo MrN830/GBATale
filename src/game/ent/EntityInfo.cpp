@@ -12,6 +12,7 @@
 #include "game/cpnt/inter/HoleFall.hpp"
 #include "game/cpnt/inter/HoleUp.hpp"
 #include "game/cpnt/inter/ItemPickup.hpp"
+#include "game/cpnt/inter/MouseSqueak.hpp"
 #include "game/cpnt/inter/Readable.hpp"
 #include "game/cpnt/inter/RuinsColorSwitch.hpp"
 #include "game/cpnt/inter/RuinsColorSwitchHelp.hpp"
@@ -76,6 +77,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::HoleUp>())
             inter =
                 &entMngr._cpntHeap.create<cpnt::inter::HoleUp>(entity, interaction->isEnabled, interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::MouseSqueak>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::MouseSqueak>(entity, interaction->isEnabled,
+                                                                        interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 

@@ -40,6 +40,7 @@ enum class SfxKind
     DOG_RESIDUE,
     DOG_SALAD,
     CAT_SALAD,
+    MOUSE_SQUEAK,
     HERO,
 
     MENU_CURSOR,

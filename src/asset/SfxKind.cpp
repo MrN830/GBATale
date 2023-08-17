@@ -24,7 +24,7 @@ static constexpr const bn::sound_item* SFXS[(int)SfxKind::TOTAL_COUNT] = {
     &bn::sound_items::snd_speedup,    &bn::sound_items::snd_spooky,
     &bn::sound_items::snd_sparkle1,   &bn::sound_items::snd_dogresidue,
     &bn::sound_items::snd_dogsalad,   &bn::sound_items::snd_catsalad,
-    &bn::sound_items::snd_hero,
+    &bn::sound_items::snd_movemenu,   &bn::sound_items::snd_hero,
 
     &bn::sound_items::snd_squeak,     &bn::sound_items::snd_select,
 

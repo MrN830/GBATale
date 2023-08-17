@@ -150,6 +150,15 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         else
             BN_ERROR("Invalid readable in `room_ruins10`");
         break;
+    case RoomKind::ROOM_RUINS12A:
+        if (flags.true_pacifist)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_cheesetable1_62));
+        else
+        {
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_cheesetable1_58));
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_cheesetable1_59));
+        }
+        break;
     case RoomKind::ROOM_RUINS12B:
         if (_entity.getId() == ent::gen::EntityId::sign)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_sign_room_66));
