@@ -10,6 +10,7 @@
 #include "asset/TextColor.hpp"
 #include "core/Dialog.hpp"
 #include "core/TextGens.hpp"
+#include "core/DialogChoice.hpp"
 
 #include "consts.hpp"
 
@@ -90,20 +91,20 @@ bool DialogWriter::instantWrite()
     return prevCharIdx != _nextCharIdx;
 }
 
-auto DialogWriter::confirmKeyInput() -> TextChoice
+auto DialogWriter::confirmKeyInput() -> DialogChoice
 {
     if (!isWaitInput())
-        return TextChoice::NONE;
+        return DialogChoice::NONE;
 
     _isWaitInput = false;
 
     // text choice (e.g. yes/no)
-    auto result = TextChoice::NONE;
+    auto result = DialogChoice::NONE;
     if (_heartSpr.has_value())
     {
         _heartSpr.reset();
 
-        result = (_isLeftSelected ? TextChoice::LEFT : TextChoice::RIGHT);
+        result = (_isLeftSelected ? DialogChoice::LEFT : DialogChoice::RIGHT);
     }
 
     if (_isCloseRequested)

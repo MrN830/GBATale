@@ -11,11 +11,6 @@
 
 #include "consts.hpp"
 
-namespace ut::core
-{
-enum class ChoiceMsgKind : uint16_t;
-}
-
 namespace ut::scene
 {
 
@@ -28,7 +23,7 @@ public:
     bool handleInput() override;
     bool update() override;
 
-private:
+public:
     void start();
 
 private:
@@ -45,9 +40,6 @@ public:
 
     auto getDialogs() -> decltype((_dialogs));
     auto getDialogs() const -> decltype((_dialogs));
-
-private:
-    void resetToChoiceMsg(core::DialogWriter::TextChoice);
 };
 
 } // namespace ut::scene

@@ -2,6 +2,11 @@
 
 #include "game/task/Task.hpp"
 
+namespace ut::core
+{
+enum class DialogChoice;
+}
+
 namespace ut::game::task
 {
 
@@ -36,16 +41,9 @@ private:
 class DialogChoiceAwaiter
 {
 public:
-    enum class Choice
-    {
-        LEFT,
-        RIGHT
-    };
-
-public:
     bool await_ready() const;
     void await_suspend(task::Task::CoHandle coHandle);
-    auto await_resume() -> Choice;
+    auto await_resume() -> core::DialogChoice;
 
 private:
     task::Task::CoHandle _coHandle;

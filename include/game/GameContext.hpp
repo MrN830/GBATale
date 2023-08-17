@@ -7,10 +7,6 @@
 
 #include "consts.hpp"
 
-namespace ut::core
-{
-enum class ChoiceMsgKind : uint16_t;
-}
 namespace ut::scene
 {
 struct SceneContext;
@@ -47,8 +43,6 @@ struct GameContext
     InteractStateStack& interactStack;
 
     bn::vector<bn::string_view, consts::DIALOG_MAX_LINES>& msg;
-    core::ChoiceMsgKind leftChoiceMsg;
-    core::ChoiceMsgKind rightChoiceMsg;
 
     mtile::WarpId warpId = mtile::WarpId::INIT;
 

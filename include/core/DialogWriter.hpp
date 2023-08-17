@@ -13,6 +13,8 @@ namespace ut::core
 class TextGens;
 struct Dialog;
 
+enum class DialogChoice;
+
 struct SpecialToken
 {
     enum class Kind
@@ -60,14 +62,6 @@ struct SpecialToken
 class DialogWriter
 {
 public:
-    enum class TextChoice
-    {
-        NONE,
-        LEFT,
-        RIGHT
-    };
-
-public:
     DialogWriter(TextGens&, int bgPriority = 3);
 
     void reset();
@@ -78,7 +72,7 @@ public:
 
     bool instantWrite();
 
-    auto confirmKeyInput() -> TextChoice;
+    auto confirmKeyInput() -> DialogChoice;
 
     void update();
 

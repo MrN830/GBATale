@@ -5,10 +5,11 @@
 #include <bn_keypad.h>
 
 #include "asset/Bgm.hpp"
-#include "core/ChoiceMsgKind.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "mtile/SpawnPoints.hpp"
+#include "scene/IngameDialog.hpp"
+#include "scene/SceneStack.hpp"
 
 namespace ut::scene
 {
@@ -20,19 +21,9 @@ constexpr int FI_FRAMES = 12;
 
 Game::Game(SceneStack& sceneStack, SceneContext& sceneContext)
     : Scene(sceneStack, sceneContext, SceneId::GAME), _worldBg(_camMngr.getCamera()), _entMngr(_gameContext),
-      _fadeMngr(_gameContext), _gameContext{sceneContext,
-                                            *this,
-                                            sceneContext.gameState,
-                                            _taskMngr,
-                                            _camMngr,
-                                            _worldBg,
-                                            _entMngr,
-                                            _fadeMngr,
-                                            _roomChanger,
-                                            _interactStack,
-                                            _msg,
-                                            core::ChoiceMsgKind::NONE,
-                                            core::ChoiceMsgKind::NONE}
+      _fadeMngr(_gameContext),
+      _gameContext{sceneContext, *this,     sceneContext.gameState, _taskMngr,      _camMngr, _worldBg,
+                   _entMngr,     _fadeMngr, _roomChanger,           _interactStack, _msg}
 {
     sceneContext.menuCursorIdx = 0;
     sceneContext.gameContext = &_gameContext;
@@ -93,8 +84,19 @@ void Game::openSavePrompt()
 
 void Game::startDialog()
 {
-    _gameContext.interactStack.push(game::InteractState::INTERACT);
-    reqStackPush(SceneId::INGAME_DIALOG);
+    auto& scene = getSceneStack().getTopScene();
+
+    if (scene.getId() == SceneId::INGAME_DIALOG)
+    {
+        // if already showing dialogs, restart it to show the new `msg`
+        auto& dialogScene = static_cast<scene::IngameDialog&>(scene);
+        dialogScene.start();
+    }
+    else
+    {
+        _gameContext.interactStack.push(game::InteractState::INTERACT);
+        reqStackPush(SceneId::INGAME_DIALOG);
+    }
 }
 
 } // namespace ut::scene

@@ -56,7 +56,7 @@ void TaskManager::onSignal(const task::TaskSignal& received)
 {
     for (auto& task : _tasks)
     {
-        const auto& signal = task.getTaskSignal();
+        auto& signal = task.getTaskSignal();
 
         if (signal.kind != received.kind)
             continue;
@@ -71,6 +71,10 @@ void TaskManager::onSignal(const task::TaskSignal& received)
             break;
 
         case SigKind::DIALOG_CHOICE:
+            signal.number = received.number;
+            task.resume();
+            break;
+
         case SigKind::DIALOG_END:
             task.resume();
             break;

@@ -1,6 +1,6 @@
 #include "game/cpnt/inter/TalkFroggit.hpp"
 
-#include "core/ChoiceMsgKind.hpp"
+#include "core/DialogChoice.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
@@ -49,14 +49,13 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
-    const auto& flags = ctx.state.getFlags();
+    auto& flags = ctx.state.getFlags();
 
     ctx.msg.clear();
     const auto room = ctx.state.getRoom();
     switch (room)
     {
         using namespace ut::asset;
-        using CMKind = core::ChoiceMsgKind;
 
     case RoomKind::ROOM_RUINS7:
         if (flags.true_pacifist)
@@ -171,20 +170,82 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
             {
                 if (flags.name_color == GameFlags::NameColor::YELLOW)
                 {
-                    ctx.leftChoiceMsg = CMKind::YELLOW_NAME_HELPFUL;
-                    ctx.rightChoiceMsg = CMKind::YELLOW_NAME_BAD;
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4477));
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4478));
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4479));
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4480));
+
+                    // Dialog choice: Yellow name
+                    ctx.game.startDialog();
+                    auto dialogChoice = co_await task::DialogChoiceAwaiter();
+                    ctx.msg.clear();
+
+                    // Dialog choice: Yellow name `HELPFUL`
+                    if (dialogChoice == core::DialogChoice::LEFT)
+                    {
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4486));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4487));
+                    }
+                    // Dialog choice: Yellow name `BAD`
+                    else if (dialogChoice == core::DialogChoice::RIGHT)
+                    {
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4491));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4492));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4493));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4494));
+
+                        // Dialog choice: Remove yellow name?
+                        ctx.game.startDialog();
+                        dialogChoice = co_await task::DialogChoiceAwaiter();
+                        ctx.msg.clear();
+
+                        // Dialog choice: Remove yellow name? `NO`
+                        if (dialogChoice == core::DialogChoice::LEFT)
+                        {
+                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4501));
+                        }
+                        // Dialog choice: Remove yellow name? `YES`
+                        else if (dialogChoice == core::DialogChoice::RIGHT)
+                        {
+                            flags.name_color = game::GameFlags::NameColor::WHITE;
+                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4505));
+                        }
+                        else
+                            BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
+                    }
+                    else
+                        BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
                 }
                 else if (flags.name_color == GameFlags::NameColor::WHITE)
                 {
-                    ctx.leftChoiceMsg = CMKind::NO_NAME_COLOR_GREAT;
-                    ctx.rightChoiceMsg = CMKind::BRING_NAME_COLOR_BACK;
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4511));
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4512));
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4513));
+
+                    // Dialog choice: White name
+                    ctx.game.startDialog();
+                    auto dialogChoice = co_await task::DialogChoiceAwaiter();
+                    ctx.msg.clear();
+
+                    // Dialog choice: White name `GREAT`
+                    if (dialogChoice == core::DialogChoice::LEFT)
+                    {
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4519));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4520));
+                    }
+                    // Dialog choice: White name `BRING_COLOR_BACK`
+                    else if (dialogChoice == core::DialogChoice::RIGHT)
+                    {
+                        flags.name_color = game::GameFlags::NameColor::PINK;
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4524));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4525));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4526));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4527));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4528));
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4529));
+                    }
+                    else
+                        BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
                 }
                 else if (flags.name_color == GameFlags::NameColor::PINK)
                 {

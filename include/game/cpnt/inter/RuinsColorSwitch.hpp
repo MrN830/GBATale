@@ -11,6 +11,9 @@ public:
     RuinsColorSwitch(ent::Entity&, bool isEnabled, InteractionTriggers);
 
     auto onInteract(GameContext&) -> task::Task override;
+
+private:
+    void hideAllSpikesInRoom(GameContext&);
 };
 
 } // namespace ut::game::cpnt::inter

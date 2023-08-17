@@ -2,6 +2,8 @@
 
 #include <bn_assert.h>
 
+#include "core/DialogChoice.hpp"
+
 namespace ut::game::task
 {
 
@@ -55,11 +57,15 @@ bool DialogChoiceAwaiter::await_ready() const
 void DialogChoiceAwaiter::await_suspend(task::Task::CoHandle coHandle)
 {
     _coHandle = coHandle;
+
+    auto& signal = coHandle.promise().taskSignal;
+    signal.kind = TaskSignal::Kind::DIALOG_CHOICE;
+    signal.number = (int)core::DialogChoice::NONE;
 }
 
-auto DialogChoiceAwaiter::await_resume() -> Choice
+auto DialogChoiceAwaiter::await_resume() -> core::DialogChoice
 {
-    return (_coHandle.promise().taskSignal.number == 0) ? Choice::LEFT : Choice::RIGHT;
+    return (core::DialogChoice)_coHandle.promise().taskSignal.number;
 }
 
 } // namespace ut::game::task

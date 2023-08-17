@@ -6,7 +6,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "scene/Game.hpp"
 
-#include "core/ChoiceMsgKind.hpp"
+#include "core/DialogChoice.hpp"
 #include "gen/EntityId.hpp"
 #include "gen/TextData.hpp"
 
@@ -83,15 +83,60 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1606));
         else
         {
-            ctx.leftChoiceMsg = core::ChoiceMsgKind::TAKE_CANDY_YES;
-            ctx.rightChoiceMsg = core::ChoiceMsgKind::TAKE_CANDY_NO;
-
             if (flags.candy_taken == 0)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1604));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1603));
-
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1607));
+
+            // Dialog choice: Take candy
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Take candy `YES`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                auto& items = ctx.state.getItems();
+
+                if (items.full())
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1635));
+                else
+                {
+                    items.push_back(game::ItemKind::MONSTER_CANDY);
+                    flags.candy_taken += 1;
+
+                    if (flags.candy_taken == 1)
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1624));
+                    else if (flags.candy_taken == 2)
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1625));
+                    else if (flags.candy_taken == 3)
+                    {
+                        if (flags.hardmode)
+                        {
+                            flags.candy_taken += 1;
+                            dropCandyDish(ctx);
+                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1631));
+                        }
+                        else
+                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1626));
+                    }
+                    else if (flags.candy_taken == 4)
+                    {
+                        dropCandyDish(ctx);
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1628));
+                    }
+                    else
+                        BN_ERROR("Invalid flags.candy_taken=", (int)flags.candy_taken);
+                }
+            }
+            // Dialog choice: Take candy `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+            {
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1639));
+            }
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
         }
         break;
     case RoomKind::ROOM_RUINS9:
@@ -270,10 +315,29 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_124));
         else if (_entity.getId() == ent::gen::EntityId::diary)
         {
-            ctx.leftChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_YES;
-            ctx.rightChoiceMsg = core::ChoiceMsgKind::CLOSE_IMMEDIATELY;
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1824));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1825));
+
+            // Dialog choice: Toriel's diary
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Toriel's diary `YES`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1830));
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1831));
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1832));
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1833));
+            }
+            // Dialog choice: Toriel's diary `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+            {
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1835));
+            }
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
         }
         else if (_entity.getId() == ent::gen::EntityId::socks)
         {
