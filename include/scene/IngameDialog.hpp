@@ -18,13 +18,15 @@ class IngameDialog : public Scene
 {
 public:
     IngameDialog(SceneStack&, SceneContext&);
-    ~IngameDialog();
 
     bool handleInput() override;
     bool update() override;
 
 public:
     void start();
+
+private:
+    void reset();
 
 private:
     bn::regular_bg_ptr _bg;

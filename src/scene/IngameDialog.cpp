@@ -31,18 +31,6 @@ IngameDialog::IngameDialog(SceneStack& sceneStack, SceneContext& context)
     start();
 }
 
-IngameDialog::~IngameDialog()
-{
-    BN_ASSERT(getContext().gameContext != nullptr);
-    auto& ctx = *getContext().gameContext;
-
-    BN_ASSERT(ctx.interactStack.top() == game::InteractState::INTERACT);
-    if (!ctx.isSavePromptRequested)
-        ctx.interactStack.pop();
-
-    ctx.msg.clear();
-}
-
 bool IngameDialog::handleInput()
 {
     if (bn::keypad::a_pressed())
@@ -73,14 +61,12 @@ bool IngameDialog::update()
     if (!_dialogWriter.isStarted())
     {
         reqStackPop();
+        reset();
 
         auto* ctx = getContext().gameContext;
         BN_ASSERT(ctx != nullptr);
 
         ctx->taskMngr.onSignal({game::task::TaskSignal::Kind::DIALOG_END});
-
-        if (ctx->isSavePromptRequested)
-            reqStackPush(SceneId::SAVE_PROMPT);
     }
 
     return true;
@@ -100,6 +86,17 @@ void IngameDialog::start()
         _dialogs.push_back(core::Dialog{dialogSettings, str});
 
     _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+}
+
+void IngameDialog::reset()
+{
+    BN_ASSERT(getContext().gameContext != nullptr);
+    auto& ctx = *getContext().gameContext;
+
+    BN_ASSERT(ctx.interactStack.top() == game::InteractState::DIALOG);
+    ctx.interactStack.pop();
+
+    ctx.msg.clear();
 }
 
 auto IngameDialog::getWriter() const -> const core::DialogWriter&

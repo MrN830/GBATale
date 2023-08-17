@@ -22,8 +22,6 @@ auto SavePoint::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
-    ctx.isSavePromptRequested = true;
-
     asset::getSfx(asset::SfxKind::HEAL_BIG)->play();
 
     const int lackingHp = ctx.state.getMaxHp() - ctx.state.getCurHp();
@@ -175,6 +173,9 @@ auto SavePoint::onInteract(GameContext& ctx) -> task::Task
 
     // TODO: Add genocide save point dialogs
     ctx.game.startDialog();
+    co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
+
+    ctx.game.openSavePrompt();
 
     co_return;
 }

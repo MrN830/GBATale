@@ -78,7 +78,7 @@ void Game::openIngameMenu()
 
 void Game::openSavePrompt()
 {
-    _gameContext.interactStack.push(game::InteractState::INTERACT);
+    _gameContext.interactStack.push(game::InteractState::SAVE_PROMPT);
     reqStackPush(SceneId::SAVE_PROMPT);
 }
 
@@ -94,7 +94,7 @@ void Game::startDialog()
     }
     else
     {
-        _gameContext.interactStack.push(game::InteractState::INTERACT);
+        _gameContext.interactStack.push(game::InteractState::DIALOG);
         reqStackPush(SceneId::INGAME_DIALOG);
     }
 }

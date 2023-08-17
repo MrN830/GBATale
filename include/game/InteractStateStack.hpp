@@ -9,6 +9,8 @@ enum class InteractState : int8_t
 {
     FREE,
     INTERACT,
+    DIALOG,
+    SAVE_PROMPT,
     CUTSCENE,
     ROOM_CHANGE,
     FALLING,
