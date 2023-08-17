@@ -28,6 +28,8 @@ public:
 private:
     void reset();
 
+    void redrawGoldDisplay();
+
 private:
     bn::regular_bg_ptr _bg;
 
@@ -35,6 +37,10 @@ private:
 
     bn::vector<core::Dialog, consts::DIALOG_MAX_LINES> _dialogs;
     bn::vector<bn::sprite_ptr, consts::DIALOG_MAX_SPRITES> _text;
+
+    bn::vector<bn::sprite_ptr, 7> _goldText;
+
+    bool _isDialogGold = false;
 
 public:
     auto getWriter() const -> const core::DialogWriter&;

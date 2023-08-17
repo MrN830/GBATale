@@ -74,7 +74,7 @@
   <object id="48" x="192" y="80" width="16" height="64"/>
  </objectgroup>
  <objectgroup id="3" name="Entity">
-  <object id="41" type="Entity" gid="1363" x="128" y="112" width="16" height="16">
+  <object id="41" name="sign" type="Entity" gid="1363" x="128" y="112" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
     <property name="interaction" type="class" propertytype="Interaction">
@@ -85,15 +85,25 @@
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="51" type="Entity" gid="1378" x="104" y="88" width="16" height="16">
+  <object id="51" name="left" type="Entity" gid="1378" x="104" y="88" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="52" type="Entity" gid="1379" x="160" y="96" width="32" height="32">
+  <object id="52" name="right" type="Entity" gid="1379" x="160" y="96" width="32" height="32">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>

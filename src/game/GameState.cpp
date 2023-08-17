@@ -317,6 +317,11 @@ void GameState::changeHp(int diff)
     _curHp = bn::clamp(_curHp + diff, 0, _maxHp);
 }
 
+void GameState::setGold(int gold)
+{
+    _gold = bn::max(0, gold);
+}
+
 void GameState::setWeapon(ItemKind weapon)
 {
     _weapon = weapon;

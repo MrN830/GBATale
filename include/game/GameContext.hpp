@@ -46,7 +46,8 @@ struct GameContext
 
     mtile::WarpId warpId = mtile::WarpId::INIT;
 
-    bool isDialogUpper = false;
+    bool isDialogUpper : 1 = false;
+    bool isDialogGold : 1 = false;
 };
 
 } // namespace ut::game

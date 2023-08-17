@@ -53,7 +53,9 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
-    auto& flags = ctx.state.getFlags();
+    auto& state = ctx.state;
+    auto& flags = state.getFlags();
+    auto& items = state.getItems();
 
     ctx.msg.clear();
     const auto room = ctx.state.getRoom();
@@ -97,8 +99,6 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             // Dialog choice: Take candy `YES`
             if (dialogChoice == core::DialogChoice::LEFT)
             {
-                auto& items = ctx.state.getItems();
-
                 if (items.full())
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1635));
                 else
@@ -151,8 +151,82 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             BN_ERROR("Invalid readable in `room_ruins10`");
         break;
     case RoomKind::ROOM_RUINS12B:
+        if (_entity.getId() == ent::gen::EntityId::sign)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_sign_room_66));
+        else if (_entity.getId() == ent::gen::EntityId::left)
+        {
+            static constexpr int SPIDER_DONUT_PRICE = 7;
+
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1705));
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1706));
+
+            // Dialog choice: Small spider web
+            ctx.isDialogGold = true;
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Small spider web `BUY`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                if (items.full())
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1726));
+                else if (state.getGold() < SPIDER_DONUT_PRICE)
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1724));
+                else
+                {
+                    state.setGold(state.getGold() - SPIDER_DONUT_PRICE);
+                    items.push_back(ItemKind::SPIDER_DONUT);
+
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1723));
+                }
+            }
+            // Dialog choice: Small spider web `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1729));
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
+        }
+        else if (_entity.getId() == ent::gen::EntityId::right)
+        {
+            static constexpr int SPIDER_CIDER_PRICE = 18;
+
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1736));
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1737));
+
+            // Dialog choice: Big spider web
+            ctx.isDialogGold = true;
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Big spider web `BUY`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                if (items.full())
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1757));
+                else if (state.getGold() < SPIDER_CIDER_PRICE)
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1755));
+                else
+                {
+                    state.setGold(state.getGold() - SPIDER_CIDER_PRICE);
+                    items.push_back(ItemKind::SPIDER_CIDER);
+
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1754));
+                }
+            }
+            // Dialog choice: Big spider web `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1760));
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
+        }
+        else
+            BN_ERROR("Invalid readable in `room_ruins12B`");
+        break;
     case RoomKind::ROOM_FIRE_SPIDERSHOP:
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_sign_room_66));
+        if (_entity.getId() == ent::gen::EntityId::sign)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_sign_room_66));
         break;
     case RoomKind::ROOM_RUINS13:
         if (_entity.getId() == ent::gen::EntityId::sign)
@@ -532,6 +606,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     };
 
     ctx.game.startDialog();
+    ctx.isDialogGold = false;
 
     ++_readCount;
 

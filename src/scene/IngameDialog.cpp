@@ -1,32 +1,54 @@
 #include "scene/IngameDialog.hpp"
 
+#include <bn_display.h>
+#include <bn_format.h>
 #include <bn_keypad.h>
 
+#include "asset/FontKind.hpp"
 #include "core/DialogChoice.hpp"
+#include "core/TextGens.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/sys/TaskManager.hpp"
 
-#include "bn_regular_bg_items_bg_battle_dialog.h"
+#include "bn_regular_bg_items_bg_ingame_dialog.h"
 
 namespace ut::scene
 {
 
 namespace
 {
-constexpr auto UPPER_DIALOG_DIFF = bn::fixed_point{0, -100};
+
+constexpr auto TOP_LEFT_ORIGIN = -bn::fixed_point{bn::display::width() / 2, bn::display::height() / 2};
+constexpr auto GOLD_POS = bn::fixed_point{169, 72} + TOP_LEFT_ORIGIN;
+constexpr auto ITEM_POS = bn::fixed_point{169, 87} + TOP_LEFT_ORIGIN;
+
+enum BgMapIdx
+{
+    MAIN_L,
+    MAIN_U,
+    GOLD_L,
+    GOLD_U,
+};
+
+} // namespace
+
+static int getBgMapIdx(const game::GameContext* ctx)
+{
+    BN_ASSERT(ctx != nullptr);
+
+    int mapIdx = (ctx->isDialogGold ? GOLD_L : MAIN_L);
+    mapIdx = (int)mapIdx + (ctx->isDialogUpper ? 1 : 0);
+
+    return mapIdx;
 }
 
 IngameDialog::IngameDialog(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context, SceneId::INGAME_DIALOG), _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)),
+    : Scene(sceneStack, context, SceneId::INGAME_DIALOG),
+      _bg(bn::regular_bg_items::bg_ingame_dialog.create_bg(0, 0, getBgMapIdx(context.gameContext))),
       _dialogWriter(context.textGens, consts::INGAME_MENU_BG_PRIORITY)
 {
-    BN_ASSERT(context.gameContext != nullptr);
-    auto& ctx = *context.gameContext;
-
     _bg.set_priority(consts::INGAME_MENU_BG_PRIORITY);
-    if (ctx.isDialogUpper)
-        _bg.set_position(_bg.position() + UPPER_DIALOG_DIFF);
 
     start();
 }
@@ -35,14 +57,22 @@ bool IngameDialog::handleInput()
 {
     if (bn::keypad::a_pressed())
     {
+        const int prevDialogIdx = _dialogWriter.getCurDialogIdx();
         auto result = _dialogWriter.confirmKeyInput();
+        const int curDialogIdx = _dialogWriter.getCurDialogIdx();
+
+        BN_ASSERT(getContext().gameContext != nullptr);
+        auto& ctx = *getContext().gameContext;
+
+        if (curDialogIdx > prevDialogIdx)
+            ctx.taskMngr.onSignal({game::task::TaskSignal::Kind::DIALOG_INDEX, curDialogIdx});
 
         if (result != core::DialogChoice::NONE)
         {
-            BN_ASSERT(getContext().gameContext != nullptr);
-            auto& ctx = *getContext().gameContext;
-
             ctx.taskMngr.onSignal({game::task::TaskSignal::Kind::DIALOG_CHOICE, (int)result});
+
+            if (_isDialogGold)
+                redrawGoldDisplay();
         }
     }
     if (bn::keypad::b_pressed())
@@ -77,6 +107,13 @@ void IngameDialog::start()
     auto* ctx = getContext().gameContext;
     BN_ASSERT(ctx != nullptr);
 
+    _bg.set_map(bn::regular_bg_items::bg_ingame_dialog.map_item(), getBgMapIdx(ctx));
+
+    _isDialogGold = ctx->isDialogGold;
+    _goldText.clear();
+    if (_isDialogGold)
+        redrawGoldDisplay();
+
     BN_ASSERT(!ctx->msg.empty(), "IngameDialog with empty gameContext.msg");
     using DSKind = core::Dialog::Settings::Kind;
 
@@ -97,6 +134,23 @@ void IngameDialog::reset()
     ctx.interactStack.pop();
 
     ctx.msg.clear();
+}
+
+void IngameDialog::redrawGoldDisplay()
+{
+    _goldText.clear();
+
+    BN_ASSERT(getContext().gameContext != nullptr);
+    const auto& state = getContext().gameContext->state;
+
+    auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
+
+    textGen.generate(GOLD_POS, bn::format<13>("$-{}G", state.getGold()), _goldText);
+    textGen.generate(ITEM_POS, bn::format<9>("SPACE-{}/{}", state.getItems().size(), state.getItems().max_size()),
+                     _goldText);
+
+    for (auto& spr : _goldText)
+        spr.set_bg_priority(consts::INGAME_MENU_BG_PRIORITY);
 }
 
 auto IngameDialog::getWriter() const -> const core::DialogWriter&
