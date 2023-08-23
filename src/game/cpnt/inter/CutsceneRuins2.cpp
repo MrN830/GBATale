@@ -1,0 +1,152 @@
+#include "game/cpnt/inter/CutsceneRuins2.hpp"
+
+#include <bn_sound_item.h>
+
+#include "asset/SfxKind.hpp"
+#include "game/GameContext.hpp"
+#include "game/GamePlot.hpp"
+#include "game/GameState.hpp"
+#include "game/cpnt/NpcInput.hpp"
+#include "game/cpnt/Sprite.hpp"
+#include "game/ent/Entity.hpp"
+#include "game/sys/TaskManager.hpp"
+#include "scene/Game.hpp"
+
+#include "gen/EntityId.hpp"
+#include "gen/TextData.hpp"
+
+namespace ut::game::cpnt::inter
+{
+
+static constexpr int BTN_ON_GFXIDX = 1;
+
+CutsceneRuins2::CutsceneRuins2(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
+    : Interaction(entity, bn::type_id<CutsceneRuins2>(), isEnabled, triggers)
+{
+}
+
+void CutsceneRuins2::awake(GameContext& ctx)
+{
+    if (ctx.state.getPlot() >= game::GamePlot::STEPPING_TILE_PUZZLE_COMPLETE)
+    {
+        auto* toriel = ctx.entMngr.findById(ent::gen::EntityId::toriel);
+        BN_ASSERT(toriel);
+
+        auto* button = ctx.entMngr.findById(ent::gen::EntityId::button);
+        BN_ASSERT(button);
+        auto* buttonSpr = button->getComponent<cpnt::Sprite>();
+        BN_ASSERT(buttonSpr);
+
+        auto* door = ctx.entMngr.findById(ent::gen::EntityId::door);
+        BN_ASSERT(door);
+
+        buttonSpr->setGfxIdx(BTN_ON_GFXIDX);
+
+        toriel->setDestroyed(true);
+        door->setDestroyed(true);
+        _entity.setDestroyed(true);
+    }
+}
+
+auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
+{
+    Interaction::onInteract(ctx);
+
+    using namespace ut::asset;
+
+    ctx.interactStack.push(InteractState::CUTSCENE);
+
+    ctx.state.setPlot(GamePlot::STEPPING_TILE_PUZZLE_COMPLETE);
+
+    auto* toriel = ctx.entMngr.findById(ent::gen::EntityId::toriel);
+    BN_ASSERT(toriel);
+    auto* torielInput = toriel->getComponent<cpnt::NpcInput>();
+    BN_ASSERT(torielInput);
+
+    auto* button = ctx.entMngr.findById(ent::gen::EntityId::button);
+    BN_ASSERT(button);
+    auto* buttonSpr = button->getComponent<cpnt::Sprite>();
+    BN_ASSERT(buttonSpr);
+
+    auto* door = ctx.entMngr.findById(ent::gen::EntityId::door);
+    BN_ASSERT(door);
+
+    // 1. Toriel: talk
+    task::SignalAwaiter talkAwaiter({task::TaskSignal::Kind::DIALOG_END});
+
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_306));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_307));
+    ctx.game.startDialog();
+    co_await talkAwaiter;
+
+    // 2-1. Toriel: walk to the switch
+    task::SignalAwaiter torielWalkAwaiter({task::TaskSignal::Kind::NPC_WALK_END, (int)ent::gen::EntityId::toriel});
+
+    static constexpr bn::fixed MOVE_SPEED = 2.4;
+    static constexpr int M_TILE_SIZE = 16;
+
+    cmd::MoveCmd moveCmd;
+    moveCmd.directions = core::Directions::RIGHT;
+    moveCmd.movePos = {MOVE_SPEED, 0};
+    torielInput->startInput(moveCmd, (3.9 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    co_await torielWalkAwaiter;
+
+    moveCmd.directions = core::Directions::UP;
+    moveCmd.movePos = {0, -MOVE_SPEED};
+    torielInput->startInput(moveCmd, (1.6 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    co_await torielWalkAwaiter;
+
+    moveCmd.directions = core::Directions::LEFT;
+    moveCmd.movePos = {-MOVE_SPEED, 0};
+    torielInput->startInput(moveCmd, (2 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    co_await torielWalkAwaiter;
+
+    moveCmd.directions = core::Directions::UP;
+    moveCmd.movePos = {0, -MOVE_SPEED};
+    torielInput->startInput(moveCmd, (1 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    co_await torielWalkAwaiter;
+
+    moveCmd.directions = core::Directions::RIGHT;
+    moveCmd.movePos = {MOVE_SPEED, 0};
+    torielInput->startInput(moveCmd, (0.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    co_await torielWalkAwaiter;
+
+    moveCmd.directions = core::Directions::UP;
+    moveCmd.movePos = {0, -MOVE_SPEED};
+    torielInput->startInput(moveCmd, 1);
+    co_await torielWalkAwaiter;
+
+    // 2-2. Toriel: flip the switch -> open the door
+    getSfx(SfxKind::SWITCH_TRIGGER)->play();
+    buttonSpr->setGfxIdx(BTN_ON_GFXIDX);
+    door->setDestroyed(true);
+    co_await task::TimeAwaiter(20);
+
+    // 2-3. Toriel: walk to Frisk
+    moveCmd.directions = core::Directions::LEFT;
+    moveCmd.movePos = {-MOVE_SPEED, 0};
+    torielInput->startInput(moveCmd, (3.4 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    co_await torielWalkAwaiter;
+
+    moveCmd.directions = core::Directions::DOWN;
+    moveCmd.movePos = {0, MOVE_SPEED};
+    torielInput->startInput(moveCmd, (1.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    co_await torielWalkAwaiter;
+
+    // 3. Toriel: talk
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_311));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_312));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_313));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_314));
+    ctx.game.startDialog();
+    co_await talkAwaiter;
+
+    ctx.interactStack.pop();
+    _entity.setDestroyed(true);
+    ctx.msg.clear();
+    co_return;
+}
+
+} // namespace ut::game::cpnt::inter

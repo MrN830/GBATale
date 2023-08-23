@@ -2,6 +2,7 @@
 
 #include "game/GameContext.hpp"
 #include "game/cpnt/ColliderPack.hpp"
+#include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
@@ -9,6 +10,7 @@
 #include "game/cpnt/ev/SetPieImage.hpp"
 #include "game/cpnt/ev/StartBgm.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
+#include "game/cpnt/inter/CutsceneRuins2.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
 #include "game/cpnt/inter/HoleUp.hpp"
 #include "game/cpnt/inter/ItemPickup.hpp"
@@ -19,6 +21,7 @@
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
 #include "game/cpnt/inter/TalkFroggit.hpp"
+#include "game/cpnt/inter/TorielGoOutRuins2.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -80,6 +83,12 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::MouseSqueak>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::MouseSqueak>(entity, interaction->isEnabled,
                                                                         interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::CutsceneRuins2>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneRuins2>(entity, interaction->isEnabled,
+                                                                           interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::TorielGoOutRuins2>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::TorielGoOutRuins2>(entity, interaction->isEnabled,
+                                                                              interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
@@ -131,6 +140,13 @@ void EntityInfo::create(GameContext& ctx) const
                 walk.registerWalkAnimKind(walkAnimCtrl->kind);
             }
         }
+    }
+
+    // cpnt::NpcInput
+    if (this->npcInput.has_value())
+    {
+        cpnt::NpcInput& npcMove = entMngr._cpntHeap.create<cpnt::NpcInput>(entity, npcInput->isEnabled);
+        entity.addComponent(npcMove);
     }
 }
 

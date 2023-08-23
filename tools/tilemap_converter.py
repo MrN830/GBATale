@@ -358,6 +358,7 @@ class TilemapConverter:
         )
         SprAnimCpnt = namedtuple("SprAnimCpnt", "isEnabled, kind")
         WalkAnimCtrlCpnt = namedtuple("WalkAnimCtrlCpnt", "isEnabled, kind")
+        NpcInput = namedtuple("NpcInput", "isEnabled")
 
         entities = []
         spr_items = set()
@@ -509,6 +510,11 @@ class TilemapConverter:
                     )
 
                 entity["walkAnimCtrl"] = WalkAnimCtrlCpnt(walk.isEnabled, walk.kind)
+
+            # cpnt::NpcInput
+            npcInput = obj.properties.get("npcInput")
+            if npcInput:
+                entity["npcInput"] = NpcInput(npcInput.isEnabled)
 
             # Add entity
             if len(entity) <= no_component_entity_len:
@@ -693,6 +699,15 @@ class TilemapConverter:
                     walk: WalkAnimCtrlCpnt = entity["walkAnimCtrl"]
                     output_header.write(
                         f"EntityInfo::WalkAnimCtrl(asset::WalkAnimKind::{walk.kind},{str(walk.isEnabled).lower()}),"
+                    )
+                else:
+                    output_header.write("bn::nullopt,")
+
+                # cpnt::NpcInput
+                if "npcInput" in entity:
+                    npcInput: NpcInput = entity["npcInput"]
+                    output_header.write(
+                        f"EntityInfo::NpcInput({str(npcInput.isEnabled).lower()}),"
                     )
                 else:
                     output_header.write("bn::nullopt,")

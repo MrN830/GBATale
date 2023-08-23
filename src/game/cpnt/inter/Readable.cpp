@@ -1,12 +1,13 @@
 #include "game/cpnt/inter/Readable.hpp"
 
+#include "core/DialogChoice.hpp"
 #include "game/GameContext.hpp"
+#include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "scene/Game.hpp"
 
-#include "core/DialogChoice.hpp"
 #include "gen/EntityId.hpp"
 #include "gen/TextData.hpp"
 
@@ -16,18 +17,25 @@ namespace ut::game::cpnt::inter
 Readable::Readable(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
     : Interaction(entity, bn::type_id<Readable>(), isEnabled, triggers)
 {
-    // TODO: Destroy certain readables when condition is met
 }
 
 void Readable::awake(GameContext& ctx)
 {
     using EntityId = ent::gen::EntityId;
 
+    const auto room = ctx.state.getRoom();
+    const auto plot = ctx.state.getPlot();
+
+    // TODO: Destroy certain readables when condition is met
     if (_entity.getId() == EntityId::candy_dish)
     {
         const auto& flags = ctx.state.getFlags();
         if (flags.candy_taken >= 4)
             dropCandyDish(ctx);
+    }
+    else if (room == RoomKind::ROOM_AREA1 && plot == GamePlot::NEW_GAME)
+    {
+        _entity.setDestroyed(true);
     }
 }
 

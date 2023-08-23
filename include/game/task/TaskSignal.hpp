@@ -12,11 +12,13 @@ struct TaskSignal
 
     enum class Kind
     {
+        TIME,
+
         DIALOG_INDEX,
         DIALOG_CHOICE,
         DIALOG_END,
 
-        TIME,
+        NPC_WALK_END,
     };
 };
 

@@ -85,6 +85,11 @@ public:
         bool isEnabled : 1;
     };
 
+    struct NpcInput
+    {
+        bool isEnabled : 1;
+    };
+
 public:
     gen::EntityId id;
     bn::fixed_point position;
@@ -95,6 +100,7 @@ public:
     bn::optional<Sprite> sprite;
     bn::optional<SpriteAnim> sprAnim;
     bn::optional<WalkAnimCtrl> walkAnimCtrl;
+    bn::optional<NpcInput> npcInput;
 };
 
 } // namespace ut::game::ent
