@@ -115,14 +115,14 @@ void IngameDialog::start()
         redrawGoldDisplay();
 
     BN_ASSERT(!ctx->msg.empty(), "IngameDialog with empty gameContext.msg");
-    using DSKind = core::Dialog::Settings::Kind;
+    using DS = core::DialogSettings;
+    using DSPKind = DS::PresetKind;
 
     _dialogs.clear();
-    const auto dialogSettings = (ctx->isDialogUpper ? DSKind::WORLD_UPPER : DSKind::WORLD_LOWER);
-    for (const auto& str : ctx->msg)
-        _dialogs.push_back(core::Dialog{dialogSettings, str});
+    const auto& dialogSettings = DS::getPreset(ctx->isDialogUpper ? DSPKind::WORLD_UPPER : DSPKind::WORLD_LOWER);
+    _dialogs = ctx->msg;
 
-    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text);
 }
 
 void IngameDialog::reset()

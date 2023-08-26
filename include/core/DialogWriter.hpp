@@ -5,13 +5,15 @@
 #include <bn_optional.h>
 #include <bn_span.h>
 #include <bn_sprite_ptr.h>
+#include <bn_string_view.h>
 #include <bn_vector_fwd.h>
+
+#include "core/DialogSettings.hpp"
 
 namespace ut::core
 {
 
 class TextGens;
-struct Dialog;
 
 enum class DialogChoice;
 
@@ -66,7 +68,7 @@ public:
 
     void reset();
 
-    void start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_ptr>& outputVec);
+    void start(bn::span<const bn::string_view> dialogs, const DialogSettings&, bn::ivector<bn::sprite_ptr>& outputVec);
     bool isStarted() const;
     bool isWaitInput() const;
 
@@ -77,6 +79,9 @@ public:
     void update();
 
     int getCurDialogIdx() const;
+
+public:
+    void setDialogPos(const bn::fixed_point& pos);
 
 private:
     void resetStringProcessInfos();
@@ -93,7 +98,8 @@ private:
     TextGens& _textGens;
     const int _bgPriority;
 
-    bn::span<const Dialog> _dialogs;
+    bn::span<const bn::string_view> _dialogs;
+    DialogSettings _settings;
     bn::ivector<bn::sprite_ptr>* _outputVec = nullptr;
     int _dialogIdx; // `-1` means not started
     int _nextCharIdx;

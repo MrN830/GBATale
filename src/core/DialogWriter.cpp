@@ -8,9 +8,8 @@
 
 #include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
-#include "core/Dialog.hpp"
-#include "core/TextGens.hpp"
 #include "core/DialogChoice.hpp"
+#include "core/TextGens.hpp"
 
 #include "consts.hpp"
 
@@ -52,12 +51,14 @@ void DialogWriter::reset()
     _isCloseRequested = false;
 }
 
-void DialogWriter::start(bn::span<const Dialog> dialogs, bn::ivector<bn::sprite_ptr>& outputVec)
+void DialogWriter::start(bn::span<const bn::string_view> dialogs, const DialogSettings& settings,
+                         bn::ivector<bn::sprite_ptr>& outputVec)
 {
     if (dialogs.empty())
         return;
 
     _dialogs = dialogs;
+    _settings = settings;
     _outputVec = &outputVec;
     _dialogIdx = 0;
     resetStringProcessInfos();
@@ -84,7 +85,7 @@ bool DialogWriter::instantWrite()
     const int prevCharIdx = _nextCharIdx;
 
     _isInstantWrite = true;
-    while (isStarted() && !isWaitInput() && _nextCharIdx < dialog.text.size())
+    while (isStarted() && !isWaitInput() && _nextCharIdx < dialog.size())
         update();
     _isInstantWrite = false;
 
@@ -145,31 +146,30 @@ void DialogWriter::update()
     while (true)
     {
         const auto& dialog = _dialogs[_dialogIdx];
-        const auto& settings = Dialog::Settings::get(dialog.settingsKind);
 
         // fix width for choice option texts
-        if (isCurDialogChoice() && !_isNextCharChoice && _isStartOfLine && _nextCharIdx < dialog.text.size())
+        if (isCurDialogChoice() && !_isNextCharChoice && _isStartOfLine && _nextCharIdx < dialog.size())
         {
-            const bn::utf8_character ch = dialog.text[_nextCharIdx];
-            const bn::string_view chStr = dialog.text.substr(_nextCharIdx, ch.size());
+            const bn::utf8_character ch = dialog[_nextCharIdx];
+            const bn::string_view chStr = dialog.substr(_nextCharIdx, ch.size());
             if (chStr == " ")
                 _isNextCharChoice = true;
 
             _isStartOfLine = false;
         }
 
-        auto& textGen = _textGens.get(_isNextCharChoice ? asset::FontKind::MAIN_FIXED_WIDTH : settings.font);
+        auto& textGen = _textGens.get(_isNextCharChoice ? asset::FontKind::MAIN_FIXED_WIDTH : _settings.font);
 
         // time to write a new character
-        if (_elapsedFrames % settings.speed == 0 && _nextCharIdx < dialog.text.size())
+        if (_elapsedFrames % _settings.speed == 0 && _nextCharIdx < dialog.size())
         {
-            auto specialToken = readSpecialToken(dialog.text);
+            auto specialToken = readSpecialToken(dialog);
             if (specialToken.has_value())
             {
                 handleSpecialToken(*specialToken);
                 _forceNewSprite = true;
 
-                if (_nextCharIdx >= dialog.text.size())
+                if (_nextCharIdx >= dialog.size())
                     _isWaitInput = true;
 
                 if (!isStarted() || isWaitInput())
@@ -178,34 +178,34 @@ void DialogWriter::update()
                 continue;
             }
 
-            const bn::utf8_character ch = dialog.text[_nextCharIdx];
-            const bn::string_view chStr = dialog.text.substr(_nextCharIdx, ch.size());
+            const bn::utf8_character ch = dialog[_nextCharIdx];
+            const bn::string_view chStr = dialog.substr(_nextCharIdx, ch.size());
             const int chWidth = textGen.width(chStr);
 
             // play sfx on writing non-whitespace character
             if (chStr != " " && !_isInstantWrite)
             {
-                const auto sfx = asset::getSfx(settings.sfx);
+                const auto sfx = asset::getSfx(_settings.sfx);
                 if (sfx)
                     sfx->play();
             }
 
             // get the starting position if this is very first char
             if (_curLineY <= -bn::display::height())
-                _curLineY = settings.pos.y();
+                _curLineY = _settings.pos.y();
 
             // line wrapping
-            if (_curLineWidth + chWidth > settings.wrapWidth)
+            if (_curLineWidth + chWidth > _settings.wrapWidth)
             {
                 _curLineWidth = 0;
                 _sprLineWidth = 0;
                 _forceNewSprite = true;
                 ++_curLineIdx;
-                _curLineY += settings.lineHeight;
+                _curLineY += _settings.lineHeight;
             }
 
-            const bn::fixed_point chPos(settings.pos.x() + _curLineWidth, _curLineY);
-            const bn::fixed_point sprPos(settings.pos.x() + _sprLineWidth, _curLineY);
+            const bn::fixed_point chPos(_settings.pos.x() + _curLineWidth, _curLineY);
+            const bn::fixed_point sprPos(_settings.pos.x() + _sprLineWidth, _curLineY);
 
             // find text choice pos
             if (chStr != " " && _prevCharSpaceCnt >= 2)
@@ -239,7 +239,7 @@ void DialogWriter::update()
             else
             {
                 const int spriteCharCount = _nextCharIdx - _curSpriteStartCharIdx + 1;
-                const auto spriteStr = dialog.text.substr(_curSpriteStartCharIdx, spriteCharCount);
+                const auto spriteStr = dialog.substr(_curSpriteStartCharIdx, spriteCharCount);
 
                 if (textGen.width(spriteStr) <= MAX_SPRITE_WIDTH)
                 {
@@ -256,7 +256,7 @@ void DialogWriter::update()
             _curLineWidth += chWidth;
             _nextCharIdx += ch.size();
             _prevCharSpaceCnt = (chStr == " " ? _prevCharSpaceCnt + 1 : 0);
-            if (_nextCharIdx >= dialog.text.size())
+            if (_nextCharIdx >= dialog.size())
                 _isWaitInput = true;
         }
 
@@ -269,6 +269,18 @@ void DialogWriter::update()
 int DialogWriter::getCurDialogIdx() const
 {
     return _dialogIdx;
+}
+
+void DialogWriter::setDialogPos(const bn::fixed_point& pos)
+{
+    BN_ASSERT(isStarted());
+    BN_ASSERT(_outputVec != nullptr);
+
+    const auto diff = pos - _settings.pos;
+    for (auto& spr : *_outputVec)
+        spr.set_position(spr.position() + diff);
+
+    _settings.pos = pos;
 }
 
 void DialogWriter::resetStringProcessInfos()
@@ -437,11 +449,8 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
         break;
 
     case SpecialToken::Kind::LINE_BREAK: {
-        const auto& dialog = _dialogs[_dialogIdx];
-        const auto& settings = Dialog::Settings::get(dialog.settingsKind);
-
         ++_curLineIdx;
-        _curLineY += settings.lineHeight;
+        _curLineY += _settings.lineHeight;
         _curLineWidth = 0;
         _sprLineWidth = 0;
         _forceNewSprite = true;
@@ -487,19 +496,16 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
     }
 
     case SpecialToken::Kind::COLOR: {
-        const auto& dialog = _dialogs[_dialogIdx];
-        const auto& settings = Dialog::Settings::get(dialog.settingsKind);
-
-        if (settings.font == asset::FontKind::MAIN)
+        if (_settings.font == asset::FontKind::MAIN)
         {
             const auto color = (asset::TextColorKind)specialToken.number;
             const auto& palette = asset::getTextColor(color);
 
-            auto& textGen = _textGens.get(settings.font);
+            auto& textGen = _textGens.get(_settings.font);
             textGen.set_palette_item(palette);
         }
         else
-            BN_ERROR("Font color change not implemented for font=", (int)settings.font);
+            BN_ERROR("Font color change not implemented for font=", (int)_settings.font);
 
         break;
     }
@@ -521,7 +527,7 @@ bool DialogWriter::isCurDialogChoice() const
     BN_ASSERT(0 <= _dialogIdx && _dialogIdx < _dialogs.size());
     const auto& dialog = _dialogs[_dialogIdx];
 
-    return dialog.text.ends_with(R"(\C)") ||  dialog.text.ends_with(R"(\C )");
+    return dialog.ends_with(R"(\C)") || dialog.ends_with(R"(\C )");
 }
 
 } // namespace ut::core

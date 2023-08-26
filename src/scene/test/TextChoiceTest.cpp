@@ -220,9 +220,12 @@ TextChoiceTest::TextChoiceTest(SceneStack& sceneStack, SceneContext& context)
     using namespace ut::asset::gen;
 
     for (const auto& p : CHOICE_DIALOGS)
-        _dialogs.emplace_back(core::Dialog::Settings::Kind::WORLD_LOWER, getTextEn(p.first));
+        _dialogs.emplace_back(getTextEn(p.first));
 
-    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+    using DS = core::DialogSettings;
+    using DSPKind = DS::PresetKind;
+    const auto& dialogSettings = DS::getPreset(DSPKind::WORLD_LOWER);
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text);
 
     redrawTextDataId();
 }

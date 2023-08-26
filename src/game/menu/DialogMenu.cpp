@@ -21,13 +21,14 @@ DialogMenu::DialogMenu(scene::IngameMenu& scene)
                                                                  : scene::IngameMenu::BgMapIdx::DIALOG_U);
     scene._cursor.set_visible(false);
 
-    using DSKind = core::Dialog::Settings::Kind;
-    const auto dialogSettings = (scene.isDialogUpper() ? DSKind::WORLD_UPPER : DSKind::WORLD_LOWER);
+    using DS = core::DialogSettings;
+    using DSPKind = DS::PresetKind;
+    const auto& dialogSettings = DS::getPreset(scene.isDialogUpper() ? DSPKind::WORLD_UPPER : DSPKind::WORLD_LOWER);
 
     for (const auto& msg : _scene._dialogs)
-        _dialogs.push_back(core::Dialog{dialogSettings, msg});
+        _dialogs.push_back(msg);
 
-    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text);
 }
 
 auto DialogMenu::handleInput() -> MenuStateType

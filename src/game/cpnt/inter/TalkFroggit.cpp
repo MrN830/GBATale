@@ -307,11 +307,9 @@ void TalkFroggit::update(GameContext& ctx)
                     dialogs.pop_back();
 
                     if (flags.true_pacifist)
-                        dialogs.emplace_back(dialogs.back().settingsKind,
-                                             gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_153));
+                        dialogs.emplace_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_153));
                     else
-                        dialogs.emplace_back(dialogs.back().settingsKind,
-                                             gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_150));
+                        dialogs.emplace_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_150));
 
                     _isDialogSkipAdviceChanged = true;
                 }

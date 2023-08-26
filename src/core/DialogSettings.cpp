@@ -1,4 +1,4 @@
-#include "core/Dialog.hpp"
+#include "core/DialogSettings.hpp"
 
 #include <bn_display.h>
 
@@ -14,8 +14,8 @@ namespace
 
 constexpr auto TOP_LEFT_ORIGIN = -bn::fixed_point{bn::display::width() / 2, bn::display::height() / 2};
 
-constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_COUNT] = {
-    Dialog::Settings{
+constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL_COUNT] = {
+    DialogSettings{
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::VOICE_INTRO,
@@ -24,7 +24,7 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
         14,
         2,
     },
-    Dialog::Settings{
+    DialogSettings{
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::VOICE_INTRO,
@@ -33,7 +33,7 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
         14,
         2,
     },
-    Dialog::Settings{
+    DialogSettings{
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::NONE,
@@ -42,7 +42,7 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
         14,
         1,
     },
-    Dialog::Settings{
+    DialogSettings{
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::VOICE_DEFAULT,
@@ -51,7 +51,7 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
         14,
         1,
     },
-    Dialog::Settings{
+    DialogSettings{
         asset::FontKind::MAIN,
         asset::TextColorKind::WHITE,
         asset::SfxKind::VOICE_DEFAULT,
@@ -64,9 +64,9 @@ constexpr Dialog::Settings SETTINGS_PRESETS[(int)Dialog::Settings::Kind::TOTAL_C
 
 } // namespace
 
-auto Dialog::Settings::get(Kind kind) -> const Settings&
+auto DialogSettings::getPreset(PresetKind kind) -> const DialogSettings&
 {
-    BN_ASSERT(0 <= (int)kind && (int)kind < (int)Kind::TOTAL_COUNT);
+    BN_ASSERT(0 <= (int)kind && (int)kind < (int)PresetKind::TOTAL_COUNT);
 
     return SETTINGS_PRESETS[(int)kind];
 }

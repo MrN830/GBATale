@@ -2,6 +2,7 @@
 
 #include "scene/Scene.hpp"
 
+#include <bn_array.h>
 #include <bn_blending_actions.h>
 #include <bn_fixed_rect.h>
 #include <bn_optional.h>
@@ -38,6 +39,7 @@ private:
     bn::blending_transparency_alpha_to_action _bgFade;
     bn::optional<bn::regular_bg_move_to_action> _bgMove;
 
+    bn::array<bn::string_view, 7> _dialogs;
     bn::vector<bn::sprite_ptr, 17> _texts;
     core::DialogWriter _dialogWriter;
 
@@ -45,6 +47,7 @@ private:
     int _introBgIdx0 = 0;
     int _skipCountdown = -1;
     bool _isFadeOut = false;
+    bool _isMtEbottPosMoved = false;
 };
 
 } // namespace ut::scene
