@@ -118,9 +118,10 @@ void IngameDialog::start()
     using DS = core::DialogSettings;
     using DSPKind = DS::PresetKind;
 
-    _dialogs.clear();
-    const auto& dialogSettings = DS::getPreset(ctx->isDialogUpper ? DSPKind::WORLD_UPPER : DSPKind::WORLD_LOWER);
     _dialogs = ctx->msg;
+
+    auto dialogSettings = DS::getPreset(ctx->isDialogUpper ? DSPKind::WORLD_UPPER : DSPKind::WORLD_LOWER);
+    dialogSettings.override(ctx->msgSettings);
 
     _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text);
 }

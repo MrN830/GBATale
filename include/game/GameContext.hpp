@@ -21,6 +21,10 @@ class CameraManager;
 class FadeManager;
 class RoomChanger;
 } // namespace ut::game::sys
+namespace ut::core
+{
+struct DialogSettingsOverride;
+}
 
 namespace ut::game
 {
@@ -43,6 +47,7 @@ struct GameContext
     InteractStateStack& interactStack;
 
     bn::vector<bn::string_view, consts::DIALOG_MAX_LINES>& msg;
+    core::DialogSettingsOverride& msgSettings;
 
     mtile::WarpId warpId = mtile::WarpId::INIT;
 

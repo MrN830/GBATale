@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bn_fixed_point.h>
+#include <bn_optional.h>
 
 namespace ut::asset
 {
@@ -11,6 +12,8 @@ enum class SfxKind;
 
 namespace ut::core
 {
+
+struct DialogSettingsOverride;
 
 struct DialogSettings final
 {
@@ -31,6 +34,9 @@ public:
     static auto getPreset(PresetKind) -> const DialogSettings&;
 
 public:
+    void override(const DialogSettingsOverride&);
+
+public:
     asset::FontKind font;
     asset::TextColorKind color;
     asset::SfxKind sfx;
@@ -38,6 +44,32 @@ public:
     int wrapWidth;
     bn::fixed lineHeight;
     int speed;
+};
+
+struct DialogSettingsOverride final
+{
+public:
+    enum class PresetKind
+    {
+        WORLD_TORIEL,
+
+        TOTAL_COUNT
+    };
+
+public:
+    static auto getPreset(PresetKind) -> const DialogSettingsOverride&;
+
+public:
+    void reset();
+
+public:
+    bn::optional<asset::FontKind> font;
+    bn::optional<asset::TextColorKind> color;
+    bn::optional<asset::SfxKind> sfx;
+    bn::optional<bn::fixed_point> pos;
+    bn::optional<int> wrapWidth;
+    bn::optional<bn::fixed> lineHeight;
+    bn::optional<int> speed;
 };
 
 } // namespace ut::core

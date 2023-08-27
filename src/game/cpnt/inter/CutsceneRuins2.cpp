@@ -55,6 +55,8 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     using namespace ut::asset;
 
     ctx.interactStack.push(InteractState::CUTSCENE);
+    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.isDialogUpper = false; // Force lower dialog box, otherwise Toriel is hidden
 
     ctx.state.setPlot(GamePlot::STEPPING_TILE_PUZZLE_COMPLETE);
 
@@ -135,6 +137,7 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     co_await torielWalkAwaiter;
 
     // 3. Toriel: talk
+    ctx.isDialogUpper = false; // Force lower dialog box, otherwise Toriel is hidden
     ctx.msg.clear();
     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_311));
     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_312));
@@ -146,6 +149,7 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     ctx.interactStack.pop();
     _entity.setDestroyed(true);
     ctx.msg.clear();
+    ctx.msgSettings.reset();
     co_return;
 }
 

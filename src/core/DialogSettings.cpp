@@ -62,6 +62,18 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
     },
 };
 
+constexpr DialogSettingsOverride SETTINGS_OVERRIDE_PRESETS[(int)DialogSettingsOverride::PresetKind::TOTAL_COUNT] = {
+    DialogSettingsOverride{
+        bn::nullopt,
+        bn::nullopt,
+        asset::SfxKind::VOICE_TORIEL,
+        bn::nullopt,
+        bn::nullopt,
+        bn::nullopt,
+        bn::nullopt,
+    },
+};
+
 } // namespace
 
 auto DialogSettings::getPreset(PresetKind kind) -> const DialogSettings&
@@ -69,6 +81,35 @@ auto DialogSettings::getPreset(PresetKind kind) -> const DialogSettings&
     BN_ASSERT(0 <= (int)kind && (int)kind < (int)PresetKind::TOTAL_COUNT);
 
     return SETTINGS_PRESETS[(int)kind];
+}
+
+auto DialogSettingsOverride::getPreset(PresetKind kind) -> const DialogSettingsOverride&
+{
+    BN_ASSERT(0 <= (int)kind && (int)kind < (int)PresetKind::TOTAL_COUNT);
+
+    return SETTINGS_OVERRIDE_PRESETS[(int)kind];
+}
+
+void DialogSettings::override(const DialogSettingsOverride& ovrd)
+{
+    font = (ovrd.font ? *ovrd.font : font);
+    color = (ovrd.color ? *ovrd.color : color);
+    sfx = (ovrd.sfx ? *ovrd.sfx : sfx);
+    pos = (ovrd.pos ? *ovrd.pos : pos);
+    wrapWidth = (ovrd.wrapWidth ? *ovrd.wrapWidth : wrapWidth);
+    lineHeight = (ovrd.lineHeight ? *ovrd.lineHeight : lineHeight);
+    speed = (ovrd.speed ? *ovrd.speed : speed);
+}
+
+void DialogSettingsOverride::reset()
+{
+    font.reset();
+    color.reset();
+    sfx.reset();
+    pos.reset();
+    wrapWidth.reset();
+    lineHeight.reset();
+    speed.reset();
 }
 
 } // namespace ut::core
