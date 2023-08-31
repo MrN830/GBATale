@@ -8,7 +8,13 @@
 #include <bn_string_view.h>
 #include <bn_vector_fwd.h>
 
+#include "core/DialogPortrait.hpp"
 #include "core/DialogSettings.hpp"
+
+namespace ut::scene
+{
+struct SceneContext;
+}
 
 namespace ut::core
 {
@@ -64,7 +70,7 @@ struct SpecialToken
 class DialogWriter
 {
 public:
-    DialogWriter(TextGens&, int bgPriority = 3);
+    DialogWriter(scene::SceneContext&, int bgPriority = 3);
 
     void reset();
 
@@ -84,6 +90,10 @@ public:
     void setDialogPos(const bn::fixed_point& pos);
 
 private:
+    // moved by portrait
+    auto getMovedDialogPos() const -> bn::fixed_point;
+
+private:
     void resetStringProcessInfos();
 
     auto readSpecialToken(bn::string_view) -> bn::optional<SpecialToken>;
@@ -94,9 +104,13 @@ private:
 private:
     bool isCurDialogChoice() const;
 
+    void setWaitInput(bool isWaitInput);
+
 private:
     TextGens& _textGens;
     const int _bgPriority;
+
+    core::DialogPortrait _portrait;
 
     bn::span<const bn::string_view> _dialogs;
     DialogSettings _settings;

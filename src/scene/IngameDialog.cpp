@@ -46,7 +46,7 @@ static int getBgMapIdx(const game::GameContext* ctx)
 IngameDialog::IngameDialog(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::INGAME_DIALOG),
       _bg(bn::regular_bg_items::bg_ingame_dialog.create_bg(0, 0, getBgMapIdx(context.gameContext))),
-      _dialogWriter(context.textGens, consts::INGAME_MENU_BG_PRIORITY)
+      _dialogWriter(context, consts::INGAME_MENU_BG_PRIORITY)
 {
     _bg.set_priority(consts::INGAME_MENU_BG_PRIORITY);
 

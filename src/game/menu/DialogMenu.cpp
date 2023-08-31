@@ -12,7 +12,7 @@ namespace ut::game::menu
 {
 
 DialogMenu::DialogMenu(scene::IngameMenu& scene)
-    : MenuState(scene), _dialogWriter(scene.getContext().textGens, scene::IngameMenu::BG_PRIORITY)
+    : MenuState(scene), _dialogWriter(scene.getContext(), scene::IngameMenu::BG_PRIORITY)
 {
     BN_ASSERT(!scene._dialogs.empty(), "DialogMenu with empty dialogs");
 

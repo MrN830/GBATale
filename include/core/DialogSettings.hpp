@@ -8,6 +8,7 @@ namespace ut::asset
 enum class FontKind;
 enum class TextColorKind;
 enum class SfxKind;
+enum class PortraitFaceKind : uint8_t;
 } // namespace ut::asset
 
 namespace ut::core
@@ -43,7 +44,9 @@ public:
     bn::fixed_point pos;
     int wrapWidth;
     bn::fixed lineHeight;
-    int speed;
+    uint8_t speed;
+    asset::PortraitFaceKind face;
+    uint8_t emotion;
 };
 
 struct DialogSettingsOverride final
@@ -69,7 +72,9 @@ public:
     bn::optional<bn::fixed_point> pos;
     bn::optional<int> wrapWidth;
     bn::optional<bn::fixed> lineHeight;
-    bn::optional<int> speed;
+    bn::optional<uint8_t> speed;
+    bn::optional<asset::PortraitFaceKind> face;
+    bn::optional<uint8_t> emotion;
 };
 
 } // namespace ut::core

@@ -3,6 +3,7 @@
 #include <bn_display.h>
 
 #include "asset/FontKind.hpp"
+#include "asset/PortraitKind.hpp"
 #include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
 
@@ -23,6 +24,8 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
         176,
         14,
         2,
+        asset::PortraitFaceKind::NONE,
+        0,
     },
     DialogSettings{
         asset::FontKind::MAIN,
@@ -32,6 +35,8 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
         176,
         14,
         2,
+        asset::PortraitFaceKind::NONE,
+        0,
     },
     DialogSettings{
         asset::FontKind::MAIN,
@@ -41,6 +46,8 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
         176,
         14,
         1,
+        asset::PortraitFaceKind::NONE,
+        0,
     },
     DialogSettings{
         asset::FontKind::MAIN,
@@ -50,6 +57,8 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
         225,
         14,
         1,
+        asset::PortraitFaceKind::NONE,
+        0,
     },
     DialogSettings{
         asset::FontKind::MAIN,
@@ -59,6 +68,8 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
         225,
         14,
         1,
+        asset::PortraitFaceKind::NONE,
+        0,
     },
 };
 
@@ -70,6 +81,8 @@ constexpr DialogSettingsOverride SETTINGS_OVERRIDE_PRESETS[(int)DialogSettingsOv
         bn::nullopt,
         bn::nullopt,
         bn::nullopt,
+        bn::nullopt,
+        asset::PortraitFaceKind::TORIEL,
         bn::nullopt,
     },
 };
@@ -99,6 +112,8 @@ void DialogSettings::override(const DialogSettingsOverride& ovrd)
     wrapWidth = (ovrd.wrapWidth ? *ovrd.wrapWidth : wrapWidth);
     lineHeight = (ovrd.lineHeight ? *ovrd.lineHeight : lineHeight);
     speed = (ovrd.speed ? *ovrd.speed : speed);
+    face = (ovrd.face ? *ovrd.face : face);
+    emotion = (ovrd.emotion ? *ovrd.emotion : emotion);
 }
 
 void DialogSettingsOverride::reset()
@@ -110,6 +125,8 @@ void DialogSettingsOverride::reset()
     wrapWidth.reset();
     lineHeight.reset();
     speed.reset();
+    face.reset();
+    emotion.reset();
 }
 
 } // namespace ut::core

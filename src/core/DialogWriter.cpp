@@ -6,10 +6,12 @@
 #include <bn_utf8_character.h>
 #include <bn_vector.h>
 
+#include "asset/PortraitInfo.hpp"
 #include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
 #include "core/DialogChoice.hpp"
 #include "core/TextGens.hpp"
+#include "scene/SceneContext.hpp"
 
 #include "consts.hpp"
 
@@ -27,7 +29,8 @@ constexpr auto TEXT_CHOICE_HEART_DIFF = bn::fixed_point{-6, 0};
 
 } // namespace
 
-DialogWriter::DialogWriter(TextGens& textGens, int bgPriority) : _textGens(textGens), _bgPriority(bgPriority)
+DialogWriter::DialogWriter(scene::SceneContext& context, int bgPriority)
+    : _textGens(context.textGens), _bgPriority(bgPriority), _portrait(context.rng, bgPriority)
 {
     reset();
 }
@@ -47,7 +50,7 @@ void DialogWriter::reset()
     _curLineY = -bn::display::height();
     _forceNewSprite = false;
     _isInstantWrite = false;
-    _isWaitInput = false;
+    setWaitInput(false);
     _isCloseRequested = false;
 }
 
@@ -62,6 +65,9 @@ void DialogWriter::start(bn::span<const bn::string_view> dialogs, const DialogSe
     _outputVec = &outputVec;
     _dialogIdx = 0;
     resetStringProcessInfos();
+
+    _portrait.setDialogPos(settings.pos);
+    _portrait.setInfo(asset::IPortraitInfo::get(settings.face, settings.emotion));
 }
 
 bool DialogWriter::isStarted() const
@@ -97,7 +103,7 @@ auto DialogWriter::confirmKeyInput() -> DialogChoice
     if (!isWaitInput())
         return DialogChoice::NONE;
 
-    _isWaitInput = false;
+    setWaitInput(false);
 
     // text choice (e.g. yes/no)
     auto result = DialogChoice::NONE;
@@ -111,13 +117,18 @@ auto DialogWriter::confirmKeyInput() -> DialogChoice
     if (_isCloseRequested)
         reset();
     else
+    {
         nextDialog();
+        _portrait.onConfirmKeyInput();
+    }
 
     return result;
 }
 
 void DialogWriter::update()
 {
+    _portrait.render();
+
     // text choice (e.g. yes/no)
     if (_heartSpr.has_value())
     {
@@ -170,7 +181,7 @@ void DialogWriter::update()
                 _forceNewSprite = true;
 
                 if (_nextCharIdx >= dialog.size())
-                    _isWaitInput = true;
+                    setWaitInput(true);
 
                 if (!isStarted() || isWaitInput())
                     return;
@@ -192,10 +203,10 @@ void DialogWriter::update()
 
             // get the starting position if this is very first char
             if (_curLineY <= -bn::display::height())
-                _curLineY = _settings.pos.y();
+                _curLineY = getMovedDialogPos().y();
 
             // line wrapping
-            if (_curLineWidth + chWidth > _settings.wrapWidth)
+            if (_curLineWidth + chWidth > _settings.wrapWidth - _portrait.getInfo().paddingX)
             {
                 _curLineWidth = 0;
                 _sprLineWidth = 0;
@@ -204,8 +215,8 @@ void DialogWriter::update()
                 _curLineY += _settings.lineHeight;
             }
 
-            const bn::fixed_point chPos(_settings.pos.x() + _curLineWidth, _curLineY);
-            const bn::fixed_point sprPos(_settings.pos.x() + _sprLineWidth, _curLineY);
+            const bn::fixed_point chPos(getMovedDialogPos().x() + _curLineWidth, _curLineY);
+            const bn::fixed_point sprPos(getMovedDialogPos().x() + _sprLineWidth, _curLineY);
 
             // find text choice pos
             if (chStr != " " && _prevCharSpaceCnt >= 2)
@@ -257,7 +268,7 @@ void DialogWriter::update()
             _nextCharIdx += ch.size();
             _prevCharSpaceCnt = (chStr == " " ? _prevCharSpaceCnt + 1 : 0);
             if (_nextCharIdx >= dialog.size())
-                _isWaitInput = true;
+                setWaitInput(true);
         }
 
         break;
@@ -281,6 +292,11 @@ void DialogWriter::setDialogPos(const bn::fixed_point& pos)
         spr.set_position(spr.position() + diff);
 
     _settings.pos = pos;
+}
+
+auto DialogWriter::getMovedDialogPos() const -> bn::fixed_point
+{
+    return _settings.pos + bn::fixed_point{_portrait.getInfo().paddingX, 0};
 }
 
 void DialogWriter::resetStringProcessInfos()
@@ -461,11 +477,11 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
     }
 
     case SpecialToken::Kind::STOP_WAIT_INPUT:
-        _isWaitInput = true;
+        setWaitInput(true);
         break;
 
     case SpecialToken::Kind::STOP_WAIT_INPUT_CLOSE:
-        _isWaitInput = true;
+        setWaitInput(true);
         _isCloseRequested = true;
         break;
 
@@ -480,7 +496,16 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
     }
 
     case SpecialToken::Kind::FACE_EMOTION: {
-        BN_LOG("SpecialToken::Kind::FACE_EMOTICON not implemented");
+        const auto face = _portrait.getInfo().faceKind;
+        const int emotion = specialToken.number;
+        _portrait.setInfo(asset::IPortraitInfo::get(face, emotion));
+        break;
+    }
+
+    case SpecialToken::Kind::FACE_KIND: {
+        const auto face = (asset::PortraitFaceKind)specialToken.number;
+        const int emotion = _portrait.getInfo().emotionKind;
+        _portrait.setInfo(asset::IPortraitInfo::get(face, emotion));
         break;
     }
 
@@ -528,6 +553,17 @@ bool DialogWriter::isCurDialogChoice() const
     const auto& dialog = _dialogs[_dialogIdx];
 
     return dialog.ends_with(R"(\C)") || dialog.ends_with(R"(\C )");
+}
+
+void DialogWriter::setWaitInput(bool isWaitInput)
+{
+    if (_isWaitInput == isWaitInput)
+        return;
+
+    _isWaitInput = isWaitInput;
+
+    if (isWaitInput)
+        _portrait.onWaitInput();
 }
 
 } // namespace ut::core

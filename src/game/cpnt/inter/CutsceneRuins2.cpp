@@ -55,7 +55,9 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     using namespace ut::asset;
 
     ctx.interactStack.push(InteractState::CUTSCENE);
+
     ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msgSettings.emotion = 2;
     ctx.isDialogUpper = false; // Force lower dialog box, otherwise Toriel is hidden
 
     ctx.state.setPlot(GamePlot::STEPPING_TILE_PUZZLE_COMPLETE);

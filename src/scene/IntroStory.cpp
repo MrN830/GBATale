@@ -104,7 +104,7 @@ IntroStory::IntroStory(SceneStack& sceneStack, SceneContext& context)
           asset::gen::getTextEn(asset::gen::TextData::obj_introimage_75),
           asset::gen::getTextEn(asset::gen::TextData::obj_introimage_76),
       },
-      _dialogWriter(getContext().textGens)
+      _dialogWriter(getContext())
 {
     bn::rect_window::internal().set_boundaries(6 - bn::display::height() / 2, 32 - bn::display::width() / 2,
                                                102 - bn::display::height() / 2, 208 - bn::display::width() / 2);

@@ -215,7 +215,7 @@ constexpr bn::pair<asset::gen::TextData, bn::string_view> CHOICE_DIALOGS[] = {
 
 TextChoiceTest::TextChoiceTest(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::TEXT_CHOICE_TEST),
-      _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)), _dialogWriter(context.textGens)
+      _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)), _dialogWriter(context)
 {
     using namespace ut::asset::gen;
 

@@ -119,7 +119,7 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
 
     bn::array<bn::string_view, 1> dialog = {tip};
 
-    core::DialogWriter dialogWriter(context.textGens);
+    core::DialogWriter dialogWriter(context);
     dialogWriter.start(dialog, core::DialogSettings::getPreset(core::DialogSettings::PresetKind::CONFIRM_NAME), _tip);
     dialogWriter.instantWrite();
 
