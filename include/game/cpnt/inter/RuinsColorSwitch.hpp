@@ -10,7 +10,10 @@ class RuinsColorSwitch final : public Interaction
 public:
     RuinsColorSwitch(ent::Entity&, bool isEnabled, InteractionTriggers);
 
-    void onInteract(GameContext&) override;
+    auto onInteract(GameContext&) -> task::Task override;
+
+private:
+    void hideAllSpikesInRoom(GameContext&);
 };
 
 } // namespace ut::game::cpnt::inter

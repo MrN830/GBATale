@@ -14,7 +14,8 @@ class TextGens;
 namespace ut::game::sys
 {
 class EntityManager;
-}
+class TaskManager;
+} // namespace ut::game::sys
 
 int main();
 
@@ -41,6 +42,7 @@ private:
 
 public:
     void setEntMngr(game::sys::EntityManager*);
+    void setTaskMngr(game::sys::TaskManager*);
 
 private:
     void setVisible(bool);
@@ -53,8 +55,9 @@ private:
 private:
     bn::sprite_text_generator& _textGen;
     game::sys::EntityManager* _entMngr = nullptr;
+    game::sys::TaskManager* _taskMngr = nullptr;
 
-    bn::vector<bn::sprite_ptr, 24> _texts;
+    bn::vector<bn::sprite_ptr, 31> _texts;
     int _updateCountdown = 0;
     bool _isVisible = false;
 };

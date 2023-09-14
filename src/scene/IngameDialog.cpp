@@ -1,67 +1,79 @@
 #include "scene/IngameDialog.hpp"
 
+#include <bn_display.h>
+#include <bn_format.h>
 #include <bn_keypad.h>
-#include <bn_sound_item.h>
 
-#include "asset/SfxKind.hpp"
-#include "core/ChoiceMsgKind.hpp"
+#include "asset/FontKind.hpp"
+#include "core/DialogChoice.hpp"
+#include "core/TextGens.hpp"
 #include "game/GameContext.hpp"
-#include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
-#include "game/RoomInfo.hpp"
-#include "game/cpnt/ev/PlotSpike.hpp"
-#include "game/cpnt/inter/Readable.hpp"
-#include "game/sys/EntityManager.hpp"
+#include "game/sys/TaskManager.hpp"
 
-#include "gen/EntityId.hpp"
-#include "gen/TextData.hpp"
-
-#include "bn_regular_bg_items_bg_battle_dialog.h"
+#include "bn_regular_bg_items_bg_ingame_dialog.h"
 
 namespace ut::scene
 {
 
 namespace
 {
-constexpr auto UPPER_DIALOG_DIFF = bn::fixed_point{0, -100};
+
+constexpr auto TOP_LEFT_ORIGIN = -bn::fixed_point{bn::display::width() / 2, bn::display::height() / 2};
+constexpr auto GOLD_POS = bn::fixed_point{169, 72} + TOP_LEFT_ORIGIN;
+constexpr auto ITEM_POS = bn::fixed_point{169, 87} + TOP_LEFT_ORIGIN;
+
+enum BgMapIdx
+{
+    MAIN_L,
+    MAIN_U,
+    GOLD_L,
+    GOLD_U,
+};
+
+} // namespace
+
+static int getBgMapIdx(const game::GameContext* ctx)
+{
+    BN_ASSERT(ctx != nullptr);
+
+    int mapIdx = (ctx->isDialogGold ? GOLD_L : MAIN_L);
+    mapIdx = (int)mapIdx + (ctx->isDialogUpper ? 1 : 0);
+
+    return mapIdx;
 }
 
 IngameDialog::IngameDialog(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context, SceneId::INGAME_DIALOG), _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)),
-      _dialogWriter(context.textGens, consts::INGAME_MENU_BG_PRIORITY)
+    : Scene(sceneStack, context, SceneId::INGAME_DIALOG),
+      _bg(bn::regular_bg_items::bg_ingame_dialog.create_bg(0, 0, getBgMapIdx(context.gameContext))),
+      _dialogWriter(context, consts::INGAME_MENU_BG_PRIORITY)
 {
-    BN_ASSERT(context.gameContext != nullptr);
-    auto& ctx = *context.gameContext;
-
     _bg.set_priority(consts::INGAME_MENU_BG_PRIORITY);
-    if (ctx.isDialogUpper)
-        _bg.set_position(_bg.position() + UPPER_DIALOG_DIFF);
 
     start();
-}
-
-IngameDialog::~IngameDialog()
-{
-    BN_ASSERT(getContext().gameContext != nullptr);
-    auto& ctx = *getContext().gameContext;
-
-    BN_ASSERT(ctx.interactStack.top() == game::InteractState::INTERACT);
-    if (!ctx.isSavePromptRequested)
-        ctx.interactStack.pop();
-
-    ctx.msg.clear();
-    ctx.leftChoiceMsg = core::ChoiceMsgKind::NONE;
-    ctx.rightChoiceMsg = core::ChoiceMsgKind::NONE;
 }
 
 bool IngameDialog::handleInput()
 {
     if (bn::keypad::a_pressed())
     {
+        const int prevDialogIdx = _dialogWriter.getCurDialogIdx();
         auto result = _dialogWriter.confirmKeyInput();
+        const int curDialogIdx = _dialogWriter.getCurDialogIdx();
 
-        if (result != core::DialogWriter::TextChoice::NONE)
-            resetToChoiceMsg(result);
+        BN_ASSERT(getContext().gameContext != nullptr);
+        auto& ctx = *getContext().gameContext;
+
+        if (curDialogIdx > prevDialogIdx)
+            ctx.taskMngr.onSignal({game::task::TaskSignal::Kind::DIALOG_INDEX, curDialogIdx});
+
+        if (result != core::DialogChoice::NONE)
+        {
+            ctx.taskMngr.onSignal({game::task::TaskSignal::Kind::DIALOG_CHOICE, (int)result});
+
+            if (_isDialogGold)
+                redrawGoldDisplay();
+        }
     }
     if (bn::keypad::b_pressed())
     {
@@ -79,11 +91,12 @@ bool IngameDialog::update()
     if (!_dialogWriter.isStarted())
     {
         reqStackPop();
+        reset();
 
         auto* ctx = getContext().gameContext;
         BN_ASSERT(ctx != nullptr);
-        if (ctx->isSavePromptRequested)
-            reqStackPush(SceneId::SAVE_PROMPT);
+
+        ctx->taskMngr.onSignal({game::task::TaskSignal::Kind::DIALOG_END});
     }
 
     return true;
@@ -94,15 +107,51 @@ void IngameDialog::start()
     auto* ctx = getContext().gameContext;
     BN_ASSERT(ctx != nullptr);
 
+    _bg.set_map(bn::regular_bg_items::bg_ingame_dialog.map_item(), getBgMapIdx(ctx));
+
+    _isDialogGold = ctx->isDialogGold;
+    _goldText.clear();
+    if (_isDialogGold)
+        redrawGoldDisplay();
+
     BN_ASSERT(!ctx->msg.empty(), "IngameDialog with empty gameContext.msg");
-    using DSKind = core::Dialog::Settings::Kind;
+    using DS = core::DialogSettings;
+    using DSPKind = DS::PresetKind;
 
-    _dialogs.clear();
-    const auto dialogSettings = (ctx->isDialogUpper ? DSKind::WORLD_UPPER : DSKind::WORLD_LOWER);
-    for (const auto& str : ctx->msg)
-        _dialogs.push_back(core::Dialog{dialogSettings, str});
+    _dialogs = ctx->msg;
 
-    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+    auto dialogSettings = DS::getPreset(ctx->isDialogUpper ? DSPKind::WORLD_UPPER : DSPKind::WORLD_LOWER);
+    dialogSettings.override(ctx->msgSettings);
+
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text);
+}
+
+void IngameDialog::reset()
+{
+    BN_ASSERT(getContext().gameContext != nullptr);
+    auto& ctx = *getContext().gameContext;
+
+    BN_ASSERT(ctx.interactStack.top() == game::InteractState::DIALOG);
+    ctx.interactStack.pop();
+
+    ctx.msg.clear();
+}
+
+void IngameDialog::redrawGoldDisplay()
+{
+    _goldText.clear();
+
+    BN_ASSERT(getContext().gameContext != nullptr);
+    const auto& state = getContext().gameContext->state;
+
+    auto& textGen = getContext().textGens.get(asset::FontKind::MAIN);
+
+    textGen.generate(GOLD_POS, bn::format<13>("$-{}G", state.getGold()), _goldText);
+    textGen.generate(ITEM_POS, bn::format<9>("SPACE-{}/{}", state.getItems().size(), state.getItems().max_size()),
+                     _goldText);
+
+    for (auto& spr : _goldText)
+        spr.set_bg_priority(consts::INGAME_MENU_BG_PRIORITY);
 }
 
 auto IngameDialog::getWriter() const -> const core::DialogWriter&
@@ -123,201 +172,6 @@ auto IngameDialog::getDialogs() -> decltype((_dialogs))
 auto IngameDialog::getDialogs() const -> decltype((_dialogs))
 {
     return _dialogs;
-}
-
-void IngameDialog::resetToChoiceMsg(core::DialogWriter::TextChoice choice)
-{
-    auto* ctx = getContext().gameContext;
-    BN_ASSERT(ctx != nullptr);
-
-    using Choice = core::DialogWriter::TextChoice;
-    using CMKind = core::ChoiceMsgKind;
-
-    BN_ASSERT(choice != Choice::NONE);
-    const auto choiceMsg = (choice == Choice::LEFT ? ctx->leftChoiceMsg : ctx->rightChoiceMsg);
-    BN_ASSERT(choiceMsg != CMKind::NONE);
-
-    ctx->msg.clear();
-
-    auto& state = ctx->state;
-    auto& flags = state.getFlags();
-    const auto room = state.getRoom();
-    const auto plot = state.getPlot();
-
-    switch (choiceMsg)
-    {
-        using namespace ut::asset;
-
-    case CMKind::CLOSE_IMMEDIATELY:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1835));
-        break;
-
-    case CMKind::TAKE_CANDY_YES: {
-        auto& items = state.getItems();
-
-        auto dropCandyDish = [ctx]() {
-            using namespace ut::game::cpnt::inter;
-
-            auto* candyDish = ctx->entMngr.findById(game::ent::gen::EntityId::candy_dish);
-            BN_ASSERT(candyDish != nullptr);
-            auto* cdInter = candyDish->getComponent<Interaction>();
-            BN_ASSERT(cdInter != nullptr);
-            BN_ASSERT(cdInter->getInteractionType() == bn::type_id<Readable>());
-            auto& readable = static_cast<Readable&>(*cdInter);
-
-            readable.dropCandyDish(*ctx);
-        };
-
-        if (items.full())
-            ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1635));
-        else
-        {
-            items.push_back(game::ItemKind::MONSTER_CANDY);
-            flags.candy_taken += 1;
-
-            if (flags.candy_taken == 1)
-                ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1624));
-            else if (flags.candy_taken == 2)
-                ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1625));
-            else if (flags.candy_taken == 3)
-            {
-                if (flags.hardmode)
-                {
-                    flags.candy_taken += 1;
-                    dropCandyDish();
-                    ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1631));
-                }
-                else
-                    ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1626));
-            }
-            else if (flags.candy_taken == 4)
-            {
-                dropCandyDish();
-                ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1628));
-            }
-            else
-                BN_ERROR("Invalid flags.candy_taken=", (int)flags.candy_taken);
-        }
-        break;
-    }
-    case CMKind::TAKE_CANDY_NO:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1639));
-        break;
-
-    case CMKind::YELLOW_NAME_HELPFUL:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4486));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4487));
-        break;
-    case CMKind::YELLOW_NAME_BAD:
-        ctx->leftChoiceMsg = CMKind::KEEP_YELLOW_NAMES;
-        ctx->rightChoiceMsg = CMKind::NO_MORE_YELLOW_NAMES;
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4491));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4492));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4493));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4494));
-        break;
-
-    case CMKind::KEEP_YELLOW_NAMES:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4501));
-        break;
-    case CMKind::NO_MORE_YELLOW_NAMES:
-        flags.name_color = game::GameFlags::NameColor::WHITE;
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4505));
-        break;
-
-    case CMKind::NO_NAME_COLOR_GREAT:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4519));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4520));
-        break;
-    case CMKind::BRING_NAME_COLOR_BACK:
-        flags.name_color = game::GameFlags::NameColor::PINK;
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4524));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4525));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4526));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4527));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4528));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4529));
-        break;
-
-    case CMKind::TORIEL_DIARY_YES:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1830));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1831));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1832));
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1833));
-        break;
-
-    case CMKind::PRESS_COLOR_SWITCH_OPEN: {
-        using Room = game::RoomKind;
-        using Plot = game::GamePlot;
-
-        flags.ruins_switches_pressed += 1;
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1806));
-
-        auto hideAllSpikesInRoom = [ctx]() {
-            auto it = ctx->entMngr.beforeBeginIter();
-            do
-            {
-                it = ctx->entMngr.findIf(
-                    [](const game::ent::Entity& entity) -> bool {
-                        const auto* evCpnt = entity.getComponent<game::cpnt::ev::EventComponent>();
-                        return (evCpnt != nullptr &&
-                                evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
-                    },
-                    it);
-
-                if (it != ctx->entMngr.endIter())
-                {
-                    auto* evCpnt = it->getComponent<game::cpnt::ev::EventComponent>();
-                    BN_ASSERT(evCpnt != nullptr);
-                    BN_ASSERT(evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
-                    auto* plotSpike = static_cast<game::cpnt::ev::PlotSpike*>(evCpnt);
-
-                    plotSpike->hideSpike();
-                }
-
-            } while (it != ctx->entMngr.endIter());
-        };
-
-        if (room == Room::ROOM_RUINS15B && (int)plot < (int)Plot::BLUE_SWITCH_FLIPPED)
-        {
-            state.setPlot(Plot::BLUE_SWITCH_FLIPPED);
-
-            asset::getSfx(asset::SfxKind::SWITCH_PULL_N)->play();
-            hideAllSpikesInRoom();
-        }
-        else if (room == Room::ROOM_RUINS15C && (int)plot < (int)Plot::RED_SWITCH_FLIPPED)
-        {
-            state.setPlot(Plot::RED_SWITCH_FLIPPED);
-
-            asset::getSfx(asset::SfxKind::SWITCH_PULL_N)->play();
-            hideAllSpikesInRoom();
-        }
-        else if (room == Room::ROOM_RUINS15D && (int)plot < (int)Plot::GREEN_SWITCH_FLIPPED)
-        {
-            state.setPlot(Plot::GREEN_SWITCH_FLIPPED);
-
-            asset::getSfx(asset::SfxKind::SWITCH_PULL_N)->play();
-            hideAllSpikesInRoom();
-        }
-        break;
-    }
-    case CMKind::PRESS_COLOR_SWITCH_NOTHING_HAPPENED:
-        flags.ruins_switches_pressed += 1;
-
-        if (flags.ruins_switches_pressed > 25)
-            ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1790));
-        else
-            ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1788));
-        break;
-    case CMKind::PRESS_COLOR_SWITCH_TOO_MANY_TIMES:
-        ctx->msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1790));
-        break;
-
-    default:
-        BN_ERROR("Invalid ChoiceMsgKind=", (int)choiceMsg);
-    }
-
-    start();
 }
 
 } // namespace ut::scene

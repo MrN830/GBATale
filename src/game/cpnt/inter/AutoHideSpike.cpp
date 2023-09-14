@@ -24,7 +24,7 @@ AutoHideSpike::AutoHideSpike(ent::Entity& entity, bool isEnabled, InteractionTri
 {
 }
 
-void AutoHideSpike::onInteract(GameContext& ctx)
+auto AutoHideSpike::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
@@ -34,6 +34,8 @@ void AutoHideSpike::onInteract(GameContext& ctx)
     spr->setGfxIdx(SpikeGfxIdx::HIDE);
 
     _spikeReappearCountdown = -1;
+
+    co_return;
 }
 
 void AutoHideSpike::onInteractionCollisionExit(GameContext&)

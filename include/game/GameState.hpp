@@ -149,6 +149,7 @@ public: // SRAM saved fields
 public:
     void setCharName(const bn::string_view);
     void changeHp(int diff);
+    void setGold(int gold);
 
     void setWeapon(ItemKind);
     void setArmor(ItemKind);

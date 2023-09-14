@@ -10,7 +10,6 @@
 #include "asset/Bgm.hpp"
 #include "asset/SfxKind.hpp"
 #include "asset/TextColor.hpp"
-#include "core/Dialog.hpp"
 #include "core/DialogWriter.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameState.hpp"
@@ -118,10 +117,10 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
     else if (name == "bpants")
         tip = "You are really scraping the#bottom of the barrel.";
 
-    core::Dialog dialog[] = {{core::Dialog::Settings::Kind::CONFIRM_NAME, tip}};
+    bn::array<bn::string_view, 1> dialog = {tip};
 
-    core::DialogWriter dialogWriter(context.textGens);
-    dialogWriter.start(dialog, _tip);
+    core::DialogWriter dialogWriter(context);
+    dialogWriter.start(dialog, core::DialogSettings::getPreset(core::DialogSettings::PresetKind::CONFIRM_NAME), _tip);
     dialogWriter.instantWrite();
 
     if (name == "gaster")

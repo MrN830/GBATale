@@ -18,7 +18,7 @@ public:
 
     void awake(GameContext&) override;
 
-    void onEvent(GameContext&) override{};
+    auto onEvent(GameContext&) -> task::Task override;
 
 public:
     void hideSpike();

@@ -1,12 +1,13 @@
 #include "game/cpnt/inter/Readable.hpp"
 
+#include "core/DialogChoice.hpp"
 #include "game/GameContext.hpp"
+#include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "scene/Game.hpp"
 
-#include "core/ChoiceMsgKind.hpp"
 #include "gen/EntityId.hpp"
 #include "gen/TextData.hpp"
 
@@ -16,18 +17,25 @@ namespace ut::game::cpnt::inter
 Readable::Readable(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
     : Interaction(entity, bn::type_id<Readable>(), isEnabled, triggers)
 {
-    // TODO: Destroy certain readables when condition is met
 }
 
 void Readable::awake(GameContext& ctx)
 {
     using EntityId = ent::gen::EntityId;
 
+    const auto room = ctx.state.getRoom();
+    const auto plot = ctx.state.getPlot();
+
+    // TODO: Destroy certain readables when condition is met
     if (_entity.getId() == EntityId::candy_dish)
     {
         const auto& flags = ctx.state.getFlags();
         if (flags.candy_taken >= 4)
             dropCandyDish(ctx);
+    }
+    else if (room == RoomKind::ROOM_AREA1 && plot == GamePlot::NEW_GAME)
+    {
+        _entity.setDestroyed(true);
     }
 }
 
@@ -49,11 +57,13 @@ void Readable::dropCandyDish(GameContext& ctx)
     candySpr->setEnabled(true);
 }
 
-void Readable::onInteract(GameContext& ctx)
+auto Readable::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
-    auto& flags = ctx.state.getFlags();
+    auto& state = ctx.state;
+    auto& flags = state.getFlags();
+    auto& items = state.getItems();
 
     ctx.msg.clear();
     const auto room = ctx.state.getRoom();
@@ -83,15 +93,58 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1606));
         else
         {
-            ctx.leftChoiceMsg = core::ChoiceMsgKind::TAKE_CANDY_YES;
-            ctx.rightChoiceMsg = core::ChoiceMsgKind::TAKE_CANDY_NO;
-
             if (flags.candy_taken == 0)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1604));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1603));
-
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1607));
+
+            // Dialog choice: Take candy
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Take candy `YES`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                if (items.full())
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1635));
+                else
+                {
+                    items.push_back(game::ItemKind::MONSTER_CANDY);
+                    flags.candy_taken += 1;
+
+                    if (flags.candy_taken == 1)
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1624));
+                    else if (flags.candy_taken == 2)
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1625));
+                    else if (flags.candy_taken == 3)
+                    {
+                        if (flags.hardmode)
+                        {
+                            flags.candy_taken += 1;
+                            dropCandyDish(ctx);
+                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1631));
+                        }
+                        else
+                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1626));
+                    }
+                    else if (flags.candy_taken == 4)
+                    {
+                        dropCandyDish(ctx);
+                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1628));
+                    }
+                    else
+                        BN_ERROR("Invalid flags.candy_taken=", (int)flags.candy_taken);
+                }
+            }
+            // Dialog choice: Take candy `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+            {
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1639));
+            }
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
         }
         break;
     case RoomKind::ROOM_RUINS9:
@@ -105,9 +158,92 @@ void Readable::onInteract(GameContext& ctx)
         else
             BN_ERROR("Invalid readable in `room_ruins10`");
         break;
+    case RoomKind::ROOM_RUINS12A:
+        if (flags.true_pacifist)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_cheesetable1_62));
+        else
+        {
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_cheesetable1_58));
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_cheesetable1_59));
+        }
+        break;
     case RoomKind::ROOM_RUINS12B:
+        if (_entity.getId() == ent::gen::EntityId::sign)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_sign_room_66));
+        else if (_entity.getId() == ent::gen::EntityId::left)
+        {
+            static constexpr int SPIDER_DONUT_PRICE = 7;
+
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1705));
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1706));
+
+            // Dialog choice: Small spider web
+            ctx.isDialogGold = true;
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Small spider web `BUY`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                if (items.full())
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1726));
+                else if (state.getGold() < SPIDER_DONUT_PRICE)
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1724));
+                else
+                {
+                    state.setGold(state.getGold() - SPIDER_DONUT_PRICE);
+                    items.push_back(ItemKind::SPIDER_DONUT);
+
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1723));
+                }
+            }
+            // Dialog choice: Small spider web `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1729));
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
+        }
+        else if (_entity.getId() == ent::gen::EntityId::right)
+        {
+            static constexpr int SPIDER_CIDER_PRICE = 18;
+
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1736));
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1737));
+
+            // Dialog choice: Big spider web
+            ctx.isDialogGold = true;
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Big spider web `BUY`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                if (items.full())
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1757));
+                else if (state.getGold() < SPIDER_CIDER_PRICE)
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1755));
+                else
+                {
+                    state.setGold(state.getGold() - SPIDER_CIDER_PRICE);
+                    items.push_back(ItemKind::SPIDER_CIDER);
+
+                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1754));
+                }
+            }
+            // Dialog choice: Big spider web `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1760));
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
+        }
+        else
+            BN_ERROR("Invalid readable in `room_ruins12B`");
+        break;
     case RoomKind::ROOM_FIRE_SPIDERSHOP:
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_sign_room_66));
+        if (_entity.getId() == ent::gen::EntityId::sign)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_sign_room_66));
         break;
     case RoomKind::ROOM_RUINS13:
         if (_entity.getId() == ent::gen::EntityId::sign)
@@ -270,10 +406,29 @@ void Readable::onInteract(GameContext& ctx)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_124));
         else if (_entity.getId() == ent::gen::EntityId::diary)
         {
-            ctx.leftChoiceMsg = core::ChoiceMsgKind::TORIEL_DIARY_YES;
-            ctx.rightChoiceMsg = core::ChoiceMsgKind::CLOSE_IMMEDIATELY;
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1824));
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1825));
+
+            // Dialog choice: Toriel's diary
+            ctx.game.startDialog();
+            const auto dialogChoice = co_await task::DialogChoiceAwaiter();
+            ctx.msg.clear();
+
+            // Dialog choice: Toriel's diary `YES`
+            if (dialogChoice == core::DialogChoice::LEFT)
+            {
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1830));
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1831));
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1832));
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1833));
+            }
+            // Dialog choice: Toriel's diary `NO`
+            else if (dialogChoice == core::DialogChoice::RIGHT)
+            {
+                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1835));
+            }
+            else
+                BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
         }
         else if (_entity.getId() == ent::gen::EntityId::socks)
         {
@@ -468,8 +623,11 @@ void Readable::onInteract(GameContext& ctx)
     };
 
     ctx.game.startDialog();
+    ctx.isDialogGold = false;
 
     ++_readCount;
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::inter

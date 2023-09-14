@@ -13,10 +13,10 @@ StartBgm::StartBgm(ent::Entity& entity, bool isEnabled, bool isAutoFire)
 {
 }
 
-void StartBgm::onEvent(GameContext& ctx)
+auto StartBgm::onEvent(GameContext& ctx) -> task::Task
 {
     if (asset::Bgm::isPlaying())
-        return;
+        co_return;
 
     auto& state = ctx.state;
     const auto room = state.getRoom();
@@ -52,6 +52,8 @@ void StartBgm::onEvent(GameContext& ctx)
 
     state.setWorldBgm(bgmKind);
     asset::Bgm::play(bgmKind);
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::ev

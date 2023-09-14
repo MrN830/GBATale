@@ -12,9 +12,10 @@ public:
 
     void awake(GameContext&) override;
 
-    void dropCandyDish(GameContext&);
+    auto onInteract(GameContext&) -> task::Task override;
 
-    void onInteract(GameContext&) override;
+private:
+    void dropCandyDish(GameContext&);
 
 private:
     int _readCount = 0;

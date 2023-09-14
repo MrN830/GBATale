@@ -215,14 +215,17 @@ constexpr bn::pair<asset::gen::TextData, bn::string_view> CHOICE_DIALOGS[] = {
 
 TextChoiceTest::TextChoiceTest(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::TEXT_CHOICE_TEST),
-      _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)), _dialogWriter(context.textGens)
+      _bg(bn::regular_bg_items::bg_battle_dialog.create_bg(0, 0)), _dialogWriter(context)
 {
     using namespace ut::asset::gen;
 
     for (const auto& p : CHOICE_DIALOGS)
-        _dialogs.emplace_back(core::Dialog::Settings::Kind::WORLD_LOWER, getTextEn(p.first));
+        _dialogs.emplace_back(getTextEn(p.first));
 
-    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), _text);
+    using DS = core::DialogSettings;
+    using DSPKind = DS::PresetKind;
+    const auto& dialogSettings = DS::getPreset(DSPKind::WORLD_LOWER);
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text);
 
     redrawTextDataId();
 }

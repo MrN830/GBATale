@@ -10,7 +10,7 @@ class AutoHideSpike : public Interaction
 public:
     AutoHideSpike(ent::Entity&, bool isEnabled, InteractionTriggers);
 
-    void onInteract(GameContext&) override;
+    auto onInteract(GameContext&) -> task::Task override;
     void onInteractionCollisionExit(GameContext&) override;
 
     void render(GameContext&) override;

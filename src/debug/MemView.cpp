@@ -11,6 +11,8 @@
 
 #include "core/TextGens.hpp"
 #include "game/sys/EntityManager.hpp"
+#include "game/sys/TaskManager.hpp"
+#include "game/task/TaskHeap.hpp"
 
 namespace ut::debug
 {
@@ -26,10 +28,13 @@ constexpr auto CPU_POS = bn::fixed_point{240, 3} + TOP_LEFT_ORIGIN;
 constexpr auto BG_SPR_POS = CPU_POS + LINE_DIFF * 1;
 constexpr auto IWRAM_POS = CPU_POS + LINE_DIFF * 2;
 constexpr auto EWRAM_POS = CPU_POS + LINE_DIFF * 3;
-constexpr auto ENT_POOL_POS = CPU_POS + LINE_DIFF * 5;
-constexpr auto COLL_POOL_POS = CPU_POS + LINE_DIFF * 6;
-constexpr auto CPNT_HEAP_POS_1 = CPU_POS + LINE_DIFF * 7;
-constexpr auto CPNT_HEAP_POS_2 = CPU_POS + LINE_DIFF * 8;
+
+constexpr auto TASK_POS_1 = CPU_POS + LINE_DIFF * 5;
+constexpr auto TASK_POS_2 = CPU_POS + LINE_DIFF * 6;
+constexpr auto ENT_POOL_POS = CPU_POS + LINE_DIFF * 7;
+constexpr auto COLL_POOL_POS = CPU_POS + LINE_DIFF * 8;
+constexpr auto CPNT_HEAP_POS_1 = CPU_POS + LINE_DIFF * 9;
+constexpr auto CPNT_HEAP_POS_2 = CPU_POS + LINE_DIFF * 10;
 
 } // namespace
 
@@ -64,6 +69,11 @@ void MemView::setEntMngr(game::sys::EntityManager* entMngr)
     _entMngr = entMngr;
 }
 
+void MemView::setTaskMngr(game::sys::TaskManager* taskMngr)
+{
+    _taskMngr = taskMngr;
+}
+
 void MemView::setVisible(bool isVisible)
 {
     if (isVisible == _isVisible)
@@ -96,6 +106,18 @@ void MemView::redrawTexts()
         _textGen.generate(EWRAM_POS,
                           bn::format<14>("EW {}% {}", (bn::fixed(usedEw) / EWRAM_BYTES * 100).round_integer(), usedEw),
                           _texts);
+
+        if (_taskMngr)
+            _textGen.generate(TASK_POS_1,
+                              bn::format<12>("TASK {}/{}", _taskMngr->_tasks.size(), _taskMngr->_tasks.max_size()),
+                              _texts);
+        else
+            _textGen.generate(TASK_POS_1, "TASK", _texts);
+
+        const auto& taskAlloc = game::task::TaskHeap::instance().getAllocator();
+        const int totalTaskAlloc = taskAlloc.available_bytes() + taskAlloc.used_bytes();
+        _textGen.generate(TASK_POS_2, bn::format<13>("{}/{}", taskAlloc.used_bytes(), totalTaskAlloc), _texts);
+
         if (_entMngr)
         {
             _textGen.generate(ENT_POOL_POS,

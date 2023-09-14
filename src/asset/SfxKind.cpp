@@ -24,12 +24,12 @@ static constexpr const bn::sound_item* SFXS[(int)SfxKind::TOTAL_COUNT] = {
     &bn::sound_items::snd_speedup,    &bn::sound_items::snd_spooky,
     &bn::sound_items::snd_sparkle1,   &bn::sound_items::snd_dogresidue,
     &bn::sound_items::snd_dogsalad,   &bn::sound_items::snd_catsalad,
-    &bn::sound_items::snd_hero,
+    &bn::sound_items::snd_movemenu,   &bn::sound_items::snd_hero,
 
     &bn::sound_items::snd_squeak,     &bn::sound_items::snd_select,
 
-    &bn::sound_items::snd_txt2,
-    &bn::sound_items::snd_txt1, // TODO: change sfx to TORIEL
+    &bn::sound_items::snd_txt2,       &bn::sound_items::snd_txttor,
+    &bn::sound_items::snd_txttor2,
     &bn::sound_items::snd_txt1, // TODO: change sfx to SANS_TORIEL
     &bn::sound_items::snd_txt1,
     &bn::sound_items::snd_txt1, // TODO: change sfx to DEFAULT_NO_SOUND

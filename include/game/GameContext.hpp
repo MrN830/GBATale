@@ -7,10 +7,6 @@
 
 #include "consts.hpp"
 
-namespace ut::core
-{
-enum class ChoiceMsgKind : uint16_t;
-}
 namespace ut::scene
 {
 struct SceneContext;
@@ -19,11 +15,16 @@ class Game;
 namespace ut::game::sys
 {
 class WorldBg;
+class TaskManager;
 class EntityManager;
 class CameraManager;
 class FadeManager;
 class RoomChanger;
 } // namespace ut::game::sys
+namespace ut::core
+{
+struct DialogSettingsOverride;
+}
 
 namespace ut::game
 {
@@ -36,6 +37,7 @@ struct GameContext
     scene::Game& game;
     GameState& state;
 
+    game::sys::TaskManager& taskMngr;
     game::sys::CameraManager& camMngr;
     game::sys::WorldBg& worldBg;
     game::sys::EntityManager& entMngr;
@@ -45,13 +47,12 @@ struct GameContext
     InteractStateStack& interactStack;
 
     bn::vector<bn::string_view, consts::DIALOG_MAX_LINES>& msg;
-    core::ChoiceMsgKind leftChoiceMsg;
-    core::ChoiceMsgKind rightChoiceMsg;
+    core::DialogSettingsOverride& msgSettings;
 
     mtile::WarpId warpId = mtile::WarpId::INIT;
 
-    bool isDialogUpper = false;
-    bool isSavePromptRequested = false;
+    bool isDialogUpper : 1 = false;
+    bool isDialogGold : 1 = false;
 };
 
 } // namespace ut::game

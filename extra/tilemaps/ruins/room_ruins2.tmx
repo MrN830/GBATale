@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="65">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="68">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="16" height="12">
@@ -85,7 +85,7 @@
    <polygon points="0,0 32,-32 32,0"/>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Entity">
+ <objectgroup id="3" name="Entity" opacity="0.6">
   <object id="1" type="Entity" gid="1361" x="152" y="96" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack">
@@ -206,7 +206,7 @@
     </property>
    </properties>
   </object>
-  <object id="7" type="Entity" gid="1362" x="168" y="56" width="16" height="16">
+  <object id="7" name="button" type="Entity" gid="1362" x="168" y="56" width="16" height="16">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack">
      <properties>
@@ -216,7 +216,7 @@
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
   </object>
-  <object id="62" type="Entity" gid="1377" x="112" y="64" width="32" height="64">
+  <object id="62" name="door" type="Entity" gid="1377" x="112" y="64" width="32" height="64">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite"/>
    </properties>
@@ -231,6 +231,53 @@
     <property name="interaction" type="class" propertytype="Interaction">
      <properties>
       <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="65" name="toriel" type="Entity" gid="1389" x="125" y="123" width="64" height="64">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="npcInput" type="class" propertytype="NpcInput"/>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="updateZOrderOnMove" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim"/>
+    <property name="walkAnimCtrl" type="class" propertytype="WalkAnimCtrl">
+     <properties>
+      <property name="kind" propertytype="WalkAnimKind" value="TORIEL"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="66" type="Entity" x="32" y="144" width="192" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="CutsceneRuins2"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="67" type="Entity" x="32" y="112" width="192" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="TorielGoOutRuins2"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK"/>
      </properties>
     </property>
    </properties>

@@ -45,7 +45,6 @@ SavePrompt::SavePrompt(SceneStack& sceneStack, SceneContext& context)
 {
     auto* ctx = getContext().gameContext;
     BN_ASSERT(ctx != nullptr);
-    ctx->isSavePromptRequested = false;
 
     _bg.set_priority(consts::INGAME_MENU_BG_PRIORITY);
     _cursor.set_bg_priority(consts::INGAME_MENU_BG_PRIORITY);
@@ -57,8 +56,8 @@ SavePrompt::~SavePrompt()
 {
     auto* ctx = getContext().gameContext;
     BN_ASSERT(ctx != nullptr);
-    BN_ASSERT(ctx->interactStack.top() == game::InteractState::INTERACT);
 
+    BN_ASSERT(ctx->interactStack.top() == game::InteractState::SAVE_PROMPT);
     ctx->interactStack.pop();
 }
 

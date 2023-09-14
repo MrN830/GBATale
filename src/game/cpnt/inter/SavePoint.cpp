@@ -18,11 +18,9 @@ SavePoint::SavePoint(ent::Entity& entity, bool isEnabled, InteractionTriggers tr
 {
 }
 
-void SavePoint::onInteract(GameContext& ctx)
+auto SavePoint::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
-
-    ctx.isSavePromptRequested = true;
 
     asset::getSfx(asset::SfxKind::HEAL_BIG)->play();
 
@@ -47,7 +45,7 @@ void SavePoint::onInteract(GameContext& ctx)
     case RoomKind::ROOM_TRUELAB_BEDROOM:
         // Show save prompt directly
         ctx.game.openSavePrompt();
-        return;
+        co_return;
 
     case RoomKind::ROOM_RUINS1:
         ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_127));
@@ -175,6 +173,11 @@ void SavePoint::onInteract(GameContext& ctx)
 
     // TODO: Add genocide save point dialogs
     ctx.game.startDialog();
+    co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
+
+    ctx.game.openSavePrompt();
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::inter

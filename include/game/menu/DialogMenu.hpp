@@ -5,7 +5,6 @@
 #include <bn_sprite_ptr.h>
 #include <bn_vector.h>
 
-#include "core/Dialog.hpp"
 #include "core/DialogWriter.hpp"
 
 #include "consts.hpp"
@@ -27,7 +26,7 @@ public:
 private:
     core::DialogWriter _dialogWriter;
 
-    bn::vector<core::Dialog, DIALOGS> _dialogs;
+    bn::vector<bn::string_view, DIALOGS> _dialogs;
     bn::vector<bn::sprite_ptr, consts::DIALOG_MAX_SPRITES> _text;
 };
 

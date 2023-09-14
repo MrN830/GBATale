@@ -7,7 +7,7 @@
 #include <bn_sound.h>
 
 #include "asset/Bgm.hpp"
-#include "core/Dialog.hpp"
+#include "core/DialogSettings.hpp"
 
 #include "gen/TextData.hpp"
 
@@ -53,43 +53,14 @@ constexpr IntroBgFade INTRO_BGS[INTRO_BG_COUNT] = {
     {&bn::regular_bg_items::bg_intro_last, 0, 57 * FPS + 8, 74 * FPS + 27},
 };
 
-const core::Dialog DIALOGS[] = {
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY,
-        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_70),
-    },
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY,
-        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_71),
-    },
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY,
-        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_72),
-    },
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY,
-        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_73),
-    },
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY,
-        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_74),
-    },
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY_MT_EBOTT,
-        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_75),
-    },
-    core::Dialog{
-        core::Dialog::Settings::Kind::INTRO_STORY,
-        asset::gen::getTextEn(asset::gen::TextData::obj_introimage_76),
-    },
-};
-
 constexpr int NEXT_SCENE_FRAMES = 75 * FPS + 27;
 constexpr int SKIP_NEXT_SCENE_FRAMES = 30;
 
 constexpr bn::fixed_point BG_START_POS = {0, -2};
 constexpr bn::fixed_point LAST_BG_START_POS = {0, -122};
 constexpr bn::fixed_point LAST_BG_END_POS = {0, 91};
+
+constexpr int MT_EBOTT_DIALOG_IDX = 5;
 
 auto buildIntroBg(int idx0) -> bn::regular_bg_ptr
 {
@@ -123,14 +94,25 @@ auto buildBgFadeOut(int frames) -> bn::blending_transparency_alpha_to_action
 
 IntroStory::IntroStory(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::INTRO_STORY), _prevWindowRect(bn::rect_window::internal().boundaries()),
-      _bg(buildIntroBg(0)), _bgFade(1, 1), _dialogWriter(getContext().textGens)
+      _bg(buildIntroBg(0)), _bgFade(1, 1),
+      _dialogs{
+          asset::gen::getTextEn(asset::gen::TextData::obj_introimage_70),
+          asset::gen::getTextEn(asset::gen::TextData::obj_introimage_71),
+          asset::gen::getTextEn(asset::gen::TextData::obj_introimage_72),
+          asset::gen::getTextEn(asset::gen::TextData::obj_introimage_73),
+          asset::gen::getTextEn(asset::gen::TextData::obj_introimage_74),
+          asset::gen::getTextEn(asset::gen::TextData::obj_introimage_75),
+          asset::gen::getTextEn(asset::gen::TextData::obj_introimage_76),
+      },
+      _dialogWriter(getContext())
 {
     bn::rect_window::internal().set_boundaries(6 - bn::display::height() / 2, 32 - bn::display::width() / 2,
                                                102 - bn::display::height() / 2, 208 - bn::display::width() / 2);
 
     asset::Bgm::play(asset::BgmKind::ONCE_UPON_A_TIME);
 
-    _dialogWriter.start(DIALOGS, _texts);
+    const auto& settings = core::DialogSettings::getPreset(core::DialogSettings::PresetKind::INTRO_STORY);
+    _dialogWriter.start(_dialogs, settings, _texts);
 }
 
 IntroStory::~IntroStory()
@@ -185,6 +167,22 @@ bool IntroStory::update()
     {
         reqStackClear();
         reqStackPush(SceneId::INTRO_LOGO);
+    }
+
+    const int dialogIdx = _dialogWriter.getCurDialogIdx();
+    if (dialogIdx == MT_EBOTT_DIALOG_IDX && !_isMtEbottPosMoved)
+    {
+        _isMtEbottPosMoved = true;
+
+        const auto& settings = core::DialogSettings::getPreset(core::DialogSettings::PresetKind::INTRO_STORY_MT_EBOTT);
+        _dialogWriter.setDialogPos(settings.pos);
+    }
+    else if (dialogIdx == MT_EBOTT_DIALOG_IDX + 1 && _isMtEbottPosMoved)
+    {
+        _isMtEbottPosMoved = false;
+
+        const auto& settings = core::DialogSettings::getPreset(core::DialogSettings::PresetKind::INTRO_STORY);
+        _dialogWriter.setDialogPos(settings.pos);
     }
 
     return true;

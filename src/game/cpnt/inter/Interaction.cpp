@@ -21,10 +21,12 @@ auto Interaction::getInteractionType() const -> bn::type_id_t
     return _interactionType;
 }
 
-void Interaction::onInteract(GameContext&)
+auto Interaction::onInteract(GameContext&) -> task::Task
 {
     if (!!(_triggers & InteractionTriggers::COLLIDE))
         _isColliding = true;
+
+    co_return;
 }
 
 void Interaction::update(GameContext& ctx)

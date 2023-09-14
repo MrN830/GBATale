@@ -40,6 +40,7 @@ enum class SfxKind
     DOG_RESIDUE,
     DOG_SALAD,
     CAT_SALAD,
+    MOUSE_SQUEAK,
     HERO,
 
     MENU_CURSOR,
@@ -47,6 +48,7 @@ enum class SfxKind
 
     VOICE_INTRO,
     VOICE_TORIEL,
+    VOICE_TORIEL_LOWER,
     VOICE_SANS_TORIEL,
     VOICE_DEFAULT,
     VOICE_DEFAULT_NO_SOUND,

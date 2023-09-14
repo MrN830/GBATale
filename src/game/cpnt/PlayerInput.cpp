@@ -78,7 +78,9 @@ void PlayerInput::handleInput(GameContext& ctx)
                     auto* interaction = it->getComponent<cpnt::inter::Interaction>();
                     BN_ASSERT(interaction != nullptr);
 
-                    interaction->onInteract(ctx);
+                    auto task = interaction->onInteract(ctx);
+                    if (!task.done())
+                        ctx.taskMngr.addTask(std::move(task));
                 }
             }
         }

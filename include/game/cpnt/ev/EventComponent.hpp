@@ -2,6 +2,8 @@
 
 #include "game/cpnt/Component.hpp"
 
+#include "game/task/Task.hpp"
+
 namespace ut::game::cpnt::ev
 {
 
@@ -14,7 +16,7 @@ public:
 
     void update(GameContext&) override;
 
-    virtual void onEvent(GameContext&) = 0;
+    virtual auto onEvent(GameContext&) -> task::Task = 0;
 
 private:
     const bool _isAutoFire;

@@ -113,6 +113,23 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": false,
+            "id": 21,
+            "members": [
+                {
+                    "name": "isEnabled",
+                    "type": "bool",
+                    "value": true
+                }
+            ],
+            "name": "NpcInput",
+            "type": "class",
+            "useAs": [
+                "property"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": false,
             "id": 12,
             "members": [
                 {

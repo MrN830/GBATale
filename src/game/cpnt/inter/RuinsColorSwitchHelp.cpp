@@ -23,7 +23,7 @@ void RuinsColorSwitchHelp::awake(GameContext& ctx)
         _entity.setDestroyed(true);
 }
 
-void RuinsColorSwitchHelp::onInteract(GameContext& ctx)
+auto RuinsColorSwitchHelp::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
 
@@ -35,6 +35,8 @@ void RuinsColorSwitchHelp::onInteract(GameContext& ctx)
 
     flags.wrong_switches_pressed += 1;
     _entity.setDestroyed(true);
+
+    co_return;
 }
 
 } // namespace ut::game::cpnt::inter

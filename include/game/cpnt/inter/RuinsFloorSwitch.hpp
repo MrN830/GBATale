@@ -10,7 +10,7 @@ class RuinsFloorSwitch : public Interaction
 public:
     RuinsFloorSwitch(ent::Entity&, bool isEnabled, InteractionTriggers);
 
-    void onInteract(GameContext&) override;
+    auto onInteract(GameContext&) -> task::Task override;
 
 private:
     bool isPressed = false;
