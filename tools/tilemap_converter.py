@@ -113,6 +113,111 @@ class TilemapConverter:
             output_header.write("};" + "\n")
             output_header.write("} // namespace ut::game::ent::gen" + "\n")
 
+    @staticmethod
+    def write_path_sources():
+        include_path = f"build_ut/include/gen"
+        src_path = f"build_ut/src"
+        os.makedirs(include_path, exist_ok=True)
+        os.makedirs(src_path, exist_ok=True)
+
+        paths_dict = {}
+
+        for folder in glob.glob("extra/tilemaps/*"):
+            if not os.path.isdir(folder):
+                continue
+
+            for tmx_path in glob.glob(f"{folder}/*.tmx"):
+                tiled_map = pytmx.TiledMap()
+                tiled_map.parse_json(
+                    json.load(open("extra/tilemaps/GBATale.tiled-project", "r"))[
+                        "propertyTypes"
+                    ]
+                )
+                tiled_map.filename = tmx_path
+                tiled_map.parse_xml(
+                    pytmx.ElementTree.parse(tiled_map.filename).getroot()
+                )
+
+                l_path: pytmx.TiledObjectGroup = tiled_map.get_layer_by_name("Path")
+
+                for obj in l_path:
+                    if obj.type != "Path":
+                        raise Exception(
+                            f"{obj.type=} found in layer `Path` in `{tmx_path}` (x={obj.x}, y={obj.y})"
+                        )
+                    if not obj.name:
+                        raise Exception(
+                            f"unnamed path found in `{tmx_path}` (x={obj.x}, y={obj.y})"
+                        )
+
+                    path = paths_dict[obj.name] = obj.apply_transformations()
+
+                    if len(path) <= 1:
+                        raise Exception(
+                            f"path with {len(path)} point found in `{tmx_path}` (x={obj.x}, y={obj.y})"
+                        )
+
+            header_filename = f"PathId.hpp"
+            source_filename = f"Paths.cpp"
+            header_path = f"{include_path}/{header_filename}"
+            source_path = f"{src_path}/{source_filename}"
+
+            with open(header_path, "w") as output_header:
+                write_timestamp(output_header, "tool/tilemap_converter.py")
+                output_header.write("#pragma once" + "\n")
+
+                output_header.write("namespace ut::asset::gen {" + "\n")
+                output_header.write("enum class PathId {" + "\n")
+                for path_id in paths_dict:
+                    output_header.write(f"{path_id}," + "\n")
+                output_header.write("TOTAL_COUNT" + "\n")
+                output_header.write("};" + "\n")
+                output_header.write("} // namespace ut::asset::gen" + "\n")
+
+            with open(source_path, "w") as output_source:
+                write_timestamp(output_source, "tool/tilemap_converter.py")
+                output_source.write('#include "asset/Path.hpp"' + "\n")
+                output_source.write('#include "gen/PathId.hpp"' + "\n")
+
+                output_source.write("namespace ut::asset {" + "\n")
+
+                output_source.write("namespace {" + "\n")
+
+                for path_id, points in paths_dict.items():
+                    output_source.write(
+                        f"constexpr const Path<{len(points)}> {path_id}(" + "\n"
+                    )
+                    output_source.write(
+                        f"bn::array<bn::fixed_point, {len(points)}>{{" + "\n"
+                    )
+                    output_source.write(
+                        "".join(f"bn::fixed_point{p}," for p in points) + "\n"
+                    )
+                    output_source.write("}" + "\n")
+                    output_source.write(");" + "\n")
+
+                output_source.write(
+                    f"constexpr const IPath* PATHS[(int)gen::PathId::TOTAL_COUNT] = {{"
+                    + "\n"
+                )
+                output_source.write(
+                    "".join(f"&{path_id}," for path_id in paths_dict) + "\n"
+                )
+                output_source.write("};" + "\n")
+
+                output_source.write("} // namespace" + "\n")
+
+                output_source.write(
+                    "auto IPath::get(gen::PathId id) -> const IPath& {" + "\n"
+                )
+                output_source.write(
+                    'BN_ASSERT(0 <= (int)id && (int)id < (int)gen::PathId::TOTAL_COUNT, "Invalid PathId=", (int)id);'
+                    + "\n"
+                )
+                output_source.write("return *PATHS[(int)id];" + "\n")
+                output_source.write("}" + "\n")
+                output_source.write("} // namespace ut::asset" + "\n")
+
     def write_colls_header(self):
         with open("build_ut/include/gen/StaticCollInfos.hpp") as output_header:
             write_timestamp(output_header, "tool/tilemap_converter.py")

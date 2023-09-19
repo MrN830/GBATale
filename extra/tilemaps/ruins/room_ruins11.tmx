@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="27" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="9" nextobjectid="76">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="27" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="10" nextobjectid="76">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
- <tileset firstgid="1382" source="../animated_terrain.tsx"/>
+ <tileset firstgid="1405" source="../animated_terrain.tsx"/>
  <layer id="1" name="BGLower" width="27" height="12">
   <data encoding="csv">
 0,0,0,132,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,133,0,0,
@@ -150,7 +150,7 @@
     </property>
    </properties>
   </object>
-  <object id="68" type="Entity" gid="1384" x="312" y="80" width="16" height="16">
+  <object id="68" type="Entity" gid="1407" x="312" y="80" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -165,7 +165,7 @@
     </property>
    </properties>
   </object>
-  <object id="69" type="Entity" gid="1386" x="328" y="80" width="16" height="16">
+  <object id="69" type="Entity" gid="1409" x="328" y="80" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -180,7 +180,7 @@
     </property>
    </properties>
   </object>
-  <object id="70" type="Entity" gid="1382" x="312" y="96" width="16" height="16">
+  <object id="70" type="Entity" gid="1405" x="312" y="96" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -195,7 +195,7 @@
     </property>
    </properties>
   </object>
-  <object id="71" type="Entity" gid="1383" x="328" y="96" width="16" height="16">
+  <object id="71" type="Entity" gid="1406" x="328" y="96" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -210,7 +210,7 @@
     </property>
    </properties>
   </object>
-  <object id="72" type="Entity" gid="1384" x="312" y="160" width="16" height="16">
+  <object id="72" type="Entity" gid="1407" x="312" y="160" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -225,7 +225,7 @@
     </property>
    </properties>
   </object>
-  <object id="73" type="Entity" gid="1386" x="328" y="160" width="16" height="16">
+  <object id="73" type="Entity" gid="1409" x="328" y="160" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -240,7 +240,7 @@
     </property>
    </properties>
   </object>
-  <object id="74" type="Entity" gid="1382" x="312" y="176" width="16" height="16">
+  <object id="74" type="Entity" gid="1405" x="312" y="176" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -255,7 +255,7 @@
     </property>
    </properties>
   </object>
-  <object id="75" type="Entity" gid="1383" x="328" y="176" width="16" height="16">
+  <object id="75" type="Entity" gid="1406" x="328" y="176" width="16" height="16">
    <properties>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
@@ -297,4 +297,5 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="9" name="Path" locked="1"/>
 </map>

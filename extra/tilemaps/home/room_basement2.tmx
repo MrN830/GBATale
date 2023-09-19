@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="25" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="11">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="25" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="11">
  <tileset firstgid="1" source="../ruins/ruins.tsx"/>
  <layer id="1" name="BGLower" width="25" height="7">
   <data encoding="csv">
@@ -67,4 +67,5 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup id="8" name="Path" locked="1"/>
 </map>

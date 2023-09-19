@@ -20,5 +20,6 @@ if __name__ == "__main__":
     if converted:
         TilemapConverter.write_roominfo_cpp()
         TilemapConverter.write_entity_id_header()
+        TilemapConverter.write_path_sources()
 
     print("`tools/main.py`: Done!")
