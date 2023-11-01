@@ -52,11 +52,11 @@ def dump_and_convert_textdata():
     text_datas = list()
 
     def ds_map_add(k: str, v: str) -> tuple:
-        v = v.replace("\*A", "[Left]")
-        v = v.replace("\*D", "[Right]")
-        v = v.replace("\*Z", "Ⓐ")
-        v = v.replace("\*X", "Ⓑ")
-        v = v.replace("\*C", "Ⓢ,🄻,🅁")
+        v = v.replace(r"\*A", "[Left]")
+        v = v.replace(r"\*D", "[Right]")
+        v = v.replace(r"\*Z", "Ⓐ")
+        v = v.replace(r"\*X", "Ⓑ")
+        v = v.replace(r"\*C", "Ⓢ,🄻,🅁")
 
         return (k, v)
 
@@ -64,6 +64,8 @@ def dump_and_convert_textdata():
         for line in gml_file:
             if "ds_map_add" in line:
                 line = line.replace("global.text_data_en, ", "")
+                line = line.replace(", ", ", r", 1)
+                line = line.replace('+ "', '+ r"')
                 text_datas.append(eval(line))
 
     # Get override textdata
