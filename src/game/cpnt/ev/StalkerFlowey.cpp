@@ -52,7 +52,8 @@ bool StalkerFlowey::isOnScreen(GameContext& ctx) const
 
     const bn::fixed_rect camRect(cam.position(), bn::display::size());
 
-    const bn::fixed_point floweyCenter(_entity.getPosition().x(), _entity.getPosition().y() - FLOWEY_SIZE.height() / 2);
+    const bn::fixed_point floweyCenter(_entity.getPosition().x() + bn::fixed(0.5),
+                                       _entity.getPosition().y() - FLOWEY_SIZE.height() / 2);
     const bn::fixed_rect floweyRect(floweyCenter, FLOWEY_SIZE);
 
     return camRect.intersects(floweyRect);

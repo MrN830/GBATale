@@ -88,6 +88,7 @@ auto TorielGoOutRuins6::onInteract(GameContext& ctx) -> task::Task
 
     // TODO: Add cell phone in the menu
     triggerColl->setEnabled(false);
+    ctx.entMngr.createStalkerFlowey({128, 80});
 
     ctx.msgSettings.reset();
     BN_ASSERT(ctx.interactStack.top() == InteractState::CUTSCENE);

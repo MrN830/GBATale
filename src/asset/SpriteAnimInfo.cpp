@@ -31,9 +31,16 @@ constexpr SpriteAnimInfo<4> froggit{
     bn::sprite_items::ent_froggit,      Dirs::NONE, bn::fixed_point{0, 0}, 10 - 1, true, false, false, false,
     bn::array<uint16_t, 4>{0, 1, 2, 1},
 };
-constexpr SpriteAnimInfo<4> stalker_flowey{
-    bn::sprite_items::ch_flowey,           Dirs::NONE, bn::fixed_point{0, 0}, 2 - 1, false, false, false, false,
-    bn::array<uint16_t, 4>{0, 14, 15, 16},
+constexpr SpriteAnimInfo<5> stalker_flowey{
+    bn::sprite_items::ch_flowey,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    2 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 5>{0, 0, 14, 15, 16},
 };
 
 // animated terrain
