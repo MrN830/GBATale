@@ -27,7 +27,7 @@ static constexpr bn::array<Bgm, (int)BgmKind::TOTAL_COUNT> BGMS = {
     {BgmKind::BASEMENT, &bn::music_items::basement, nullptr, 1.0 / 3},
     {BgmKind::UWA_SO_TEMPERATE, nullptr, nullptr},
     {BgmKind::ANTICIPATION, &bn::music_items::anticipation, nullptr},
-    {BgmKind::UNNECESSARY_TENSION, &bn::music_items::unnecessary_tension, nullptr},
+    {BgmKind::UNNECESSARY_TENSION, &bn::music_items::unnecessary_tension, nullptr, 1.0 / 4},
     {BgmKind::ENEMY_APPROACHING, &bn::music_items::enemy_approaching, nullptr},
     {BgmKind::GHOST_FIGHT, &bn::music_items::ghost_fight, nullptr},
     {BgmKind::DETERMINATION, &bn::music_items::determination, nullptr},

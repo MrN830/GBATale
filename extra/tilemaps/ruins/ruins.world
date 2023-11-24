@@ -4,56 +4,56 @@
             "fileName": "room_area1.tmx",
             "height": 208,
             "width": 544,
-            "x": 0,
+            "x": -896,
             "y": 0
         },
         {
             "fileName": "room_area1_2.tmx",
             "height": 288,
             "width": 256,
-            "x": 368,
+            "x": -528,
             "y": -288
         },
         {
             "fileName": "room_ruins1.tmx",
             "height": 384,
             "width": 224,
-            "x": 384,
+            "x": -512,
             "y": -672
         },
         {
             "fileName": "room_ruins2.tmx",
             "height": 192,
             "width": 224,
-            "x": 384,
+            "x": -512,
             "y": -864
         },
         {
             "fileName": "room_ruins3.tmx",
             "height": 176,
             "width": 592,
-            "x": 368,
+            "x": -528,
             "y": -1040
         },
         {
             "fileName": "room_ruins4.tmx",
             "height": 192,
             "width": 256,
-            "x": 960,
+            "x": 64,
             "y": -1056
         },
         {
             "fileName": "room_ruins5.tmx",
             "height": 192,
             "width": 944,
-            "x": 960,
+            "x": 64,
             "y": -1248
         },
         {
             "fileName": "room_ruins6.tmx",
             "height": 176,
-            "width": 1104,
-            "x": 1904,
+            "width": 2000,
+            "x": 1008,
             "y": -1248
         },
         {

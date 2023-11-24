@@ -6,6 +6,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/CutsceneRuins6.hpp"
 #include "game/cpnt/ev/PlotSpike.hpp"
 #include "game/cpnt/ev/SetPieImage.hpp"
 #include "game/cpnt/ev/StalkerFlowey.hpp"
@@ -23,7 +24,9 @@
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
 #include "game/cpnt/inter/TalkFroggit.hpp"
+#include "game/cpnt/inter/TalkTorielRuins6.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins2.hpp"
+#include "game/cpnt/inter/TorielGoOutRuins6.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -91,6 +94,12 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::TorielGoOutRuins2>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TorielGoOutRuins2>(entity, interaction->isEnabled,
                                                                               interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::TalkTorielRuins6>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::TalkTorielRuins6>(entity, interaction->isEnabled,
+                                                                             interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::TorielGoOutRuins6>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::TorielGoOutRuins6>(entity, interaction->isEnabled,
+                                                                             interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
@@ -116,6 +125,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (eventCpnt->type == bn::type_id<cpnt::ev::TorielGoOutRuins1>())
             evCpnt = &entMngr._cpntHeap.create<cpnt::ev::TorielGoOutRuins1>(entity, eventCpnt->isEnabled,
                                                                             eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::CutsceneRuins6>())
+            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::CutsceneRuins6>(entity, eventCpnt->isEnabled,
+                                                                         eventCpnt->isAutoFire);
         else
             BN_ERROR("Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
 
