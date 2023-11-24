@@ -65,6 +65,7 @@ void TaskManager::onSignal(const task::TaskSignal& received)
         {
             using SigKind = task::TaskSignal::Kind;
 
+        case SigKind::SPR_ANIM_END:
         case SigKind::DIALOG_INDEX:
         case SigKind::NPC_WALK_END:
             if (signal.number == received.number)

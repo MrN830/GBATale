@@ -4,9 +4,11 @@
 
 #include "asset/SpriteAnimInfo.hpp"
 #include "asset/SpriteAnimKind.hpp"
+#include "game/GameContext.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/ent/Entity.hpp"
+#include "game/sys/TaskManager.hpp"
 
 namespace ut::game::cpnt
 {
@@ -17,13 +19,13 @@ SpriteAnim::SpriteAnim(ent::Entity& entity, bool isEnabled, cpnt::Sprite& sprCpn
 {
 }
 
-void SpriteAnim::render(GameContext&)
+void SpriteAnim::render(GameContext& ctx)
 {
     if (!_isManualRender)
-        renderOnce();
+        renderOnce(ctx);
 }
 
-void SpriteAnim::renderOnce()
+void SpriteAnim::renderOnce(GameContext& ctx)
 {
     if (_action.has_value() && !_action->done())
     {
@@ -31,7 +33,18 @@ void SpriteAnim::renderOnce()
 
         if (_walkAnimCtrl != nullptr)
             _walkAnimCtrl->renderOnce();
+
+        if (_action->done())
+            _lastAnimFrameWait = _action->wait_updates() + 1 + 1;
     }
+
+    if (_lastAnimFrameWait > 0 && --_lastAnimFrameWait == 0)
+        ctx.taskMngr.onSignal({task::TaskSignal::Kind::SPR_ANIM_END, (int)_entity.getId()});
+}
+
+bool SpriteAnim::isDone() const
+{
+    return !_action.has_value() || (_action->done() && _lastAnimFrameWait <= 0);
 }
 
 bool SpriteAnim::isManualRender() const
@@ -51,6 +64,8 @@ void SpriteAnim::setCurAnimKind(asset::SpriteAnimKind kind)
 {
     if (kind == _curAnimKind)
         return;
+
+    _lastAnimFrameWait = -1;
 
     if (_walkAnimCtrl != nullptr)
         _walkAnimCtrl->setCurAnimKind(kind, false);

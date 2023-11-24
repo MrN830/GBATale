@@ -64,7 +64,8 @@ public:
 public:
     void reloadRoom(GameContext&);
 
-    void createFrisk(const bn::fixed_point position);
+    void createFrisk(const bn::fixed_point& position);
+    void createStalkerFlowey(const bn::fixed_point& position);
 
 public:
     /**

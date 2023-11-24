@@ -8,6 +8,7 @@
 #include "game/GameState.hpp"
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/TaskManager.hpp"
 #include "scene/Game.hpp"
@@ -66,6 +67,8 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     BN_ASSERT(toriel);
     auto* torielInput = toriel->getComponent<cpnt::NpcInput>();
     BN_ASSERT(torielInput);
+    auto* torielWalk = toriel->getComponent<cpnt::WalkAnimCtrl>();
+    BN_ASSERT(torielWalk);
 
     auto* button = ctx.entMngr.findById(ent::gen::EntityId::button);
     BN_ASSERT(button);
@@ -93,35 +96,31 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     cmd::MoveCmd moveCmd;
     moveCmd.directions = core::Directions::RIGHT;
     moveCmd.movePos = {MOVE_SPEED, 0};
-    torielInput->startInput(moveCmd, (3.9 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startOneWay(moveCmd, (3.9 * M_TILE_SIZE / MOVE_SPEED).round_integer());
     co_await torielWalkAwaiter;
 
     moveCmd.directions = core::Directions::UP;
     moveCmd.movePos = {0, -MOVE_SPEED};
-    torielInput->startInput(moveCmd, (1.6 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startOneWay(moveCmd, (1.6 * M_TILE_SIZE / MOVE_SPEED).round_integer());
     co_await torielWalkAwaiter;
 
     moveCmd.directions = core::Directions::LEFT;
     moveCmd.movePos = {-MOVE_SPEED, 0};
-    torielInput->startInput(moveCmd, (2 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startOneWay(moveCmd, (2 * M_TILE_SIZE / MOVE_SPEED).round_integer());
     co_await torielWalkAwaiter;
 
     moveCmd.directions = core::Directions::UP;
     moveCmd.movePos = {0, -MOVE_SPEED};
-    torielInput->startInput(moveCmd, (1 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startOneWay(moveCmd, (1 * M_TILE_SIZE / MOVE_SPEED).round_integer());
     co_await torielWalkAwaiter;
 
     moveCmd.directions = core::Directions::RIGHT;
     moveCmd.movePos = {MOVE_SPEED, 0};
-    torielInput->startInput(moveCmd, (0.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
-    co_await torielWalkAwaiter;
-
-    moveCmd.directions = core::Directions::UP;
-    moveCmd.movePos = {0, -MOVE_SPEED};
-    torielInput->startInput(moveCmd, 1);
+    torielInput->startOneWay(moveCmd, (0.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
     co_await torielWalkAwaiter;
 
     // 2-2. Toriel: flip the switch -> open the door
+    torielWalk->setStandStillDir(core::Directions::UP);
     getSfx(SfxKind::SWITCH_TRIGGER)->play();
     buttonSpr->setGfxIdx(BTN_ON_GFXIDX);
     door->setDestroyed(true);
@@ -130,12 +129,12 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     // 2-3. Toriel: walk to Frisk
     moveCmd.directions = core::Directions::LEFT;
     moveCmd.movePos = {-MOVE_SPEED, 0};
-    torielInput->startInput(moveCmd, (3.4 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startOneWay(moveCmd, (3.4 * M_TILE_SIZE / MOVE_SPEED).round_integer());
     co_await torielWalkAwaiter;
 
     moveCmd.directions = core::Directions::DOWN;
     moveCmd.movePos = {0, MOVE_SPEED};
-    torielInput->startInput(moveCmd, (1.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startOneWay(moveCmd, (1.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
     co_await torielWalkAwaiter;
 
     // 3. Toriel: talk

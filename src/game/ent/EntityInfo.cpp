@@ -8,7 +8,9 @@
 #include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/cpnt/ev/PlotSpike.hpp"
 #include "game/cpnt/ev/SetPieImage.hpp"
+#include "game/cpnt/ev/StalkerFlowey.hpp"
 #include "game/cpnt/ev/StartBgm.hpp"
+#include "game/cpnt/ev/TorielGoOutRuins1.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
 #include "game/cpnt/inter/CutsceneRuins2.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
@@ -108,6 +110,12 @@ void EntityInfo::create(GameContext& ctx) const
         else if (eventCpnt->type == bn::type_id<cpnt::ev::SetPieImage>())
             evCpnt =
                 &entMngr._cpntHeap.create<cpnt::ev::SetPieImage>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::StalkerFlowey>())
+            evCpnt =
+                &entMngr._cpntHeap.create<cpnt::ev::StalkerFlowey>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::TorielGoOutRuins1>())
+            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::TorielGoOutRuins1>(entity, eventCpnt->isEnabled,
+                                                                            eventCpnt->isAutoFire);
         else
             BN_ERROR("Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
 

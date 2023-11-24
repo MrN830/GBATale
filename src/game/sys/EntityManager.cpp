@@ -13,6 +13,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/StalkerFlowey.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "mtile/MTilemap.hpp"
 
@@ -22,6 +23,7 @@
 #include "debug/MemView.hpp"
 #endif
 
+#include "bn_sprite_items_ch_flowey.h"
 #include "bn_sprite_items_ch_frisk_base.h"
 
 namespace ut::game::sys
@@ -84,9 +86,11 @@ void EntityManager::reloadRoom(GameContext& ctx)
     for (auto& entity : _entities)
         for (auto& component : entity._components)
             component.awake(ctx);
+
+    removeDestroyed(false);
 }
 
-void EntityManager::createFrisk(const bn::fixed_point position)
+void EntityManager::createFrisk(const bn::fixed_point& position)
 {
     ent::Entity& frisk = _entPool.create(ent::gen::EntityId::frisk, position);
     _entities.push_front(frisk);
@@ -116,6 +120,24 @@ void EntityManager::createFrisk(const bn::fixed_point position)
                                      23 + collSize.height() / 2 - sprSize.height()};
     coll::Collider& coll = _collPool.create(coll::CollInfo(coll::RectCollInfo(collPos, collSize)));
     collPack.addDynamicCollider(coll);
+}
+
+void EntityManager::createStalkerFlowey(const bn::fixed_point& position)
+{
+    static constexpr bn::fixed_point DIFF = {10, 20};
+
+    ent::Entity& flowey = _entPool.create(ent::gen::EntityId::flowey, position + DIFF);
+    _entities.push_front(flowey);
+
+    cpnt::Sprite& spr = _cpntHeap.create<cpnt::Sprite>(flowey, true, bn::sprite_items::ch_flowey, 0, false,
+                                                       &_context.camMngr.getCamera(), false);
+    flowey.addComponent(spr);
+
+    cpnt::SpriteAnim& sprAnim = _cpntHeap.create<cpnt::SpriteAnim>(flowey, true, spr);
+    flowey.addComponent(sprAnim);
+
+    cpnt::ev::StalkerFlowey& stalker = _cpntHeap.create<cpnt::ev::StalkerFlowey>(flowey, true, false);
+    flowey.addComponent(stalker);
 }
 
 auto EntityManager::findById(ent::gen::EntityId entityId) -> ent::Entity*

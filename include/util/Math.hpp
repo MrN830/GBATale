@@ -1,6 +1,7 @@
 #pragma once
 
 #include <bn_assert.h>
+#include <bn_math.h>
 
 namespace ut::util
 {
@@ -30,6 +31,15 @@ Int mod_floor(Int a, Int m)
     if ((r != 0) && ((r < 0) != (m < 0)))
         r += m;
     return r;
+}
+
+/**
+ * @brief Return a normalized `bn::fixed_point` vector.
+ */
+inline auto normalized(const bn::fixed_point& v) -> bn::fixed_point
+{
+    const bn::fixed scale = bn::sqrt(v.x() * v.x() + v.y() * v.y());
+    return {v.x() / scale, v.y() / scale};
 }
 
 } // namespace ut::util

@@ -14,6 +14,8 @@ struct TaskSignal
     {
         TIME,
 
+        SPR_ANIM_END,
+
         DIALOG_INDEX,
         DIALOG_CHOICE,
         DIALOG_END,

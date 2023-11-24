@@ -25,9 +25,10 @@ public:
     SpriteAnim(ent::Entity&, bool isEnabled, cpnt::Sprite&);
 
     void render(GameContext&) override;
-    void renderOnce();
+    void renderOnce(GameContext&);
 
 public:
+    bool isDone() const;
     bool isManualRender() const;
 
     auto getCurAnimKind() const -> asset::SpriteAnimKind;
@@ -41,6 +42,8 @@ private:
 
     asset::SpriteAnimKind _curAnimKind;
     bn::optional<bn::sprite_animate_action<4>> _action;
+
+    int _lastAnimFrameWait = -1;
 };
 
 } // namespace ut::game::cpnt

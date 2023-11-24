@@ -3,6 +3,7 @@
 #include "asset/SpriteAnimKind.hpp"
 #include "core/Directions.hpp"
 
+#include "bn_sprite_items_ch_flowey.h"
 #include "bn_sprite_items_ch_frisk_base.h"
 #include "bn_sprite_items_ch_toriel.h"
 #include "bn_sprite_items_ent_froggit.h"
@@ -29,6 +30,10 @@ constexpr SpriteAnimInfo<2> save_point{
 constexpr SpriteAnimInfo<4> froggit{
     bn::sprite_items::ent_froggit,      Dirs::NONE, bn::fixed_point{0, 0}, 10 - 1, true, false, false, false,
     bn::array<uint16_t, 4>{0, 1, 2, 1},
+};
+constexpr SpriteAnimInfo<4> stalker_flowey{
+    bn::sprite_items::ch_flowey,           Dirs::NONE, bn::fixed_point{0, 0}, 2 - 1, false, false, false, false,
+    bn::array<uint16_t, 4>{0, 14, 15, 16},
 };
 
 // animated terrain
@@ -165,7 +170,7 @@ constexpr SpriteAnimInfo<4> toriel_walk_right{
 };
 
 constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
-    &save_point,        &froggit,
+    &save_point,        &froggit,           &stalker_flowey,
 
     &fake_water_l,      &fake_water_r,      &fake_water_shadow_l, &fake_water_shadow_m,    &fake_water_shadow_r,
     &fake_water_open_l, &fake_water_open_m, &fake_water_open_r,   &fake_water_shadow_m_4x, &fake_water_open_m_4x,

@@ -4,6 +4,7 @@
 
 #include "asset/SfxKind.hpp"
 #include "game/GameContext.hpp"
+#include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "scene/Game.hpp"
@@ -21,6 +22,9 @@ SavePoint::SavePoint(ent::Entity& entity, bool isEnabled, InteractionTriggers tr
 auto SavePoint::onInteract(GameContext& ctx) -> task::Task
 {
     Interaction::onInteract(ctx);
+
+    if (ctx.state.getPlot() < GamePlot::FIRST_SAVE)
+        ctx.state.setPlot(GamePlot::FIRST_SAVE);
 
     asset::getSfx(asset::SfxKind::HEAL_BIG)->play();
 

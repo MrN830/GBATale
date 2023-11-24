@@ -12,6 +12,7 @@ enum class SpriteAnimKind : int16_t
     // normal entities
     SAVE_POINT,
     FROGGIT,
+    STALKER_FLOWEY,
 
     // animated terrain
     FAKE_WATER_L,
