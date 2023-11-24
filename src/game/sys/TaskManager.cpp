@@ -54,35 +54,42 @@ void TaskManager::addTask(task::Task&& task)
 
 void TaskManager::onSignal(const task::TaskSignal& received)
 {
-    for (auto& task : _tasks)
+    using SigKind = task::TaskSignal::Kind;
+
+    if (received.kind == SigKind::ROOM_CHANGE)
     {
-        auto& signal = task.getTaskSignal();
-
-        if (signal.kind != received.kind)
-            continue;
-
-        switch (received.kind)
+        _tasks.clear();
+    }
+    else
+    {
+        for (auto& task : _tasks)
         {
-            using SigKind = task::TaskSignal::Kind;
+            auto& signal = task.getTaskSignal();
 
-        case SigKind::SPR_ANIM_END:
-        case SigKind::DIALOG_INDEX:
-        case SigKind::NPC_WALK_END:
-            if (signal.number == received.number)
+            if (signal.kind != received.kind)
+                continue;
+
+            switch (received.kind)
+            {
+            case SigKind::SPR_ANIM_END:
+            case SigKind::DIALOG_INDEX:
+            case SigKind::NPC_WALK_END:
+                if (signal.number == received.number)
+                    task.resume();
+                break;
+
+            case SigKind::DIALOG_CHOICE:
+                signal.number = received.number;
                 task.resume();
-            break;
+                break;
 
-        case SigKind::DIALOG_CHOICE:
-            signal.number = received.number;
-            task.resume();
-            break;
+            case SigKind::DIALOG_END:
+                task.resume();
+                break;
 
-        case SigKind::DIALOG_END:
-            task.resume();
-            break;
-
-        default:
-            BN_ERROR("Invalid SigKind=", (int)received.kind, ", number=", (int)received.number);
+            default:
+                BN_ERROR("Invalid SigKind=", (int)received.kind, ", number=", (int)received.number);
+            }
         }
     }
 }

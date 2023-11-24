@@ -17,15 +17,15 @@
         {
             "fileName": "room_ruins1.tmx",
             "height": 384,
-            "width": 256,
-            "x": 368,
+            "width": 224,
+            "x": 384,
             "y": -672
         },
         {
             "fileName": "room_ruins2.tmx",
             "height": 192,
-            "width": 256,
-            "x": 368,
+            "width": 224,
+            "x": 384,
             "y": -864
         },
         {

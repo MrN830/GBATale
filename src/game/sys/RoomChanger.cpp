@@ -6,6 +6,7 @@
 #include "game/RoomInfo.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/sys/FadeManager.hpp"
+#include "game/sys/TaskManager.hpp"
 #include "game/sys/WorldBg.hpp"
 #include "mtile/MTilemap.hpp"
 
@@ -73,6 +74,8 @@ void RoomChanger::instantChange(const mtile::Warp& warp, GameContext& ctx)
 
 void RoomChanger::changeRoom(GameContext& ctx)
 {
+    ctx.taskMngr.onSignal({task::TaskSignal::Kind::ROOM_CHANGE, (int)_room});
+
     ctx.state.setRoom(_room);
     ctx.entMngr.reloadRoom(ctx);
 

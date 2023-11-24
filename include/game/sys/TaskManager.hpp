@@ -42,7 +42,7 @@ public:
     void onSignal(const task::TaskSignal&);
 
 private:
-    bn::forward_list<task::Task, 4> _tasks;
+    bn::forward_list<task::Task, 8> _tasks;
 };
 
 } // namespace ut::game::sys
