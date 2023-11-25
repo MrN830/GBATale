@@ -80,8 +80,8 @@
         {
             "fileName": "room_ruinsexit.tmx",
             "height": 288,
-            "width": 256,
-            "x": 2064,
+            "width": 224,
+            "x": 2080,
             "y": -1600
         }
     ],

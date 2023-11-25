@@ -2,7 +2,7 @@
     "maps": [
         {
             "fileName": "room_area1.tmx",
-            "height": 208,
+            "height": 144,
             "width": 544,
             "x": -896,
             "y": 0
@@ -10,8 +10,8 @@
         {
             "fileName": "room_area1_2.tmx",
             "height": 288,
-            "width": 256,
-            "x": -528,
+            "width": 224,
+            "x": -512,
             "y": -288
         },
         {
@@ -38,7 +38,7 @@
         {
             "fileName": "room_ruins4.tmx",
             "height": 192,
-            "width": 256,
+            "width": 240,
             "x": 64,
             "y": -1056
         },
@@ -51,7 +51,7 @@
         },
         {
             "fileName": "room_ruins6.tmx",
-            "height": 176,
+            "height": 160,
             "width": 2000,
             "x": 1008,
             "y": -1248
@@ -79,7 +79,7 @@
         },
         {
             "fileName": "room_ruins9.tmx",
-            "height": 192,
+            "height": 176,
             "width": 384,
             "x": 3520,
             "y": -1056
@@ -100,24 +100,24 @@
         },
         {
             "fileName": "room_ruins12.tmx",
-            "height": 192,
+            "height": 176,
             "width": 256,
             "x": 5056,
             "y": -976
         },
         {
             "fileName": "room_ruins12A.tmx",
-            "height": 192,
+            "height": 160,
             "width": 256,
             "x": 4800,
-            "y": -976
+            "y": -960
         },
         {
             "fileName": "room_ruins12B.tmx",
-            "height": 192,
-            "width": 256,
+            "height": 160,
+            "width": 240,
             "x": 5312,
-            "y": -976
+            "y": -960
         },
         {
             "fileName": "room_ruins13.tmx",
@@ -142,10 +142,10 @@
         },
         {
             "fileName": "room_ruins15B.tmx",
-            "height": 336,
+            "height": 320,
             "width": 272,
             "x": 6704,
-            "y": -848
+            "y": -832
         },
         {
             "fileName": "room_ruins15C.tmx",
@@ -163,10 +163,10 @@
         },
         {
             "fileName": "room_ruins15E.tmx",
-            "height": 192,
-            "width": 256,
-            "x": 6128,
-            "y": -1344
+            "height": 160,
+            "width": 224,
+            "x": 6144,
+            "y": -1328
         },
         {
             "fileName": "room_ruins16.tmx",
@@ -177,16 +177,16 @@
         },
         {
             "fileName": "room_ruins17.tmx",
-            "height": 144,
-            "width": 176,
+            "height": 160,
+            "width": 240,
             "x": 7184,
             "y": -1152
         },
         {
             "fileName": "room_ruins18OLD.tmx",
             "height": 160,
-            "width": 256,
-            "x": 7184,
+            "width": 224,
+            "x": 7200,
             "y": -1312
         },
         {

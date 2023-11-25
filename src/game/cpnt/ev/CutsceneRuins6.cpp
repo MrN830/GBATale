@@ -68,9 +68,9 @@ auto CutsceneRuins6::onEvent(GameContext& ctx) -> task::Task
     // Toriel runs to the long hallway
     cmd::MoveCmd moveCmd;
     moveCmd.directions = core::Directions::RIGHT;
-    moveCmd.movePos = {4, 0};
+    moveCmd.movePos = {3.2, 0};
     moveCmd.checkCollision = false;
-    torielInput->startOneWay(moveCmd, 2 * 60);
+    torielInput->startOneWay(moveCmd, 4 * 30);
     co_await task::SignalAwaiter({task::TaskSignal::Kind::NPC_WALK_END, (int)ent::gen::EntityId::toriel});
 
     // warp Toriel to the behind the pillar

@@ -38,9 +38,9 @@ auto TorielGoOutRuins2::onInteract(GameContext& ctx) -> task::Task
 
     cmd::MoveCmd moveCmd;
     moveCmd.directions = core::Directions::UP;
-    moveCmd.movePos = {0, -3};
+    moveCmd.movePos = {0, -2.4};
     moveCmd.checkCollision = false;
-    torielInput->startOneWay(moveCmd, 15);
+    torielInput->startOneWay(moveCmd, 17);
     co_await task::SignalAwaiter({task::TaskSignal::Kind::NPC_WALK_END, (int)ent::gen::EntityId::toriel});
 
     toriel->setDestroyed(true);

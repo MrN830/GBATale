@@ -2,6 +2,7 @@
 
 #include <bn_sound_item.h>
 
+#include "asset/Path.hpp"
 #include "asset/SfxKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
@@ -14,6 +15,7 @@
 #include "scene/Game.hpp"
 
 #include "gen/EntityId.hpp"
+#include "gen/PathId.hpp"
 #include "gen/TextData.hpp"
 
 namespace ut::game::cpnt::inter
@@ -89,34 +91,8 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
 
     // 2-1. Toriel: walk to the switch
     task::SignalAwaiter torielWalkAwaiter({task::TaskSignal::Kind::NPC_WALK_END, (int)ent::gen::EntityId::toriel});
-
     static constexpr bn::fixed MOVE_SPEED = 2.4;
-    static constexpr int M_TILE_SIZE = 16;
-
-    cmd::MoveCmd moveCmd;
-    moveCmd.directions = core::Directions::RIGHT;
-    moveCmd.movePos = {MOVE_SPEED, 0};
-    torielInput->startOneWay(moveCmd, (3.9 * M_TILE_SIZE / MOVE_SPEED).round_integer());
-    co_await torielWalkAwaiter;
-
-    moveCmd.directions = core::Directions::UP;
-    moveCmd.movePos = {0, -MOVE_SPEED};
-    torielInput->startOneWay(moveCmd, (1.6 * M_TILE_SIZE / MOVE_SPEED).round_integer());
-    co_await torielWalkAwaiter;
-
-    moveCmd.directions = core::Directions::LEFT;
-    moveCmd.movePos = {-MOVE_SPEED, 0};
-    torielInput->startOneWay(moveCmd, (2 * M_TILE_SIZE / MOVE_SPEED).round_integer());
-    co_await torielWalkAwaiter;
-
-    moveCmd.directions = core::Directions::UP;
-    moveCmd.movePos = {0, -MOVE_SPEED};
-    torielInput->startOneWay(moveCmd, (1 * M_TILE_SIZE / MOVE_SPEED).round_integer());
-    co_await torielWalkAwaiter;
-
-    moveCmd.directions = core::Directions::RIGHT;
-    moveCmd.movePos = {MOVE_SPEED, 0};
-    torielInput->startOneWay(moveCmd, (0.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startPath(IPath::get(gen::PathId::path_torielwalk2), MOVE_SPEED);
     co_await torielWalkAwaiter;
 
     // 2-2. Toriel: flip the switch -> open the door
@@ -127,14 +103,7 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     co_await task::TimeAwaiter(20);
 
     // 2-3. Toriel: walk to Frisk
-    moveCmd.directions = core::Directions::LEFT;
-    moveCmd.movePos = {-MOVE_SPEED, 0};
-    torielInput->startOneWay(moveCmd, (3.4 * M_TILE_SIZE / MOVE_SPEED).round_integer());
-    co_await torielWalkAwaiter;
-
-    moveCmd.directions = core::Directions::DOWN;
-    moveCmd.movePos = {0, MOVE_SPEED};
-    torielInput->startOneWay(moveCmd, (1.8 * M_TILE_SIZE / MOVE_SPEED).round_integer());
+    torielInput->startPath(IPath::get(gen::PathId::path_torielwalk2_2), MOVE_SPEED);
     co_await torielWalkAwaiter;
 
     // 3. Toriel: talk

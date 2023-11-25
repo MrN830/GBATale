@@ -242,7 +242,7 @@
  </objectgroup>
  <objectgroup id="9" name="Path" locked="1">
   <object id="81" name="path_torielwalk1" type="Path" x="112" y="298">
-   <polyline points="0,0 0,-80 80,-160 80,-184 61,-189 3,-189 3,-205"/>
+   <polyline points="0,0 0,-80 80,-160 80,-184 61,-189 3,-189 3,-199"/>
   </object>
  </objectgroup>
 </map>

@@ -62,8 +62,9 @@ auto TorielGoOutRuins6::onInteract(GameContext& ctx) -> task::Task
     Bgm::fadeOutAndStash(10);
 
     // Toriel walks out of the pillar
+    static constexpr bn::fixed MOVE_SPEED = 2.4;
     const auto& torielPath = IPath::get(gen::PathId::path_torielwalk6);
-    torielInput->startPath(torielPath, 3);
+    torielInput->startPath(torielPath, MOVE_SPEED);
     co_await torielWalkAwaiter;
 
     // Bgm start
@@ -97,10 +98,10 @@ auto TorielGoOutRuins6::onInteract(GameContext& ctx) -> task::Task
     // Toriel walks out of room
     cmd::MoveCmd moveCmd = {
         .directions = core::Directions::RIGHT,
-        .movePos = {3, 0},
+        .movePos = {MOVE_SPEED, 0},
         .checkCollision = false,
     };
-    torielInput->startOneWay(moveCmd, 2 * 60);
+    torielInput->startOneWay(moveCmd, 4 * 30);
     co_await torielWalkAwaiter;
 
     toriel->setDestroyed(true);

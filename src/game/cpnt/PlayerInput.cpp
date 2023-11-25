@@ -35,7 +35,7 @@ PlayerInput::PlayerInput(ent::Entity& entity, bool isEnabled, const WalkAnimCtrl
 
 void PlayerInput::handleInput(GameContext& ctx)
 {
-    constexpr bn::fixed PLAYER_SPEED = 3;
+    constexpr bn::fixed PLAYER_SPEED = 2.4;
 
     const auto interactState = ctx.interactStack.top();
 

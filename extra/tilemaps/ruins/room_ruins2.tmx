@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="14" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="10" nextobjectid="68">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="14" height="12" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="10" nextobjectid="71">
  <tileset firstgid="1" source="ruins.tsx"/>
  <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="14" height="12">
@@ -309,5 +309,12 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="9" name="Path" locked="1"/>
+ <objectgroup id="9" name="Path" locked="1">
+  <object id="69" name="path_torielwalk2" type="Path" x="109" y="123">
+   <polyline points="0,0 64,0 64,-32 32,-32 32,-48 44,-48"/>
+  </object>
+  <object id="70" name="path_torielwalk2_2" type="Path" x="153" y="75">
+   <polyline points="0,0 -54,0 -54,32"/>
+  </object>
+ </objectgroup>
 </map>

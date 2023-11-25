@@ -57,11 +57,11 @@ void TorielGoOutRuins1::update(GameContext& ctx)
     else
     {
         if (friskY < torielY + 40 / DIST_DIV)
-            _torielInput->setPathSpeed(4);
+            _torielInput->setPathSpeed(3.2);
         else if (friskY < torielY + 52 / DIST_DIV)
-            _torielInput->setPathSpeed(3);
+            _torielInput->setPathSpeed(2.4);
         else
-            _torielInput->setPathSpeed(2);
+            _torielInput->setPathSpeed(1.6);
 
         _torielPauseCountdown = 24 / DIST_DIV;
         _torielInput->resume();
@@ -78,7 +78,7 @@ void TorielGoOutRuins1::update(GameContext& ctx)
 auto TorielGoOutRuins1::onEvent(GameContext& ctx) -> task::Task
 {
     const auto& torielPath = asset::IPath::get(asset::gen::PathId::path_torielwalk1);
-    _torielInput->startPath(torielPath, 2);
+    _torielInput->startPath(torielPath, 1.6);
     co_await task::SignalAwaiter({task::TaskSignal::Kind::NPC_WALK_END, (int)ent::gen::EntityId::toriel});
 
     ctx.state.setPlot(GamePlot::FIRST_SAVE);
