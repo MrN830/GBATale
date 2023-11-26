@@ -26,6 +26,7 @@ public:
     auto getCamFollowEntity() const -> const ent::Entity*;
     void setCamFollowEntity(const ent::Entity*);
 
+    auto getCamFollowEntityDiff() const -> const bn::fixed_point&;
     void setCamFollowEntityDiff(const bn::fixed_point&);
 
     auto getCamera() -> bn::camera_ptr&;

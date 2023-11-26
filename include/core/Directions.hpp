@@ -20,6 +20,15 @@ enum class Directions : uint8_t
 ENUM_AS_FLAGS(Directions);
 
 auto dirs2Pos(Directions dirs) -> bn::fixed_point;
-auto pos2Dirs(const bn::fixed_point& pos) -> Directions;
+
+/**
+ * @brief convert `pos` vector to `Directions`.
+ *
+ * @param pos math vector
+ * @param strictDiagonal if `true`, only `45°`, `135°`, `225°`, `315°` are diagonal (others are perpendicular).
+ * if `false`, only `90°`, `180°`, `270°`, `360°` are perpendicular (others are diagonal).
+ * defaults to `false`.
+ */
+auto pos2Dirs(const bn::fixed_point& pos, bool strictDiagonal = false) -> Directions;
 
 } // namespace ut::core

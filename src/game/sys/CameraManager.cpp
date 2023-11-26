@@ -44,6 +44,11 @@ void CameraManager::setCamFollowEntity(const ent::Entity* entity)
     _camFollowEntity = entity;
 }
 
+auto CameraManager::getCamFollowEntityDiff() const -> const bn::fixed_point&
+{
+    return _camFollowEntityDiff;
+}
+
 void CameraManager::setCamFollowEntityDiff(const bn::fixed_point& diff)
 {
     _camFollowEntityDiff = diff;

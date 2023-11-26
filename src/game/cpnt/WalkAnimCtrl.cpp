@@ -42,7 +42,7 @@ void WalkAnimCtrl::receiveMoveCmd(const cmd::MoveCmd& cmd)
 
     const bool prevAnimExist = (_sprAnim._curAnimKind != AnimKind::NONE);
 
-    const auto nextMoveDirection = core::pos2Dirs(cmd.movePos);
+    const auto nextMoveDirection = core::pos2Dirs(cmd.movePos, true); // strict diagonal
     const auto prevAnimDirection = (prevAnimExist ? IAnimInfo::get(_sprAnim.getCurAnimKind()).directions : Dirs::NONE);
 
     // no need to change animation,
