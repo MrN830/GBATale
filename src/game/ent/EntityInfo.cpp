@@ -6,6 +6,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/CutsceneRuins3.hpp"
 #include "game/cpnt/ev/CutsceneRuins5.hpp"
 #include "game/cpnt/ev/CutsceneRuins6.hpp"
 #include "game/cpnt/ev/PlotSpike.hpp"
@@ -23,8 +24,10 @@
 #include "game/cpnt/inter/RuinsColorSwitch.hpp"
 #include "game/cpnt/inter/RuinsColorSwitchHelp.hpp"
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
+#include "game/cpnt/inter/RuinsWallSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
 #include "game/cpnt/inter/TalkFroggit.hpp"
+#include "game/cpnt/inter/TalkTorielRuins3.hpp"
 #include "game/cpnt/inter/TalkTorielRuins6.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins2.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins5.hpp"
@@ -66,6 +69,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::RuinsFloorSwitch>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::RuinsFloorSwitch>(entity, interaction->isEnabled,
                                                                              interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::RuinsWallSwitch>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::RuinsWallSwitch>(entity, interaction->isEnabled,
+                                                                            interaction->triggers);
         else if (interaction->type == bn::type_id<cpnt::inter::RuinsColorSwitch>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::RuinsColorSwitch>(entity, interaction->isEnabled,
                                                                              interaction->triggers);
@@ -96,6 +102,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::TorielGoOutRuins2>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TorielGoOutRuins2>(entity, interaction->isEnabled,
                                                                               interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::TalkTorielRuins3>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::TalkTorielRuins3>(entity, interaction->isEnabled,
+                                                                             interaction->triggers);
         else if (interaction->type == bn::type_id<cpnt::inter::TalkTorielRuins6>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TalkTorielRuins6>(entity, interaction->isEnabled,
                                                                              interaction->triggers);
@@ -130,6 +139,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (eventCpnt->type == bn::type_id<cpnt::ev::TorielGoOutRuins1>())
             evCpnt = &entMngr._cpntHeap.create<cpnt::ev::TorielGoOutRuins1>(entity, eventCpnt->isEnabled,
                                                                             eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::CutsceneRuins3>())
+            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::CutsceneRuins3>(entity, eventCpnt->isEnabled,
+                                                                         eventCpnt->isAutoFire);
         else if (eventCpnt->type == bn::type_id<cpnt::ev::CutsceneRuins5>())
             evCpnt = &entMngr._cpntHeap.create<cpnt::ev::CutsceneRuins5>(entity, eventCpnt->isEnabled,
                                                                          eventCpnt->isAutoFire);

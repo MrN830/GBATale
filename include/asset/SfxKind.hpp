@@ -30,6 +30,7 @@ enum class SfxKind
     ITEM,
     SWITCH_TRIGGER,
     SWITCH_PULL_N,
+    SCREEN_SHAKE,
     FALL,
     PHONE,
     SAVE,
@@ -42,6 +43,7 @@ enum class SfxKind
     CAT_SALAD,
     MOUSE_SQUEAK,
     HERO,
+    WRONG_VICTORY,
 
     MENU_CURSOR,
     MENU_ACTIVATE,

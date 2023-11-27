@@ -25,15 +25,18 @@ void Readable::awake(GameContext& ctx)
 
     const auto room = ctx.state.getRoom();
     const auto plot = ctx.state.getPlot();
+    const auto entityId = _entity.getId();
+    const auto& flags = ctx.state.getFlags();
 
-    // TODO: Destroy certain readables when condition is met
-    if (_entity.getId() == EntityId::candy_dish)
+    if (entityId == EntityId::candy_dish)
     {
-        const auto& flags = ctx.state.getFlags();
         if (flags.candy_taken >= 4)
             dropCandyDish(ctx);
     }
-    else if (room == RoomKind::ROOM_AREA1 && plot == GamePlot::NEW_GAME)
+    // Destroy certain readables when condition is met
+    else if ((room == RoomKind::ROOM_AREA1 && plot == GamePlot::NEW_GAME) ||
+             (room == RoomKind::ROOM_RUINS3 && flags.hardmode &&
+              (entityId == EntityId::left || entityId == EntityId::right)))
     {
         _entity.setDestroyed(true);
     }
@@ -82,8 +85,14 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_RUINS3:
         if (_entity.getId() == ent::gen::EntityId::sign)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1540));
-        else // wall post
+        else if (_entity.getId() == ent::gen::EntityId::wall_post)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_66));
+        else if (_entity.getId() == ent::gen::EntityId::left)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_switchadvice1_61));
+        else if (_entity.getId() == ent::gen::EntityId::right)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_switchadvice2_61));
+        else
+            BN_ERROR("Invalid readable in `room_ruins3`");
         break;
     case RoomKind::ROOM_RUINS5:
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_67));

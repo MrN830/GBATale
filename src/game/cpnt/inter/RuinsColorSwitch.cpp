@@ -8,7 +8,6 @@
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
-#include "game/cpnt/ev/PlotSpike.hpp"
 #include "scene/Game.hpp"
 
 #include "gen/TextData.hpp"
@@ -17,13 +16,13 @@ namespace ut::game::cpnt::inter
 {
 
 RuinsColorSwitch::RuinsColorSwitch(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<RuinsColorSwitch>(), isEnabled, triggers)
+    : RuinsSpikeDisabler(entity, bn::type_id<RuinsColorSwitch>(), isEnabled, triggers)
 {
 }
 
 auto RuinsColorSwitch::onInteract(GameContext& ctx) -> task::Task
 {
-    Interaction::onInteract(ctx);
+    RuinsSpikeDisabler::onInteract(ctx);
 
     using namespace ut::asset;
 
@@ -106,32 +105,6 @@ auto RuinsColorSwitch::onInteract(GameContext& ctx) -> task::Task
     ctx.game.startDialog();
 
     co_return;
-}
-
-void RuinsColorSwitch::hideAllSpikesInRoom(GameContext& ctx)
-{
-    auto it = ctx.entMngr.beforeBeginIter();
-    do
-    {
-        it = ctx.entMngr.findIf(
-            [](const game::ent::Entity& entity) -> bool {
-                const auto* evCpnt = entity.getComponent<game::cpnt::ev::EventComponent>();
-                return (evCpnt != nullptr &&
-                        evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
-            },
-            it);
-
-        if (it != ctx.entMngr.endIter())
-        {
-            auto* evCpnt = it->getComponent<game::cpnt::ev::EventComponent>();
-            BN_ASSERT(evCpnt != nullptr);
-            BN_ASSERT(evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
-            auto* plotSpike = static_cast<game::cpnt::ev::PlotSpike*>(evCpnt);
-
-            plotSpike->hideSpike();
-        }
-
-    } while (it != ctx.entMngr.endIter());
 }
 
 } // namespace ut::game::cpnt::inter

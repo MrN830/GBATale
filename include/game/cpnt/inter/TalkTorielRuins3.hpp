@@ -5,15 +5,18 @@
 namespace ut::game::cpnt::inter
 {
 
-class RuinsFloorSwitch : public Interaction
+class TalkTorielRuins3 final : public Interaction
 {
 public:
-    RuinsFloorSwitch(ent::Entity&, bool isEnabled, InteractionTriggers);
+    TalkTorielRuins3(ent::Entity&, bool isEnabled, InteractionTriggers);
 
     auto onInteract(GameContext&) -> task::Task override;
 
+public:
+    void setTalked(bool hasTalked);
+
 private:
-    bool _isPressed = false;
+    bool _hasTalked = false;
 };
 
 } // namespace ut::game::cpnt::inter

@@ -1,19 +1,16 @@
 #pragma once
 
-#include "game/cpnt/inter/Interaction.hpp"
+#include "game/cpnt/inter/RuinsSpikeDisabler.hpp"
 
 namespace ut::game::cpnt::inter
 {
 
-class RuinsColorSwitch final : public Interaction
+class RuinsColorSwitch final : public RuinsSpikeDisabler
 {
 public:
     RuinsColorSwitch(ent::Entity&, bool isEnabled, InteractionTriggers);
 
     auto onInteract(GameContext&) -> task::Task override;
-
-private:
-    void hideAllSpikesInRoom(GameContext&);
 };
 
 } // namespace ut::game::cpnt::inter

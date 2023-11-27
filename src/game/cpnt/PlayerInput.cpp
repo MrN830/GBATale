@@ -81,6 +81,10 @@ void PlayerInput::handleInput(GameContext& ctx)
                     auto task = interaction->onInteract(ctx);
                     if (!task.done())
                         ctx.taskMngr.addTask(std::move(task));
+                    
+                    // only the first `PRESS_A` interaction should be interacted
+                    // rest are ignored to avoid duplicated cutscenes etc.
+                    break;
                 }
             }
         }
