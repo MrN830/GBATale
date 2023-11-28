@@ -40,8 +40,10 @@ void RuinsWallSwitch::awake(GameContext& ctx)
     const auto plot = ctx.state.getPlot();
     const auto room = ctx.state.getRoom();
 
-    if (room == RoomKind::ROOM_RUINS3 && ((entityId == EntityId::button && plot >= GamePlot::FIRST_SWITCH_FLIPPED) ||
-                                          (entityId == EntityId::button2 && plot >= GamePlot::SWITCH_PUZZLE_COMPLETE)))
+    if ((room == RoomKind::ROOM_RUINS3 &&
+         ((entityId == EntityId::button && plot >= GamePlot::FIRST_SWITCH_FLIPPED) ||
+          (entityId == EntityId::button2 && plot >= GamePlot::SWITCH_PUZZLE_COMPLETE))) ||
+        (room == RoomKind::ROOM_RUINS14 && plot >= GamePlot::JUST_ONE_SWITCH_PUZZLE_SOLVED))
     {
         setPressed(true);
     }
@@ -182,6 +184,21 @@ auto RuinsWallSwitch::onInteract(GameContext& ctx) -> task::Task
         }
         else
             BN_ERROR("Invalid entityId=", (int)entityId, " for `ruins3`");
+    }
+    else if (room == RoomKind::ROOM_RUINS14)
+    {
+        ctx.interactStack.push(InteractState::INTERACT);
+
+        hideAllSpikesInRoom(ctx);
+        BN_ASSERT(ctx.state.getPlot() < GamePlot::JUST_ONE_SWITCH_PUZZLE_SOLVED);
+        ctx.state.setPlot(GamePlot::JUST_ONE_SWITCH_PUZZLE_SOLVED);
+
+        getSfx(SfxKind::SCREEN_SHAKE)->play();
+        ctx.camMngr.startShake({4, 0}, 2);
+        co_await task::SignalAwaiter({task::TaskSignal::Kind::CAM_SHAKE_END});
+
+        BN_ASSERT(ctx.interactStack.top() == InteractState::INTERACT);
+        ctx.interactStack.pop();
     }
     else
         BN_ERROR("RuinsWallSwitch in invalid room=", (int)room);
