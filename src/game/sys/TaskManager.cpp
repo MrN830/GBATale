@@ -83,6 +83,7 @@ void TaskManager::onSignal(const task::TaskSignal& received)
                 task.resume();
                 break;
 
+            case SigKind::CAM_SHAKE_END:
             case SigKind::DIALOG_END:
                 task.resume();
                 break;

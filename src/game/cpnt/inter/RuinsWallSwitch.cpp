@@ -15,6 +15,7 @@
 #include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/cpnt/inter/TalkTorielRuins3.hpp"
 #include "game/ent/Entity.hpp"
+#include "game/sys/CameraManager.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
@@ -116,8 +117,8 @@ auto RuinsWallSwitch::onInteract(GameContext& ctx) -> task::Task
             ctx.state.setPlot(GamePlot::SWITCH_PUZZLE_COMPLETE);
 
             getSfx(SfxKind::SCREEN_SHAKE)->play();
-            // TODO: start camera vibrate
-            co_await task::TimeAwaiter(15);
+            ctx.camMngr.startShake({4, 0}, 2);
+            co_await task::SignalAwaiter({task::TaskSignal::Kind::CAM_SHAKE_END});
 
             // Toriel talks
             ctx.msgSettings =

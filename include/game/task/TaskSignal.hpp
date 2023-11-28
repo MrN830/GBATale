@@ -16,6 +16,8 @@ struct TaskSignal
 
         TIME,
 
+        CAM_SHAKE_END,
+
         SPR_ANIM_END,
 
         DIALOG_INDEX,
