@@ -71,6 +71,7 @@ void TaskManager::onSignal(const task::TaskSignal& received)
 
             switch (received.kind)
             {
+            case SigKind::ENT_DESTROYED:
             case SigKind::SPR_ANIM_END:
             case SigKind::DIALOG_INDEX:
             case SigKind::NPC_WALK_END:

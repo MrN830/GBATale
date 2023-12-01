@@ -74,7 +74,7 @@ class TilemapConverter:
         include_path = f"build_ut/include/gen"
         os.makedirs(include_path, exist_ok=True)
 
-        entity_ids = {"NONE", "frisk", "flowey"}
+        entity_ids = {"NONE", "frisk", "flowey", "exc_balloon"}
 
         for folder in glob.glob("extra/tilemaps/*"):
             if not os.path.isdir(folder):

@@ -13,8 +13,10 @@
 #include "game/cpnt/ev/SetPieImage.hpp"
 #include "game/cpnt/ev/StalkerFlowey.hpp"
 #include "game/cpnt/ev/StartBgm.hpp"
+#include "game/cpnt/ev/TimedDestroy.hpp"
 #include "game/cpnt/ev/TorielGoOutRuins1.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
+#include "game/cpnt/inter/CutsceneRuins19.hpp"
 #include "game/cpnt/inter/CutsceneRuins2.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
 #include "game/cpnt/inter/HoleUp.hpp"
@@ -114,6 +116,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::TorielGoOutRuins6>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TorielGoOutRuins6>(entity, interaction->isEnabled,
                                                                               interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::CutsceneRuins19>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneRuins19>(entity, interaction->isEnabled,
+                                                                            interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
@@ -127,6 +132,9 @@ void EntityInfo::create(GameContext& ctx) const
 
         if (eventCpnt->type == bn::type_id<cpnt::ev::StartBgm>())
             evCpnt = &entMngr._cpntHeap.create<cpnt::ev::StartBgm>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::TimedDestroy>())
+            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::TimedDestroy>(entity, eventCpnt->isEnabled,
+                                                                         eventCpnt->isAutoFire);
         else if (eventCpnt->type == bn::type_id<cpnt::ev::PlotSpike>())
             evCpnt =
                 &entMngr._cpntHeap.create<cpnt::ev::PlotSpike>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);

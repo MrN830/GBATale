@@ -14,7 +14,9 @@
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/cpnt/ev/StalkerFlowey.hpp"
+#include "game/cpnt/ev/TimedDestroy.hpp"
 #include "game/sys/CameraManager.hpp"
+#include "game/sys/TaskManager.hpp"
 #include "mtile/MTilemap.hpp"
 
 #include "gen/EntityId.hpp"
@@ -25,6 +27,7 @@
 
 #include "bn_sprite_items_ch_flowey.h"
 #include "bn_sprite_items_ch_frisk_base.h"
+#include "bn_sprite_items_spr_exc.h"
 
 namespace ut::game::sys
 {
@@ -140,6 +143,21 @@ void EntityManager::createStalkerFlowey(const bn::fixed_point& position)
     flowey.addComponent(stalker);
 }
 
+void EntityManager::createExclamationBalloon(const bn::fixed_point& position, bool isSmile)
+{
+    ent::Entity& balloon = _entPool.create(ent::gen::EntityId::exc_balloon, position);
+    _entities.push_front(balloon);
+
+    cpnt::Sprite& spr =
+        _cpntHeap.create<cpnt::Sprite>(balloon, true, bn::sprite_items::spr_exc, isSmile, false,
+                                       &_context.camMngr.getCamera(), false, consts::INGAME_MENU_BG_PRIORITY);
+    balloon.addComponent(spr);
+
+    auto& timedDestroy = _cpntHeap.create<cpnt::ev::TimedDestroy>(balloon, true, true);
+    timedDestroy.setDestroyTicks(30);
+    balloon.addComponent(timedDestroy);
+}
+
 auto EntityManager::findById(ent::gen::EntityId entityId) -> ent::Entity*
 {
     if (entityId == ent::gen::EntityId::NONE)
@@ -239,9 +257,15 @@ void EntityManager::removeDestroyed(bool forceRemoveAll)
         if (forceRemoveAll)
             BN_ASSERT(components.empty());
 
+        const auto eId = eIt->getId();
+
         // Destroy `entity`
         eIt = _entities.erase_after(eBeforeIt);
         _entPool.destroy(entity);
+
+        // If `entity` had an EntityId, Send `ENT_DESTROYED` signal to TaskManager
+        if (eId != ent::gen::EntityId::NONE)
+            _context.taskMngr.onSignal({task::TaskSignal::Kind::ENT_DESTROYED, (int)eId});
     }
 
     if (forceRemoveAll)

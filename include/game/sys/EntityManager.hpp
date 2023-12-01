@@ -66,6 +66,7 @@ public:
 
     void createFrisk(const bn::fixed_point& position);
     void createStalkerFlowey(const bn::fixed_point& position);
+    void createExclamationBalloon(const bn::fixed_point& position, bool isSmile);
 
 public:
     /**

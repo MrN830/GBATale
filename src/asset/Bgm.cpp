@@ -194,7 +194,7 @@ void Bgm::restore()
 
     const auto& bgm = Bgm::get(gs_stashedBgm->bgmKind);
     if (bgm.directMusic && bgm.dmgMusic)
-        BN_ERROR("Sync direct & dmg music not supported"); // bn::audio::set_dmg_sync_enabled(true);
+        BN_ERROR("Sync direct & dmg music not supported");
 
     play(bgm);
     if (bn::music::playing())
@@ -258,7 +258,7 @@ void Bgm::play(const Bgm& bgm)
     if (bgm.directMusic || bgm.dmgMusic)
     {
         if (bgm.directMusic && bgm.dmgMusic)
-            BN_ERROR("Sync direct & dmg music not supported"); // bn::audio::set_dmg_sync_enabled(true);
+            BN_ERROR("Sync direct & dmg music not supported");
 
         if (bgm.directMusic)
             bn::music::play(*bgm.directMusic, bgm.directVolume);
@@ -276,7 +276,7 @@ void Bgm::stop()
         const Bgm& bgm = Bgm::get(gs_playingBgm);
 
         if (bgm.directMusic && bgm.dmgMusic)
-            BN_ERROR("Sync direct & dmg music not supported"); // bn::audio::set_dmg_sync_enabled(false);
+            BN_ERROR("Sync direct & dmg music not supported");
 
         if (bgm.directMusic)
             bn::music::stop();
@@ -344,9 +344,9 @@ void Bgm::setVolume(bn::fixed volume)
 
     const Bgm& bgm = Bgm::get(gs_playingBgm);
     if (bgm.directMusic)
-        bn::music::set_volume(volume * bgm.directVolume);
+        bn::music::set_volume(bn::clamp(volume * bgm.directVolume, bn::fixed(0), bn::fixed(1)));
     if (bgm.dmgMusic)
-        bn::dmg_music::set_volume(volume);
+        bn::dmg_music::set_volume(bn::clamp(volume, bn::fixed(0), bn::fixed(1)));
 }
 
 } // namespace ut::asset
