@@ -9,6 +9,7 @@
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/cpnt/ColliderPack.hpp"
+#include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/PlayerInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
@@ -114,6 +115,9 @@ void EntityManager::createFrisk(const bn::fixed_point& position)
 
     cpnt::PlayerInput& input = _cpntHeap.create<cpnt::PlayerInput>(frisk, true, walkAnimCtrl);
     frisk.addComponent(input);
+
+    cpnt::NpcInput& npcInput = _cpntHeap.create<cpnt::NpcInput>(frisk, false);
+    frisk.addComponent(npcInput);
 
     cpnt::ColliderPack& collPack = _cpntHeap.create<cpnt::ColliderPack>(frisk, true, false);
     frisk.addComponent(collPack);
