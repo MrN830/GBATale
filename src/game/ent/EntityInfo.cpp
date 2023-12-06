@@ -19,6 +19,8 @@
 #include "game/cpnt/inter/AutoHideSpike.hpp"
 #include "game/cpnt/inter/CutsceneBasement1Block.hpp"
 #include "game/cpnt/inter/CutsceneBasement1Proceed.hpp"
+#include "game/cpnt/inter/CutsceneBasement2.hpp"
+#include "game/cpnt/inter/CutsceneBasement3.hpp"
 #include "game/cpnt/inter/CutsceneRuins19.hpp"
 #include "game/cpnt/inter/CutsceneRuins2.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
@@ -128,6 +130,12 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::CutsceneBasement1Proceed>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneBasement1Proceed>(entity, interaction->isEnabled,
                                                                                      interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::CutsceneBasement2>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneBasement2>(entity, interaction->isEnabled,
+                                                                              interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::CutsceneBasement3>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneBasement3>(entity, interaction->isEnabled,
+                                                                              interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
