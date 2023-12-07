@@ -41,7 +41,7 @@ private:
     WalkAnimCtrl* _walkAnimCtrl = nullptr;
 
     asset::SpriteAnimKind _curAnimKind;
-    bn::optional<bn::sprite_animate_action<8>> _action;
+    bn::optional<bn::sprite_animate_action<9>> _action;
 
     int _lastAnimFrameWait = -1;
 };

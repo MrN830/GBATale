@@ -13,6 +13,7 @@ enum class SpriteAnimKind : int16_t
     SAVE_POINT,
     FROGGIT,
     STALKER_FLOWEY,
+    TORIEL_RUFFLE_FRISK_HAIR,
 
     // animated terrain
     FAKE_WATER_L,

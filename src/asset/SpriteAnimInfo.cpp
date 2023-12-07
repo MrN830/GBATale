@@ -42,6 +42,17 @@ constexpr SpriteAnimInfo<5> stalker_flowey{
     false,
     bn::array<uint16_t, 5>{0, 0, 14, 15, 16},
 };
+constexpr SpriteAnimInfo<9> toriel_ruffle_frisk_hair{
+    bn::sprite_items::ch_toriel,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    10 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 9>{26, 27, 28, 27, 26, 27, 28, 27, 26},
+};
 
 // animated terrain
 constexpr SpriteAnimInfo<3> fake_water_l{
@@ -225,6 +236,7 @@ constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
     &save_point,
     &froggit,
     &stalker_flowey,
+    &toriel_ruffle_frisk_hair,
 
     &fake_water_l,
     &fake_water_r,

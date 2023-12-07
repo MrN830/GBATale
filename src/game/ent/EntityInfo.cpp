@@ -10,6 +10,7 @@
 #include "game/cpnt/ev/CutsceneRuins5.hpp"
 #include "game/cpnt/ev/CutsceneRuins6.hpp"
 #include "game/cpnt/ev/CutsceneTorhouse1.hpp"
+#include "game/cpnt/ev/CutsceneTorhouse3.hpp"
 #include "game/cpnt/ev/PlotSpike.hpp"
 #include "game/cpnt/ev/SetPieImage.hpp"
 #include "game/cpnt/ev/StalkerFlowey.hpp"
@@ -175,6 +176,9 @@ void EntityInfo::create(GameContext& ctx) const
                                                                          eventCpnt->isAutoFire);
         else if (eventCpnt->type == bn::type_id<cpnt::ev::CutsceneTorhouse1>())
             evCpnt = &entMngr._cpntHeap.create<cpnt::ev::CutsceneTorhouse1>(entity, eventCpnt->isEnabled,
+                                                                            eventCpnt->isAutoFire);
+        else if (eventCpnt->type == bn::type_id<cpnt::ev::CutsceneTorhouse3>())
+            evCpnt = &entMngr._cpntHeap.create<cpnt::ev::CutsceneTorhouse3>(entity, eventCpnt->isEnabled,
                                                                             eventCpnt->isAutoFire);
         else
             BN_ERROR("Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
