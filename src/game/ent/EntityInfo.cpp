@@ -18,6 +18,7 @@
 #include "game/cpnt/ev/TimedDestroy.hpp"
 #include "game/cpnt/ev/TorielGoOutRuins1.hpp"
 #include "game/cpnt/inter/AutoHideSpike.hpp"
+#include "game/cpnt/inter/Chairiel.hpp"
 #include "game/cpnt/inter/CutsceneBasement1Block.hpp"
 #include "game/cpnt/inter/CutsceneBasement1Proceed.hpp"
 #include "game/cpnt/inter/CutsceneBasement2.hpp"
@@ -125,6 +126,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::CutsceneRuins19>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneRuins19>(entity, interaction->isEnabled,
                                                                             interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::Chairiel>())
+            inter =
+                &entMngr._cpntHeap.create<cpnt::inter::Chairiel>(entity, interaction->isEnabled, interaction->triggers);
         else if (interaction->type == bn::type_id<cpnt::inter::CutsceneBasement1Block>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneBasement1Block>(entity, interaction->isEnabled,
                                                                                    interaction->triggers);

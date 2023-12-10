@@ -14,6 +14,7 @@ enum class SpriteAnimKind : int16_t
     FROGGIT,
     STALKER_FLOWEY,
     TORIEL_RUFFLE_FRISK_HAIR,
+    CHAIRIEL_GET_UP,
 
     // animated terrain
     FAKE_WATER_L,

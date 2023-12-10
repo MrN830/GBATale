@@ -6,6 +6,7 @@
 #include "bn_sprite_items_ch_flowey.h"
 #include "bn_sprite_items_ch_frisk_base.h"
 #include "bn_sprite_items_ch_toriel.h"
+#include "bn_sprite_items_ch_toriel_chair.h"
 #include "bn_sprite_items_ent_froggit.h"
 #include "bn_sprite_items_ent_save_point.h"
 #include "bn_sprite_items_tr_fake_water.h"
@@ -52,6 +53,10 @@ constexpr SpriteAnimInfo<9> toriel_ruffle_frisk_hair{
     false,
     false,
     bn::array<uint16_t, 9>{26, 27, 28, 27, 26, 27, 28, 27, 26},
+};
+constexpr SpriteAnimInfo<6> chairiel_get_up{
+    bn::sprite_items::ch_toriel_chair,        Dirs::NONE, bn::fixed_point{0, 0}, 5 - 1, false, false, false, false,
+    bn::array<uint16_t, 6>{0, 4, 5, 6, 7, 8},
 };
 
 // animated terrain
@@ -237,6 +242,7 @@ constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
     &froggit,
     &stalker_flowey,
     &toriel_ruffle_frisk_hair,
+    &chairiel_get_up,
 
     &fake_water_l,
     &fake_water_r,

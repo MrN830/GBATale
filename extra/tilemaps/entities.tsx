@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="entities" tilewidth="240" tileheight="128" tilecount="43" columns="0" objectalignment="bottom">
+<tileset version="1.10" tiledversion="1.10.2" name="entities" tilewidth="240" tileheight="128" tilecount="44" columns="0" objectalignment="bottom">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0" x="0" y="0" width="16" height="16">
   <image width="16" height="32" source="../../graphics/sprite/ent_floor_switch.bmp"/>
@@ -242,6 +242,12 @@
   <image width="32" height="64" source="../../graphics/sprite/ent_rightrail.bmp"/>
   <objectgroup draworder="index" id="2">
    <object id="1" x="1" y="30" width="5" height="34"/>
+  </objectgroup>
+ </tile>
+ <tile id="44" x="0" y="0" width="64" height="64">
+  <image width="64" height="640" source="../../graphics/sprite/ch_toriel_chair.bmp"/>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="26" y="33" width="23" height="31"/>
   </objectgroup>
  </tile>
 </tileset>
