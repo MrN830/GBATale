@@ -70,6 +70,10 @@ void WorldBg::setMTilemap(const mtile::MTilemapBase& mTilemap)
 
     _mTilemap = &mTilemap;
 
+    _bgPalItemLower.reset();
+    _bgPalItemUpper.reset();
+    _bgPalItemUpper2.reset();
+
     if (isGraphicsAllocated())
     {
         freeGraphics();
@@ -101,15 +105,18 @@ void WorldBg::allocateGraphics()
 {
     BN_ASSERT(_mTilemap, "Tried to alloc graphics without setting MTilemap");
 
-    _bgItemLower = bn::regular_bg_item(_mTilemap->tilesLower, _mTilemap->palLower, _bgMapItemLower);
+    _bgItemLower = bn::regular_bg_item(_mTilemap->tilesLower,
+                                       (_bgPalItemLower ? *_bgPalItemLower : _mTilemap->palLower), _bgMapItemLower);
     _bgLower = _bgItemLower->create_bg(_pos);
     _bgMapLower = _bgLower->map();
 
-    _bgItemUpper = bn::regular_bg_item(_mTilemap->tilesUpper, _mTilemap->palUpper, _bgMapItemUpper);
+    _bgItemUpper = bn::regular_bg_item(_mTilemap->tilesUpper,
+                                       (_bgPalItemUpper ? *_bgPalItemUpper : _mTilemap->palUpper), _bgMapItemUpper);
     _bgUpper = _bgItemUpper->create_bg(_pos);
     _bgMapUpper = _bgUpper->map();
 
-    _bgItemUpper2 = bn::regular_bg_item(_mTilemap->tilesUpper2, _mTilemap->palUpper2, _bgMapItemUpper2);
+    _bgItemUpper2 = bn::regular_bg_item(
+        _mTilemap->tilesUpper2, (_bgPalItemUpper2 ? *_bgPalItemUpper2 : _mTilemap->palUpper2), _bgMapItemUpper2);
     _bgUpper2 = _bgItemUpper2->create_bg(_pos);
     _bgMapUpper2 = _bgUpper2->map();
 
@@ -154,6 +161,24 @@ void WorldBg::setBlendingEnabled(bool isEnabled)
         _bgLower->set_blending_enabled(isEnabled);
         _bgUpper->set_blending_enabled(isEnabled);
         _bgUpper2->set_blending_enabled(isEnabled);
+    }
+}
+
+void WorldBg::setBgPalettes(bn::optional<bn::bg_palette_item> lowerPal, bn::optional<bn::bg_palette_item> upperPal,
+                            bn::optional<bn::bg_palette_item> upper2Pal)
+{
+    _bgPalItemLower = lowerPal;
+    _bgPalItemUpper = upperPal;
+    _bgPalItemUpper2 = upper2Pal;
+
+    if (_bgLower.has_value())
+    {
+        if (_bgPalItemLower)
+            _bgLower->set_palette(*_bgPalItemLower);
+        if (_bgPalItemUpper)
+            _bgUpper->set_palette(*_bgPalItemUpper);
+        if (_bgPalItemUpper2)
+            _bgUpper2->set_palette(*_bgPalItemUpper2);
     }
 }
 

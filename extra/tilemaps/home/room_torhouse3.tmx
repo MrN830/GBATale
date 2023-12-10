@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="37" height="8" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="56">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="37" height="8" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="58">
  <tileset firstgid="1" source="home.tsx"/>
  <tileset firstgid="1185" source="../entities.tsx"/>
  <layer id="5" name="BGLower" width="37" height="8">
@@ -125,6 +125,16 @@
     <property name="walkAnimCtrl" type="class" propertytype="WalkAnimCtrl">
      <properties>
       <property name="kind" propertytype="WalkAnimKind" value="TORIEL"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="57" name="lamp" type="Entity" x="0" y="0" width="14" height="10">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="AsrielLamp"/>
      </properties>
     </property>
    </properties>

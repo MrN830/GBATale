@@ -41,6 +41,8 @@ public:
     void allocateGraphics();
 
     void setBlendingEnabled(bool isEnabled);
+    void setBgPalettes(bn::optional<bn::bg_palette_item> lowerPal, bn::optional<bn::bg_palette_item> upperPal,
+                       bn::optional<bn::bg_palette_item> upper2Pal);
 
 private:
     /**
@@ -65,16 +67,19 @@ private:
     bn::optional<bn::regular_bg_item> _bgItemLower;
     bn::optional<bn::regular_bg_ptr> _bgLower;
     bn::optional<bn::regular_bg_map_ptr> _bgMapLower;
+    bn::optional<bn::bg_palette_item> _bgPalItemLower;
 
     bn::regular_bg_map_item _bgMapItemUpper;
     bn::optional<bn::regular_bg_item> _bgItemUpper;
     bn::optional<bn::regular_bg_ptr> _bgUpper;
     bn::optional<bn::regular_bg_map_ptr> _bgMapUpper;
+    bn::optional<bn::bg_palette_item> _bgPalItemUpper;
 
     bn::regular_bg_map_item _bgMapItemUpper2;
     bn::optional<bn::regular_bg_item> _bgItemUpper2;
     bn::optional<bn::regular_bg_ptr> _bgUpper2;
     bn::optional<bn::regular_bg_map_ptr> _bgMapUpper2;
+    bn::optional<bn::bg_palette_item> _bgPalItemUpper2;
 
     const mtile::MTilemapBase* _mTilemap;
 
