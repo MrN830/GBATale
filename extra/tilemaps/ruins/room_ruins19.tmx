@@ -169,6 +169,11 @@
   <object id="71" type="Entity" gid="1384" x="131" y="333" width="64" height="64">
    <properties>
     <property name="colliderPack" type="class" propertytype="ColliderPack"/>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
     <property name="sprite" type="class" propertytype="Sprite">
      <properties>
       <property name="zOrder" type="int" value="-277"/>

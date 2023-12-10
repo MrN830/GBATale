@@ -283,6 +283,12 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_RUINS15D:
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_74));
         break;
+    case RoomKind::ROOM_RUINS19:
+        if (flags.true_pacifist)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_nastytree_59));
+        else
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_nastytree_55));
+        break;
     case RoomKind::ROOM_TORHOUSE1:
         if (_entity.getId() == ent::gen::EntityId::books)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_75));
