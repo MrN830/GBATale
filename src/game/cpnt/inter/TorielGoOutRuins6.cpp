@@ -1,7 +1,10 @@
 #include "game/cpnt/inter/TorielGoOutRuins6.hpp"
 
+#include <bn_sound_item.h>
+
 #include "asset/Bgm.hpp"
 #include "asset/Path.hpp"
+#include "asset/SfxKind.hpp"
 #include "core/DialogSettings.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
@@ -37,6 +40,8 @@ auto TorielGoOutRuins6::onInteract(GameContext& ctx) -> task::Task
     Interaction::onInteract(ctx);
 
     using namespace ut::asset;
+
+    task::SignalAwaiter dialogEndAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
     ctx.interactStack.push(InteractState::CUTSCENE);
 
@@ -85,7 +90,7 @@ auto TorielGoOutRuins6::onInteract(GameContext& ctx) -> task::Task
     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_454));
     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_455));
     ctx.game.startDialog();
-    co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
+    co_await dialogEndAwaiter;
 
     // TODO: Add cell phone in the menu
     triggerColl->setEnabled(false);
@@ -105,6 +110,178 @@ auto TorielGoOutRuins6::onInteract(GameContext& ctx) -> task::Task
     co_await torielWalkAwaiter;
 
     toriel->setDestroyed(true);
+
+    // TODO: Temp save
+
+    // Toriel dog calls...
+    constexpr int DOG_CALL_INTERVAL = 150 * 40;
+    task::TimeAwaiter dogCallTimeAwaiter(DOG_CALL_INTERVAL);
+    task::SignalAwaiter interactStateFreeAwaiter({task::TaskSignal::Kind::INTERACT_STATE_FREE});
+
+    co_await dogCallTimeAwaiter;
+    if (ctx.interactStack.top() != InteractState::FREE)
+    {
+        co_await interactStateFreeAwaiter;
+        co_await task::TimeAwaiter(1);
+    }
+
+    getSfx(SfxKind::PHONE)->play();
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_64));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_65));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_66));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_67));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_68));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_69));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_70));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_71));
+    ctx.game.startDialog();
+    co_await dialogEndAwaiter;
+
+    co_await dogCallTimeAwaiter;
+    if (ctx.interactStack.top() != InteractState::FREE)
+    {
+        co_await interactStateFreeAwaiter;
+        co_await task::TimeAwaiter(1);
+    }
+
+    getSfx(SfxKind::PHONE)->play();
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_84));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_85));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_86));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_87));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_88));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_89));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_90));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_91));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_92));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_93));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_94));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_95));
+    ctx.game.startDialog();
+    co_await dialogEndAwaiter;
+
+    co_await dogCallTimeAwaiter;
+    if (ctx.interactStack.top() != InteractState::FREE)
+    {
+        co_await interactStateFreeAwaiter;
+        co_await task::TimeAwaiter(1);
+    }
+
+    ctx.state.getFlags().dog_call_status = GameFlags::DogCallStatus::DOG_KIDNAPPED_PHONE;
+
+    getSfx(SfxKind::PHONE)->play();
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_109));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_110));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_111));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_112));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_113));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_114));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_115));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_116));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_117));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_118));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_119));
+    ctx.game.startDialog();
+    co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_INDEX, 4});
+    getSfx(SfxKind::POM_BARK)->play();
+    co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_INDEX, 5});
+    getSfx(SfxKind::POM_BARK)->play();
+    co_await dialogEndAwaiter;
+
+    co_await dogCallTimeAwaiter;
+    if (ctx.interactStack.top() != InteractState::FREE)
+    {
+        co_await interactStateFreeAwaiter;
+        co_await task::TimeAwaiter(1);
+    }
+
+    getSfx(SfxKind::PHONE)->play();
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_150));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_151));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_152));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_153));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_154));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_155));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_156));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_157));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_158));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_159));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_160));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_161));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_162));
+    ctx.game.startDialog();
+    co_await dialogEndAwaiter;
+
+    co_await dogCallTimeAwaiter;
+    if (ctx.interactStack.top() != InteractState::FREE)
+    {
+        co_await interactStateFreeAwaiter;
+        co_await task::TimeAwaiter(1);
+    }
+
+    getSfx(SfxKind::PHONE)->play();
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_176));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_177));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_178));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_179));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_180));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_181));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_182));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_183));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_184));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_185));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_186));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_187));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_188));
+    ctx.game.startDialog();
+    co_await dialogEndAwaiter;
+
+    co_await dogCallTimeAwaiter;
+    if (ctx.interactStack.top() != InteractState::FREE)
+    {
+        co_await interactStateFreeAwaiter;
+        co_await task::TimeAwaiter(1);
+    }
+
+    getSfx(SfxKind::PHONE)->play();
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_203));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_204));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_205));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_206));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_207));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_208));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_209));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_210));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_211));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_212));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_213));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_214));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_215));
+    ctx.game.startDialog();
+    co_await dialogEndAwaiter;
+
+    co_await dogCallTimeAwaiter;
+    if (ctx.interactStack.top() != InteractState::FREE)
+    {
+        co_await interactStateFreeAwaiter;
+        co_await task::TimeAwaiter(1);
+    }
+
+    getSfx(SfxKind::PHONE)->play();
+    ctx.msg.clear();
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_230));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_231));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_232));
+    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_tordogcall_233));
+    ctx.game.startDialog();
+    co_await dialogEndAwaiter;
+
     _entity.setDestroyed(true);
     co_return;
 }

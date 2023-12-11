@@ -14,6 +14,7 @@ struct TaskSignal
     {
         ROOM_CHANGE,
         ENT_DESTROYED,
+        INTERACT_STATE_FREE,
 
         TIME,
 

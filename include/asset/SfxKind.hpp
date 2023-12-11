@@ -38,6 +38,7 @@ enum class SfxKind
     SPEED_UP,
     SPOOKY,
     SPARKLE1,
+    POM_BARK,
     DOG_RESIDUE,
     DOG_SALAD,
     CAT_SALAD,

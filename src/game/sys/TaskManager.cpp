@@ -84,6 +84,7 @@ void TaskManager::onSignal(const task::TaskSignal& received)
                 task.resume();
                 break;
 
+            case SigKind::INTERACT_STATE_FREE:
             case SigKind::CAM_SHAKE_END:
             case SigKind::DIALOG_END:
                 task.resume();

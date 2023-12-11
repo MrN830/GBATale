@@ -5,6 +5,8 @@
 namespace ut::game
 {
 
+struct GameContext;
+
 enum class InteractState : int8_t
 {
     FREE,
@@ -20,12 +22,17 @@ enum class InteractState : int8_t
 class InteractStateStack
 {
 public:
+    InteractStateStack(GameContext&);
+
+public:
     void push(InteractState);
     void pop();
 
     auto top() const -> InteractState;
 
 private:
+    GameContext& _gameContext;
+
     bn::vector<InteractState, 4> _stateStack;
 };
 

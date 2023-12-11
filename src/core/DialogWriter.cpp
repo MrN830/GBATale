@@ -520,6 +520,11 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
         break;
     }
 
+    case SpecialToken::Kind::VOICE: {
+        _settings.sfx = (asset::SfxKind)specialToken.number;
+        break;
+    }
+
     case SpecialToken::Kind::COLOR: {
         if (_settings.font == asset::FontKind::MAIN)
         {
