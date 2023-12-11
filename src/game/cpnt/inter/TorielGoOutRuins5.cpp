@@ -49,6 +49,9 @@ auto TorielGoOutRuins5::onInteract(GameContext& ctx) -> task::Task
 
     const auto& spikePath = IPath::get(gen::PathId::path_torielwalk5_2);
 
+    // prevent interacting multiple times
+    setEnabled(false);
+
     ctx.interactStack.push(InteractState::CUTSCENE);
 
     ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
