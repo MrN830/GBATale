@@ -11,6 +11,7 @@
 #include "core/PlayTime.hpp"
 #include "core/Random.hpp"
 #include "game/GameFlags.hpp"
+#include "game/PersistData.hpp"
 
 namespace ut::scene::test
 {
@@ -75,7 +76,17 @@ public:
      */
     auto loadFromRegularSave(bool checkOnly = false) -> LoadResult;
 
+    /**
+     * @brief Loads persist save from SRAM.
+     * It automatically chooses valid, recent slot.
+     *
+     * @param `checkOnly` Only check the recent save slot (returned result), not actually load it.
+     * @return `LoadResult` persist save slot chosen for load
+     */
+    auto loadFromPersistSave(bool checkOnly = false) -> LoadResult;
+
     void saveRegular();
+    void savePersist();
 
 private: // not SRAM saved fields
     bool _isInBattle = false;
@@ -103,6 +114,8 @@ private: // SRAM saved fields
     asset::BgmKind _worldBgm;
     RoomKind _room;
     core::PlayTime _time;
+
+    PersistData _persistData;
 
     uint32_t _rSavedCount;
     uint32_t _pSavedCount = 0;
@@ -134,6 +147,9 @@ public: // SRAM saved fields
 
     auto getFlags() const -> const GameFlags&;
     auto getFlags() -> GameFlags&;
+
+    auto getPersistData() const -> const PersistData&;
+    auto getPersistData() -> PersistData&;
 
     auto getPlot() const -> GamePlot;
 
@@ -169,7 +185,7 @@ private:
     void loadFromPSave(const PersistSave&);
 
 private:
-    static constexpr auto SAVE_VER = "ut00002";
+    static constexpr auto SAVE_VER = "ut00003";
     static constexpr int SRAM_REGU_SAVE_SIZE = 1 * 1024;
     static constexpr int SRAM_PERSI_SAVE_SIZE = 1 * 1024;
 
@@ -209,6 +225,8 @@ private:
         uint32_t checksum;
         uint32_t savedCount;
         bn::array<char, 8> saveVer;
+
+        PersistData data;
 
         bool isValid() const;
     };

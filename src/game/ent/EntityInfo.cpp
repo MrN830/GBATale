@@ -34,6 +34,7 @@
 #include "game/cpnt/inter/RuinsColorSwitch.hpp"
 #include "game/cpnt/inter/RuinsColorSwitchHelp.hpp"
 #include "game/cpnt/inter/RuinsFloorSwitch.hpp"
+#include "game/cpnt/inter/RuinsTorielCall.hpp"
 #include "game/cpnt/inter/RuinsWallSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
 #include "game/cpnt/inter/TalkFroggit.hpp"
@@ -124,6 +125,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::TorielGoOutRuins6>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TorielGoOutRuins6>(entity, interaction->isEnabled,
                                                                               interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::RuinsTorielCall>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::RuinsTorielCall>(entity, interaction->isEnabled,
+                                                                            interaction->triggers);
         else if (interaction->type == bn::type_id<cpnt::inter::CutsceneRuins19>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneRuins19>(entity, interaction->isEnabled,
                                                                             interaction->triggers);

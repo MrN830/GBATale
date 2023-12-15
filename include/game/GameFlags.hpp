@@ -90,8 +90,13 @@ struct GameFlags
     };
     StatusToriel status_toriel = StatusToriel::INIT; // [45]
 
-    bool choice_flavor : 1 = false;  // [46]
-    int8_t status_creepy_tundra = 0; // [47]
+    enum class ChoiceFlavor : uint8_t
+    {
+        CINNAMON = 0,
+        BUTTERSCOTCH = 1,
+    };
+    ChoiceFlavor choice_flavor = ChoiceFlavor::CINNAMON; // [46]
+    int8_t status_creepy_tundra = 0;                     // [47]
 
     bool know_water_sausage : 1 = false; // [50]
     uint32_t wrong_switches_pressed = 0; // [51]
