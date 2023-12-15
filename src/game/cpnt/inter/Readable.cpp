@@ -36,7 +36,9 @@ void Readable::awake(GameContext& ctx)
     // Destroy certain readables when condition is met
     else if ((room == RoomKind::ROOM_AREA1 && plot == GamePlot::NEW_GAME) ||
              (room == RoomKind::ROOM_RUINS3 && flags.hardmode &&
-              (entityId == EntityId::left || entityId == EntityId::right)))
+              (entityId == EntityId::left || entityId == EntityId::right)) ||
+             (room == RoomKind::ROOM_TORHOUSE2 && entityId == EntityId::flame &&
+              flags.status_toriel == GameFlags::StatusToriel::KILLED))
     {
         _entity.setDestroyed(true);
     }
@@ -314,6 +316,8 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_TORHOUSE2:
         if (_entity.getId() == ent::gen::EntityId::home_tools)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_81));
+        else if (_entity.getId() == ent::gen::EntityId::flame)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_hearthflame_57));
         else if (_entity.getId() == ent::gen::EntityId::history_book)
         {
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_80));

@@ -12,6 +12,8 @@ enum class SpriteAnimKind : int16_t
     // normal entities
     SAVE_POINT,
     FROGGIT,
+    HEARTH_FLAME,
+
     STALKER_FLOWEY,
     TORIEL_RUFFLE_FRISK_HAIR,
     CHAIRIEL_GET_UP,

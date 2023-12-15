@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="47">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="48">
  <tileset firstgid="1" source="home.tsx"/>
  <tileset firstgid="1185" source="../entities.tsx"/>
  <layer id="5" name="BGLower" width="16" height="12">
@@ -146,6 +146,26 @@
     <property name="walkAnimCtrl" type="class" propertytype="WalkAnimCtrl">
      <properties>
       <property name="kind" propertytype="WalkAnimKind" value="TORIEL"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="47" name="flame" type="Entity" gid="1230" x="134" y="58" width="16" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="Readable"/>
+     </properties>
+    </property>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim">
+     <properties>
+      <property name="kind" propertytype="SpriteAnimKind" value="HEARTH_FLAME"/>
      </properties>
     </property>
    </properties>

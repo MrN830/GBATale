@@ -9,6 +9,7 @@
 #include "bn_sprite_items_ch_toriel_chair.h"
 #include "bn_sprite_items_ent_froggit.h"
 #include "bn_sprite_items_ent_save_point.h"
+#include "bn_sprite_items_spr_hearthflame.h"
 #include "bn_sprite_items_tr_fake_water.h"
 #include "bn_sprite_items_tr_fake_water_4x.h"
 #include "bn_sprite_items_tr_fake_water_open.h"
@@ -32,6 +33,11 @@ constexpr SpriteAnimInfo<4> froggit{
     bn::sprite_items::ent_froggit,      Dirs::NONE, bn::fixed_point{0, 0}, 10 - 1, true, false, false, false,
     bn::array<uint16_t, 4>{0, 1, 2, 1},
 };
+constexpr SpriteAnimInfo<5> hearth_flame{
+    bn::sprite_items::spr_hearthflame,     Dirs::NONE, bn::fixed_point{0, 0}, 4 - 1, true, false, false, false,
+    bn::array<uint16_t, 5>{0, 1, 2, 3, 4},
+};
+
 constexpr SpriteAnimInfo<5> stalker_flowey{
     bn::sprite_items::ch_flowey,
     Dirs::NONE,
@@ -240,6 +246,8 @@ constexpr SpriteAnimInfo<4> toriel_handhold_frisk_walk_right{
 constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
     &save_point,
     &froggit,
+    &hearth_flame,
+
     &stalker_flowey,
     &toriel_ruffle_frisk_hair,
     &chairiel_get_up,
