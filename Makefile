@@ -20,6 +20,8 @@
 # USERLIBDIRS is a list of additional directories containing libraries.
 #     Each libraries directory must contains include and lib subdirectories.
 # USERLIBS is a list of additional libraries to link with the project.
+# DEFAULTLIBS links standard system libraries when it is not empty.
+# STACKTRACE enables stack trace logging on error messages when it is not empty.
 # USERBUILD is a list of additional directories to remove when cleaning the project.
 # EXTTOOL is an optional command executed before processing audio, graphics and code files.
 #
@@ -44,6 +46,8 @@ USERASFLAGS :=
 USERLDFLAGS :=  
 USERLIBDIRS :=  
 USERLIBS    :=  
+DEFAULTLIBS :=  
+STACKTRACE  :=  YES
 EXTTOOL     :=  @$(PYTHON) -B tools/main.py
 
 #---------------------------------------------------------------------------------------------------------------------
