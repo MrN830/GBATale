@@ -332,6 +332,8 @@ struct GameFlags
     bool genocide_water : 1 = false;   // [223]
     bool genocide_hotland : 1 = false; // [224]
     bool genocide_core : 1 = false;    // [225]
+
+    uint32_t conversation_asriel2 = 0; // [511]
 };
 
 } // namespace ut::game

@@ -38,6 +38,7 @@
 #include "game/cpnt/inter/RuinsWallSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
 #include "game/cpnt/inter/TalkFroggit.hpp"
+#include "game/cpnt/inter/TalkNpcArea1.hpp"
 #include "game/cpnt/inter/TalkTorielRuins3.hpp"
 #include "game/cpnt/inter/TalkTorielRuins6.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins2.hpp"
@@ -149,6 +150,9 @@ void EntityInfo::create(GameContext& ctx) const
         else if (interaction->type == bn::type_id<cpnt::inter::CutsceneBasement3>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::CutsceneBasement3>(entity, interaction->isEnabled,
                                                                               interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::TalkNpcArea1>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::TalkNpcArea1>(entity, interaction->isEnabled,
+                                                                         interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
