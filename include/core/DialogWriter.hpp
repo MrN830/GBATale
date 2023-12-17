@@ -3,6 +3,7 @@
 #include <bn_display.h>
 #include <bn_fixed_point.h>
 #include <bn_optional.h>
+#include <bn_sound_handle.h>
 #include <bn_span.h>
 #include <bn_sprite_ptr.h>
 #include <bn_string_view.h>
@@ -111,6 +112,8 @@ private:
     const int _bgPriority;
 
     core::DialogPortrait _portrait;
+
+    bn::optional<bn::sound_handle> _sfxHandle;
 
     bn::span<const bn::string_view> _dialogs;
     DialogSettings _settings;

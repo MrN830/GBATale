@@ -7,6 +7,7 @@
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/ent/Entity.hpp"
+#include "game/sys/TaskManager.hpp"
 #include "mtile/MTilemap.hpp"
 
 namespace ut::game::sys
@@ -31,7 +32,20 @@ void CameraManager::update(GameContext& ctx)
         ctx.isDialogUpper =
             (_camFollowEntity->getPosition().y() - (_camera.position().y() - _camFollowEntityDiff.y()) >=
              DIALOG_UPPER_Y_DIFF);
+
+        updateShake(ctx);
     }
+}
+
+void CameraManager::startShake(const bn::fixed_size& shakeScale, const int16_t waitUpdate)
+{
+    BN_ASSERT(shakeScale != bn::fixed_size(0, 0));
+    BN_ASSERT(waitUpdate > 0);
+
+    _shakeScale = bn::fixed_point(shakeScale.width(), shakeScale.height());
+    _shakeWaitUpdate = waitUpdate;
+    _shakeCountdown = 1;
+    _curShakeDir = true; // positive direction first
 }
 
 auto CameraManager::getCamFollowEntity() const -> const ent::Entity*
@@ -42,6 +56,11 @@ auto CameraManager::getCamFollowEntity() const -> const ent::Entity*
 void CameraManager::setCamFollowEntity(const ent::Entity* entity)
 {
     _camFollowEntity = entity;
+}
+
+auto CameraManager::getCamFollowEntityDiff() const -> const bn::fixed_point&
+{
+    return _camFollowEntityDiff;
 }
 
 void CameraManager::setCamFollowEntityDiff(const bn::fixed_point& diff)
@@ -81,6 +100,37 @@ void CameraManager::snapCamToRoom(const GameContext& ctx)
         _camera.set_y(INIT_CAM_POS.y());
     else if (_camera.y() > roomBottomRight.y())
         _camera.set_y(roomBottomRight.y());
+}
+
+bool CameraManager::hasShake() const
+{
+    return _shakeWaitUpdate > 0;
+}
+
+void CameraManager::updateShake(GameContext& ctx)
+{
+    if (!hasShake())
+        return;
+
+    _camera.set_position(_camera.position() + _shakeScale * (_curShakeDir ? 1 : -1) / 2);
+
+    if (--_shakeCountdown == 0)
+    {
+        _shakeCountdown = _shakeWaitUpdate;
+        _curShakeDir = !_curShakeDir;
+
+        if (_curShakeDir)
+        {
+            _shakeScale.set_x(bn::max(bn::fixed(0), _shakeScale.x() - 1));
+            _shakeScale.set_y(bn::max(bn::fixed(0), _shakeScale.y() - 1));
+
+            if (_shakeScale == bn::fixed_point(0, 0))
+            {
+                _shakeWaitUpdate = -1;
+                ctx.taskMngr.onSignal({task::TaskSignal::Kind::CAM_SHAKE_END});
+            }
+        }
+    }
 }
 
 } // namespace ut::game::sys

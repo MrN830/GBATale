@@ -1,5 +1,8 @@
 #include "game/cpnt/ev/StartBgm.hpp"
 
+#include <bn_music.h>
+#include <bn_optional.h>
+
 #include "asset/Bgm.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
@@ -23,6 +26,9 @@ auto StartBgm::onEvent(GameContext& ctx) -> task::Task
     const auto& flags = state.getFlags();
 
     auto bgmKind = asset::BgmKind::NONE;
+    bn::optional<bn::fixed> volumeOverride;
+    bn::optional<bn::fixed> tempoOverride; // DirectSound only
+    bn::optional<bn::fixed> pitchOverride; // DirectSound only
 
     switch (room)
     {
@@ -39,6 +45,13 @@ auto StartBgm::onEvent(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_TORHOUSE1:
         if (flags.status_toriel != game::GameFlags::StatusToriel::KILLED)
             bgmKind = asset::BgmKind::HOME;
+        else
+        {
+            bgmKind = asset::BgmKind::FALLEN_DOWN;
+            volumeOverride = 0;
+            tempoOverride = 0.5;
+            pitchOverride = 0.5;
+        }
         break;
 
     case RoomKind::ROOM_BASEMENT1:
@@ -52,6 +65,20 @@ auto StartBgm::onEvent(GameContext& ctx) -> task::Task
 
     state.setWorldBgm(bgmKind);
     asset::Bgm::play(bgmKind);
+
+    // overrides
+    if (volumeOverride.has_value())
+        asset::Bgm::setVolume(*volumeOverride);
+    if (tempoOverride.has_value())
+    {
+        BN_ASSERT(bn::music::playing());
+        bn::music::set_tempo(*tempoOverride);
+    }
+    if (pitchOverride.has_value())
+    {
+        BN_ASSERT(bn::music::playing());
+        bn::music::set_pitch(*pitchOverride);
+    }
 
     co_return;
 }

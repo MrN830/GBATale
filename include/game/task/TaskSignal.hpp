@@ -13,8 +13,12 @@ struct TaskSignal
     enum class Kind
     {
         ROOM_CHANGE,
+        ENT_DESTROYED,
+        INTERACT_STATE_FREE,
 
         TIME,
+
+        CAM_SHAKE_END,
 
         SPR_ANIM_END,
 

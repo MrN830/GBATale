@@ -37,6 +37,8 @@ DialogWriter::DialogWriter(scene::SceneContext& context, int bgPriority)
 
 void DialogWriter::reset()
 {
+    _sfxHandle.reset();
+
     _dialogs = {};
     _outputVec = nullptr;
     _dialogIdx = -1; // `-1` means not started
@@ -59,6 +61,8 @@ void DialogWriter::start(bn::span<const bn::string_view> dialogs, const DialogSe
 {
     if (dialogs.empty())
         return;
+
+    _sfxHandle.reset();
 
     _dialogs = dialogs;
     _settings = settings;
@@ -198,7 +202,12 @@ void DialogWriter::update()
             {
                 const auto sfx = asset::getSfx(_settings.sfx);
                 if (sfx)
-                    sfx->play();
+                {
+                    if (_sfxHandle && _sfxHandle->active())
+                        _sfxHandle->stop();
+
+                    _sfxHandle = sfx->play();
+                }
             }
 
             // get the starting position if this is very first char
@@ -517,6 +526,11 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
 
     case SpecialToken::Kind::ANIM_INDEX: {
         BN_LOG("SpecialToken::Kind::ANIM_INDEX not implemented");
+        break;
+    }
+
+    case SpecialToken::Kind::VOICE: {
+        _settings.sfx = (asset::SfxKind)specialToken.number;
         break;
     }
 

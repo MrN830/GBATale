@@ -6,8 +6,10 @@
 #include "bn_sprite_items_ch_flowey.h"
 #include "bn_sprite_items_ch_frisk_base.h"
 #include "bn_sprite_items_ch_toriel.h"
+#include "bn_sprite_items_ch_toriel_chair.h"
 #include "bn_sprite_items_ent_froggit.h"
 #include "bn_sprite_items_ent_save_point.h"
+#include "bn_sprite_items_spr_hearthflame.h"
 #include "bn_sprite_items_tr_fake_water.h"
 #include "bn_sprite_items_tr_fake_water_4x.h"
 #include "bn_sprite_items_tr_fake_water_open.h"
@@ -31,7 +33,12 @@ constexpr SpriteAnimInfo<4> froggit{
     bn::sprite_items::ent_froggit,      Dirs::NONE, bn::fixed_point{0, 0}, 10 - 1, true, false, false, false,
     bn::array<uint16_t, 4>{0, 1, 2, 1},
 };
-constexpr SpriteAnimInfo<5> stalker_flowey{
+constexpr SpriteAnimInfo<5> hearth_flame{
+    bn::sprite_items::spr_hearthflame,     Dirs::NONE, bn::fixed_point{0, 0}, 4 - 1, true, false, false, false,
+    bn::array<uint16_t, 5>{0, 1, 2, 3, 4},
+};
+
+constexpr SpriteAnimInfo<5> flowey_sink{
     bn::sprite_items::ch_flowey,
     Dirs::NONE,
     bn::fixed_point{0, 0},
@@ -40,7 +47,52 @@ constexpr SpriteAnimInfo<5> stalker_flowey{
     false,
     false,
     false,
-    bn::array<uint16_t, 5>{0, 0, 14, 15, 16},
+    bn::array<uint16_t, 5>{0, 0, 13, 14, 15},
+};
+constexpr SpriteAnimInfo<2> flowey_small_laugh{
+    bn::sprite_items::ch_flowey,  Dirs::NONE, bn::fixed_point{0, 0}, 4 - 1, true, false, false, false,
+    bn::array<uint16_t, 2>{0, 1},
+};
+constexpr SpriteAnimInfo<3> flowey_big_laugh{
+    bn::sprite_items::ch_flowey,        Dirs::NONE, bn::fixed_point{0, 0}, 2 - 1, true, false, false, false,
+    bn::array<uint16_t, 3>{10, 11, 12},
+};
+constexpr SpriteAnimInfo<9> flowey_grow{
+    bn::sprite_items::ch_flowey,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    3 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 9>{0, 3, 4, 5, 6, 7, 8, 9, 10},
+};
+constexpr SpriteAnimInfo<9> flowey_shrink{
+    bn::sprite_items::ch_flowey,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    2 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 9>{10, 9, 8, 7, 6, 5, 4, 3, 0},
+};
+constexpr SpriteAnimInfo<9> toriel_ruffle_frisk_hair{
+    bn::sprite_items::ch_toriel,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    10 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 9>{26, 27, 28, 27, 26, 27, 28, 27, 26},
+};
+constexpr SpriteAnimInfo<6> chairiel_get_up{
+    bn::sprite_items::ch_toriel_chair,        Dirs::NONE, bn::fixed_point{0, 0}, 5 - 1, false, false, false, false,
+    bn::array<uint16_t, 6>{0, 4, 5, 6, 7, 8},
 };
 
 // animated terrain
@@ -176,14 +228,87 @@ constexpr SpriteAnimInfo<4> toriel_walk_right{
     bn::array<uint16_t, 4>{18, 19, 20, 19},
 };
 
+constexpr SpriteAnimInfo<4> toriel_handhold_frisk_walk_up{
+    bn::sprite_items::ch_toriel,
+    Dirs::UP,
+    bn::fixed_point{0, 0},
+    CHARACTER_WAIT_UPDATE,
+    true,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 4>{3, 4, 5, 4},
+};
+constexpr SpriteAnimInfo<4> toriel_handhold_frisk_walk_down{
+    bn::sprite_items::ch_toriel,
+    Dirs::DOWN,
+    bn::fixed_point{0, 0},
+    CHARACTER_WAIT_UPDATE,
+    true,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 4>{15, 16, 17, 16},
+};
+constexpr SpriteAnimInfo<4> toriel_handhold_frisk_walk_left{
+    bn::sprite_items::ch_toriel,
+    Dirs::LEFT,
+    bn::fixed_point{0, 0},
+    CHARACTER_WAIT_UPDATE,
+    true,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 4>{23, 24, 25, 24},
+};
+constexpr SpriteAnimInfo<4> toriel_handhold_frisk_walk_right{
+    bn::sprite_items::ch_toriel,
+    Dirs::RIGHT,
+    bn::fixed_point{0, 0},
+    CHARACTER_WAIT_UPDATE,
+    true,
+    false,
+    true,
+    false,
+    bn::array<uint16_t, 4>{23, 24, 25, 24},
+};
+
 constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
-    &save_point,        &froggit,           &stalker_flowey,
+    &save_point,
+    &froggit,
+    &hearth_flame,
 
-    &fake_water_l,      &fake_water_r,      &fake_water_shadow_l, &fake_water_shadow_m,    &fake_water_shadow_r,
-    &fake_water_open_l, &fake_water_open_m, &fake_water_open_r,   &fake_water_shadow_m_4x, &fake_water_open_m_4x,
+    &flowey_sink,
+    &flowey_small_laugh,
+    &flowey_big_laugh,
+    &flowey_grow,
+    &flowey_shrink,
+    &toriel_ruffle_frisk_hair,
+    &chairiel_get_up,
 
-    &frisk_walk_up,     &frisk_walk_down,   &frisk_walk_left,     &frisk_walk_right,       &toriel_walk_up,
-    &toriel_walk_down,  &toriel_walk_left,  &toriel_walk_right,
+    &fake_water_l,
+    &fake_water_r,
+    &fake_water_shadow_l,
+    &fake_water_shadow_m,
+    &fake_water_shadow_r,
+    &fake_water_open_l,
+    &fake_water_open_m,
+    &fake_water_open_r,
+    &fake_water_shadow_m_4x,
+    &fake_water_open_m_4x,
+
+    &frisk_walk_up,
+    &frisk_walk_down,
+    &frisk_walk_left,
+    &frisk_walk_right,
+    &toriel_walk_up,
+    &toriel_walk_down,
+    &toriel_walk_left,
+    &toriel_walk_right,
+    &toriel_handhold_frisk_walk_up,
+    &toriel_handhold_frisk_walk_down,
+    &toriel_handhold_frisk_walk_left,
+    &toriel_handhold_frisk_walk_right,
 };
 
 using SAKind = SpriteAnimKind;
@@ -191,6 +316,8 @@ using SAKind = SpriteAnimKind;
 constexpr const WalkAnimInfo WALK_ANIMS[(int)WalkAnimKind::TOTAL_COUNT] = {
     {SAKind::FRISK_WALK_UP, SAKind::FRISK_WALK_DOWN, SAKind::FRISK_WALK_LEFT, SAKind::FRISK_WALK_RIGHT},
     {SAKind::TORIEL_WALK_UP, SAKind::TORIEL_WALK_DOWN, SAKind::TORIEL_WALK_LEFT, SAKind::TORIEL_WALK_RIGHT},
+    {SAKind::TORIEL_HANDHOLD_FRISK_WALK_UP, SAKind::TORIEL_HANDHOLD_FRISK_WALK_DOWN,
+     SAKind::TORIEL_HANDHOLD_FRISK_WALK_LEFT, SAKind::TORIEL_HANDHOLD_FRISK_WALK_RIGHT},
 };
 
 } // namespace

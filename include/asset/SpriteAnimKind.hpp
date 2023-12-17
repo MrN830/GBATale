@@ -12,7 +12,15 @@ enum class SpriteAnimKind : int16_t
     // normal entities
     SAVE_POINT,
     FROGGIT,
-    STALKER_FLOWEY,
+    HEARTH_FLAME,
+
+    FLOWEY_SINK,
+    FLOWEY_SMALL_LAUGH,
+    FLOWEY_BIG_LAUGH,
+    FLOWEY_GROW,
+    FLOWEY_SHRINK,
+    TORIEL_RUFFLE_FRISK_HAIR,
+    CHAIRIEL_GET_UP,
 
     // animated terrain
     FAKE_WATER_L,
@@ -40,6 +48,11 @@ enum class SpriteAnimKind : int16_t
     TORIEL_WALK_LEFT,
     TORIEL_WALK_RIGHT,
 
+    TORIEL_HANDHOLD_FRISK_WALK_UP,
+    TORIEL_HANDHOLD_FRISK_WALK_DOWN,
+    TORIEL_HANDHOLD_FRISK_WALK_LEFT,
+    TORIEL_HANDHOLD_FRISK_WALK_RIGHT,
+
     TOTAL_COUNT
 };
 
@@ -49,6 +62,7 @@ enum class WalkAnimKind : int8_t
 
     FRISK,
     TORIEL,
+    TORIEL_HANDHOLD_FRISK,
 
     TOTAL_COUNT
 };

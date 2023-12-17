@@ -25,15 +25,20 @@ void Readable::awake(GameContext& ctx)
 
     const auto room = ctx.state.getRoom();
     const auto plot = ctx.state.getPlot();
+    const auto entityId = _entity.getId();
+    const auto& flags = ctx.state.getFlags();
 
-    // TODO: Destroy certain readables when condition is met
-    if (_entity.getId() == EntityId::candy_dish)
+    if (entityId == EntityId::candy_dish)
     {
-        const auto& flags = ctx.state.getFlags();
         if (flags.candy_taken >= 4)
             dropCandyDish(ctx);
     }
-    else if (room == RoomKind::ROOM_AREA1 && plot == GamePlot::NEW_GAME)
+    // Destroy certain readables when condition is met
+    else if ((room == RoomKind::ROOM_AREA1 && plot == GamePlot::NEW_GAME) ||
+             (room == RoomKind::ROOM_RUINS3 && flags.hardmode &&
+              (entityId == EntityId::left || entityId == EntityId::right)) ||
+             (room == RoomKind::ROOM_TORHOUSE2 && entityId == EntityId::flame &&
+              flags.status_toriel == GameFlags::StatusToriel::KILLED))
     {
         _entity.setDestroyed(true);
     }
@@ -82,8 +87,14 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_RUINS3:
         if (_entity.getId() == ent::gen::EntityId::sign)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1540));
-        else // wall post
+        else if (_entity.getId() == ent::gen::EntityId::wall_post)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_66));
+        else if (_entity.getId() == ent::gen::EntityId::left)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_switchadvice1_61));
+        else if (_entity.getId() == ent::gen::EntityId::right)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_switchadvice2_61));
+        else
+            BN_ERROR("Invalid readable in `room_ruins3`");
         break;
     case RoomKind::ROOM_RUINS5:
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_67));
@@ -274,6 +285,12 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_RUINS15D:
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_74));
         break;
+    case RoomKind::ROOM_RUINS19:
+        if (flags.true_pacifist)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_nastytree_59));
+        else
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_nastytree_55));
+        break;
     case RoomKind::ROOM_TORHOUSE1:
         if (_entity.getId() == ent::gen::EntityId::books)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_75));
@@ -299,6 +316,8 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_TORHOUSE2:
         if (_entity.getId() == ent::gen::EntityId::home_tools)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_81));
+        else if (_entity.getId() == ent::gen::EntityId::flame)
+            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_hearthflame_57));
         else if (_entity.getId() == ent::gen::EntityId::history_book)
         {
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_80));
@@ -617,6 +636,84 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         else
             BN_ERROR("Invalid readable in `room_kitchen_final`");
         break;
+
+    // TEST: Flowey Judgement
+    case RoomKind::ROOM_BASEMENT5: {
+        auto& persist = ctx.state.getPersistData();
+
+        ctx.state.setPlot(GamePlot::TORIEL_DEFEATED);
+        flags.murderlevel_override = 0;
+        persist.Flowey.Alter = false;
+        persist.Flowey.K = false;
+        persist.Flowey.SPECIALK = false;
+        persist.Flowey.alter2 = false;
+
+        switch (_readCount % 9)
+        {
+        case 0:
+            ctx.msg.push_back("killed Toriel (first)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 0;
+            persist.Toriel.TK = 1;
+            break;
+        case 1:
+            ctx.msg.push_back("killed Toriel (twice)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 0;
+            persist.Toriel.TK = 2;
+            break;
+        case 2:
+            ctx.msg.push_back("killed Toriel (3+ times)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 0;
+            persist.Toriel.TK = 3;
+            break;
+        case 3:
+            ctx.msg.push_back("spare->kill Toriel (first)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 1;
+            persist.Flowey.FloweyExplain1 = false;
+            break;
+        case 4:
+            ctx.msg.push_back("spare->kill Toriel (not first)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 1;
+            persist.Flowey.FloweyExplain1 = true;
+            break;
+        case 5:
+            ctx.msg.push_back("genocide");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            flags.murderlevel_override = 2;
+            break;
+        case 6:
+            ctx.msg.push_back("spared Toriel, killed monster(s)");
+            flags.status_toriel = GameFlags::StatusToriel::SPARED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 0;
+            ctx.state.setKills(4);
+            break;
+        case 7:
+            ctx.msg.push_back("kill->spare Toriel (first)");
+            flags.status_toriel = GameFlags::StatusToriel::SPARED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 1;
+            persist.Flowey.FloweyExplain1 = false;
+            break;
+        case 8:
+            ctx.msg.push_back("pacifist");
+            flags.status_toriel = GameFlags::StatusToriel::SPARED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 0;
+            ctx.state.setKills(0);
+            break;
+        default:
+            BN_ERROR(_readCount % 9);
+        }
+
+        break;
+    }
 
     default:
         BN_ERROR("Readable in invalid room=", (int)room);

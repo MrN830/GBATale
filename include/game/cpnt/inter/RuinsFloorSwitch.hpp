@@ -13,7 +13,7 @@ public:
     auto onInteract(GameContext&) -> task::Task override;
 
 private:
-    bool isPressed = false;
+    bool _isPressed = false;
 };
 
 } // namespace ut::game::cpnt::inter

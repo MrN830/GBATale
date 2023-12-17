@@ -90,8 +90,13 @@ struct GameFlags
     };
     StatusToriel status_toriel = StatusToriel::INIT; // [45]
 
-    bool choice_flavor : 1 = false;  // [46]
-    int8_t status_creepy_tundra = 0; // [47]
+    enum class ChoiceFlavor : uint8_t
+    {
+        CINNAMON = 0,
+        BUTTERSCOTCH = 1,
+    };
+    ChoiceFlavor choice_flavor = ChoiceFlavor::CINNAMON; // [46]
+    int8_t status_creepy_tundra = 0;                     // [47]
 
     bool know_water_sausage : 1 = false; // [50]
     uint32_t wrong_switches_pressed = 0; // [51]
@@ -327,6 +332,17 @@ struct GameFlags
     bool genocide_water : 1 = false;   // [223]
     bool genocide_hotland : 1 = false; // [224]
     bool genocide_core : 1 = false;    // [225]
+
+    bool killed_undyne_ex : 1 = false;  // [251]
+    bool killed_glad_dummy : 1 = false; // [252]
+
+    bool killed_muffet : 1 = false; // [397]
+
+    bool killed_rg : 1 = false; // [402]
+
+    bool killed_mettaton : 1 = false; // [425]
+
+    uint32_t conversation_asriel2 = 0; // [511]
 };
 
 } // namespace ut::game

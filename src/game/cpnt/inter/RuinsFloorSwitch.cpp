@@ -27,10 +27,10 @@ RuinsFloorSwitch::RuinsFloorSwitch(ent::Entity& entity, bool isEnabled, Interact
 
 auto RuinsFloorSwitch::onInteract(GameContext& ctx) -> task::Task
 {
-    if (isPressed)
+    if (_isPressed)
         co_return;
 
-    isPressed = true;
+    _isPressed = true;
 
     Interaction::onInteract(ctx);
 

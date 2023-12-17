@@ -49,6 +49,8 @@ bool RoomChanger::isChanging() const
 void RoomChanger::reqChange(const mtile::Warp& warp, GameContext& ctx)
 {
     BN_ASSERT(warp.room != RoomKind::NONE);
+    if (_room == warp.room)
+        return;
 
     ctx.interactStack.push(InteractState::ROOM_CHANGE);
 

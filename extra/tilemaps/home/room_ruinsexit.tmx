@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="14" height="18" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="11" nextobjectid="65">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="14" height="18" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="11" nextobjectid="67">
  <tileset firstgid="1" source="../ruins/ruins.tsx"/>
+ <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="14" height="18">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -106,7 +107,29 @@
   <object id="59" x="64" y="256" width="16" height="32"/>
   <object id="60" x="144" y="256" width="16" height="32"/>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
+ <objectgroup id="3" name="Entity" opacity="0.6">
+  <object id="65" type="Entity" x="32" y="216" width="160" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="FloweyTrigger2"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="66" name="flowey" type="Entity" gid="1407" x="112" y="200" width="32" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="9" name="Warp" locked="1">
   <object id="61" type="Warp" x="96" y="80" width="32" height="16">
    <properties>

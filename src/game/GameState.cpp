@@ -23,6 +23,7 @@ GameState::GameState(core::Random& rng) : _time(0)
 
     const auto [rRes, pRes] = loadFromAllSave();
     BN_LOG("`RegularSave` load ", (rRes == LoadResult::FAILED ? "FAILED" : "SUCCESS"));
+    BN_LOG("`PersistSave` load ", (pRes == LoadResult::FAILED ? "FAILED" : "SUCCESS"));
     BN_LOG(*this);
 }
 
@@ -70,8 +71,7 @@ void GameState::resetToNewRegularSave(core::Random& rng)
 auto GameState::loadFromAllSave(bool checkOnly) -> bn::pair<LoadResult, LoadResult>
 {
     LoadResult rLoadResult = loadFromRegularSave(checkOnly);
-    // TODO: Load from `PersistSave` too
-    LoadResult pLoadResult = LoadResult::FAILED;
+    LoadResult pLoadResult = loadFromPersistSave(checkOnly);
 
     return {rLoadResult, pLoadResult};
 }
@@ -119,6 +119,49 @@ auto GameState::loadFromRegularSave(bool checkOnly) -> LoadResult
     return rLoadResult;
 }
 
+auto GameState::loadFromPersistSave(bool checkOnly) -> LoadResult
+{
+    LoadResult pLoadResult = LoadResult::FAILED;
+
+    PersistSave pSave1, pSave2;
+
+    bn::sram::read_offset(pSave1, SRAM_PERSI_SAVE_1);
+    bn::sram::read_offset(pSave2, SRAM_PERSI_SAVE_2);
+
+    const bool isValidPSave1 = pSave1.isValid();
+    const bool isValidPSave2 = pSave2.isValid();
+
+    if (isValidPSave1 && isValidPSave2)
+    {
+        if (pSave1.savedCount >= pSave2.savedCount)
+        {
+            if (!checkOnly)
+                loadFromPSave(pSave1);
+            pLoadResult = LoadResult::LOADED_SLOT_1;
+        }
+        else
+        {
+            if (!checkOnly)
+                loadFromPSave(pSave2);
+            pLoadResult = LoadResult::LOADED_SLOT_2;
+        }
+    }
+    else if (isValidPSave1)
+    {
+        if (!checkOnly)
+            loadFromPSave(pSave1);
+        pLoadResult = LoadResult::LOADED_SLOT_1;
+    }
+    else if (isValidPSave2)
+    {
+        if (!checkOnly)
+            loadFromPSave(pSave2);
+        pLoadResult = LoadResult::LOADED_SLOT_2;
+    }
+
+    return pLoadResult;
+}
+
 void GameState::saveRegular()
 {
     RegularSave rSave;
@@ -161,6 +204,28 @@ void GameState::saveRegular()
         bn::sram::write_offset(rSave, SRAM_REGU_SAVE_2);
 }
 
+void GameState::savePersist()
+{
+    PersistSave pSave;
+
+    pSave.data = _persistData;
+
+    for (int i = 0; i < 8; ++i)
+        pSave.saveVer[i] = SAVE_VER[i];
+
+    pSave.savedCount = ++_pSavedCount;
+    pSave.checksum = crc32_fast(((uint8_t*)&pSave) + sizeof(pSave.checksum), sizeof(pSave) - sizeof(pSave.checksum));
+
+    // Get the recent save slot (so that we can overwrite the old slot)
+    const auto pLoadResult = loadFromPersistSave(true);
+
+    // slot 2 is recent -> save to slot 1
+    if (pLoadResult == LoadResult::LOADED_SLOT_2)
+        bn::sram::write_offset(pSave, SRAM_PERSI_SAVE_1);
+    else
+        bn::sram::write_offset(pSave, SRAM_PERSI_SAVE_2);
+}
+
 bool GameState::isInBattle() const
 {
     return _isInBattle;
@@ -169,6 +234,49 @@ bool GameState::isInBattle() const
 bool GameState::isSeriousBattle() const
 {
     return _isSeriousBattle;
+}
+
+int GameState::getMurderLv() const
+{
+    const auto& flags = getFlags();
+
+    int mrd = 0;
+    if (flags.kills_ruins >= 20)
+        mrd = 1;
+    if (mrd == 1 && flags.status_toriel == GameFlags::StatusToriel::KILLED)
+        mrd = 2;
+    if (mrd == 2 && flags.status_doggo == GameFlags::StatusDoggo::KILLED)
+        mrd = 3;
+    if (mrd == 3 && flags.status_dogcouple == GameFlags::StatusDogcouple::KILLED)
+        mrd = 4;
+    if (mrd == 4 && flags.status_greaterdog == GameFlags::StatusGreaterdog::KILLED)
+        mrd = 5;
+    if (mrd == 5 && flags.status_snowdrake == GameFlags::StatusSnowdrake::KILLED)
+        mrd = 6;
+    if (mrd == 6 && flags.kills_tundra >= 16)
+        mrd = 7;
+    if (mrd == 7 && flags.status_papyrus == GameFlags::StatusPapyrus::KILLED)
+        mrd = 8;
+    if (mrd == 8 && flags.status_shyren == GameFlags::StatusShyren::KILLED)
+        mrd = 9;
+    if (mrd == 9 && flags.killed_glad_dummy)
+        mrd = 10;
+    if (mrd == 10 && flags.kills_water >= 18)
+        mrd = 11;
+    if (mrd == 11 && flags.killed_undyne_ex)
+        mrd = 12;
+    if (mrd == 12 && flags.killed_rg)
+        mrd = 13;
+    if (mrd == 13 && flags.killed_muffet)
+        mrd = 14;
+    if (mrd == 14 && flags.kills_hotland >= 40)
+        mrd = 15;
+    if (mrd == 15 && flags.killed_mettaton && !flags.spared_specific)
+        mrd = 16;
+    if (flags.murderlevel_override > 0)
+        mrd = flags.murderlevel_override;
+
+    return mrd;
 }
 
 auto GameState::getCharName() const -> const bn::string_view
@@ -266,6 +374,16 @@ auto GameState::getFlags() -> GameFlags&
     return _flags;
 }
 
+auto GameState::getPersistData() const -> const PersistData&
+{
+    return _persistData;
+}
+
+auto GameState::getPersistData() -> PersistData&
+{
+    return _persistData;
+}
+
 auto GameState::getPlot() const -> GamePlot
 {
     return _plot;
@@ -320,6 +438,11 @@ void GameState::changeHp(int diff)
 void GameState::setGold(int gold)
 {
     _gold = bn::max(0, gold);
+}
+
+void GameState::setKills(int kills)
+{
+    _kills = kills;
 }
 
 void GameState::setWeapon(ItemKind weapon)
@@ -400,6 +523,13 @@ void GameState::loadFromRSave(const RegularSave& rSave)
     _room = rSave.room;
     _time = core::PlayTime(rSave.time);
     _rSavedCount = rSave.savedCount;
+}
+
+void GameState::loadFromPSave(const PersistSave& pSave)
+{
+    _persistData = pSave.data;
+
+    _pSavedCount = pSave.savedCount;
 }
 
 bool GameState::RegularSave::isValid() const

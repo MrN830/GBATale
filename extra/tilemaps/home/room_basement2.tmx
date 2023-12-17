@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="25" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="11">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="25" height="7" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="13">
  <tileset firstgid="1" source="../ruins/ruins.tsx"/>
+ <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="25" height="7">
   <data encoding="csv">
 215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,215,
@@ -38,7 +39,39 @@
   <object id="5" x="0" y="48" width="400" height="16"/>
   <object id="6" x="0" y="96" width="400" height="16"/>
  </objectgroup>
- <objectgroup id="6" name="Entity"/>
+ <objectgroup id="6" name="Entity" opacity="0.6">
+  <object id="11" type="Entity" x="272" y="64" width="16" height="32">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="CutsceneBasement2"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="12" name="toriel" type="Entity" gid="1389" x="316" y="88" width="64" height="64">
+   <properties>
+    <property name="npcInput" type="class" propertytype="NpcInput"/>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="updateZOrderOnMove" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim"/>
+    <property name="walkAnimCtrl" type="class" propertytype="WalkAnimCtrl">
+     <properties>
+      <property name="kind" propertytype="WalkAnimKind" value="TORIEL"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="5" name="Warp" locked="1">
   <object id="7" type="WarpPoint" x="24" y="88">
    <properties>

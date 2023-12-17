@@ -74,6 +74,7 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
 };
 
 constexpr DialogSettingsOverride SETTINGS_OVERRIDE_PRESETS[(int)DialogSettingsOverride::PresetKind::TOTAL_COUNT] = {
+    // WORLD_TORIEL
     DialogSettingsOverride{
         bn::nullopt,
         bn::nullopt,
@@ -83,6 +84,30 @@ constexpr DialogSettingsOverride SETTINGS_OVERRIDE_PRESETS[(int)DialogSettingsOv
         bn::nullopt,
         bn::nullopt,
         asset::PortraitFaceKind::TORIEL,
+        bn::nullopt,
+    },
+    // WORLD_FLOWEY_NORMAL
+    DialogSettingsOverride{
+        bn::nullopt,
+        bn::nullopt,
+        asset::SfxKind::VOICE_FLOWEY,
+        bn::nullopt,
+        bn::nullopt,
+        bn::nullopt,
+        bn::nullopt,
+        asset::PortraitFaceKind::FLOWEY,
+        bn::nullopt,
+    },
+    // WORLD_FLOWEY_EVIL
+    DialogSettingsOverride{
+        bn::nullopt,
+        bn::nullopt,
+        asset::SfxKind::VOICE_FLOWEY_EVIL,
+        bn::nullopt,
+        bn::nullopt,
+        bn::nullopt,
+        2,
+        asset::PortraitFaceKind::FLOWEY,
         bn::nullopt,
     },
 };

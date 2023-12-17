@@ -47,7 +47,7 @@ private:
     bn::pool<ent::Entity, 64> _entPool;
     bn::intrusive_forward_list<ent::Entity> _entities;
 
-    alignas(4) uint8_t _cpntBuffer[8192];
+    alignas(4) uint8_t _cpntBuffer[8704];
     bn::best_fit_allocator _cpntHeap;
 
     bn::pool<coll::Collider, 64> _collPool;
@@ -66,6 +66,7 @@ public:
 
     void createFrisk(const bn::fixed_point& position);
     void createStalkerFlowey(const bn::fixed_point& position);
+    void createExclamationBalloon(const bn::fixed_point& position, bool isSmile);
 
 public:
     /**
