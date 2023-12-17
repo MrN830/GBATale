@@ -38,7 +38,7 @@ constexpr SpriteAnimInfo<5> hearth_flame{
     bn::array<uint16_t, 5>{0, 1, 2, 3, 4},
 };
 
-constexpr SpriteAnimInfo<5> stalker_flowey{
+constexpr SpriteAnimInfo<5> flowey_sink{
     bn::sprite_items::ch_flowey,
     Dirs::NONE,
     bn::fixed_point{0, 0},
@@ -47,7 +47,37 @@ constexpr SpriteAnimInfo<5> stalker_flowey{
     false,
     false,
     false,
-    bn::array<uint16_t, 5>{0, 0, 14, 15, 16},
+    bn::array<uint16_t, 5>{0, 0, 13, 14, 15},
+};
+constexpr SpriteAnimInfo<2> flowey_small_laugh{
+    bn::sprite_items::ch_flowey,  Dirs::NONE, bn::fixed_point{0, 0}, 4 - 1, true, false, false, false,
+    bn::array<uint16_t, 2>{0, 1},
+};
+constexpr SpriteAnimInfo<3> flowey_big_laugh{
+    bn::sprite_items::ch_flowey,        Dirs::NONE, bn::fixed_point{0, 0}, 2 - 1, true, false, false, false,
+    bn::array<uint16_t, 3>{10, 11, 12},
+};
+constexpr SpriteAnimInfo<9> flowey_grow{
+    bn::sprite_items::ch_flowey,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    3 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 9>{0, 3, 4, 5, 6, 7, 8, 9, 10},
+};
+constexpr SpriteAnimInfo<9> flowey_shrink{
+    bn::sprite_items::ch_flowey,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    2 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 9>{10, 9, 8, 7, 6, 5, 4, 3, 0},
 };
 constexpr SpriteAnimInfo<9> toriel_ruffle_frisk_hair{
     bn::sprite_items::ch_toriel,
@@ -248,7 +278,11 @@ constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
     &froggit,
     &hearth_flame,
 
-    &stalker_flowey,
+    &flowey_sink,
+    &flowey_small_laugh,
+    &flowey_big_laugh,
+    &flowey_grow,
+    &flowey_shrink,
     &toriel_ruffle_frisk_hair,
     &chairiel_get_up,
 

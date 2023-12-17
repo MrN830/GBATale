@@ -236,6 +236,49 @@ bool GameState::isSeriousBattle() const
     return _isSeriousBattle;
 }
 
+int GameState::getMurderLv() const
+{
+    const auto& flags = getFlags();
+
+    int mrd = 0;
+    if (flags.kills_ruins >= 20)
+        mrd = 1;
+    if (mrd == 1 && flags.status_toriel == GameFlags::StatusToriel::KILLED)
+        mrd = 2;
+    if (mrd == 2 && flags.status_doggo == GameFlags::StatusDoggo::KILLED)
+        mrd = 3;
+    if (mrd == 3 && flags.status_dogcouple == GameFlags::StatusDogcouple::KILLED)
+        mrd = 4;
+    if (mrd == 4 && flags.status_greaterdog == GameFlags::StatusGreaterdog::KILLED)
+        mrd = 5;
+    if (mrd == 5 && flags.status_snowdrake == GameFlags::StatusSnowdrake::KILLED)
+        mrd = 6;
+    if (mrd == 6 && flags.kills_tundra >= 16)
+        mrd = 7;
+    if (mrd == 7 && flags.status_papyrus == GameFlags::StatusPapyrus::KILLED)
+        mrd = 8;
+    if (mrd == 8 && flags.status_shyren == GameFlags::StatusShyren::KILLED)
+        mrd = 9;
+    if (mrd == 9 && flags.killed_glad_dummy)
+        mrd = 10;
+    if (mrd == 10 && flags.kills_water >= 18)
+        mrd = 11;
+    if (mrd == 11 && flags.killed_undyne_ex)
+        mrd = 12;
+    if (mrd == 12 && flags.killed_rg)
+        mrd = 13;
+    if (mrd == 13 && flags.killed_muffet)
+        mrd = 14;
+    if (mrd == 14 && flags.kills_hotland >= 40)
+        mrd = 15;
+    if (mrd == 15 && flags.killed_mettaton && !flags.spared_specific)
+        mrd = 16;
+    if (flags.murderlevel_override > 0)
+        mrd = flags.murderlevel_override;
+
+    return mrd;
+}
+
 auto GameState::getCharName() const -> const bn::string_view
 {
     return _charName;
@@ -395,6 +438,11 @@ void GameState::changeHp(int diff)
 void GameState::setGold(int gold)
 {
     _gold = bn::max(0, gold);
+}
+
+void GameState::setKills(int kills)
+{
+    _kills = kills;
 }
 
 void GameState::setWeapon(ItemKind weapon)

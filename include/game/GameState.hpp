@@ -124,6 +124,8 @@ public: // not SRAM saved fields
     bool isInBattle() const;
     bool isSeriousBattle() const;
 
+    int getMurderLv() const;
+
 public: // SRAM saved fields
     auto getCharName() const -> const bn::string_view;
     int getLv() const;
@@ -166,6 +168,7 @@ public:
     void setCharName(const bn::string_view);
     void changeHp(int diff);
     void setGold(int gold);
+    void setKills(int kills);
 
     void setWeapon(ItemKind);
     void setArmor(ItemKind);

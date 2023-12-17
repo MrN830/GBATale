@@ -26,6 +26,7 @@
 #include "game/cpnt/inter/CutsceneBasement3.hpp"
 #include "game/cpnt/inter/CutsceneRuins19.hpp"
 #include "game/cpnt/inter/CutsceneRuins2.hpp"
+#include "game/cpnt/inter/FloweyTrigger2.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
 #include "game/cpnt/inter/HoleUp.hpp"
 #include "game/cpnt/inter/ItemPickup.hpp"
@@ -152,6 +153,9 @@ void EntityInfo::create(GameContext& ctx) const
                                                                               interaction->triggers);
         else if (interaction->type == bn::type_id<cpnt::inter::TalkNpcArea1>())
             inter = &entMngr._cpntHeap.create<cpnt::inter::TalkNpcArea1>(entity, interaction->isEnabled,
+                                                                         interaction->triggers);
+        else if (interaction->type == bn::type_id<cpnt::inter::FloweyTrigger2>())
+            inter = &entMngr._cpntHeap.create<cpnt::inter::FloweyTrigger2>(entity, interaction->isEnabled,
                                                                          interaction->triggers);
         else
             BN_ERROR("Invalid interaction->type = ", (void*)interaction->type.internal_id());

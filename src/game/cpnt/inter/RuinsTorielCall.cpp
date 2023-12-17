@@ -101,7 +101,7 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
 
             // Toriel's pie flavor choice
             auto& persist = ctx.state.getPersistData();
-            if (persist.toriel_bscotch != PersistData::TorielBscotch::INIT)
+            if (persist.Toriel.Bscotch != PersistData::Toriel::Bscotch::INIT)
             {
                 // Toriel remembers pie flavor
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5285));
@@ -110,9 +110,9 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5291));
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5292));
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5293));
-                if (persist.toriel_bscotch == PersistData::TorielBscotch::BUTTERSCOTCH)
+                if (persist.Toriel.Bscotch == PersistData::Toriel::Bscotch::BUTTERSCOTCH)
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5295));
-                else if (persist.toriel_bscotch == PersistData::TorielBscotch::CINNAMON)
+                else if (persist.Toriel.Bscotch == PersistData::Toriel::Bscotch::CINNAMON)
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5296));
                 else
                     ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5294));
@@ -126,7 +126,7 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
 
                 if (dialogChoice == core::DialogChoice::LEFT)
                 {
-                    if (persist.toriel_bscotch == PersistData::TorielBscotch::BUTTERSCOTCH)
+                    if (persist.Toriel.Bscotch == PersistData::Toriel::Bscotch::BUTTERSCOTCH)
                         flags.choice_flavor = GameFlags::ChoiceFlavor::BUTTERSCOTCH;
                     else
                         flags.choice_flavor = GameFlags::ChoiceFlavor::CINNAMON;
@@ -143,15 +143,15 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
                 }
                 else
                 {
-                    if (persist.toriel_bscotch == PersistData::TorielBscotch::BUTTERSCOTCH)
+                    if (persist.Toriel.Bscotch == PersistData::Toriel::Bscotch::BUTTERSCOTCH)
                     {
                         flags.choice_flavor = GameFlags::ChoiceFlavor::CINNAMON;
-                        persist.toriel_bscotch = PersistData::TorielBscotch::CINNAMON;
+                        persist.Toriel.Bscotch = PersistData::Toriel::Bscotch::CINNAMON;
                     }
                     else
                     {
                         flags.choice_flavor = GameFlags::ChoiceFlavor::BUTTERSCOTCH;
-                        persist.toriel_bscotch = PersistData::TorielBscotch::BUTTERSCOTCH;
+                        persist.Toriel.Bscotch = PersistData::Toriel::Bscotch::BUTTERSCOTCH;
                     }
                     ctx.state.savePersist();
 
@@ -175,12 +175,12 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
                 if (dialogChoice == core::DialogChoice::RIGHT)
                 {
                     flags.choice_flavor = GameFlags::ChoiceFlavor::BUTTERSCOTCH;
-                    persist.toriel_bscotch = PersistData::TorielBscotch::BUTTERSCOTCH;
+                    persist.Toriel.Bscotch = PersistData::Toriel::Bscotch::BUTTERSCOTCH;
                 }
                 else
                 {
                     flags.choice_flavor = GameFlags::ChoiceFlavor::CINNAMON;
-                    persist.toriel_bscotch = PersistData::TorielBscotch::CINNAMON;
+                    persist.Toriel.Bscotch = PersistData::Toriel::Bscotch::CINNAMON;
                 }
                 ctx.state.savePersist();
 

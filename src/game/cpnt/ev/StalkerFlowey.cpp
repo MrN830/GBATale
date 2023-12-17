@@ -37,7 +37,7 @@ auto StalkerFlowey::onEvent(GameContext&) -> task::Task
 {
     auto* anim = _entity.getComponent<SpriteAnim>();
     BN_ASSERT(anim);
-    anim->setCurAnimKind(asset::SpriteAnimKind::STALKER_FLOWEY);
+    anim->setCurAnimKind(asset::SpriteAnimKind::FLOWEY_SINK);
     co_await task::SignalAwaiter({task::TaskSignal::Kind::SPR_ANIM_END, (int)_entity.getId()});
 
     _entity.setDestroyed(true);

@@ -55,6 +55,8 @@ public:
     enum class PresetKind
     {
         WORLD_TORIEL,
+        WORLD_FLOWEY_NORMAL,
+        WORLD_FLOWEY_EVIL,
 
         TOTAL_COUNT
     };

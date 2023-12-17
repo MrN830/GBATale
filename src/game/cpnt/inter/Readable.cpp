@@ -637,6 +637,84 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             BN_ERROR("Invalid readable in `room_kitchen_final`");
         break;
 
+    // TEST: Flowey Judgement
+    case RoomKind::ROOM_BASEMENT5: {
+        auto& persist = ctx.state.getPersistData();
+
+        ctx.state.setPlot(GamePlot::TORIEL_DEFEATED);
+        flags.murderlevel_override = 0;
+        persist.Flowey.Alter = false;
+        persist.Flowey.K = false;
+        persist.Flowey.SPECIALK = false;
+        persist.Flowey.alter2 = false;
+
+        switch (_readCount % 9)
+        {
+        case 0:
+            ctx.msg.push_back("killed Toriel (first)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 0;
+            persist.Toriel.TK = 1;
+            break;
+        case 1:
+            ctx.msg.push_back("killed Toriel (twice)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 0;
+            persist.Toriel.TK = 2;
+            break;
+        case 2:
+            ctx.msg.push_back("killed Toriel (3+ times)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 0;
+            persist.Toriel.TK = 3;
+            break;
+        case 3:
+            ctx.msg.push_back("spare->kill Toriel (first)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 1;
+            persist.Flowey.FloweyExplain1 = false;
+            break;
+        case 4:
+            ctx.msg.push_back("spare->kill Toriel (not first)");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 1;
+            persist.Flowey.FloweyExplain1 = true;
+            break;
+        case 5:
+            ctx.msg.push_back("genocide");
+            flags.status_toriel = GameFlags::StatusToriel::KILLED;
+            flags.murderlevel_override = 2;
+            break;
+        case 6:
+            ctx.msg.push_back("spared Toriel, killed monster(s)");
+            flags.status_toriel = GameFlags::StatusToriel::SPARED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 0;
+            ctx.state.setKills(4);
+            break;
+        case 7:
+            ctx.msg.push_back("kill->spare Toriel (first)");
+            flags.status_toriel = GameFlags::StatusToriel::SPARED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 1;
+            persist.Flowey.FloweyExplain1 = false;
+            break;
+        case 8:
+            ctx.msg.push_back("pacifist");
+            flags.status_toriel = GameFlags::StatusToriel::SPARED;
+            persist.Toriel.TS = 1;
+            persist.Toriel.TK = 0;
+            ctx.state.setKills(0);
+            break;
+        default:
+            BN_ERROR(_readCount % 9);
+        }
+
+        break;
+    }
+
     default:
         BN_ERROR("Readable in invalid room=", (int)room);
     };

@@ -333,6 +333,15 @@ struct GameFlags
     bool genocide_hotland : 1 = false; // [224]
     bool genocide_core : 1 = false;    // [225]
 
+    bool killed_undyne_ex : 1 = false;  // [251]
+    bool killed_glad_dummy : 1 = false; // [252]
+
+    bool killed_muffet : 1 = false; // [397]
+
+    bool killed_rg : 1 = false; // [402]
+
+    bool killed_mettaton : 1 = false; // [425]
+
     uint32_t conversation_asriel2 = 0; // [511]
 };
 
