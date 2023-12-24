@@ -108,6 +108,9 @@ private:
     void setWaitInput(bool isWaitInput);
 
 private:
+    void setTextColor(asset::TextColorKind);
+
+private:
     TextGens& _textGens;
     const int _bgPriority;
 

@@ -70,6 +70,8 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
     auto& flags = state.getFlags();
     auto& items = state.getItems();
 
+    const int murderLv = state.getMurderLv();
+
     ctx.msg.clear();
     const auto room = ctx.state.getRoom();
     switch (room)
@@ -303,7 +305,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         // TODO: Add tilemap `EntityId`s on `room_asghouse1.tmx`
         if (false) // if (_entity.getId() == ent::gen::EntityId::calendar)
         {
-            if (false) // if (murderlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_79));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_78));
@@ -334,7 +336,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         // TODO: Add tilemap `EntityId`s on `room_asghouse2.tmx`
         if (false) // if (_entity.getId() == ent::gen::EntityId::books)
         {
-            if (false) // if (murderlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_105));
             else
             {
@@ -372,28 +374,28 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_84));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::photo)
         {
-            if (false) // if (murdurlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_75));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_72));
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::drawing)
         {
-            if (false) // if (murdurlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_66));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_63));
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::chara_bed)
         {
-            if (false) // if (murdurlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_99));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_98));
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::asriel_bed)
         {
-            if (false) // if (murdurlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_105));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_104));
@@ -405,7 +407,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_86));
         break;
     case RoomKind::ROOM_CASTLE_COFFINS2:
-        if (false) // if (murderlv >= 16)
+        if (murderLv >= 16)
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_103));
         else if (flags.true_pacifist)
         {
@@ -488,7 +490,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         // TODO: Add tilemap `EntityId`s on `room_asgoreroom.tmx`
         if (false) // if (_entity.getId() == ent::gen::EntityId::home_drawer)
         {
-            if (false) // if (murderlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_130));
             else
             {
@@ -498,7 +500,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::asgore_bureau)
         {
-            if (false) // if (murderlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_94));
             else
             {
@@ -508,7 +510,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::asgore_journal)
         {
-            if (false) // if (murderlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room5_80));
             else
             {
@@ -542,7 +544,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_142));
         else if (_entity.getId() == ent::gen::EntityId::mirror)
         {
-            if (flags.kills_ruins >= 20)
+            if (murderLv >= 1)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_66));
             else if (flags.true_pacifist)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_64));
@@ -569,7 +571,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room2_111));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::mirror)
         {
-            if (false) // if (murderlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_73));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_70));
@@ -593,7 +595,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_84));
         else if (_entity.getId() == ent::gen::EntityId::cupboard)
         {
-            if (flags.kills_ruins >= 20)
+            if (murderLv >= 1)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_77));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_76));
@@ -612,7 +614,7 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
         // TODO: Add tilemap `EntityId`s on `room_kitchen_final.tmx`
         if (false) // if (_entity.getId() == ent::gen::EntityId::fridge)
         {
-            if (false) // if (murderlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_151));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room1_147));
@@ -621,14 +623,14 @@ auto Readable::onInteract(GameContext& ctx) -> task::Task
             ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room3_85));
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::cupboard)
         {
-            if (false) // if (murdurlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_84));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_83));
         }
         else if (false) // else if (_entity.getId() == ent::gen::EntityId::stove)
         {
-            if (false) // if (murdurlv >= 16)
+            if (murderLv >= 16)
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_91));
             else
                 ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_room4_90));

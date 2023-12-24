@@ -70,6 +70,8 @@ void DialogWriter::start(bn::span<const bn::string_view> dialogs, const DialogSe
     _dialogIdx = 0;
     resetStringProcessInfos();
 
+    setTextColor(_settings.color);
+
     _portrait.setDialogPos(settings.pos);
     _portrait.setInfo(asset::IPortraitInfo::get(settings.face, settings.emotion));
 }
@@ -535,17 +537,7 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
     }
 
     case SpecialToken::Kind::COLOR: {
-        if (_settings.font == asset::FontKind::MAIN)
-        {
-            const auto color = (asset::TextColorKind)specialToken.number;
-            const auto& palette = asset::getTextColor(color);
-
-            auto& textGen = _textGens.get(_settings.font);
-            textGen.set_palette_item(palette);
-        }
-        else
-            BN_ERROR("Font color change not implemented for font=", (int)_settings.font);
-
+        setTextColor((asset::TextColorKind)specialToken.number);
         break;
     }
 
@@ -578,6 +570,19 @@ void DialogWriter::setWaitInput(bool isWaitInput)
 
     if (isWaitInput)
         _portrait.onWaitInput();
+}
+
+void DialogWriter::setTextColor(asset::TextColorKind color)
+{
+    if (_settings.font == asset::FontKind::MAIN)
+    {
+        const auto& palette = asset::getTextColor(color);
+
+        auto& textGen = _textGens.get(_settings.font);
+        textGen.set_palette_item(palette);
+    }
+    else
+        BN_ERROR("Font color change not implemented for font=", (int)_settings.font);
 }
 
 } // namespace ut::core
