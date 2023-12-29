@@ -13,6 +13,8 @@
 #include "game/GameFlags.hpp"
 #include "game/PersistData.hpp"
 
+#include "consts.hpp"
+
 namespace ut::scene::test
 {
 class SaveTest;
@@ -34,9 +36,6 @@ class GameState final
 {
     friend bn::ostringstream& operator<<(bn::ostringstream& oss, const GameState&);
     friend class scene::test::SaveTest;
-
-public:
-    static constexpr int CHAR_NAME_MAX_LEN = 15;
 
 private:
     struct RegularSave;
@@ -93,7 +92,7 @@ private: // not SRAM saved fields
     bool _isSeriousBattle = false;
 
 private: // SRAM saved fields
-    bn::string<CHAR_NAME_MAX_LEN> _charName;
+    bn::string<consts::CHARA_NAME_MAX_LEN> _charName;
     int _lv;
     int _exp;
     int _curHp;
@@ -203,7 +202,7 @@ private:
         uint32_t savedCount;
         bn::array<char, 8> saveVer;
 
-        bn::array<char, CHAR_NAME_MAX_LEN + 1> charName;
+        bn::array<char, consts::CHARA_NAME_MAX_LEN + 1> charName;
         int32_t xp;
         int32_t gold;
         int32_t kills;

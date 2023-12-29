@@ -1,6 +1,6 @@
 #include "game/cpnt/inter/CutsceneBasement1Proceed.hpp"
 
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -57,19 +57,19 @@ auto CutsceneBasement1Proceed::onInteract(GameContext& ctx) -> task::Task
     setEnabled(false);
 
     // Toriel talks
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msgSettings.emotion = 2;
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger9_77));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger9_78));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger9_79));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger9_80));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger9_81));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger9_82));
+    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings().emotion = 2;
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::obj_torieltrigger9_77);
+    ctx.msg.add(gen::TextData::obj_torieltrigger9_78);
+    ctx.msg.add(gen::TextData::obj_torieltrigger9_79);
+    ctx.msg.add(gen::TextData::obj_torieltrigger9_80);
+    ctx.msg.add(gen::TextData::obj_torieltrigger9_81);
+    ctx.msg.add(gen::TextData::obj_torieltrigger9_82);
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
     ctx.state.setPlot(GamePlot::TORIEL_IN_BASEMENT_2);
 
     // Toriel walks out of the room

@@ -102,7 +102,7 @@ bool Title::handleInput()
 
             reqStackClear();
 
-            constexpr int NAME_MAX_LEN = game::GameState::CHAR_NAME_MAX_LEN;
+            constexpr int NAME_MAX_LEN = consts::CHARA_NAME_MAX_LEN;
             if ("frisk" == bn::string_view(util::toLowerAscii(bn::string<NAME_MAX_LEN>(state.getCharName()))))
                 reqStackPush(SceneId::INPUT_NAME);
             else

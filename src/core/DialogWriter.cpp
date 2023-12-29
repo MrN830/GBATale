@@ -57,13 +57,14 @@ void DialogWriter::reset()
 }
 
 void DialogWriter::start(bn::span<const bn::string_view> dialogs, const DialogSettings& settings,
-                         bn::ivector<bn::sprite_ptr>& outputVec)
+                         bn::ivector<bn::sprite_ptr>& outputVec, const DialogVariableInfo& dialogVarInfo)
 {
     if (dialogs.empty())
         return;
 
     _sfxHandle.reset();
 
+    _dialogVarInfo = dialogVarInfo;
     _dialogs = dialogs;
     _settings = settings;
     _outputVec = &outputVec;
@@ -91,7 +92,7 @@ bool DialogWriter::instantWrite()
     if (!isStarted())
         return false;
 
-    const auto& dialog = _dialogs[_dialogIdx];
+    const bn::string_view dialog = _varDialog;
 
     // TODO: Optimize this super naive implementation
     const int prevCharIdx = _nextCharIdx;
@@ -162,7 +163,7 @@ void DialogWriter::update()
 
     while (true)
     {
-        const auto& dialog = _dialogs[_dialogIdx];
+        const bn::string_view dialog = _varDialog;
 
         // fix width for choice option texts
         if (isCurDialogChoice() && !_isNextCharChoice && _isStartOfLine && _nextCharIdx < dialog.size())
@@ -328,6 +329,53 @@ void DialogWriter::resetStringProcessInfos()
     _prevCharSpaceCnt = 0;
     _isLeftSelected = true;
     _heartSpr.reset();
+
+    // interpolate variable into `_varDialog`
+    _varDialog.clear();
+    if (0 <= _dialogIdx && _dialogIdx < _dialogs.size())
+    {
+        const auto& dialog = _dialogs[_dialogIdx];
+        for (int i = 0; i < dialog.size();)
+        {
+            auto str = dialog.substr(i);
+            if (str.starts_with(R"(\[)"))
+            {
+                BN_ASSERT(str[3] == ']', "Invalid variable in dialog:\n", dialog);
+                const bn::utf8_character ch8 = str[2];
+                BN_ASSERT(ch8.size() == 1, "Invalid variable in dialog:\n", dialog);
+                const char ch = (char)ch8.data();
+                switch (ch)
+                {
+                case 'C':
+                    _varDialog.append(_dialogVarInfo.charaName);
+                    break;
+                case 'I':
+                    _varDialog.append(game::ItemInfo::get(_dialogVarInfo.item).getName());
+                    break;
+                case 'G':
+                    _varDialog.append(bn::to_string<10>(_dialogVarInfo.gold));
+                    break;
+                case '1':
+                    _varDialog.append(_dialogVarInfo.arg1);
+                    break;
+                case '2':
+                    _varDialog.append(_dialogVarInfo.arg2);
+                    break;
+                default:
+                    BN_ERROR("Invalid variable in dialog:\n", dialog);
+                }
+                i += 4;
+            }
+            else
+            {
+                const bn::utf8_character ch = dialog[i];
+                const bn::string_view chStr = dialog.substr(i, ch.size());
+
+                _varDialog.append(chStr);
+                i += ch.size();
+            }
+        }
+    }
 }
 
 auto DialogWriter::readSpecialToken(bn::string_view dialog) -> bn::optional<SpecialToken>
@@ -467,7 +515,7 @@ void DialogWriter::handleSpecialToken(const SpecialToken& specialToken)
     switch (specialToken.kind)
     {
     case SpecialToken::Kind::VARIABLE: {
-        BN_LOG("SpecialToken::Kind::VARIABLE not implemented");
+        BN_ERROR("VARIABLE is not interpolated in dialog:\n", _varDialog);
         break;
     }
 
@@ -556,7 +604,7 @@ void DialogWriter::nextDialog()
 bool DialogWriter::isCurDialogChoice() const
 {
     BN_ASSERT(0 <= _dialogIdx && _dialogIdx < _dialogs.size());
-    const auto& dialog = _dialogs[_dialogIdx];
+    const bn::string_view dialog = _varDialog;
 
     return dialog.ends_with(R"(\C)") || dialog.ends_with(R"(\C )");
 }

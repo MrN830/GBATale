@@ -5,6 +5,7 @@
 #include "asset/Bgm.hpp"
 #include "asset/Path.hpp"
 #include "asset/SfxKind.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -66,10 +67,10 @@ auto CutsceneRuins19::onInteract(GameContext& ctx) -> task::Task
         {task::TaskSignal::Kind::ENT_DESTROYED, (int)ent::gen::EntityId::exc_balloon});
 
     // Toriel talks
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msgSettings.emotion = 1;
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_260));
+    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings().emotion = 1;
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::obj_torieltrigger5_260);
     ctx.game.startDialog();
     co_await dialogEndAwaiter;
 
@@ -103,25 +104,25 @@ auto CutsceneRuins19::onInteract(GameContext& ctx) -> task::Task
     Bgm::play(BgmKind::FALLEN_DOWN);
 
     // Toriel talks
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_185));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::obj_torieltrigger5_185);
     if (ctx.state.getCurHp() == ctx.state.getMaxHp())
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_186));
+        ctx.msg.add(gen::TextData::obj_torieltrigger5_186);
     else if (ctx.state.getCurHp() < 4)
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_189));
+        ctx.msg.add(gen::TextData::obj_torieltrigger5_189);
     else
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_187));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_190));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_191));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_192));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_193));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger5_194));
+        ctx.msg.add(gen::TextData::obj_torieltrigger5_187);
+    ctx.msg.add(gen::TextData::obj_torieltrigger5_190);
+    ctx.msg.add(gen::TextData::obj_torieltrigger5_191);
+    ctx.msg.add(gen::TextData::obj_torieltrigger5_192);
+    ctx.msg.add(gen::TextData::obj_torieltrigger5_193);
+    ctx.msg.add(gen::TextData::obj_torieltrigger5_194);
 
     ctx.state.changeHp(ctx.state.getMaxHp() - ctx.state.getCurHp());
     ctx.game.startDialog();
     co_await dialogEndAwaiter;
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
 
     BN_ASSERT(ctx.interactStack.top() == InteractState::CUTSCENE);
     ctx.interactStack.pop();

@@ -2,7 +2,7 @@
 
 #include "asset/Path.hpp"
 #include "asset/SpriteAnimKind.hpp"
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -63,9 +63,10 @@ auto CutsceneTorhouse3::onEvent(GameContext& ctx) -> task::Task
     torielWalk->setStandStillDir(core::Directions::LEFT);
 
     // Toriel talks
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger7_41));
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::obj_torieltrigger7_41);
     ctx.game.startDialog();
     co_await dialogEndAwaiter;
 
@@ -87,8 +88,8 @@ auto CutsceneTorhouse3::onEvent(GameContext& ctx) -> task::Task
     friskWalk->setStandStillDir(core::Directions::UP);
 
     // Toriel talks
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger7_243));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::obj_torieltrigger7_243);
     ctx.game.startDialog();
     co_await dialogEndAwaiter;
 
@@ -109,13 +110,13 @@ auto CutsceneTorhouse3::onEvent(GameContext& ctx) -> task::Task
     _entity.setPosition(_entity.getPosition() - RUFFLE_DIFF + bn::fixed_point(0, -1));
 
     // Toriel talks
-    ctx.msgSettings.emotion = 1;
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger7_77));
+    ctx.msg.getSettings().emotion = 1;
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::obj_torieltrigger7_77);
     ctx.game.startDialog();
     co_await dialogEndAwaiter;
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
     ctx.state.setPlot(GamePlot::TORIEL_READING);
     BN_ASSERT(ctx.interactStack.top() == InteractState::CUTSCENE);
     ctx.interactStack.pop();

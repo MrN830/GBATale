@@ -4,6 +4,7 @@
 
 #include "asset/SfxKind.hpp"
 #include "core/DialogChoice.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -31,13 +32,13 @@ auto RuinsColorSwitch::onInteract(GameContext& ctx) -> task::Task
     const auto room = state.getRoom();
     const auto plot = state.getPlot();
 
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1778));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_1778);
 
     // Dialog choice: Press color switch
     ctx.game.startDialog();
     const auto dialogChoice = co_await task::DialogChoiceAwaiter();
-    ctx.msg.clear();
+    ctx.msg.clearMsg();
 
     if (room == RoomKind::ROOM_RUINS15A)
     {
@@ -46,16 +47,16 @@ auto RuinsColorSwitch::onInteract(GameContext& ctx) -> task::Task
             flags.ruins_switches_pressed += 1;
 
             if (flags.ruins_switches_pressed > 25)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1790));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1790);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1788));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1788);
         }
         else if (dialogChoice == core::DialogChoice::RIGHT)
         {
             if (flags.ruins_switches_pressed > 25)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1790));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1790);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1789));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1789);
         }
         else
             BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
@@ -68,7 +69,7 @@ auto RuinsColorSwitch::onInteract(GameContext& ctx) -> task::Task
             using Plot = game::GamePlot;
 
             flags.ruins_switches_pressed += 1;
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1806));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1806);
 
             if (room == Room::ROOM_RUINS15B && (int)plot < (int)Plot::BLUE_SWITCH_FLIPPED)
             {
@@ -94,7 +95,7 @@ auto RuinsColorSwitch::onInteract(GameContext& ctx) -> task::Task
         }
         else if (dialogChoice == core::DialogChoice::RIGHT)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1807));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1807);
         }
         else
             BN_ERROR("Invalid dialog choice=", (int)dialogChoice);

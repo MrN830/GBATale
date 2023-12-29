@@ -2,7 +2,7 @@
 
 #include "scene/Scene.hpp"
 
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "game/sys/EntityManager.hpp"
@@ -38,8 +38,7 @@ private:
 
     game::InteractStateStack _interactStack;
 
-    bn::vector<bn::string_view, consts::DIALOG_MAX_LINES> _msg;
-    core::DialogSettingsOverride _msgSettings;
+    core::MsgViewHolder _msg;
 
     game::GameContext _gameContext;
 };

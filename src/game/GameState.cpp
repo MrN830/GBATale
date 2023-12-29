@@ -52,10 +52,10 @@ void GameState::resetToNewRegularSave(core::Random& rng)
 
     _flags = GameFlags();
     _flags.fun = rng.get_int(1, 101);
-    if ("frisk" == bn::string_view(util::toLowerAscii(bn::string<CHAR_NAME_MAX_LEN>(_charName))))
+    if ("frisk" == bn::string_view(util::toLowerAscii(bn::string<consts::CHARA_NAME_MAX_LEN>(_charName))))
         _flags.hardmode = true;
 
-    bn::string<CHAR_NAME_MAX_LEN> charName = _charName;
+    bn::string<consts::CHARA_NAME_MAX_LEN> charName = _charName;
     auto lowerName = util::toLowerAscii(charName);
     const bn::string_view name = lowerName;
     if (name == "frisk")
@@ -166,7 +166,7 @@ void GameState::saveRegular()
 {
     RegularSave rSave;
 
-    for (int i = 0; i < CHAR_NAME_MAX_LEN + 1; ++i)
+    for (int i = 0; i < consts::CHARA_NAME_MAX_LEN + 1; ++i)
         rSave.charName[i] = (i < _charName.size() ? _charName[i] : '\0');
 
     rSave.xp = _exp;

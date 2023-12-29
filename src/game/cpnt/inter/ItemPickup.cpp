@@ -1,5 +1,6 @@
 #include "game/cpnt/inter/ItemPickup.hpp"
 
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
@@ -32,7 +33,7 @@ auto ItemPickup::onInteract(GameContext& ctx) -> task::Task
     auto& items = state.getItems();
     const auto room = state.getRoom();
 
-    ctx.msg.clear();
+    ctx.msg.clearMsg();
 
     // TODO: Add more items
     switch (room)
@@ -41,40 +42,40 @@ auto ItemPickup::onInteract(GameContext& ctx) -> task::Task
 
     case RoomKind::ROOM_RUINS14:
         if (items.full())
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1772));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1772);
         else
         {
             items.push_back(ItemKind::FADED_RIBBON);
             flags.got_ribbon = true;
 
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1771));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1771);
         }
         break;
 
     case RoomKind::ROOM_RUINS18OLD:
         if (items.full())
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1818));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1818);
         else
         {
             items.push_back(ItemKind::TOY_KNIFE);
             flags.got_toyknife = true;
 
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1817));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1817);
         }
         break;
 
     case RoomKind::ROOM_ASRIELROOM:
         if (items.full())
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1843));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1843);
         else
         {
             items.push_back(flags.hardmode ? ItemKind::SNAIL_PIE : ItemKind::BUTTERSCOTCH_PIE);
             flags.got_bscotch_pie = GameFlags::GotBscotchPie::GOT;
 
             if (flags.hardmode)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1853));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1853);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1842));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1842);
         }
         break;
 

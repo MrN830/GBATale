@@ -12,16 +12,19 @@ using Text = asset::gen::TextData;
 
 auto ItemInfo::getName() const -> const bn::string_view&
 {
+    // TODO: get text data considering language
     return asset::gen::getTextEn(nameData);
 }
 
 auto ItemInfo::getShortName() const -> const bn::string_view&
 {
+    // TODO: get text data considering language
     return asset::gen::getTextEn(shortNameData);
 }
 
 auto ItemInfo::getSeriousName() const -> const bn::string_view&
 {
+    // TODO: get text data considering language
     return asset::gen::getTextEn(seriousNameData);
 }
 
@@ -31,7 +34,7 @@ auto ItemInfo::getDescriptions() const -> bn::vector<bn::string_view, 2>
 
     for (auto textData : descriptionDatas)
         if (textData != asset::gen::TextData::NONE)
-            result.push_back(asset::gen::getTextEn(textData));
+            result.push_back(asset::gen::getTextEn(textData)); // TODO: get text data considering language
 
     return result;
 }

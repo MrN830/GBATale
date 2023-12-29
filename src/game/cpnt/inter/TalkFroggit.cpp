@@ -1,6 +1,7 @@
 #include "game/cpnt/inter/TalkFroggit.hpp"
 
 #include "core/DialogChoice.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
@@ -51,7 +52,7 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
 
     auto& flags = ctx.state.getFlags();
 
-    ctx.msg.clear();
+    ctx.msg.clearMsg();
     const auto room = ctx.state.getRoom();
     switch (room)
     {
@@ -60,53 +61,53 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
     case RoomKind::ROOM_RUINS7:
         if (flags.true_pacifist)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_79));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_80));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_81));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_82));
+            ctx.msg.add(gen::TextData::obj_smallfrog_79);
+            ctx.msg.add(gen::TextData::obj_smallfrog_80);
+            ctx.msg.add(gen::TextData::obj_smallfrog_81);
+            ctx.msg.add(gen::TextData::obj_smallfrog_82);
         }
         else if (flags.hardmode)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_70));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_71));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_72));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_73));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_74));
+            ctx.msg.add(gen::TextData::obj_smallfrog_70);
+            ctx.msg.add(gen::TextData::obj_smallfrog_71);
+            ctx.msg.add(gen::TextData::obj_smallfrog_72);
+            ctx.msg.add(gen::TextData::obj_smallfrog_73);
+            ctx.msg.add(gen::TextData::obj_smallfrog_74);
         }
         else
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_61));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_62));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_63));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_64));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_65));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_66));
+            ctx.msg.add(gen::TextData::obj_smallfrog_61);
+            ctx.msg.add(gen::TextData::obj_smallfrog_62);
+            ctx.msg.add(gen::TextData::obj_smallfrog_63);
+            ctx.msg.add(gen::TextData::obj_smallfrog_64);
+            ctx.msg.add(gen::TextData::obj_smallfrog_65);
+            ctx.msg.add(gen::TextData::obj_smallfrog_66);
         }
         break;
 
     case RoomKind::ROOM_RUINS17:
         if (flags.hardmode)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_105));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_106));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_107));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_108));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_109));
+            ctx.msg.add(gen::TextData::obj_smallfrog_105);
+            ctx.msg.add(gen::TextData::obj_smallfrog_106);
+            ctx.msg.add(gen::TextData::obj_smallfrog_107);
+            ctx.msg.add(gen::TextData::obj_smallfrog_108);
+            ctx.msg.add(gen::TextData::obj_smallfrog_109);
         }
         else if (flags.true_pacifist)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_97));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_98));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_99));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_100));
+            ctx.msg.add(gen::TextData::obj_smallfrog_97);
+            ctx.msg.add(gen::TextData::obj_smallfrog_98);
+            ctx.msg.add(gen::TextData::obj_smallfrog_99);
+            ctx.msg.add(gen::TextData::obj_smallfrog_100);
         }
         else
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_90));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_91));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_92));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_93));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_94));
+            ctx.msg.add(gen::TextData::obj_smallfrog_90);
+            ctx.msg.add(gen::TextData::obj_smallfrog_91);
+            ctx.msg.add(gen::TextData::obj_smallfrog_92);
+            ctx.msg.add(gen::TextData::obj_smallfrog_93);
+            ctx.msg.add(gen::TextData::obj_smallfrog_94);
         }
         break;
 
@@ -115,33 +116,33 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
         {
             if (flags.true_pacifist)
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_67));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_68));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_69));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_70));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_71));
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_67);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_68);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_69);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_70);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_71);
             }
             else
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_59));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_60));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_61));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_62));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_xadvice_63));
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_59);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_60);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_61);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_62);
+                ctx.msg.add(gen::TextData::obj_smallfrog_xadvice_63);
             }
         }
         else if (_entity.getId() == ent::gen::EntityId::mid)
         {
             if (flags.true_pacifist)
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_124));
+                ctx.msg.add(gen::TextData::obj_smallfrog_124);
             }
             else
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_117_console));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_118_console));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_119_console));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_120_console));
+                ctx.msg.add(gen::TextData::obj_smallfrog_117_console);
+                ctx.msg.add(gen::TextData::obj_smallfrog_118_console);
+                ctx.msg.add(gen::TextData::obj_smallfrog_119_console);
+                ctx.msg.add(gen::TextData::obj_smallfrog_120_console);
             }
         }
         else if (_entity.getId() == ent::gen::EntityId::right)
@@ -150,18 +151,18 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
             {
                 if (flags.name_color == GameFlags::NameColor::YELLOW)
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_140));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_141));
+                    ctx.msg.add(gen::TextData::obj_smallfrog_140);
+                    ctx.msg.add(gen::TextData::obj_smallfrog_141);
                 }
                 else if (flags.name_color == GameFlags::NameColor::WHITE)
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_145));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_146));
+                    ctx.msg.add(gen::TextData::obj_smallfrog_145);
+                    ctx.msg.add(gen::TextData::obj_smallfrog_146);
                 }
                 else if (flags.name_color == GameFlags::NameColor::PINK)
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_150));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_smallfrog_151));
+                    ctx.msg.add(gen::TextData::obj_smallfrog_150);
+                    ctx.msg.add(gen::TextData::obj_smallfrog_151);
                 }
                 else
                     BN_ERROR("Invalid GameFlags::NameColor=", (int)flags.name_color);
@@ -170,45 +171,45 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
             {
                 if (flags.name_color == GameFlags::NameColor::YELLOW)
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4477));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4478));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4479));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4480));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4477);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4478);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4479);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4480);
 
                     // Dialog choice: Yellow name
                     ctx.game.startDialog();
                     auto dialogChoice = co_await task::DialogChoiceAwaiter();
-                    ctx.msg.clear();
+                    ctx.msg.clearMsg();
 
                     // Dialog choice: Yellow name `HELPFUL`
                     if (dialogChoice == core::DialogChoice::LEFT)
                     {
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4486));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4487));
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4486);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4487);
                     }
                     // Dialog choice: Yellow name `BAD`
                     else if (dialogChoice == core::DialogChoice::RIGHT)
                     {
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4491));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4492));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4493));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4494));
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4491);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4492);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4493);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4494);
 
                         // Dialog choice: Remove yellow name?
                         ctx.game.startDialog();
                         dialogChoice = co_await task::DialogChoiceAwaiter();
-                        ctx.msg.clear();
+                        ctx.msg.clearMsg();
 
                         // Dialog choice: Remove yellow name? `NO`
                         if (dialogChoice == core::DialogChoice::LEFT)
                         {
-                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4501));
+                            ctx.msg.add(gen::TextData::SCR_TEXT_4501);
                         }
                         // Dialog choice: Remove yellow name? `YES`
                         else if (dialogChoice == core::DialogChoice::RIGHT)
                         {
                             flags.name_color = game::GameFlags::NameColor::WHITE;
-                            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4505));
+                            ctx.msg.add(gen::TextData::SCR_TEXT_4505);
                         }
                         else
                             BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
@@ -218,38 +219,38 @@ auto TalkFroggit::onInteract(GameContext& ctx) -> task::Task
                 }
                 else if (flags.name_color == GameFlags::NameColor::WHITE)
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4511));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4512));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4513));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4511);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4512);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4513);
 
                     // Dialog choice: White name
                     ctx.game.startDialog();
                     auto dialogChoice = co_await task::DialogChoiceAwaiter();
-                    ctx.msg.clear();
+                    ctx.msg.clearMsg();
 
                     // Dialog choice: White name `GREAT`
                     if (dialogChoice == core::DialogChoice::LEFT)
                     {
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4519));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4520));
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4519);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4520);
                     }
                     // Dialog choice: White name `BRING_COLOR_BACK`
                     else if (dialogChoice == core::DialogChoice::RIGHT)
                     {
                         flags.name_color = game::GameFlags::NameColor::PINK;
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4524));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4525));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4526));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4527));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4528));
-                        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4529));
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4524);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4525);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4526);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4527);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4528);
+                        ctx.msg.add(gen::TextData::SCR_TEXT_4529);
                     }
                     else
                         BN_ERROR("Invalid dialog choice=", (int)dialogChoice);
                 }
                 else if (flags.name_color == GameFlags::NameColor::PINK)
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_4535));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_4535);
                 }
                 else
                     BN_ERROR("Invalid GameFlags::NameColor=", (int)flags.name_color);

@@ -6,11 +6,15 @@
 #include <bn_sound_handle.h>
 #include <bn_span.h>
 #include <bn_sprite_ptr.h>
+#include <bn_string.h>
 #include <bn_string_view.h>
 #include <bn_vector_fwd.h>
 
 #include "core/DialogPortrait.hpp"
 #include "core/DialogSettings.hpp"
+#include "core/DialogVariableInfo.hpp"
+
+#include "consts.hpp"
 
 namespace ut::scene
 {
@@ -75,7 +79,8 @@ public:
 
     void reset();
 
-    void start(bn::span<const bn::string_view> dialogs, const DialogSettings&, bn::ivector<bn::sprite_ptr>& outputVec);
+    void start(bn::span<const bn::string_view> dialogs, const DialogSettings&, bn::ivector<bn::sprite_ptr>& outputVec,
+               const DialogVariableInfo& = DialogVariableInfo());
     bool isStarted() const;
     bool isWaitInput() const;
 
@@ -118,6 +123,9 @@ private:
 
     bn::optional<bn::sound_handle> _sfxHandle;
 
+    bn::string<consts::DIALOG_MAX_CHARS> _varDialog; // variable interpolated dialog
+
+    DialogVariableInfo _dialogVarInfo;
     bn::span<const bn::string_view> _dialogs;
     DialogSettings _settings;
     bn::ivector<bn::sprite_ptr>* _outputVec = nullptr;

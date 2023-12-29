@@ -2,6 +2,7 @@
 
 #include "asset/Bgm.hpp"
 #include "asset/Path.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -47,19 +48,19 @@ auto CutsceneRuins6::onEvent(GameContext& ctx) -> task::Task
     torielWalk->setStandStillDir(core::Directions::LEFT);
     plotWallColl->setEnabled(true);
 
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
 
     // Toriel talks
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_459));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_460));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_461));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_462));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_463));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_459);
+    ctx.msg.add(gen::TextData::SCR_TEXT_460);
+    ctx.msg.add(gen::TextData::SCR_TEXT_461);
+    ctx.msg.add(gen::TextData::SCR_TEXT_462);
+    ctx.msg.add(gen::TextData::SCR_TEXT_463);
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
 
     // unnecessary tension
     Bgm::play(BgmKind::UNNECESSARY_TENSION);

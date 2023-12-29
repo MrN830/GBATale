@@ -4,6 +4,7 @@
 
 #include "asset/SfxKind.hpp"
 #include "core/DialogChoice.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -55,7 +56,7 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
 
     getSfx(SfxKind::PHONE)->play();
 
-    ctx.msg.clear();
+    ctx.msg.clearMsg();
     switch (room)
     {
     case RoomKind::ROOM_RUINS7:
@@ -65,31 +66,31 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
         {
             flags.dog_call_status = GameFlags::DogCallStatus::TORIEL_RECOVERED_PHONE;
 
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_102));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_103));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_104));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_105));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_106));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_107));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_108));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_109));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_110));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_111));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_112));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_113));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_114));
+            ctx.msg.add(gen::TextData::obj_torielcall1_102);
+            ctx.msg.add(gen::TextData::obj_torielcall1_103);
+            ctx.msg.add(gen::TextData::obj_torielcall1_104);
+            ctx.msg.add(gen::TextData::obj_torielcall1_105);
+            ctx.msg.add(gen::TextData::obj_torielcall1_106);
+            ctx.msg.add(gen::TextData::obj_torielcall1_107);
+            ctx.msg.add(gen::TextData::obj_torielcall1_108);
+            ctx.msg.add(gen::TextData::obj_torielcall1_109);
+            ctx.msg.add(gen::TextData::obj_torielcall1_110);
+            ctx.msg.add(gen::TextData::obj_torielcall1_111);
+            ctx.msg.add(gen::TextData::obj_torielcall1_112);
+            ctx.msg.add(gen::TextData::obj_torielcall1_113);
+            ctx.msg.add(gen::TextData::obj_torielcall1_114);
         }
         else
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_90));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_91));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_92));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_93));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_94));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_95));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_96));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_97));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall1_98));
+            ctx.msg.add(gen::TextData::obj_torielcall1_90);
+            ctx.msg.add(gen::TextData::obj_torielcall1_91);
+            ctx.msg.add(gen::TextData::obj_torielcall1_92);
+            ctx.msg.add(gen::TextData::obj_torielcall1_93);
+            ctx.msg.add(gen::TextData::obj_torielcall1_94);
+            ctx.msg.add(gen::TextData::obj_torielcall1_95);
+            ctx.msg.add(gen::TextData::obj_torielcall1_96);
+            ctx.msg.add(gen::TextData::obj_torielcall1_97);
+            ctx.msg.add(gen::TextData::obj_torielcall1_98);
         }
         break;
     case RoomKind::ROOM_RUINS9: {
@@ -104,25 +105,25 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
             if (persist.Toriel.Bscotch != PersistData::Toriel::Bscotch::INIT)
             {
                 // Toriel remembers pie flavor
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5285));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5286));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5290));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5291));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5292));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5293));
+                ctx.msg.add(gen::TextData::SCR_TEXT_5285);
+                ctx.msg.add(gen::TextData::SCR_TEXT_5286);
+                ctx.msg.add(gen::TextData::SCR_TEXT_5290);
+                ctx.msg.add(gen::TextData::SCR_TEXT_5291);
+                ctx.msg.add(gen::TextData::SCR_TEXT_5292);
+                ctx.msg.add(gen::TextData::SCR_TEXT_5293);
                 if (persist.Toriel.Bscotch == PersistData::Toriel::Bscotch::BUTTERSCOTCH)
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5295));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5295);
                 else if (persist.Toriel.Bscotch == PersistData::Toriel::Bscotch::CINNAMON)
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5296));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5296);
                 else
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5294));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5297));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5294);
+                ctx.msg.add(gen::TextData::SCR_TEXT_5297);
                 ctx.game.startDialog();
                 const auto dialogChoice = co_await dialogChoiceAwaiter;
 
-                ctx.msgSettings =
+                ctx.msg.getSettings() =
                     core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-                ctx.msg.clear();
+                ctx.msg.clearMsg();
 
                 if (dialogChoice == core::DialogChoice::LEFT)
                 {
@@ -131,15 +132,15 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
                     else
                         flags.choice_flavor = GameFlags::ChoiceFlavor::CINNAMON;
 
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5309));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5310));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5311));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5312));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5313));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5314));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5315));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5316));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5317));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5309);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5310);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5311);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5312);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5313);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5314);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5315);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5316);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5317);
                 }
                 else
                 {
@@ -155,20 +156,20 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
                     }
                     ctx.state.savePersist();
 
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5323));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5324));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5325));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_5326));
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5323);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5324);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5325);
+                    ctx.msg.add(gen::TextData::SCR_TEXT_5326);
                 }
             }
             else // Toriel doesn't remember pie flavor
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_467));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_468));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_469));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_470));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_471));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_472));
+                ctx.msg.add(gen::TextData::SCR_TEXT_467);
+                ctx.msg.add(gen::TextData::SCR_TEXT_468);
+                ctx.msg.add(gen::TextData::SCR_TEXT_469);
+                ctx.msg.add(gen::TextData::SCR_TEXT_470);
+                ctx.msg.add(gen::TextData::SCR_TEXT_471);
+                ctx.msg.add(gen::TextData::SCR_TEXT_472);
                 ctx.game.startDialog();
                 const auto dialogChoice = co_await dialogChoiceAwaiter;
 
@@ -184,44 +185,44 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
                 }
                 ctx.state.savePersist();
 
-                ctx.msgSettings =
+                ctx.msg.getSettings() =
                     core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-                ctx.msg.clear();
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_490));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_491));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_492));
+                ctx.msg.clearMsg();
+                ctx.msg.add(gen::TextData::SCR_TEXT_490);
+                ctx.msg.add(gen::TextData::SCR_TEXT_491);
+                ctx.msg.add(gen::TextData::SCR_TEXT_492);
             }
         }
         else if (entityId == EntityId::mid)
         {
             ctx.state.setPlot(GamePlot::RECEIVED_TORIEL_CONFIRMATION_CALL);
 
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_88));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_89));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_90));
+            ctx.msg.add(gen::TextData::obj_torielcall3_88);
+            ctx.msg.add(gen::TextData::obj_torielcall3_89);
+            ctx.msg.add(gen::TextData::obj_torielcall3_90);
             if (flags.choice_flavor == GameFlags::ChoiceFlavor::BUTTERSCOTCH)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_92));
+                ctx.msg.add(gen::TextData::obj_torielcall3_92);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_91));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_93));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_94));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_95));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_96));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_97));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall3_98));
+                ctx.msg.add(gen::TextData::obj_torielcall3_91);
+            ctx.msg.add(gen::TextData::obj_torielcall3_93);
+            ctx.msg.add(gen::TextData::obj_torielcall3_94);
+            ctx.msg.add(gen::TextData::obj_torielcall3_95);
+            ctx.msg.add(gen::TextData::obj_torielcall3_96);
+            ctx.msg.add(gen::TextData::obj_torielcall3_97);
+            ctx.msg.add(gen::TextData::obj_torielcall3_98);
         }
         else if (entityId == EntityId::right)
         {
             ctx.state.setPlot(GamePlot::RECEIVED_TORIEL_ALLERGIES_CALL);
 
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_88));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_89));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_90));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_91));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_92));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_93));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_94));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall4_95));
+            ctx.msg.add(gen::TextData::obj_torielcall4_88);
+            ctx.msg.add(gen::TextData::obj_torielcall4_89);
+            ctx.msg.add(gen::TextData::obj_torielcall4_90);
+            ctx.msg.add(gen::TextData::obj_torielcall4_91);
+            ctx.msg.add(gen::TextData::obj_torielcall4_92);
+            ctx.msg.add(gen::TextData::obj_torielcall4_93);
+            ctx.msg.add(gen::TextData::obj_torielcall4_94);
+            ctx.msg.add(gen::TextData::obj_torielcall4_95);
         }
         else
             BN_ERROR("Invalid entityId=", (int)entityId, " for `ruins9` toriel call");
@@ -233,30 +234,30 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
 
         if (flags.hardmode)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_104));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_105));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_106));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_107));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_108));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_109));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_110));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_111));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_112));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_113));
+            ctx.msg.add(gen::TextData::obj_torielcall5_104);
+            ctx.msg.add(gen::TextData::obj_torielcall5_105);
+            ctx.msg.add(gen::TextData::obj_torielcall5_106);
+            ctx.msg.add(gen::TextData::obj_torielcall5_107);
+            ctx.msg.add(gen::TextData::obj_torielcall5_108);
+            ctx.msg.add(gen::TextData::obj_torielcall5_109);
+            ctx.msg.add(gen::TextData::obj_torielcall5_110);
+            ctx.msg.add(gen::TextData::obj_torielcall5_111);
+            ctx.msg.add(gen::TextData::obj_torielcall5_112);
+            ctx.msg.add(gen::TextData::obj_torielcall5_113);
         }
         else
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_90));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_91));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_92));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_93));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_94));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_95));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_96));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_97));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_98));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_99));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torielcall5_100));
+            ctx.msg.add(gen::TextData::obj_torielcall5_90);
+            ctx.msg.add(gen::TextData::obj_torielcall5_91);
+            ctx.msg.add(gen::TextData::obj_torielcall5_92);
+            ctx.msg.add(gen::TextData::obj_torielcall5_93);
+            ctx.msg.add(gen::TextData::obj_torielcall5_94);
+            ctx.msg.add(gen::TextData::obj_torielcall5_95);
+            ctx.msg.add(gen::TextData::obj_torielcall5_96);
+            ctx.msg.add(gen::TextData::obj_torielcall5_97);
+            ctx.msg.add(gen::TextData::obj_torielcall5_98);
+            ctx.msg.add(gen::TextData::obj_torielcall5_99);
+            ctx.msg.add(gen::TextData::obj_torielcall5_100);
         }
         break;
     default:
@@ -266,7 +267,7 @@ auto RuinsTorielCall::onInteract(GameContext& ctx) -> task::Task
     ctx.game.startDialog();
     co_await dialogEndAwaiter;
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
 
     _entity.setDestroyed(true);
     co_return;

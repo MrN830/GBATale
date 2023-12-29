@@ -1,7 +1,7 @@
 #include "game/cpnt/ev/CutsceneRuins5.hpp"
 
 #include "asset/Path.hpp"
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -96,16 +96,16 @@ auto CutsceneRuins5::onEvent(GameContext& ctx) -> task::Task
 
     plotWallColl->setEnabled(true);
 
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
 
     // Toriel talks
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_428));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_429));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_428);
+    ctx.msg.add(gen::TextData::SCR_TEXT_429);
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
 
     // Toriel walks to the in front of the spikes
     _torielInput->startPath(IPath::get(gen::PathId::path_torielwalk5), 2);

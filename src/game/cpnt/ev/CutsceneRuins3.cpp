@@ -1,7 +1,7 @@
 #include "game/cpnt/ev/CutsceneRuins3.hpp"
 
 #include "asset/Path.hpp"
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -104,26 +104,27 @@ auto CutsceneRuins3::onEvent(GameContext& ctx) -> task::Task
     auto* torielInteract = _entity.getComponent<inter::Interaction>();
     BN_ASSERT(torielInteract);
 
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
 
     // Toriel talks
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_318));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_318);
     if (ctx.state.getFlags().hardmode)
     {
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_322));
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_323));
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_324));
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_325));
+        ctx.msg.add(gen::TextData::SCR_TEXT_322);
+        ctx.msg.add(gen::TextData::SCR_TEXT_323);
+        ctx.msg.add(gen::TextData::SCR_TEXT_324);
+        ctx.msg.add(gen::TextData::SCR_TEXT_325);
     }
     else
     {
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_319));
+        ctx.msg.add(gen::TextData::SCR_TEXT_319);
     }
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
 
     // Toriel walks to 2nd bridge
     torielInput->startPath(IPath::get(gen::PathId::path_torielwalk3), 2.6);

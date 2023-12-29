@@ -6,6 +6,7 @@
 
 #include "asset/FontKind.hpp"
 #include "core/DialogChoice.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "core/TextGens.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
@@ -114,16 +115,24 @@ void IngameDialog::start()
     if (_isDialogGold)
         redrawGoldDisplay();
 
-    BN_ASSERT(!ctx->msg.empty(), "IngameDialog with empty gameContext.msg");
+    BN_ASSERT(!ctx->msg.getMsg().empty(), "IngameDialog with empty gameContext.msg");
     using DS = core::DialogSettings;
     using DSPKind = DS::PresetKind;
 
-    _dialogs = ctx->msg;
+    _dialogs.clear();
+    for (const auto& str : ctx->msg.getMsg())
+        _dialogs.push_back(str);
 
     auto dialogSettings = DS::getPreset(ctx->isDialogUpper ? DSPKind::WORLD_UPPER : DSPKind::WORLD_LOWER);
-    dialogSettings.override(ctx->msgSettings);
+    dialogSettings.override(ctx->msg.getSettings());
 
-    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text);
+    core::DialogVariableInfo dialogVarInfo;
+    dialogVarInfo.charaName = ctx->state.getCharName();
+    dialogVarInfo.gold = ctx->state.getGold();
+    // TODO: (maybe) Add item info
+    dialogVarInfo.arg1 = ctx->msg.getMsgArg1();
+    dialogVarInfo.arg2 = ctx->msg.getMsgArg2();
+    _dialogWriter.start(bn::span(_dialogs.cbegin(), _dialogs.cend()), dialogSettings, _text, dialogVarInfo);
 }
 
 void IngameDialog::reset()
@@ -134,7 +143,7 @@ void IngameDialog::reset()
     BN_ASSERT(ctx.interactStack.top() == game::InteractState::DIALOG);
     ctx.interactStack.pop();
 
-    ctx.msg.clear();
+    ctx.msg.clearMsg();
 }
 
 void IngameDialog::redrawGoldDisplay()

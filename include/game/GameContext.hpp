@@ -24,6 +24,7 @@ class RoomChanger;
 namespace ut::core
 {
 struct DialogSettingsOverride;
+class MsgViewHolder;
 }
 
 namespace ut::game
@@ -46,8 +47,7 @@ struct GameContext
 
     InteractStateStack& interactStack;
 
-    bn::vector<bn::string_view, consts::DIALOG_MAX_LINES>& msg;
-    core::DialogSettingsOverride& msgSettings;
+    core::MsgViewHolder& msg;
 
     mtile::WarpId warpId = mtile::WarpId::INIT;
 

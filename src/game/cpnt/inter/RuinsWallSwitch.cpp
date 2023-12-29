@@ -5,6 +5,7 @@
 #include "asset/Path.hpp"
 #include "asset/SfxKind.hpp"
 #include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -123,15 +124,15 @@ auto RuinsWallSwitch::onInteract(GameContext& ctx) -> task::Task
             co_await task::SignalAwaiter({task::TaskSignal::Kind::CAM_SHAKE_END});
 
             // Toriel talks
-            ctx.msgSettings =
+            ctx.msg.getSettings() =
                 core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-            ctx.msg.clear();
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_362));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_363));
+            ctx.msg.clearMsg();
+            ctx.msg.add(gen::TextData::SCR_TEXT_362);
+            ctx.msg.add(gen::TextData::SCR_TEXT_363);
             ctx.game.startDialog();
             co_await dialogEndAwaiter;
 
-            ctx.msgSettings.reset();
+            ctx.msg.getSettings().reset();
             BN_ASSERT(ctx.interactStack.top() == InteractState::CUTSCENE);
             ctx.interactStack.pop();
 
@@ -151,36 +152,36 @@ auto RuinsWallSwitch::onInteract(GameContext& ctx) -> task::Task
         {
             setPressed(false);
 
-            ctx.msg.clear();
+            ctx.msg.clearMsg();
             if (ctx.state.getPlot() >= GamePlot::SWITCH_PUZZLE_COMPLETE)
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_switch1_91));
+                ctx.msg.add(gen::TextData::obj_readable_switch1_91);
             }
             else if (torielInput && !torielInput->isDone())
             {
                 getSfx(SfxKind::WRONG_VICTORY)->play();
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_switch1_81));
+                ctx.msg.add(gen::TextData::obj_readable_switch1_81);
             }
             else
             {
-                ctx.msgSettings =
+                ctx.msg.getSettings() =
                     core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-                ctx.msgSettings.emotion = 1;
+                ctx.msg.getSettings().emotion = 1;
                 if (ctx.state.getFlags().hardmode)
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_switch1_71));
+                    ctx.msg.add(gen::TextData::obj_readable_switch1_71);
                 }
                 else
                 {
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_switch1_65));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_switch1_66));
-                    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_readable_switch1_67));
+                    ctx.msg.add(gen::TextData::obj_readable_switch1_65);
+                    ctx.msg.add(gen::TextData::obj_readable_switch1_66);
+                    ctx.msg.add(gen::TextData::obj_readable_switch1_67);
                 }
             }
             ctx.game.startDialog();
             co_await dialogEndAwaiter;
 
-            ctx.msgSettings.reset();
+            ctx.msg.getSettings().reset();
         }
         else
             BN_ERROR("Invalid entityId=", (int)entityId, " for `ruins3`");

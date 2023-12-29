@@ -1,6 +1,6 @@
 #include "game/cpnt/inter/CutsceneBasement3.hpp"
 
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -53,15 +53,15 @@ auto CutsceneBasement3::onInteract(GameContext& ctx) -> task::Task
     setEnabled(false);
 
     // Toriel talks
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msgSettings.emotion = 6;
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger11_79));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger11_80));
+    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings().emotion = 6;
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::obj_torieltrigger11_79);
+    ctx.msg.add(gen::TextData::obj_torieltrigger11_80);
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
     ctx.state.setPlot(GamePlot::TORIEL_AT_RUINS_EXIT);
 
     // Toriel walks out of the room

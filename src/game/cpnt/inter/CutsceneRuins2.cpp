@@ -4,6 +4,7 @@
 
 #include "asset/Path.hpp"
 #include "asset/SfxKind.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -59,8 +60,8 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
 
     ctx.interactStack.push(InteractState::CUTSCENE);
 
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msgSettings.emotion = 2;
+    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings().emotion = 2;
     ctx.isDialogUpper = false; // Force lower dialog box, otherwise Toriel is hidden
 
     ctx.state.setPlot(GamePlot::STEPPING_TILE_PUZZLE_COMPLETE);
@@ -83,9 +84,9 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
     // 1. Toriel: talk
     task::SignalAwaiter talkAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_306));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_307));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_306);
+    ctx.msg.add(gen::TextData::SCR_TEXT_307);
     ctx.game.startDialog();
     co_await talkAwaiter;
 
@@ -108,18 +109,18 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
 
     // 3. Toriel: talk
     ctx.isDialogUpper = false; // Force lower dialog box, otherwise Toriel is hidden
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_311));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_312));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_313));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_314));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_311);
+    ctx.msg.add(gen::TextData::SCR_TEXT_312);
+    ctx.msg.add(gen::TextData::SCR_TEXT_313);
+    ctx.msg.add(gen::TextData::SCR_TEXT_314);
     ctx.game.startDialog();
     co_await talkAwaiter;
 
     ctx.interactStack.pop();
     _entity.setDestroyed(true);
-    ctx.msg.clear();
-    ctx.msgSettings.reset();
+    ctx.msg.clearMsg();
+    ctx.msg.getSettings().reset();
     co_return;
 }
 

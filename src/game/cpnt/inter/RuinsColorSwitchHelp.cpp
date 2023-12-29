@@ -1,5 +1,6 @@
 #include "game/cpnt/inter/RuinsColorSwitchHelp.hpp"
 
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/ent/Entity.hpp"
@@ -29,8 +30,8 @@ auto RuinsColorSwitchHelp::onInteract(GameContext& ctx) -> task::Task
 
     auto& flags = ctx.state.getFlags();
 
-    ctx.msg.clear();
-    ctx.msg.push_back(asset::gen::getTextEn(asset::gen::TextData::obj_switchhelptrigger_69));
+    ctx.msg.clearMsg();
+    ctx.msg.add(asset::gen::TextData::obj_switchhelptrigger_69);
     ctx.game.startDialog();
 
     flags.wrong_switches_pressed += 1;

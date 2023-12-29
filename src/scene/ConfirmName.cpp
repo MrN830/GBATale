@@ -44,7 +44,7 @@ ConfirmName::ConfirmName(SceneStack& sceneStack, SceneContext& context)
     const auto prevAlign = textGen.alignment();
     const auto prevColor = textGen.palette_item();
 
-    constexpr int NAME_MAX_LEN = game::GameState::CHAR_NAME_MAX_LEN;
+    constexpr int NAME_MAX_LEN = consts::CHARA_NAME_MAX_LEN;
     bn::string<NAME_MAX_LEN> charName = context.gameState.getCharName();
     auto lowerName = util::toLowerAscii(charName);
     const bn::string_view name = lowerName;

@@ -1,5 +1,6 @@
 #include "game/cpnt/inter/TalkTorielRuins6.hpp"
 
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/ent/Entity.hpp"
 #include "scene/Game.hpp"
@@ -22,15 +23,15 @@ auto TalkTorielRuins6::onInteract(GameContext& ctx) -> task::Task
 
     using namespace ut::asset;
 
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msgSettings.emotion = 1;
+    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings().emotion = 1;
 
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_442));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_442);
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
     co_return;
 }
 

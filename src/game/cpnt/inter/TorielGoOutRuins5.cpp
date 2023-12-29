@@ -2,7 +2,7 @@
 
 #include "asset/Path.hpp"
 #include "asset/SpriteAnimKind.hpp"
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -54,13 +54,14 @@ auto TorielGoOutRuins5::onInteract(GameContext& ctx) -> task::Task
 
     ctx.interactStack.push(InteractState::CUTSCENE);
 
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
 
     // 1. Toriel talks
     task::SignalAwaiter talkAwaiter({task::TaskSignal::Kind::DIALOG_END});
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_433));
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_434));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_433);
+    ctx.msg.add(gen::TextData::SCR_TEXT_434);
     ctx.game.startDialog();
     co_await talkAwaiter;
 
@@ -96,12 +97,12 @@ auto TorielGoOutRuins5::onInteract(GameContext& ctx) -> task::Task
     ctx.camMngr.setCamFollowEntityDiff(prevCamDiff);
 
     // 3. Toriel finally talks
-    ctx.msg.clear();
-    ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_438));
+    ctx.msg.clearMsg();
+    ctx.msg.add(gen::TextData::SCR_TEXT_438);
     ctx.game.startDialog();
     co_await talkAwaiter;
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
 
     BN_ASSERT(ctx.interactStack.top() == InteractState::CUTSCENE);
     ctx.interactStack.pop();

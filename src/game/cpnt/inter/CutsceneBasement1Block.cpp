@@ -2,7 +2,7 @@
 
 #include "asset/Path.hpp"
 #include "asset/SpriteAnimKind.hpp"
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -72,13 +72,14 @@ auto CutsceneBasement1Block::onInteract(GameContext& ctx) -> task::Task
     co_await torielWalkAwaiter;
 
     // Toriel talks
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msgSettings.emotion = 2;
-    ctx.msg.clear();
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings().emotion = 2;
+    ctx.msg.clearMsg();
     if (plot < GamePlot::TORIEL_READING)
     {
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger8_90));
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger8_91));
+        ctx.msg.add(gen::TextData::obj_torieltrigger8_90);
+        ctx.msg.add(gen::TextData::obj_torieltrigger8_91);
     }
     else
     {
@@ -93,12 +94,12 @@ auto CutsceneBasement1Block::onInteract(GameContext& ctx) -> task::Task
         const auto& textEn = gen::getTextEn(DISOBEY_TEXTDATAS[idx]);
 
         flags.disobeyed_toriel += 1;
-        ctx.msg.push_back(textEn);
+        ctx.msg.add(textEn);
     }
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
 
     // Toriel & Frisk goes back to upper floor
     _friskSpr->setEnabled(false);

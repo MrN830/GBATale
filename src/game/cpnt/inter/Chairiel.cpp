@@ -3,7 +3,7 @@
 #include "asset/Path.hpp"
 #include "asset/SpriteAnimKind.hpp"
 #include "core/DialogChoice.hpp"
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -65,70 +65,70 @@ auto Chairiel::onInteract(GameContext& ctx) -> task::Task
 
     if (_isTorielSitting)
     {
-        ctx.msgSettings =
+        ctx.msg.getSettings() =
             core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-        ctx.msg.clear();
+        ctx.msg.clearMsg();
 
         if (plot == GamePlot::RECEIVED_SNAIL_FACT)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1927));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1930));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1927);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1930);
 
             ctx.game.startDialog();
             const auto dialogChoice = co_await dialogChoiceAwaiter;
 
-            ctx.msg.clear();
+            ctx.msg.clearMsg();
             if (dialogChoice == core::DialogChoice::LEFT)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1934));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1934);
             else
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1935));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1935);
                 ctx.state.setPlot(GamePlot::I_HAVE_TO_DO_SOMETHING);
             }
         }
         else if (plot == GamePlot::I_HAVE_ALWAYS_WANTED_TO_BE_A_TEACHER)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1897));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1898));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1897);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1898);
         MSG_529:
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1899));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1900));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1901));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1899);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1900);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1901);
 
             ctx.game.startDialog();
             auto dialogChoice = co_await dialogChoiceAwaiter;
 
-            ctx.msg.clear();
+            ctx.msg.clearMsg();
             if (dialogChoice == core::DialogChoice::LEFT)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1907));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1907);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1908));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1909));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1908);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1909);
 
             const int r = ctx.sceneContext.rng.get_int(4);
             if (r == 0)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1911));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1911);
             else if (r == 1)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1912));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1912);
             else if (r == 2)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1913));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1913);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1914));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1914);
 
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1915));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1916));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1915);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1916);
 
             ctx.game.startDialog();
             dialogChoice = co_await dialogChoiceAwaiter;
 
             ctx.state.setPlot(GamePlot::RECEIVED_SNAIL_FACT);
 
-            ctx.msg.clear();
+            ctx.msg.clearMsg();
             if (dialogChoice == core::DialogChoice::LEFT)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1921));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1921);
             else
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1924));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1924);
                 ctx.state.setPlot(GamePlot::I_HAVE_TO_DO_SOMETHING);
             }
         }
@@ -136,52 +136,52 @@ auto Chairiel::onInteract(GameContext& ctx) -> task::Task
         {
         MSG_528:
             if (flags.got_bscotch_pie > GameFlags::GotBscotchPie::INIT)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1871));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1871);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1870));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1872));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1873));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1874));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1875));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1876));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1877));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1878));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1879));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1880));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1881));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1882));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1883));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1870);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1872);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1873);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1874);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1875);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1876);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1877);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1878);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1879);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1880);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1881);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1882);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1883);
 
             ctx.game.startDialog();
             const auto dialogChoice = co_await dialogChoiceAwaiter;
 
             ctx.state.setPlot(GamePlot::I_HAVE_ALWAYS_WANTED_TO_BE_A_TEACHER);
 
-            ctx.msg.clear();
+            ctx.msg.clearMsg();
             if (dialogChoice == core::DialogChoice::LEFT)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1891));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1891);
             else
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1895));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1896));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1895);
+                ctx.msg.add(gen::TextData::SCR_TEXT_1896);
                 goto MSG_529;
             }
         }
         else
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1859));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1860));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1861));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1862));
+            ctx.msg.add(gen::TextData::SCR_TEXT_1859);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1860);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1861);
+            ctx.msg.add(gen::TextData::SCR_TEXT_1862);
 
             ctx.game.startDialog();
             const auto dialogChoice = co_await dialogChoiceAwaiter;
 
             ctx.state.setPlot(GamePlot::RECEIVED_SLEEP_SUGGESTION);
 
-            ctx.msg.clear();
+            ctx.msg.clearMsg();
             if (dialogChoice == core::DialogChoice::LEFT)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_1867));
+                ctx.msg.add(gen::TextData::SCR_TEXT_1867);
             else
                 goto MSG_528;
         }
@@ -189,7 +189,7 @@ auto Chairiel::onInteract(GameContext& ctx) -> task::Task
         ctx.game.startDialog();
         co_await dialogEndAwaiter;
 
-        ctx.msgSettings.reset();
+        ctx.msg.getSettings().reset();
 
         plot = ctx.state.getPlot();
         if (plot == GamePlot::I_HAVE_TO_DO_SOMETHING)
@@ -228,8 +228,8 @@ auto Chairiel::onInteract(GameContext& ctx) -> task::Task
     }
     else
     {
-        ctx.msg.clear();
-        ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_chairiel_118));
+        ctx.msg.clearMsg();
+        ctx.msg.add(gen::TextData::obj_chairiel_118);
         ctx.game.startDialog();
     }
 

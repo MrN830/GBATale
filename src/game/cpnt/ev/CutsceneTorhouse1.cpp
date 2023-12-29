@@ -1,6 +1,7 @@
 #include "game/cpnt/ev/CutsceneTorhouse1.hpp"
 
 #include "asset/Path.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -60,34 +61,34 @@ auto CutsceneTorhouse1::onEvent(GameContext& ctx) -> task::Task
     else if (plot < GamePlot::TORIEL_WAITING_AT_BEDROOMS)
     {
         // Toriel talks
-        ctx.msgSettings =
+        ctx.msg.getSettings() =
             core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-        ctx.msg.clear();
+        ctx.msg.clearMsg();
         if (flags.hardmode)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_49));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_50));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_51));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_52));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_53));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_54));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_55));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_56));
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_49);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_50);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_51);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_52);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_53);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_54);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_55);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_56);
         }
         else
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_39));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_40));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_41));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_42));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_43));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_44));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::obj_torieltrigger6_45));
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_39);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_40);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_41);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_42);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_43);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_44);
+            ctx.msg.add(gen::TextData::obj_torieltrigger6_45);
         }
         ctx.game.startDialog();
         co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-        ctx.msgSettings.reset();
+        ctx.msg.getSettings().reset();
         ctx.state.setPlot(GamePlot::TORIEL_WAITING_AT_BEDROOMS);
 
         // Toriel walks out of the room

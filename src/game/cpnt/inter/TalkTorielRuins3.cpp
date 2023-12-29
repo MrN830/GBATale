@@ -1,6 +1,6 @@
 #include "game/cpnt/inter/TalkTorielRuins3.hpp"
 
-#include "core/DialogSettings.hpp"
+#include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
@@ -25,20 +25,21 @@ auto TalkTorielRuins3::onInteract(GameContext& ctx) -> task::Task
 
     const auto plot = ctx.state.getPlot();
 
-    ctx.msgSettings = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
-    ctx.msgSettings.emotion = 2;
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings().emotion = 2;
 
-    ctx.msg.clear();
+    ctx.msg.clearMsg();
     if (plot == GamePlot::TORIEL_WAITING_AT_SWITCH_PUZZLE)
     {
         if (_hasTalked)
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_334));
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_335));
+            ctx.msg.add(gen::TextData::SCR_TEXT_334);
+            ctx.msg.add(gen::TextData::SCR_TEXT_335);
         }
         else
         {
-            ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_330));
+            ctx.msg.add(gen::TextData::SCR_TEXT_330);
         }
     }
     else if (plot == GamePlot::FIRST_SWITCH_FLIPPED)
@@ -48,19 +49,19 @@ auto TalkTorielRuins3::onInteract(GameContext& ctx) -> task::Task
         if (_hasTalked)
         {
             if (hardmode)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_352));
+                ctx.msg.add(gen::TextData::SCR_TEXT_352);
             else
             {
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_347));
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_348));
+                ctx.msg.add(gen::TextData::SCR_TEXT_347);
+                ctx.msg.add(gen::TextData::SCR_TEXT_348);
             }
         }
         else
         {
             if (hardmode)
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_342));
+                ctx.msg.add(gen::TextData::SCR_TEXT_342);
             else
-                ctx.msg.push_back(gen::getTextEn(gen::TextData::SCR_TEXT_339));
+                ctx.msg.add(gen::TextData::SCR_TEXT_339);
         }
     }
     else
@@ -70,7 +71,7 @@ auto TalkTorielRuins3::onInteract(GameContext& ctx) -> task::Task
     ctx.game.startDialog();
     co_await task::SignalAwaiter({task::TaskSignal::Kind::DIALOG_END});
 
-    ctx.msgSettings.reset();
+    ctx.msg.getSettings().reset();
     co_return;
 }
 

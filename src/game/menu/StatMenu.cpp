@@ -63,7 +63,7 @@ StatMenu::StatMenu(scene::IngameMenu& scene) : MenuState(scene)
     const auto& weapon = ItemInfo::get(state.getWeapon());
     const auto& armor = ItemInfo::get(state.getArmor());
 
-    constexpr int NAME_MAX_LEN = game::GameState::CHAR_NAME_MAX_LEN;
+    constexpr int NAME_MAX_LEN = consts::CHARA_NAME_MAX_LEN;
 
     const auto charName = state.getCharName();
     textGen.generate(NAME_POS + lowerTextDiff(), bn::format<NAME_MAX_LEN + 2>("\"{}\"", charName), _text);
