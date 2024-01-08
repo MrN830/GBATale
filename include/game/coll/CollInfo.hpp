@@ -6,11 +6,6 @@
 
 #include "core/Directions.hpp"
 
-namespace bn
-{
-class fixed_size;
-}
-
 namespace ut::game::coll
 {
 
