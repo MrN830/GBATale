@@ -8,6 +8,7 @@
 
 #include "scene/ConfirmName.hpp"
 #include "scene/Game.hpp"
+#include "scene/IngameBattle.hpp"
 #include "scene/IngameDialog.hpp"
 #include "scene/IngameMenu.hpp"
 #include "scene/InputName.hpp"
@@ -87,6 +88,7 @@ void registerScenes(scene::SceneStack& sceneStack)
     sceneStack.registerScene<IngameMenu>(SceneId::INGAME_MENU);
     sceneStack.registerScene<IngameDialog>(SceneId::INGAME_DIALOG);
     sceneStack.registerScene<SavePrompt>(SceneId::SAVE_PROMPT);
+    sceneStack.registerScene<IngameBattle>(SceneId::INGAME_BATTLE);
 
 #if UT_TEST_SCENE
     sceneStack.registerScene<test::SaveTest>(SceneId::SAVE_TEST);

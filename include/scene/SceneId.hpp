@@ -21,6 +21,8 @@ enum class SceneId
     INGAME_DIALOG,
     SAVE_PROMPT,
 
+    INGAME_BATTLE,
+
 #if UT_TEST_SCENE
     SAVE_TEST,
     WORLD_BG_TEST,
