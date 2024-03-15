@@ -3,8 +3,9 @@
 namespace ut::core
 {
 
-MovingBgBox::MovingBgBox(const bn::top_left_fixed_rect& boxRect) : _bgBox(boxRect), _dest(boxRect)
+MovingBgBox::MovingBgBox(const bn::top_left_fixed_rect& boxRect, int bgPriority) : _bgBox(boxRect), _dest(boxRect)
 {
+    _bgBox.getCanvas().set_priority(bgPriority);
 }
 
 void MovingBgBox::update()

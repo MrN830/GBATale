@@ -12,7 +12,7 @@ namespace ut::game::bt::state
 
 BattleEndDodge::BattleEndDodge(scene::IngameBattle& scene) : BattleState(scene)
 {
-    _scene.getMovingBgBox().moveTo(BG_BOX_INIT_RECT);
+    _scene.getMovingBgBox().moveTo(consts::BG_BOX_INIT_RECT);
 }
 
 auto BattleEndDodge::handleInput() -> BattleStateType

@@ -10,7 +10,8 @@ namespace ut::scene
 {
 
 IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context, SceneId::INGAME_BATTLE), _movingBgBox(game::bt::BG_BOX_INIT_RECT)
+    : Scene(sceneStack, context, SceneId::INGAME_BATTLE),
+      _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL)
 {
     changeBattleState(BattleStateType::BATTLE_MENU, false);
 }

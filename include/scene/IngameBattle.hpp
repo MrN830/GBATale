@@ -3,6 +3,7 @@
 #include "scene/Scene.hpp"
 
 #include "core/MovingBgBox.hpp"
+#include "game/bt/BattleBg.hpp"
 #include "game/bt/state/BattleStates.hpp"
 
 namespace ut::scene
@@ -28,6 +29,7 @@ private:
     game::bt::state::BattleState* const _btState = reinterpret_cast<game::bt::state::BattleState*>(_btStateBuffer);
 
     core::MovingBgBox _movingBgBox;
+    game::bt::BattleBg _bg;
 };
 
 } // namespace ut::scene

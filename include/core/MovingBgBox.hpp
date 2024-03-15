@@ -11,7 +11,7 @@ private:
     static constexpr bn::fixed SPEED = 6;
 
 public:
-    MovingBgBox(const bn::top_left_fixed_rect& boxRect);
+    MovingBgBox(const bn::top_left_fixed_rect& boxRect, int bgPriority = 3);
 
     void update();
 
