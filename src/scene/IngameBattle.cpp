@@ -2,13 +2,15 @@
 
 #include "game/bt/state/BattleStateType.hpp"
 
+#include "game/bt/bt_consts.hpp"
+
 using namespace ut::game::bt::state;
 
 namespace ut::scene
 {
 
 IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
-    : Scene(sceneStack, context, SceneId::INGAME_BATTLE)
+    : Scene(sceneStack, context, SceneId::INGAME_BATTLE), _movingBgBox(game::bt::BG_BOX_INIT_RECT)
 {
     changeBattleState(BattleStateType::BATTLE_MENU, false);
 }
@@ -32,6 +34,8 @@ bool IngameBattle::handleInput()
 
 bool IngameBattle::update()
 {
+    _movingBgBox.update();
+
     const auto nextState = _btState->update();
 
     if (nextState == BattleStateType::END_BATTLE)
@@ -40,6 +44,11 @@ bool IngameBattle::update()
         changeBattleState(nextState);
 
     return false;
+}
+
+auto IngameBattle::getMovingBgBox() -> core::MovingBgBox&
+{
+    return _movingBgBox;
 }
 
 void IngameBattle::changeBattleState(BattleStateType btStateType, bool hasPrevState)

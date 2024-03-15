@@ -57,7 +57,8 @@ int main()
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 
-    sceneStack.pushScene(scene::SceneId::INTRO_STORY);
+    // sceneStack.pushScene(scene::SceneId::INTRO_STORY);
+    sceneStack.pushScene(scene::SceneId::INGAME_BATTLE); // test
 
     while (true)
     {
