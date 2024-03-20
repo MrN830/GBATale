@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bn_compare.h>
 #include <bn_string.h>
 
 namespace ut::core
