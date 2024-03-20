@@ -4,6 +4,7 @@
 
 #include "core/MovingBgBox.hpp"
 #include "game/bt/BattleBg.hpp"
+#include "game/bt/MonsterManager.hpp"
 #include "game/bt/state/BattleStates.hpp"
 
 namespace ut::scene
@@ -30,6 +31,7 @@ private:
 
     core::MovingBgBox _movingBgBox;
     game::bt::BattleBg _bg;
+    game::bt::MonsterManager _monsterManager;
 };
 
 } // namespace ut::scene

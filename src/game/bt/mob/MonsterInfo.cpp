@@ -1,12 +1,12 @@
-#include "game/bt/MonsterInfo.hpp"
+#include "game/bt/mob/MonsterInfo.hpp"
 
 #include <bn_assert.h>
 
-#include "game/bt/MonsterKind.hpp"
+#include "game/bt/mob/MonsterKind.hpp"
 
 #include "gen/TextData.hpp"
 
-namespace ut::game::bt
+namespace ut::game::bt::mob
 {
 
 auto MonsterInfo::getName() const -> const bn::string_view&

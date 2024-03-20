@@ -2,6 +2,9 @@
 
 #include <cstdint>
 
+#include <bn_array.h>
+#include <bn_fixed_point.h>
+
 #include "asset/gen/TextData_fwd.hpp"
 
 namespace ut::asset
@@ -9,10 +12,13 @@ namespace ut::asset
 enum class BgmKind : uint8_t;
 };
 
+namespace ut::game::bt::mob
+{
+enum class MonsterKind : uint8_t;
+}
+
 namespace ut::game::bt
 {
-
-enum class MonsterKind : uint8_t;
 
 struct BattleGroup
 {
@@ -21,7 +27,8 @@ public:
 
 public:
     uint8_t id;
-    MonsterKind monsters[3];
+    bn::array<mob::MonsterKind, 3> monsters;
+    bn::array<bn::fixed_point, 3> monsterPositions;
     asset::gen::TextData textData;
     asset::BgmKind bgm;
 };

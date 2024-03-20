@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace ut::game::bt
+namespace ut::game::bt::mob
 {
 
 enum class MonsterKind : uint8_t

@@ -4,7 +4,7 @@
 
 #include "asset/gen/TextData_fwd.hpp"
 
-namespace ut::game::bt
+namespace ut::game::bt::mob
 {
 
 enum class MonsterKind : uint8_t;

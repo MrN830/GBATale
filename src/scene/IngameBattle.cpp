@@ -11,7 +11,7 @@ namespace ut::scene
 
 IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::INGAME_BATTLE),
-      _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL)
+      _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL), _monsterManager(context.battleContext)
 {
     changeBattleState(BattleStateType::BATTLE_MENU, false);
 }
@@ -36,6 +36,7 @@ bool IngameBattle::handleInput()
 bool IngameBattle::update()
 {
     _movingBgBox.update();
+    _monsterManager.update();
 
     const auto nextState = _btState->update();
 
@@ -43,6 +44,8 @@ bool IngameBattle::update()
         reqStackPop();
     else if (nextState != BattleStateType::NONE)
         changeBattleState(nextState);
+
+    _monsterManager.render();
 
     return false;
 }
