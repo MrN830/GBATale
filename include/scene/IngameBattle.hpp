@@ -4,6 +4,7 @@
 
 #include "core/MovingBgBox.hpp"
 #include "game/bt/BattleBg.hpp"
+#include "game/bt/BattleTempVars.hpp"
 #include "game/bt/MonsterManager.hpp"
 #include "game/bt/state/BattleStates.hpp"
 
@@ -20,18 +21,29 @@ public:
     bool update() override;
 
 public:
+    auto getContext() -> SceneContext&;
+    auto getContext() const -> const SceneContext&;
+
     auto getMovingBgBox() -> core::MovingBgBox&;
+
+    auto getBtTempVars() -> game::bt::BattleTempVars&;
+    auto getBtTempVars() const -> const game::bt::BattleTempVars&;
 
 private:
     void changeBattleState(game::bt::state::BattleStateType, bool hasPrevState = true);
 
 private:
+    auto getState() -> game::bt::state::BattleState&;
+    auto getState() const -> const game::bt::state::BattleState&;
+
+private:
     alignas(game::bt::state::BT_ST_ALIGN_SIZE) uint8_t _btStateBuffer[game::bt::state::BT_ST_MAX_SIZE];
-    game::bt::state::BattleState* const _btState = reinterpret_cast<game::bt::state::BattleState*>(_btStateBuffer);
 
     core::MovingBgBox _movingBgBox;
     game::bt::BattleBg _bg;
     game::bt::MonsterManager _monsterManager;
+
+    game::bt::BattleTempVars _btTempVars;
 };
 
 } // namespace ut::scene

@@ -11,19 +11,20 @@ namespace ut::scene
 
 IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::INGAME_BATTLE),
-      _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL), _monsterManager(context.battleContext)
+      _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL),
+      _monsterManager(context.battleContext)
 {
     changeBattleState(BattleStateType::BATTLE_MENU, false);
 }
 
 IngameBattle::~IngameBattle()
 {
-    _btState->~BattleState();
+    getState().~BattleState();
 }
 
 bool IngameBattle::handleInput()
 {
-    const auto nextState = _btState->handleInput();
+    const auto nextState = getState().handleInput();
 
     if (nextState == BattleStateType::END_BATTLE)
         reqStackPop();
@@ -38,7 +39,7 @@ bool IngameBattle::update()
     _movingBgBox.update();
     _monsterManager.update();
 
-    const auto nextState = _btState->update();
+    const auto nextState = getState().update();
 
     if (nextState == BattleStateType::END_BATTLE)
         reqStackPop();
@@ -50,37 +51,67 @@ bool IngameBattle::update()
     return false;
 }
 
+auto IngameBattle::getContext() -> SceneContext&
+{
+    return Scene::getContext();
+}
+
+auto IngameBattle::getContext() const -> const SceneContext&
+{
+    return Scene::getContext();
+}
+
 auto IngameBattle::getMovingBgBox() -> core::MovingBgBox&
 {
     return _movingBgBox;
 }
 
+auto IngameBattle::getBtTempVars() -> game::bt::BattleTempVars&
+{
+    return _btTempVars;
+}
+
+auto IngameBattle::getBtTempVars() const -> const game::bt::BattleTempVars&
+{
+    return _btTempVars;
+}
+
 void IngameBattle::changeBattleState(BattleStateType btStateType, bool hasPrevState)
 {
     if (hasPrevState)
-        _btState->~BattleState();
+        getState().~BattleState();
 
     switch (btStateType)
     {
     case BattleStateType::BATTLE_MENU:
-        new (_btState) BattleMenu(*this);
+        new (_btStateBuffer) BattleMenu(*this);
         break;
     case BattleStateType::BATTLE_ATTACK:
-        new (_btState) BattleAttack(*this);
+        new (_btStateBuffer) BattleAttack(*this);
         break;
     case BattleStateType::BATTLE_PREPARE_DODGE:
-        new (_btState) BattlePrepareDodge(*this);
+        new (_btStateBuffer) BattlePrepareDodge(*this);
         break;
     case BattleStateType::BATTLE_DODGE:
-        new (_btState) BattleDodge(*this);
+        new (_btStateBuffer) BattleDodge(*this);
         break;
     case BattleStateType::BATTLE_END_DODGE:
-        new (_btState) BattleEndDodge(*this);
+        new (_btStateBuffer) BattleEndDodge(*this);
         break;
 
     default:
         BN_ERROR("Invalid btStateType=", (int)btStateType);
     }
+}
+
+auto IngameBattle::getState() -> game::bt::state::BattleState&
+{
+    return *reinterpret_cast<game::bt::state::BattleState*>(_btStateBuffer);
+}
+
+auto IngameBattle::getState() const -> const game::bt::state::BattleState&
+{
+    return *reinterpret_cast<const game::bt::state::BattleState*>(_btStateBuffer);
 }
 
 } // namespace ut::scene
