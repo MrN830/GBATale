@@ -12,7 +12,7 @@ namespace ut::scene
 IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::INGAME_BATTLE),
       _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL),
-      _monsterManager(context.battleContext)
+      _topUI(context.gameState, context.textGens), _monsterManager(context.battleContext)
 {
     changeBattleState(BattleStateType::BATTLE_MENU, false);
 }
@@ -64,6 +64,11 @@ auto IngameBattle::getContext() const -> const SceneContext&
 auto IngameBattle::getMovingBgBox() -> core::MovingBgBox&
 {
     return _movingBgBox;
+}
+
+auto IngameBattle::getTopUI() -> game::bt::BattleTopUI&
+{
+    return _topUI;
 }
 
 auto IngameBattle::getBtTempVars() -> game::bt::BattleTempVars&

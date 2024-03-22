@@ -41,6 +41,8 @@ constexpr bn::array<bn::fixed_point, 4> BTN_POSS = {
 
 BattleSubmenuMain::BattleSubmenuMain(BattleMenu& priMenu) : BattleSubmenu(priMenu)
 {
+    priMenu.getScene().getTopUI().setVisible(false);
+
     for (int i = 0; i < 4; ++i)
     {
         _buttons.push_back(bn::sprite_items::ui_battle_buttons.create_sprite(BTN_POSS[i], i * 2));
@@ -50,6 +52,11 @@ BattleSubmenuMain::BattleSubmenuMain(BattleMenu& priMenu) : BattleSubmenu(priMen
     // highlight selected button
     const int cursorIdx = getCursorIdx();
     _buttons[cursorIdx].set_tiles(bn::sprite_items::ui_battle_buttons.tiles_item(), cursorIdx * 2 + 1);
+}
+
+BattleSubmenuMain::~BattleSubmenuMain()
+{
+    _priMenu.getScene().getTopUI().setVisible(true);
 }
 
 auto BattleSubmenuMain::handleInput() -> BattleSubmenuType

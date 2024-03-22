@@ -58,9 +58,9 @@ void BattleMenu::changeSubmenu(sbm::BattleSubmenuType submenuType, bool hasPrevS
     case sbm::BattleSubmenuType::MAIN:
         new (_submenuBuffer) sbm::BattleSubmenuMain(*this);
         break;
-    // case sbm::BattleSubmenuType::FIGHT:
-    //     new (_submenuBuffer) sbm::BattleSubmenuFight(*this);
-    //     break;
+    case sbm::BattleSubmenuType::FIGHT:
+        new (_submenuBuffer) sbm::BattleSubmenuFight(*this);
+        break;
     // case sbm::BattleSubmenuType::ACT:
     //     new (_submenuBuffer) sbm::BattleSubmenuAct(*this);
     //     break;

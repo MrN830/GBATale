@@ -12,6 +12,7 @@ class BattleSubmenuMain final : public BattleSubmenu
 {
 public:
     BattleSubmenuMain(BattleMenu& priMenu);
+    ~BattleSubmenuMain();
 
     auto handleInput() -> BattleSubmenuType override;
 

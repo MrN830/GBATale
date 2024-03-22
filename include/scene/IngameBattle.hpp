@@ -5,6 +5,7 @@
 #include "core/MovingBgBox.hpp"
 #include "game/bt/BattleBg.hpp"
 #include "game/bt/BattleTempVars.hpp"
+#include "game/bt/BattleTopUI.hpp"
 #include "game/bt/MonsterManager.hpp"
 #include "game/bt/state/BattleStates.hpp"
 
@@ -25,6 +26,7 @@ public:
     auto getContext() const -> const SceneContext&;
 
     auto getMovingBgBox() -> core::MovingBgBox&;
+    auto getTopUI() -> game::bt::BattleTopUI&;
 
     auto getBtTempVars() -> game::bt::BattleTempVars&;
     auto getBtTempVars() const -> const game::bt::BattleTempVars&;
@@ -41,6 +43,8 @@ private:
 
     core::MovingBgBox _movingBgBox;
     game::bt::BattleBg _bg;
+    game::bt::BattleTopUI _topUI;
+
     game::bt::MonsterManager _monsterManager;
 
     game::bt::BattleTempVars _btTempVars;
