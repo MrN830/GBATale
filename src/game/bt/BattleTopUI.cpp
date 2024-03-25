@@ -33,9 +33,9 @@ inline constexpr int calcWidth(int hp)
 } // namespace
 
 BattleTopUI::BattleTopUI(const GameState& gameState, core::TextGens& textGens)
-    : _gameState(gameState), _textGens(textGens),
-      _hpBar({0, 0}, HP_BAR_HEIGHT, calcWidth(bn::max(gameState.getMaxHp(), gameState.getCurHp())),
-             calcWidth(gameState.getCurHp()), bn::colors::yellow)
+    : _gameState(gameState), _textGens(textGens), _hpBar(consts::BG_BOX_PRIORITY, {0, 0}, HP_BAR_HEIGHT,
+                                                         calcWidth(bn::max(gameState.getMaxHp(), gameState.getCurHp())),
+                                                         calcWidth(gameState.getCurHp()), bn::colors::yellow)
 {
     auto& cryptGen = _textGens.get(asset::FontKind::CRYPT);
     const auto prevColor = cryptGen.palette_item();

@@ -71,6 +71,16 @@ auto IngameBattle::getTopUI() -> game::bt::BattleTopUI&
     return _topUI;
 }
 
+auto IngameBattle::getMonsterManager() -> game::bt::MonsterManager&
+{
+    return _monsterManager;
+}
+
+auto IngameBattle::getMonsterManager() const -> const game::bt::MonsterManager&
+{
+    return _monsterManager;
+}
+
 auto IngameBattle::getBtTempVars() -> game::bt::BattleTempVars&
 {
     return _btTempVars;

@@ -28,6 +28,9 @@ public:
     auto getMovingBgBox() -> core::MovingBgBox&;
     auto getTopUI() -> game::bt::BattleTopUI&;
 
+    auto getMonsterManager() -> game::bt::MonsterManager&;
+    auto getMonsterManager() const -> const game::bt::MonsterManager&;
+
     auto getBtTempVars() -> game::bt::BattleTempVars&;
     auto getBtTempVars() const -> const game::bt::BattleTempVars&;
 

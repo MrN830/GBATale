@@ -82,7 +82,7 @@ constexpr BattleGroup GROUPS[MAX_GROUPS] = {
     {
         8,
         {Mob::MOLDSMAL_1, Mob::MOLDSMAL_1, Mob::MOLDSMAL_1},
-        TEST_POSITIONS,
+        {bn::fixed_point{-97, -9}, {-3, -9}, {92, -9}},
         Text::scr_battlegroup_116,
         Bgm::ENEMY_APPROACHING,
     },

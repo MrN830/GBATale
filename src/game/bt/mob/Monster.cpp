@@ -6,12 +6,16 @@
 namespace ut::game::bt::mob
 {
 
-Monster::Monster(MonsterKind kind, const bn::fixed_point& position) : _info(MonsterInfo::get(kind)), _position(position)
+Monster::Monster(MonsterKind kind, const bn::fixed_point& position)
+    : _info(MonsterInfo::get(kind)), _position(position), _curHp(_info.maxHp), _isActive(true)
 {
     switch (kind)
     {
     case MonsterKind::WHIMSUN:
         new (_animBuffer) WhimsunAnim(position);
+        break;
+    case MonsterKind::MOLDSMAL_1:
+        new (_animBuffer) MoldsmalAnim(position);
         break;
 
     default:
@@ -41,6 +45,16 @@ auto Monster::getInfo() const -> const MonsterInfo&
 auto Monster::getPosition() const -> const bn::fixed_point&
 {
     return _position;
+}
+
+int Monster::getCurHp() const
+{
+    return _curHp;
+}
+
+bool Monster::isActive() const
+{
+    return _isActive;
 }
 
 auto Monster::getAnim() const -> const MonsterAnim&

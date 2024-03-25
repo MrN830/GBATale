@@ -15,7 +15,7 @@ class HpBar
 public:
     /// @param totalWidth [0..64]
     /// @param height [1..8]
-    HpBar(const bn::fixed_point& topLeftPos, int height, int totalWidth, int healthWidth,
+    HpBar(int bgPriority, const bn::fixed_point& topLeftPos, int height, int totalWidth, int healthWidth,
           bn::color healthColor = bn::colors::lime, bn::color damageColor = bn::colors::red);
 
     void setVisible(bool isVisible);

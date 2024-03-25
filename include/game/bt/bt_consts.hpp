@@ -16,4 +16,6 @@ inline constexpr bn::top_left_fixed_rect BG_BOX_INIT_RECT = {
     56,
 };
 
+inline constexpr int MAX_MOBS = 3;
+
 } // namespace ut::game::bt::consts

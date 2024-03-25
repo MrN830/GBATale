@@ -12,6 +12,9 @@ enum class MonsterKind : uint8_t;
 struct MonsterInfo
 {
 public:
+    static constexpr int MAX_NAME_LEN = 18;
+
+public:
     static auto get(MonsterKind) -> const MonsterInfo&;
 
 public:

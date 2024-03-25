@@ -4,6 +4,8 @@
 
 #include "game/bt/mob/Monster.hpp"
 
+#include "game/bt/bt_consts.hpp"
+
 namespace ut::game::bt
 {
 
@@ -18,7 +20,10 @@ public:
     void render();
 
 private:
-    bn::vector<mob::Monster, 3> _monsters;
+    bn::vector<mob::Monster, consts::MAX_MOBS> _monsters;
+
+public:
+    auto getMonsters() const -> decltype((_monsters));
 };
 
 } // namespace ut::game::bt

@@ -30,8 +30,8 @@ inline ColorIdx getPlotColor(int dotX, int healthWidth, int totalWidth)
 
 } // namespace
 
-HpBar::HpBar(const bn::fixed_point& topLeftPos, int height, int totalWidth, int healthWidth, bn::color healthColor,
-             bn::color damageColor)
+HpBar::HpBar(int bgPriority, const bn::fixed_point& topLeftPos, int height, int totalWidth, int healthWidth,
+             bn::color healthColor, bn::color damageColor)
     : _height(height), _totalWidth(totalWidth), _healthWidth(healthWidth), _tiles{},
       _colors{bn::colors::black, healthColor, damageColor},
       _palette(bn::sprite_palette_item(_colors, bn::bpp_mode::BPP_4).create_palette()),
@@ -49,6 +49,9 @@ HpBar::HpBar(const bn::fixed_point& topLeftPos, int height, int totalWidth, int 
     BN_ASSERT(0 <= height && height <= 8, "Invalid height=", height);
 
     redraw();
+
+    for (auto& spr : _sprites)
+        spr.set_bg_priority(bgPriority);
 }
 
 void HpBar::setVisible(bool isVisible)

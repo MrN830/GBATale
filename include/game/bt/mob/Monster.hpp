@@ -25,6 +25,11 @@ public:
     auto getInfo() const -> const MonsterInfo&;
     auto getPosition() const -> const bn::fixed_point&;
 
+    int getCurHp() const;
+
+    // not spared, killed, bored
+    bool isActive() const;
+
 private:
     auto getAnim() const -> const MonsterAnim&;
     auto getAnim() -> MonsterAnim&;
@@ -32,6 +37,9 @@ private:
 private:
     const MonsterInfo& _info;
     const bn::fixed_point _position;
+
+    int _curHp;
+    bool _isActive;
 
     alignas(MOB_ANIM_ALIGN_SIZE) uint8_t _animBuffer[MOB_ANIM_MAX_SIZE];
 };
