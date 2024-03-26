@@ -1,5 +1,7 @@
 #include "scene/IngameBattle.hpp"
 
+#include "game/bt/BattleContext.hpp"
+#include "game/bt/BattleGroup.hpp"
 #include "game/bt/state/BattleStateType.hpp"
 
 #include "game/bt/bt_consts.hpp"
@@ -14,6 +16,10 @@ IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
       _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL),
       _topUI(context.gameState, context.textGens), _monsterManager(context.battleContext)
 {
+    // initial dialog
+    const auto& battleGroup = game::bt::BattleGroup::get(context.battleContext.battleGroupId);
+    _btTempVars.dialogs[0].push_back(asset::gen::getTextEn(battleGroup.textData));
+
     changeBattleState(BattleStateType::BATTLE_MENU, false);
 }
 

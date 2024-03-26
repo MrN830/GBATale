@@ -39,7 +39,8 @@ constexpr bn::array<bn::fixed_point, 4> BTN_POSS = {
 
 }; // namespace
 
-BattleSubmenuMain::BattleSubmenuMain(BattleMenu& priMenu) : BattleSubmenu(priMenu)
+BattleSubmenuMain::BattleSubmenuMain(BattleMenu& priMenu)
+    : BattleSubmenu(priMenu), _dialogWriter(priMenu.getScene().getContext(), consts::BG_BOX_PRIORITY)
 {
     priMenu.getScene().getTopUI().setVisible(false);
 
@@ -52,6 +53,11 @@ BattleSubmenuMain::BattleSubmenuMain(BattleMenu& priMenu) : BattleSubmenu(priMen
     // highlight selected button
     const int cursorIdx = getCursorIdx();
     _buttons[cursorIdx].set_tiles(bn::sprite_items::ui_battle_buttons.tiles_item(), cursorIdx * 2 + 1);
+
+    // dialogs
+    auto& dialogs = priMenu.getScene().getBtTempVars().dialogs[0];
+    const auto& settings = core::DialogSettings::getPreset(core::DialogSettings::PresetKind::BATTLE_MAIN);
+    _dialogWriter.start(bn::span(dialogs.cbegin(), dialogs.cend()), settings, _dialogSprs);
 }
 
 BattleSubmenuMain::~BattleSubmenuMain()
@@ -67,6 +73,13 @@ auto BattleSubmenuMain::handleInput() -> BattleSubmenuType
         select((getCursorIdx() - 1 + _buttons.size()) % _buttons.size());
     else if (bn::keypad::right_pressed())
         select((getCursorIdx() + 1) % _buttons.size());
+
+    return BattleSubmenuType::NONE;
+}
+
+auto BattleSubmenuMain::update() -> BattleSubmenuType
+{
+    _dialogWriter.update();
 
     return BattleSubmenuType::NONE;
 }

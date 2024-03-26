@@ -30,6 +30,13 @@ auto BattleMenu::handleInput() -> BattleStateType
 
 auto BattleMenu::update() -> BattleStateType
 {
+    const auto nextSubmenu = getSubmenu().update();
+
+    if (_nextBtState != BattleStateType::NONE)
+        return _nextBtState;
+    else if (nextSubmenu != sbm::BattleSubmenuType::NONE)
+        changeSubmenu(nextSubmenu);
+
     return BattleStateType::NONE;
 }
 

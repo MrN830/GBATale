@@ -28,6 +28,8 @@ public:
         WORLD_UPPER,
         WORLD_LOWER,
 
+        BATTLE_MAIN,
+
         TOTAL_COUNT
     };
 

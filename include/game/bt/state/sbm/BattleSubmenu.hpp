@@ -20,6 +20,9 @@ public:
     /// @return next battle submenu
     [[nodiscard]] virtual auto handleInput() -> BattleSubmenuType = 0;
 
+    /// @return next battle submenu
+    [[nodiscard]] virtual auto update() -> BattleSubmenuType;
+
 protected:
     BattleMenu& _priMenu;
 };

@@ -71,6 +71,17 @@ constexpr DialogSettings SETTINGS_PRESETS[(int)DialogSettings::PresetKind::TOTAL
         asset::PortraitFaceKind::NONE,
         0,
     },
+    DialogSettings{
+        asset::FontKind::MAIN,
+        asset::TextColorKind::WHITE,
+        asset::SfxKind::VOICE_INTRO,
+        bn::fixed_point{10, 116} + TOP_LEFT_ORIGIN,
+        225,
+        14,
+        1,
+        asset::PortraitFaceKind::NONE,
+        0,
+    },
 };
 
 constexpr DialogSettingsOverride SETTINGS_OVERRIDE_PRESETS[(int)DialogSettingsOverride::PresetKind::TOTAL_COUNT] = {
