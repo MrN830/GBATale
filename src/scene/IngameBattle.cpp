@@ -1,5 +1,6 @@
 #include "scene/IngameBattle.hpp"
 
+#include "asset/Bgm.hpp"
 #include "game/bt/BattleContext.hpp"
 #include "game/bt/BattleGroup.hpp"
 #include "game/bt/state/BattleStateType.hpp"
@@ -19,6 +20,8 @@ IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
     // initial dialog
     const auto& battleGroup = game::bt::BattleGroup::get(context.battleContext.battleGroupId);
     _btTempVars.dialogs[0].push_back(asset::gen::getTextEn(battleGroup.textData));
+
+    asset::Bgm::play(battleGroup.bgm);
 
     changeBattleState(BattleStateType::BATTLE_MENU, false);
 }
