@@ -40,7 +40,7 @@ constexpr bn::array<bn::fixed_point, 4> BTN_POSS = {
 }; // namespace
 
 BattleSubmenuMain::BattleSubmenuMain(BattleMenu& priMenu)
-    : BattleSubmenu(priMenu), _dialogWriter(priMenu.getScene().getContext(), consts::BG_BOX_PRIORITY)
+    : BattleSubmenu(priMenu), _dialogWriter(priMenu.getScene().getContext(), consts::BG_ATK_PRIORITY)
 {
     priMenu.getScene().getTopUI().setVisible(false);
 

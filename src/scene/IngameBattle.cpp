@@ -46,6 +46,7 @@ bool IngameBattle::handleInput()
 bool IngameBattle::update()
 {
     _movingBgBox.update();
+    _atkBg.update();
     _monsterManager.update();
 
     const auto nextState = getState().update();
@@ -78,6 +79,11 @@ auto IngameBattle::getMovingBgBox() -> core::MovingBgBox&
 auto IngameBattle::getTopUI() -> game::bt::BattleTopUI&
 {
     return _topUI;
+}
+
+auto IngameBattle::getAttackBg() -> game::bt::BattleAttackBg&
+{
+    return _atkBg;
 }
 
 auto IngameBattle::getMonsterManager() -> game::bt::MonsterManager&

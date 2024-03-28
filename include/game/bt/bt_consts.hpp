@@ -6,8 +6,9 @@
 namespace ut::game::bt::consts
 {
 
-inline constexpr int BG_BOX_PRIORITY = 2;
 inline constexpr int BG_BACKDROP_PRIORITY = 3;
+inline constexpr int BG_BOX_PRIORITY = 2;
+inline constexpr int BG_ATK_PRIORITY = 1;
 
 inline constexpr bn::top_left_fixed_rect BG_BOX_INIT_RECT = {
     2 - bn::display::width() / 2,
@@ -15,7 +16,15 @@ inline constexpr bn::top_left_fixed_rect BG_BOX_INIT_RECT = {
     236,
     56,
 };
+inline constexpr bn::top_left_fixed_rect BG_BOX_DODGE_DEFAULT_RECT = {
+    79 - bn::display::width() / 2,
+    88 - bn::display::height() / 2,
+    82,
+    70,
+};
 
 inline constexpr int MAX_MOBS = 3;
+
+inline constexpr bn::fixed ATK_BG_RATIO = 236.0 / 562;
 
 } // namespace ut::game::bt::consts

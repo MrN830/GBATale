@@ -3,6 +3,7 @@
 #include "scene/Scene.hpp"
 
 #include "core/MovingBgBox.hpp"
+#include "game/bt/BattleAttackBg.hpp"
 #include "game/bt/BattleBg.hpp"
 #include "game/bt/BattleTempVars.hpp"
 #include "game/bt/BattleTopUI.hpp"
@@ -27,6 +28,7 @@ public:
 
     auto getMovingBgBox() -> core::MovingBgBox&;
     auto getTopUI() -> game::bt::BattleTopUI&;
+    auto getAttackBg() -> game::bt::BattleAttackBg&;
 
     auto getMonsterManager() -> game::bt::MonsterManager&;
     auto getMonsterManager() const -> const game::bt::MonsterManager&;
@@ -47,6 +49,7 @@ private:
     core::MovingBgBox _movingBgBox;
     game::bt::BattleBg _bg;
     game::bt::BattleTopUI _topUI;
+    game::bt::BattleAttackBg _atkBg;
 
     game::bt::MonsterManager _monsterManager;
 

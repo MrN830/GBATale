@@ -77,16 +77,16 @@ BattleSubmenuFight::BattleSubmenuFight(BattleMenu& priMenu)
         if (!mob.isActive())
             continue;
 
-        _hpBars.emplace_back(consts::BG_BOX_PRIORITY, bn::fixed_point(hpBarX, NAME_POSS[i].y() + NAME_HP_BAR_DIFF.y()),
+        _hpBars.emplace_back(consts::BG_ATK_PRIORITY, bn::fixed_point(hpBarX, NAME_POSS[i].y() + NAME_HP_BAR_DIFF.y()),
                              HP_BAR_HEIGHT, HP_BAR_TOTAL_WIDTH, calcHealthWidth(mob.getCurHp(), mobInfo.maxHp));
 
         _mobActiveFlags.set(i);
     }
 
     // set bg priority
-    _heartSpr.set_bg_priority(consts::BG_BOX_PRIORITY);
+    _heartSpr.set_bg_priority(consts::BG_ATK_PRIORITY);
     for (auto& spr : _nameSprs)
-        spr.set_bg_priority(consts::BG_BOX_PRIORITY);
+        spr.set_bg_priority(consts::BG_ATK_PRIORITY);
 
     BN_ASSERT(_mobActiveFlags.any(), "No monster is active");
 

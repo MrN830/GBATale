@@ -1,18 +1,32 @@
 #include "game/bt/state/BattlePrepareDodge.hpp"
 
-#include <bn_display.h> // test
-
 #include "game/bt/state/BattleStateType.hpp"
 
-#include "core/MovingBgBox.hpp"
 #include "scene/IngameBattle.hpp"
+
+#include "game/bt/bt_consts.hpp"
 
 namespace ut::game::bt::state
 {
 
+namespace
+{
+
+constexpr bn::top_left_fixed_rect BG_BOX_DEST = {
+    consts::BG_BOX_DODGE_DEFAULT_RECT.x(),
+    consts::BG_BOX_INIT_RECT.y(),
+    consts::BG_BOX_DODGE_DEFAULT_RECT.width(),
+    consts::BG_BOX_INIT_RECT.height(),
+};
+
+} // namespace
+
 BattlePrepareDodge::BattlePrepareDodge(scene::IngameBattle& scene) : BattleState(scene)
 {
-    _scene.getMovingBgBox().moveTo({79 - bn::display::width() / 2, 88 - bn::display::height() / 2, 82, 70}); // test
+    scene.getMovingBgBox().moveTo(BG_BOX_DEST);
+
+    if (scene.getAttackBg().isVisible())
+        scene.getAttackBg().startFadeOut();
 }
 
 auto BattlePrepareDodge::handleInput() -> BattleStateType
@@ -22,8 +36,8 @@ auto BattlePrepareDodge::handleInput() -> BattleStateType
 
 auto BattlePrepareDodge::update() -> BattleStateType
 {
-    // TODO: change to mob text done
-    if (_scene.getMovingBgBox().isDoneMoving())
+    // TODO: add mob text done
+    if (_scene.getMovingBgBox().isDoneMoving() && !_scene.getAttackBg().isVisible())
         return BattleStateType::BATTLE_DODGE;
 
     return BattleStateType::NONE;
