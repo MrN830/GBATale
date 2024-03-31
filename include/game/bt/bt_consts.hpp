@@ -25,6 +25,7 @@ inline constexpr bn::top_left_fixed_rect BG_BOX_DODGE_DEFAULT_RECT = {
 
 inline constexpr int MAX_MOBS = 3;
 
-inline constexpr bn::fixed ATK_BG_RATIO = 236.0 / 562;
+inline constexpr bn::fixed ATK_BG_WIDTH = 236;
+inline constexpr bn::fixed ATK_BG_RATIO = ATK_BG_WIDTH / 562;
 
 } // namespace ut::game::bt::consts
