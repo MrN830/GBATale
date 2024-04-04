@@ -1,8 +1,8 @@
 #pragma once
 
 #include <bn_camera_ptr.h>
-#include <bn_fixed_point.h>
-#include <bn_fixed_size.h>
+
+#include "core/CameraShakeAction.hpp"
 
 namespace ut::game
 {
@@ -23,7 +23,7 @@ public:
 
     void update(GameContext&);
 
-    void startShake(const bn::fixed_size& shakeScale, int16_t waitUpdate);
+    void startShake(const bn::fixed_size& shakeScale, const bn::fixed_size& shakeDecrease, int waitUpdate);
 
 public:
     auto getCamFollowEntity() const -> const ent::Entity*;
@@ -47,10 +47,7 @@ private:
     const ent::Entity* _camFollowEntity = nullptr;
     bn::fixed_point _camFollowEntityDiff;
 
-    bn::fixed_point _shakeScale;
-    int16_t _shakeWaitUpdate = -1;
-    int16_t _shakeCountdown = -1;
-    bool _curShakeDir = true;
+    bn::optional<core::CameraShakeAction> _camShake;
 };
 
 } // namespace ut::game::sys

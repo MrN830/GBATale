@@ -29,6 +29,13 @@
 namespace ut::game::cpnt::inter
 {
 
+namespace
+{
+constexpr bn::fixed_size CAM_SHAKE_SCALE = {4, 0};
+constexpr bn::fixed_size CAM_SHAKE_DECREASE = {1, 0};
+constexpr int CAM_SHAKE_DURATION_UPDATES = 2;
+} // namespace
+
 RuinsWallSwitch::RuinsWallSwitch(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
     : RuinsSpikeDisabler(entity, InteractionType::RuinsWallSwitch, isEnabled, triggers)
 {
@@ -121,7 +128,7 @@ auto RuinsWallSwitch::onInteract(GameContext& ctx) -> task::Task
             ctx.state.setPlot(GamePlot::SWITCH_PUZZLE_COMPLETE);
 
             getSfx(SfxKind::SCREEN_SHAKE)->play();
-            ctx.camMngr.startShake({4, 0}, 2);
+            ctx.camMngr.startShake(CAM_SHAKE_SCALE, CAM_SHAKE_DECREASE, CAM_SHAKE_DURATION_UPDATES);
             co_await task::SignalAwaiter({task::TaskSignal::Kind::CAM_SHAKE_END});
 
             // Toriel talks
@@ -196,7 +203,7 @@ auto RuinsWallSwitch::onInteract(GameContext& ctx) -> task::Task
         ctx.state.setPlot(GamePlot::JUST_ONE_SWITCH_PUZZLE_SOLVED);
 
         getSfx(SfxKind::SCREEN_SHAKE)->play();
-        ctx.camMngr.startShake({4, 0}, 2);
+        ctx.camMngr.startShake(CAM_SHAKE_SCALE, CAM_SHAKE_DECREASE, CAM_SHAKE_DURATION_UPDATES);
         co_await task::SignalAwaiter({task::TaskSignal::Kind::CAM_SHAKE_END});
 
         BN_ASSERT(ctx.interactStack.top() == InteractState::INTERACT);
