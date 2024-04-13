@@ -24,6 +24,7 @@ private:
 
 public:
     auto getMonsters() const -> decltype((_monsters));
+    auto getMonsters() -> decltype((_monsters));
 };
 
 } // namespace ut::game::bt

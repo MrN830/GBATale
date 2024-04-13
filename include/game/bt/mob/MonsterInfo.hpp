@@ -4,6 +4,11 @@
 
 #include "asset/gen/TextData_fwd.hpp"
 
+namespace ut::asset
+{
+enum class SfxKind : int16_t;
+}
+
 namespace ut::game::bt::mob
 {
 
@@ -28,6 +33,7 @@ public:
     int exp, gold;
 
     asset::gen::TextData nameData;
+    asset::SfxKind hurtCry;
 };
 
-} // namespace ut::game::bt
+} // namespace ut::game::bt::mob

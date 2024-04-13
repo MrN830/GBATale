@@ -7,6 +7,8 @@ namespace ut::game::bt::mob
 
 enum class MonsterAnimKind : uint8_t
 {
+    STOP, // if `once` anim is `done()`
+
     IDLE,
     HURT,
     KILLED,
@@ -23,9 +25,9 @@ public:
 
     void start(MonsterAnimKind);
 
-protected:
     auto getAnimKind() const -> MonsterAnimKind;
 
+protected:
     virtual void startAnim(MonsterAnimKind) = 0;
 
 private:

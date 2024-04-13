@@ -180,6 +180,12 @@ auto BattleAttack::updateOnSliceOngoing() -> BattleStateType
     // 2. mob hurt delay
     else if (--_countdown <= 0)
     {
+        // start mob damage react
+        const int mobIdx = _scene.getBtTempVars().submenuMobSelectIdx;
+        auto& mob = _scene.getMonsterManager().getMonsters()[mobIdx];
+
+        mob.getReact().onDamage(calcDamage(), mob, _scene);
+
         _state = State::MOB_DAMAGE_ANIM_ONGOING;
     }
 
@@ -188,10 +194,35 @@ auto BattleAttack::updateOnSliceOngoing() -> BattleStateType
 
 auto BattleAttack::updateOnMobDamageAnimOngoing() -> BattleStateType
 {
-    // test
-    return BattleStateType::BATTLE_PREPARE_DODGE;
+    const int mobIdx = _scene.getBtTempVars().submenuMobSelectIdx;
+    auto& mob = _scene.getMonsterManager().getMonsters()[mobIdx];
 
-    // return BattleStateType::NONE;
+    // if mob damage anim is done
+    if (mob.getAnim().getAnimKind() == mob::MonsterAnimKind::STOP)
+    {
+        // if mob is killed
+        if (mob.getCurHp() <= 0)
+        {
+            mob.getReact().onKilled(mob, _scene);
+        }
+        else
+        {
+            mob.getAnim().start(mob::MonsterAnimKind::IDLE);
+        }
+
+        // TODO: check if all mobs are inactive
+        // If so, end battle
+        // If not, prepare dodge
+        return BattleStateType::BATTLE_PREPARE_DODGE;
+    }
+
+    return BattleStateType::NONE;
+}
+
+int BattleAttack::calcDamage()
+{
+    // TODO: Implement actual damage calculation
+    return 5;
 }
 
 } // namespace ut::game::bt::state

@@ -26,22 +26,71 @@ auto initSpr(const bn::fixed_point& position) -> bn::sprite_ptr
 
 MoldsmalAnim::MoldsmalAnim(const bn::fixed_point& position)
     : _spr(initSpr(position)), _scaleAction(_spr, DURATION_UPDATES, MAX_SCALE),
-      _moveAction(_spr, DURATION_UPDATES, position + DIFF_POS)
+      _moveAction(_spr, DURATION_UPDATES, position + DIFF_POS),
+      _sprShake(_spr, core::ShakeStyle::ONE_WAY, {16, 0}, {2, 0}, 2)
 {
 }
 
 void MoldsmalAnim::render()
 {
-    if (getAnimKind() == MonsterAnimKind::IDLE)
+    switch (getAnimKind())
     {
+    case MonsterAnimKind::STOP:
+        break;
+
+    case MonsterAnimKind::IDLE:
         _scaleAction.update();
         _moveAction.update();
+        break;
+
+    case MonsterAnimKind::HURT:
+        if (!_sprShake.isDone())
+        {
+            _sprShake.update();
+
+            if (_sprShake.isDone())
+                start(MonsterAnimKind::STOP);
+        }
+        break;
+
+    case MonsterAnimKind::KILLED:
+        // TODO: animate vaporize
+        break;
+
+    default:
+        BN_ERROR("Invalid animKind=", (int)getAnimKind());
     }
 }
 
-void MoldsmalAnim::startAnim(MonsterAnimKind)
+void MoldsmalAnim::startAnim(MonsterAnimKind animKind)
 {
-    // TODO
+    // prev: clean-up
+    switch (getAnimKind())
+    {
+    case MonsterAnimKind::IDLE:
+        _scaleAction.reset();
+        _moveAction.reset();
+        break;
+
+    default:
+        break;
+    }
+
+    // new: setup
+    switch (animKind)
+    {
+    case MonsterAnimKind::HURT:
+        _sprShake.reset();
+        break;
+
+    case MonsterAnimKind::KILLED:
+        // TODO: start vaporize
+        _spr.set_visible(false);
+        break;
+
+    default:
+        break;
+    }
 }
 
 } // namespace ut::game::bt::mob

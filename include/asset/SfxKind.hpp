@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace bn
 {
 class sound_item;
@@ -8,12 +10,12 @@ class sound_item;
 namespace ut::asset
 {
 
-enum class SfxKind;
+enum class SfxKind : int16_t;
 
 auto getSfx(SfxKind) -> const bn::sound_item*;
 void playSfxWithDelay(SfxKind, int delay);
 
-enum class SfxKind
+enum class SfxKind : int16_t
 {
     NONE = -1,
 
@@ -26,6 +28,9 @@ enum class SfxKind
     HEAL_BIG,
     HURT_SMALL,
     HURT_BIG,
+    MOB_HURT_SMALL,
+    MOB_HURT_BIG,
+    VAPORIZED,
     ATK_SLICE_SMALL,
     ATK_SLICE_BIG,
     SWALLOW,
@@ -69,6 +74,8 @@ enum class SfxKind
     VOICE_ALPHYS,
     VOICE_ASGORE,
     VOICE_ASRIEL,
+
+    MOB_CRY_FROGGIT,
 
     TOTAL_COUNT
 };

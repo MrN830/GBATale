@@ -28,6 +28,9 @@ private:
     auto updateOnMobDamageAnimOngoing() -> BattleStateType;
 
 private:
+    static int calcDamage();
+
+private:
     enum class State
     {
         WAIT_BAR_CREATION,

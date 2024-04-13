@@ -13,9 +13,11 @@ Monster::Monster(MonsterKind kind, const bn::fixed_point& position)
     {
     case MonsterKind::WHIMSUN:
         new (_animBuffer) WhimsunAnim(position);
+        new (_reactBuffer) WhimsunReact();
         break;
     case MonsterKind::MOLDSMAL_1:
         new (_animBuffer) MoldsmalAnim(position);
+        new (_reactBuffer) MoldsmalReact();
         break;
 
     default:
@@ -26,6 +28,7 @@ Monster::Monster(MonsterKind kind, const bn::fixed_point& position)
 Monster::~Monster()
 {
     getAnim().~MonsterAnim();
+    getReact().~MonsterReact();
 }
 
 void Monster::update()
@@ -52,9 +55,19 @@ int Monster::getCurHp() const
     return _curHp;
 }
 
+void Monster::setCurHp(int curHp)
+{
+    _curHp = curHp;
+}
+
 bool Monster::isActive() const
 {
     return _isActive;
+}
+
+void Monster::setActive(bool isActive)
+{
+    _isActive = isActive;
 }
 
 auto Monster::getAnim() const -> const MonsterAnim&
@@ -65,6 +78,16 @@ auto Monster::getAnim() const -> const MonsterAnim&
 auto Monster::getAnim() -> MonsterAnim&
 {
     return *reinterpret_cast<MonsterAnim*>(_animBuffer);
+}
+
+auto Monster::getReact() const -> const MonsterReact&
+{
+    return *reinterpret_cast<const MonsterReact*>(_reactBuffer);
+}
+
+auto Monster::getReact() -> MonsterReact&
+{
+    return *reinterpret_cast<MonsterReact*>(_reactBuffer);
 }
 
 } // namespace ut::game::bt::mob

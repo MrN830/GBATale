@@ -2,6 +2,7 @@
 
 #include <bn_assert.h>
 
+#include "asset/SfxKind.hpp"
 #include "game/bt/mob/MonsterKind.hpp"
 
 #include "gen/TextData.hpp"
@@ -19,6 +20,7 @@ namespace
 {
 
 using Text = asset::gen::TextData;
+using Sfx = asset::SfxKind;
 
 constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
     {
@@ -29,6 +31,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         0,
         0,
         Text::NONE,
+        Sfx::NONE,
     },
     {
         MonsterKind::TEST_FROGGIT,
@@ -38,6 +41,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         2,
         2,
         Text::monstername_1,
+        Sfx::MOB_CRY_FROGGIT,
     },
     {
         MonsterKind::DUMMY,
@@ -47,6 +51,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         0,
         0,
         Text::monstername_2,
+        Sfx::NONE,
     },
     {
         MonsterKind::FAKE_FROGGIT,
@@ -56,6 +61,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         10,
         20,
         Text::monstername_3,
+        Sfx::MOB_CRY_FROGGIT,
     },
     {
         MonsterKind::FROGGIT,
@@ -65,6 +71,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         3,
         2,
         Text::monstername_4,
+        Sfx::MOB_CRY_FROGGIT,
     },
     {
         MonsterKind::WHIMSUN,
@@ -74,6 +81,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         2,
         2,
         Text::monstername_5,
+        Sfx::NONE,
     },
     {
         MonsterKind::MOLDSMAL_1,
@@ -83,6 +91,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         3,
         3,
         Text::monstername_6,
+        Sfx::NONE,
     },
     {
         MonsterKind::MIGOSP,
@@ -92,6 +101,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         5,
         4,
         Text::monstername_7,
+        Sfx::NONE,
     },
     {
         MonsterKind::VEGETOID,
@@ -101,6 +111,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         6,
         1,
         Text::monstername_8,
+        Sfx::NONE,
     },
     {
         MonsterKind::LOOX,
@@ -110,6 +121,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         7,
         5,
         Text::monstername_9,
+        Sfx::NONE,
     },
     {
         MonsterKind::TORIEL,
@@ -119,6 +131,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         0,
         0,
         Text::monstername_10,
+        Sfx::NONE,
     },
     {
         MonsterKind::NAPSTABLOOK,
@@ -128,6 +141,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         -1,
         0,
         Text::monstername_11,
+        Sfx::NONE,
     },
     {
         MonsterKind::MOLDSMAL_2,
@@ -137,6 +151,7 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         3,
         3,
         Text::monstername_12,
+        Sfx::NONE,
     },
 };
 
@@ -149,4 +164,4 @@ auto MonsterInfo::get(MonsterKind kind) -> const MonsterInfo&
     return MOBS[(int)kind];
 }
 
-} // namespace ut::game::bt
+} // namespace ut::game::bt::mob

@@ -39,4 +39,9 @@ auto MonsterManager::getMonsters() const -> decltype((_monsters))
     return _monsters;
 }
 
+auto MonsterManager::getMonsters() -> decltype((_monsters))
+{
+    return _monsters;
+}
+
 } // namespace ut::game::bt

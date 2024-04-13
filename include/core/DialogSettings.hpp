@@ -7,7 +7,7 @@ namespace ut::asset
 {
 enum class FontKind;
 enum class TextColorKind;
-enum class SfxKind;
+enum class SfxKind : int16_t;
 enum class PortraitFaceKind : uint8_t;
 } // namespace ut::asset
 
