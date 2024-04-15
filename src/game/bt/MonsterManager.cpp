@@ -13,7 +13,7 @@ MonsterManager::MonsterManager(const BattleContext& context)
     for (int i = 0; i < battleGroup.monsters.max_size(); ++i)
     {
         const auto mobKind = battleGroup.monsters[i];
-        const auto mobPos = battleGroup.monsterPositions[i];
+        const auto& mobPos = battleGroup.monsterPositions[i];
 
         if (mobKind == mob::MonsterKind::NONE)
             break;

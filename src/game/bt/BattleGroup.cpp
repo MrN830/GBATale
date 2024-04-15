@@ -47,14 +47,14 @@ constexpr BattleGroup GROUPS[MAX_GROUPS] = {
     {
         3,
         {Mob::FAKE_FROGGIT, Mob::NONE, Mob::NONE},
-        TEST_POSITIONS,
+        {bn::fixed_point(0, -5)},
         Text::SCR_TEXT_7084,
         Bgm::ANTICIPATION,
     },
     {
         4,
         {Mob::FROGGIT, Mob::NONE, Mob::NONE},
-        TEST_POSITIONS,
+        {bn::fixed_point(0, -5)},
         Text::SCR_TEXT_7089,
         Bgm::ENEMY_APPROACHING,
     },
@@ -68,7 +68,7 @@ constexpr BattleGroup GROUPS[MAX_GROUPS] = {
     {
         6,
         {Mob::FROGGIT, Mob::WHIMSUN, Mob::NONE},
-        TEST_POSITIONS,
+        {bn::fixed_point(-7, -5), bn::fixed_point(47, -34)},
         Text::SCR_TEXT_7099,
         Bgm::ENEMY_APPROACHING,
     },
@@ -89,7 +89,7 @@ constexpr BattleGroup GROUPS[MAX_GROUPS] = {
     {
         9,
         {Mob::FROGGIT, Mob::FROGGIT, Mob::NONE},
-        TEST_POSITIONS,
+        {bn::fixed_point(-47, -5), bn::fixed_point(48, -5)},
         Text::scr_battlegroup_133,
         Bgm::ENEMY_APPROACHING,
     },

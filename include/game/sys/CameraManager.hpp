@@ -2,7 +2,7 @@
 
 #include <bn_camera_ptr.h>
 
-#include "core/CameraShakeAction.hpp"
+#include "action/CameraShakeAction.hpp"
 
 namespace ut::game
 {
@@ -47,7 +47,7 @@ private:
     const ent::Entity* _camFollowEntity = nullptr;
     bn::fixed_point _camFollowEntityDiff;
 
-    bn::optional<core::CameraShakeAction> _camShake;
+    bn::optional<action::CameraShakeAction> _camShake;
 };
 
 } // namespace ut::game::sys

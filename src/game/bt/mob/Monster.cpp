@@ -11,6 +11,10 @@ Monster::Monster(MonsterKind kind, const bn::fixed_point& position)
 {
     switch (kind)
     {
+    case MonsterKind::FROGGIT:
+        new (_animBuffer) FroggitAnim(position);
+        new (_reactBuffer) FroggitReact();
+        break;
     case MonsterKind::WHIMSUN:
         new (_animBuffer) WhimsunAnim(position);
         new (_reactBuffer) WhimsunReact();
@@ -27,8 +31,8 @@ Monster::Monster(MonsterKind kind, const bn::fixed_point& position)
 
 Monster::~Monster()
 {
-    getAnim().~MonsterAnim();
     getReact().~MonsterReact();
+    getAnim().~MonsterAnim();
 }
 
 void Monster::update()

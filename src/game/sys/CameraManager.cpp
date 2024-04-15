@@ -41,7 +41,7 @@ void CameraManager::update(GameContext& ctx)
 void CameraManager::startShake(const bn::fixed_size& shakeScale, const bn::fixed_size& shakeDecrease,
                                const int durationUpdate)
 {
-    _camShake.emplace(_camera, core::ShakeStyle::ONE_WAY, shakeScale, shakeDecrease, durationUpdate);
+    _camShake.emplace(_camera, action::ShakeStyle::ONE_WAY, shakeScale, shakeDecrease, durationUpdate);
 }
 
 auto CameraManager::getCamFollowEntity() const -> const ent::Entity*

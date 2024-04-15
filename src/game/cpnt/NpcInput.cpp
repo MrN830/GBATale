@@ -47,7 +47,7 @@ void NpcInput::startOneWay(const cmd::MoveCmd& cmd, int lastTicks)
 
 void NpcInput::startPath(const asset::IPath& path, bn::fixed speed)
 {
-    BN_ASSERT(speed > 0, "Non-position speed: ", speed);
+    BN_ASSERT(speed > 0, "Non-positive speed: ", speed);
     BN_ASSERT(path.getPoints().size() >= 2, "Path doesn't have 2 points: ", path.getPoints().size());
 
     _mode = Mode::PATH;

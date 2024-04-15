@@ -3,7 +3,7 @@
 #include <bn_fixed_point.h>
 #include <bn_fixed_size.h>
 
-namespace ut::core
+namespace ut::action
 {
 
 enum class ShakeStyle : uint8_t
@@ -15,8 +15,8 @@ enum class ShakeStyle : uint8_t
 /**
  * @brief Butano-style position shaker.
  *
- * Unlike Butano's value_template_actions, `Value` is referenced, so it should outlive the `ShakeValueTemplateAction` to
- * avoid dangling reference.
+ * Unlike Butano's value_template_actions, `Value` is referenced,
+ * so it should outlive the `ShakeValueTemplateAction` to avoid dangling reference.
  *
  * @tparam Value Value to modify.
  * @tparam PositionManager Reads and writes the position of the value to modify.
@@ -112,4 +112,4 @@ private:
     bool _isShakeDirectionPositive = true;
 };
 
-} // namespace ut::core
+} // namespace ut::action

@@ -4,7 +4,7 @@
 
 #include <bn_sprite_actions.h>
 
-#include "core/SpriteShakeAction.hpp"
+#include "action/SpriteShakeAction.hpp"
 
 namespace ut::game::bt::mob
 {
@@ -24,7 +24,7 @@ private:
     bn::sprite_vertical_scale_loop_action _scaleAction;
     bn::sprite_move_loop_action _moveAction;
 
-    core::SpriteShakeAction _sprShake;
+    action::SpriteShakeAction _sprShake;
 };
 
 } // namespace ut::game::bt::mob

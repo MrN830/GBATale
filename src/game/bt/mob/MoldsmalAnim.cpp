@@ -27,7 +27,7 @@ auto initSpr(const bn::fixed_point& position) -> bn::sprite_ptr
 MoldsmalAnim::MoldsmalAnim(const bn::fixed_point& position)
     : _spr(initSpr(position)), _scaleAction(_spr, DURATION_UPDATES, MAX_SCALE),
       _moveAction(_spr, DURATION_UPDATES, position + DIFF_POS),
-      _sprShake(_spr, core::ShakeStyle::ONE_WAY, {16, 0}, {2, 0}, 2)
+      _sprShake(_spr, action::ShakeStyle::ONE_WAY, {16, 0}, {2, 0}, 2)
 {
 }
 

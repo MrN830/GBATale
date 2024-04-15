@@ -20,7 +20,7 @@ WhimsunAnim::WhimsunAnim(const bn::fixed_point& position)
       _sprAnim(decltype(_sprAnim)::forever(_spr, 10, bn::sprite_items::bt_whimsun_main.tiles_item(),
                                            bn::array<uint16_t, 2>{0, 1})),
       _sprMoveUpDown(_spr, 32, position + bn::fixed_point(0, -8)),
-      _sprShake(_spr, core::ShakeStyle::ONE_WAY, {16, 0}, {2, 0}, 2)
+      _sprShake(_spr, action::ShakeStyle::ONE_WAY, {16, 0}, {2, 0}, 2)
 {
 }
 

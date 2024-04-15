@@ -59,7 +59,7 @@ int main()
     scene::SceneStack sceneStack(sceneContext);
     registerScenes(sceneStack);
 
-    battleContext.battleGroupId = 5;                     // test
+    battleContext.battleGroupId = 6;                     // test
     sceneStack.pushScene(scene::SceneId::INGAME_BATTLE); // test
     // sceneStack.pushScene(scene::SceneId::INTRO_STORY);
 

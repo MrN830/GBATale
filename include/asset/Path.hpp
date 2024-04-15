@@ -18,7 +18,7 @@ public:
     static auto get(gen::PathId) -> const IPath&;
 
 public:
-    virtual ~IPath() = default;
+    constexpr virtual ~IPath() = default;
 
     virtual auto getPoints() const -> bn::span<const bn::fixed_point> = 0;
 };

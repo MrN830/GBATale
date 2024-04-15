@@ -34,11 +34,19 @@ Int mod_floor(Int a, Int m)
 }
 
 /**
+ * @brief Return the magnitude of `bn::fixed_point` vector.
+ */
+inline auto magnitude(const bn::fixed_point& v) -> bn::fixed
+{
+    return bn::sqrt(v.x() * v.x() + v.y() * v.y());
+}
+
+/**
  * @brief Return a normalized `bn::fixed_point` vector.
  */
 inline auto normalized(const bn::fixed_point& v) -> bn::fixed_point
 {
-    const bn::fixed scale = bn::sqrt(v.x() * v.x() + v.y() * v.y());
+    const bn::fixed scale = magnitude(v);
     return {v.x() / scale, v.y() / scale};
 }
 
