@@ -1,8 +1,6 @@
 
 # vscode
-.vscode/*
-!.vscode/launch.json
-!.vscode/tasks.json
+.vscode/
 
 # python
 *venv/
@@ -26,6 +24,6 @@ build_ut/
 GBATale-*.png
 *.log
 
-#build assistance
+# Undertale `data.win` extract assistance
 data.win
 modtool/
