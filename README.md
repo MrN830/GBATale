@@ -35,3 +35,8 @@ Install [VSCode](https://code.visualstudio.com/) and [Native Debug](https://mark
 ### Setup mGBA debugging
 
 [See this guide.](https://felixjones.co.uk/mgba_gdb/vscode.html)
+
+
+## Third-party licenses
+
+See [butano/licenses/](butano/licenses/) and [licenses/](licenses/) for third-party licenses.
