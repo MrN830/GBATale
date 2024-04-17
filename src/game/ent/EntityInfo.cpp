@@ -1,5 +1,7 @@
 #include "game/ent/EntityInfo.hpp"
 
+#include <bn_unordered_map.h>
+
 #include "game/GameContext.hpp"
 #include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/NpcInput.hpp"
@@ -54,42 +56,76 @@ namespace ut::game::ent
 namespace
 {
 
+using InteractionFactoryHashMap = bn::unordered_map<
+    bn::type_id_t, cpnt::inter::Interaction& (*)(ent::Entity&, const EntityInfo::Interaction&, bn::best_fit_allocator&),
+    512>;
+
+using EventComponentFactoryHashMap = bn::unordered_map<
+    bn::type_id_t,
+    cpnt::ev::EventComponent& (*)(ent::Entity&, const EntityInfo::EventComponent&, bn::best_fit_allocator&), 512>;
+
+template <typename TInter>
+    requires std::is_base_of_v<cpnt::inter::Interaction, TInter>
+auto createChildInteraction(ent::Entity& entity, const EntityInfo::Interaction& interInfo,
+                            bn::best_fit_allocator& cpntHeap) -> cpnt::inter::Interaction&
+{
+    return cpntHeap.create<TInter>(entity, interInfo.isEnabled, interInfo.triggers);
+}
+
 template <typename... TEmpty>
     requires(sizeof...(TEmpty) == 0)
-auto createChildInteraction(ent::Entity&, const EntityInfo::Interaction&, bn::best_fit_allocator&)
-    -> cpnt::inter::Interaction*
+void impl_createInteractionFactoryHashMap(InteractionFactoryHashMap&)
 {
-    return nullptr;
 }
 
 template <typename TInter, typename... TParams>
     requires std::is_base_of_v<cpnt::inter::Interaction, TInter>
-auto createChildInteraction(ent::Entity& entity, const EntityInfo::Interaction& interInfo,
-                            bn::best_fit_allocator& cpntHeap) -> cpnt::inter::Interaction*
+void impl_createInteractionFactoryHashMap(InteractionFactoryHashMap& result)
 {
-    if (interInfo.type == bn::type_id<TInter>())
-        return &cpntHeap.create<TInter>(entity, interInfo.isEnabled, interInfo.triggers);
+    result[bn::type_id<TInter>()] = createChildInteraction<TInter>;
 
-    return createChildInteraction<TParams...>(entity, interInfo, cpntHeap);
+    impl_createInteractionFactoryHashMap<TParams...>(result);
+}
+
+template <typename... TParams>
+auto createInteractionFactoryHashMap() -> InteractionFactoryHashMap
+{
+    InteractionFactoryHashMap result;
+    impl_createInteractionFactoryHashMap<TParams...>(result);
+
+    return result;
+}
+
+template <typename TEventCpnt>
+    requires std::is_base_of_v<cpnt::ev::EventComponent, TEventCpnt>
+auto createChildEventComponent(ent::Entity& entity, const EntityInfo::EventComponent& evInfo,
+                               bn::best_fit_allocator& cpntHeap) -> cpnt::ev::EventComponent&
+{
+    return cpntHeap.create<TEventCpnt>(entity, evInfo.isEnabled, evInfo.isAutoFire);
 }
 
 template <typename... TEmpty>
     requires(sizeof...(TEmpty) == 0)
-auto createChildEventComponent(ent::Entity&, const EntityInfo::EventComponent&, bn::best_fit_allocator&)
-    -> cpnt::ev::EventComponent*
+void impl_createEventComponentFactoryHashMap(EventComponentFactoryHashMap&)
 {
-    return nullptr;
 }
 
 template <typename TEventCpnt, typename... TParams>
     requires std::is_base_of_v<cpnt::ev::EventComponent, TEventCpnt>
-auto createChildEventComponent(ent::Entity& entity, const EntityInfo::EventComponent& evInfo,
-                               bn::best_fit_allocator& cpntHeap) -> cpnt::ev::EventComponent*
+void impl_createEventComponentFactoryHashMap(EventComponentFactoryHashMap& result)
 {
-    if (evInfo.type == bn::type_id<TEventCpnt>())
-        return &cpntHeap.create<TEventCpnt>(entity, evInfo.isEnabled, evInfo.isAutoFire);
+    result[bn::type_id<TEventCpnt>()] = createChildEventComponent<TEventCpnt>;
 
-    return createChildEventComponent<TParams...>(entity, evInfo, cpntHeap);
+    impl_createEventComponentFactoryHashMap<TParams...>(result);
+}
+
+template <typename... TParams>
+auto createEventComponentFactoryHashMap() -> EventComponentFactoryHashMap
+{
+    EventComponentFactoryHashMap result;
+    impl_createEventComponentFactoryHashMap<TParams...>(result);
+
+    return result;
 }
 
 } // namespace
@@ -116,18 +152,19 @@ void EntityInfo::create(GameContext& ctx) const
     {
         using namespace cpnt::inter;
 
-        auto* inter =
-            createChildInteraction<SavePoint, AutoHideSpike, RuinsFloorSwitch, RuinsWallSwitch, RuinsColorSwitch,
-                                   RuinsColorSwitchHelp, Readable, TalkFroggit, ItemPickup, HoleFall, HoleUp,
-                                   MouseSqueak, CutsceneRuins2, TorielGoOutRuins2, TalkTorielRuins3, TalkTorielRuins6,
-                                   TorielGoOutRuins5, TorielGoOutRuins6, RuinsTorielCall, CutsceneRuins19, Chairiel,
-                                   AsrielLamp, CutsceneBasement1Block, CutsceneBasement1Proceed, CutsceneBasement2,
-                                   CutsceneBasement3, TalkNpcArea1, FloweyTrigger2>(entity, *interaction,
-                                                                                    entMngr._cpntHeap);
+        BN_DATA_EWRAM static const InteractionFactoryHashMap FACTORIES = createInteractionFactoryHashMap<
+            SavePoint, AutoHideSpike, RuinsFloorSwitch, RuinsWallSwitch, RuinsColorSwitch, RuinsColorSwitchHelp,
+            Readable, TalkFroggit, ItemPickup, HoleFall, HoleUp, MouseSqueak, CutsceneRuins2, TorielGoOutRuins2,
+            TalkTorielRuins3, TalkTorielRuins6, TorielGoOutRuins5, TorielGoOutRuins6, RuinsTorielCall, CutsceneRuins19,
+            Chairiel, AsrielLamp, CutsceneBasement1Block, CutsceneBasement1Proceed, CutsceneBasement2,
+            CutsceneBasement3, TalkNpcArea1, FloweyTrigger2>();
 
-        BN_ASSERT(inter != nullptr, "Invalid interaction->type = ", (void*)interaction->type.internal_id());
+        auto it = FACTORIES.find(interaction->type);
+        BN_ASSERT(it != FACTORIES.cend() && it->second != nullptr,
+                  "Invalid interaction->type = ", (void*)interaction->type.internal_id());
 
-        entity.addComponent(*inter);
+        auto& inter = it->second(entity, *interaction, entMngr._cpntHeap);
+        entity.addComponent(inter);
     }
 
     // child of `cpnt::ev::EventComponent`
@@ -135,14 +172,17 @@ void EntityInfo::create(GameContext& ctx) const
     {
         using namespace cpnt::ev;
 
-        auto* evCpnt =
-            createChildEventComponent<StartBgm, TimedDestroy, PlotSpike, SetPieImage, StalkerFlowey, TorielGoOutRuins1,
-                                      CutsceneRuins3, CutsceneRuins5, CutsceneRuins6, CutsceneTorhouse1,
-                                      CutsceneTorhouse3>(entity, *eventCpnt, entMngr._cpntHeap);
+        BN_DATA_EWRAM static const EventComponentFactoryHashMap FACTORIES =
+            createEventComponentFactoryHashMap<StartBgm, TimedDestroy, PlotSpike, SetPieImage, StalkerFlowey,
+                                               TorielGoOutRuins1, CutsceneRuins3, CutsceneRuins5, CutsceneRuins6,
+                                               CutsceneTorhouse1, CutsceneTorhouse3>();
 
-        BN_ASSERT(evCpnt != nullptr, "Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
+        auto it = FACTORIES.find(eventCpnt->type);
+        BN_ASSERT(it != FACTORIES.cend() && it->second != nullptr,
+                  "Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
 
-        entity.addComponent(*evCpnt);
+        auto& evCpnt = it->second(entity, *eventCpnt, entMngr._cpntHeap);
+        entity.addComponent(evCpnt);
     }
 
     // cpnt::Sprite
