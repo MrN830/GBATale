@@ -9,6 +9,7 @@
 #include "core/Random.hpp"
 #include "game/GameState.hpp"
 #include "game/ItemInfo.hpp"
+#include "game/bt/mob/MonsterInfo.hpp"
 #include "game/bt/state/BattleStateType.hpp"
 #include "scene/IngameBattle.hpp"
 
@@ -56,7 +57,7 @@ BattleAttack::BattleAttack(scene::IngameBattle& scene)
       _bar((_barMoveDir == core::Directions::LEFT) ? BAR_FAR_RIGHT_POS : BAR_FAR_LEFT_POS),
       _barMoveAction(_bar,
                      calcBarMoveDelta(_barMoveDir, scene.getContext().gameState.getWeapon(), scene.getContext().rng)),
-      _slice(bn::sprite_items::bt_slice.create_sprite(0, 0))
+      _slice(bn::sprite_items::bt_slice.create_sprite(0, 0)), _damage(0)
 {
     scene.getAttackBg().setVisible(true);
 
@@ -76,6 +77,8 @@ auto BattleAttack::handleInput() -> BattleStateType
         // start slice
         asset::getSfx(asset::SfxKind::ATK_SLICE_SMALL)->play();
 
+        const auto& mob = _scene.getMonsterManager().getMonsters()[_scene.getBtTempVars().submenuMobSelectIdx];
+
         const auto barCenterDist = bn::abs(_bar.getPosition().x());
         const auto stretch = (consts::ATK_BG_WIDTH - barCenterDist) / consts::ATK_BG_WIDTH;
         const auto sliceScale = (stretch * 2) - bn::fixed(0.5f);
@@ -83,11 +86,24 @@ auto BattleAttack::handleInput() -> BattleStateType
         const int sliceAnimWaitUpdate = (1 / sliceAnimSpeed).round_integer();
 
         _slice.set_scale(sliceScale);
-        _slice.set_position(
-            _scene.getMonsterManager().getMonsters()[_scene.getBtTempVars().submenuMobSelectIdx].getPosition());
+        _slice.set_position(mob.getPosition());
         _slice.set_visible(true);
         _sliceAnim = bn::create_sprite_animate_action_once(_slice, sliceAnimWaitUpdate,
                                                            bn::sprite_items::bt_slice.tiles_item(), 0, 1, 2, 3, 4, 5);
+
+        // calculate damage
+        // TODO: Implement multi-hit damage calculation
+        const auto& sceneContext = _scene.getContext();
+        const auto& gameState = sceneContext.gameState;
+
+        bn::fixed damage = gameState.getBaseAtk() + ItemInfo::get(gameState.getWeapon()).atk;
+        damage -= mob.getInfo().def; // TODO: Use changing defence instead
+        damage += sceneContext.rng.get_fixed(2);
+
+        if (barCenterDist <= 12 * consts::ATK_BG_RATIO)
+            _damage = (damage * bn::fixed(2.2f)).round_integer();
+        else
+            _damage = (damage * stretch * 2).round_integer();
 
         _state = State::SLICE_ONGOING;
     }
@@ -176,7 +192,7 @@ auto BattleAttack::updateOnSliceOngoing() -> BattleStateType
         const int mobIdx = _scene.getBtTempVars().submenuMobSelectIdx;
         auto& mob = _scene.getMonsterManager().getMonsters()[mobIdx];
 
-        mob.getReact().onDamage(calcDamage(), mob, _scene);
+        mob.getReact().onDamage(_damage, mob, _scene);
 
         _state = State::MOB_DAMAGE_ANIM_ONGOING;
     }
@@ -212,12 +228,6 @@ auto BattleAttack::updateOnMobDamageAnimOngoing() -> BattleStateType
     }
 
     return BattleStateType::NONE;
-}
-
-int BattleAttack::calcDamage()
-{
-    // TODO: Implement actual damage calculation
-    return 5;
 }
 
 } // namespace ut::game::bt::state

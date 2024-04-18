@@ -28,9 +28,6 @@ private:
     auto updateOnMobDamageAnimOngoing() -> BattleStateType;
 
 private:
-    static int calcDamage();
-
-private:
     enum class State
     {
         WAIT_BAR_CREATION,
@@ -49,6 +46,8 @@ private:
 
     bn::sprite_ptr _slice;
     bn::optional<bn::sprite_animate_action<6>> _sliceAnim;
+
+    int _damage;
 };
 
 } // namespace ut::game::bt::state
