@@ -6,6 +6,7 @@
 #include "game/RoomInfo.hpp"
 #include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/ent/Entity.hpp"
 
 namespace ut::game::cpnt::ev
@@ -23,7 +24,7 @@ enum SpikeGfxIdx
 } // namespace
 
 PlotSpike::PlotSpike(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<PlotSpike>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::PlotSpike, isEnabled, isAutoFire)
 {
 }
 

@@ -11,6 +11,7 @@
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/TaskManager.hpp"
 #include "scene/Game.hpp"
@@ -25,7 +26,7 @@ namespace ut::game::cpnt::inter
 static constexpr int BTN_ON_GFXIDX = 1;
 
 CutsceneRuins2::CutsceneRuins2(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<CutsceneRuins2>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::CutsceneRuins2, isEnabled, triggers)
 {
 }
 
@@ -60,7 +61,8 @@ auto CutsceneRuins2::onInteract(GameContext& ctx) -> task::Task
 
     ctx.interactStack.push(InteractState::CUTSCENE);
 
-    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
     ctx.msg.getSettings().emotion = 2;
     ctx.isDialogUpper = false; // Force lower dialog box, otherwise Toriel is hidden
 

@@ -9,6 +9,7 @@
 #include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/ent/Entity.hpp"
 #include "gen/EntityId.hpp"
 #include "scene/Game.hpp"
@@ -20,7 +21,7 @@ namespace ut::game::cpnt::ev
 {
 
 CutsceneRuins6::CutsceneRuins6(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<CutsceneRuins6>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::CutsceneRuins6, isEnabled, isAutoFire)
 {
     BN_ASSERT(entity.getId() == ent::gen::EntityId::toriel);
 }
@@ -48,7 +49,8 @@ auto CutsceneRuins6::onEvent(GameContext& ctx) -> task::Task
     torielWalk->setStandStillDir(core::Directions::LEFT);
     plotWallColl->setEnabled(true);
 
-    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
 
     // Toriel talks
     ctx.msg.clearMsg();

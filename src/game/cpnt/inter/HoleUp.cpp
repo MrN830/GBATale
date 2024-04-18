@@ -2,6 +2,7 @@
 
 #include "game/GameContext.hpp"
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -23,7 +24,7 @@ enum FriskGfxIdx
 } // namespace
 
 HoleUp::HoleUp(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<HoleUp>(), isEnabled, triggers), _frisk(nullptr)
+    : Interaction(entity, InteractionType::HoleUp, isEnabled, triggers), _frisk(nullptr)
 {
 }
 

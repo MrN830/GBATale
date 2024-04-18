@@ -24,7 +24,13 @@ struct GameContext;
 
 namespace ut::game::cpnt::inter
 {
+enum class InteractionType : uint8_t;
 enum class InteractionTriggers : uint8_t;
+} // namespace ut::game::cpnt::inter
+
+namespace ut::game::cpnt::ev
+{
+enum class EventComponentType : uint8_t;
 }
 
 namespace ut::game::ent
@@ -50,14 +56,14 @@ public:
 
     struct Interaction
     {
-        bn::type_id_t type;
+        cpnt::inter::InteractionType type;
         cpnt::inter::InteractionTriggers triggers;
         bool isEnabled : 1;
     };
 
     struct EventComponent
     {
-        bn::type_id_t type;
+        cpnt::ev::EventComponentType type;
         bool isEnabled : 1;
         bool isAutoFire : 1;
     };

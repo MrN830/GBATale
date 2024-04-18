@@ -7,6 +7,7 @@
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "scene/Game.hpp"
 
 #include "gen/EntityId.hpp"
@@ -16,7 +17,7 @@ namespace ut::game::cpnt::inter
 {
 
 Readable::Readable(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<Readable>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::Readable, isEnabled, triggers)
 {
 }
 

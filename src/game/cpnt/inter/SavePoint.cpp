@@ -8,6 +8,7 @@
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "scene/Game.hpp"
 
 #include "gen/TextData.hpp"
@@ -16,7 +17,7 @@ namespace ut::game::cpnt::inter
 {
 
 SavePoint::SavePoint(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<SavePoint>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::SavePoint, isEnabled, triggers)
 {
 }
 

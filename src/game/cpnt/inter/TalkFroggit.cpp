@@ -5,6 +5,7 @@
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "scene/Game.hpp"
 #include "scene/IngameDialog.hpp"
 #include "scene/SceneStack.hpp"
@@ -16,7 +17,7 @@ namespace ut::game::cpnt::inter
 {
 
 TalkFroggit::TalkFroggit(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<TalkFroggit>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::TalkFroggit, isEnabled, triggers)
 {
 }
 

@@ -3,6 +3,7 @@
 #include "core/MsgViewHolder.hpp"
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "scene/Game.hpp"
 
@@ -12,7 +13,7 @@ namespace ut::game::cpnt::inter
 {
 
 RuinsColorSwitchHelp::RuinsColorSwitchHelp(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<RuinsColorSwitchHelp>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::RuinsColorSwitchHelp, isEnabled, triggers)
 {
 }
 

@@ -713,10 +713,9 @@ class TilemapConverter:
                 output_header.write(f'#include "bn_sprite_items_{spr_item}.h"\n')
             output_header.write("\n")
 
-            for inter_type in interaction_cpp_classes:
-                output_header.write(f'#include "game/cpnt/inter/{inter_type}.hpp"\n')
-            for ev_cpnt_type in ev_cpnt_cpp_classes:
-                output_header.write(f'#include "game/cpnt/ev/{ev_cpnt_type}.hpp"\n')
+            output_header.write(f'#include "game/cpnt/inter/InteractionTriggers.hpp"\n')
+            output_header.write(f'#include "game/cpnt/inter/InteractionType.hpp"\n')
+            output_header.write(f'#include "game/cpnt/ev/EventComponentType.hpp"\n')
             output_header.write("\n")
 
             output_header.write(f"namespace ut::mtile::gen" + "\n")
@@ -767,7 +766,7 @@ class TilemapConverter:
                 if "interaction" in entity:
                     interaction: Interaction = entity["interaction"]
                     output_header.write(
-                        f"EntityInfo::Interaction(bn::type_id<game::cpnt::inter::{interaction.type}>(), ({'|'.join(f'game::cpnt::inter::InteractionTriggers::{tr}' for tr in interaction.triggers)}), {str(interaction.isEnabled).lower()}),"
+                        f"EntityInfo::Interaction(game::cpnt::inter::InteractionType::{interaction.type}, ({'|'.join(f'game::cpnt::inter::InteractionTriggers::{tr}' for tr in interaction.triggers)}), {str(interaction.isEnabled).lower()}),"
                     )
                 else:
                     output_header.write("bn::nullopt,")
@@ -776,7 +775,7 @@ class TilemapConverter:
                 if "eventComponent" in entity:
                     ev_cpnt: EventComponent = entity["eventComponent"]
                     output_header.write(
-                        f"EntityInfo::EventComponent(bn::type_id<game::cpnt::ev::{ev_cpnt.type}>(),{str(ev_cpnt.isEnabled).lower()},{str(ev_cpnt.isAutoFire).lower()}),"
+                        f"EntityInfo::EventComponent(game::cpnt::ev::EventComponentType::{ev_cpnt.type},{str(ev_cpnt.isEnabled).lower()},{str(ev_cpnt.isAutoFire).lower()}),"
                     )
                 else:
                     output_header.write("bn::nullopt,")

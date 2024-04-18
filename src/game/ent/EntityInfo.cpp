@@ -1,6 +1,12 @@
 #include "game/ent/EntityInfo.hpp"
 
 #include "game/GameContext.hpp"
+#include "game/sys/CameraManager.hpp"
+#include "game/sys/EntityManager.hpp"
+
+#include "game/cpnt/ev/EventComponentType.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
+
 #include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/Sprite.hpp"
@@ -45,54 +51,9 @@
 #include "game/cpnt/inter/TorielGoOutRuins2.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins5.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins6.hpp"
-#include "game/sys/CameraManager.hpp"
-#include "game/sys/EntityManager.hpp"
 
 namespace ut::game::ent
 {
-
-namespace
-{
-
-template <typename... TEmpty>
-    requires(sizeof...(TEmpty) == 0)
-auto createChildInteraction(ent::Entity&, const EntityInfo::Interaction&, bn::best_fit_allocator&)
-    -> cpnt::inter::Interaction*
-{
-    return nullptr;
-}
-
-template <typename TInter, typename... TParams>
-    requires std::is_base_of_v<cpnt::inter::Interaction, TInter>
-auto createChildInteraction(ent::Entity& entity, const EntityInfo::Interaction& interInfo,
-                            bn::best_fit_allocator& cpntHeap) -> cpnt::inter::Interaction*
-{
-    if (interInfo.type == bn::type_id<TInter>())
-        return &cpntHeap.create<TInter>(entity, interInfo.isEnabled, interInfo.triggers);
-
-    return createChildInteraction<TParams...>(entity, interInfo, cpntHeap);
-}
-
-template <typename... TEmpty>
-    requires(sizeof...(TEmpty) == 0)
-auto createChildEventComponent(ent::Entity&, const EntityInfo::EventComponent&, bn::best_fit_allocator&)
-    -> cpnt::ev::EventComponent*
-{
-    return nullptr;
-}
-
-template <typename TEventCpnt, typename... TParams>
-    requires std::is_base_of_v<cpnt::ev::EventComponent, TEventCpnt>
-auto createChildEventComponent(ent::Entity& entity, const EntityInfo::EventComponent& evInfo,
-                               bn::best_fit_allocator& cpntHeap) -> cpnt::ev::EventComponent*
-{
-    if (evInfo.type == bn::type_id<TEventCpnt>())
-        return &cpntHeap.create<TEventCpnt>(entity, evInfo.isEnabled, evInfo.isAutoFire);
-
-    return createChildEventComponent<TParams...>(entity, evInfo, cpntHeap);
-}
-
-} // namespace
 
 void EntityInfo::create(GameContext& ctx) const
 {
@@ -116,16 +77,103 @@ void EntityInfo::create(GameContext& ctx) const
     {
         using namespace cpnt::inter;
 
-        auto* inter =
-            createChildInteraction<SavePoint, AutoHideSpike, RuinsFloorSwitch, RuinsWallSwitch, RuinsColorSwitch,
-                                   RuinsColorSwitchHelp, Readable, TalkFroggit, ItemPickup, HoleFall, HoleUp,
-                                   MouseSqueak, CutsceneRuins2, TorielGoOutRuins2, TalkTorielRuins3, TalkTorielRuins6,
-                                   TorielGoOutRuins5, TorielGoOutRuins6, RuinsTorielCall, CutsceneRuins19, Chairiel,
-                                   AsrielLamp, CutsceneBasement1Block, CutsceneBasement1Proceed, CutsceneBasement2,
-                                   CutsceneBasement3, TalkNpcArea1, FloweyTrigger2>(entity, *interaction,
-                                                                                    entMngr._cpntHeap);
+        cpnt::inter::Interaction* inter = nullptr;
 
-        BN_ASSERT(inter != nullptr, "Invalid interaction->type = ", (void*)interaction->type.internal_id());
+        switch (interaction->type)
+        {
+        case InteractionType::SavePoint:
+            inter = &entMngr._cpntHeap.create<SavePoint>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::AutoHideSpike:
+            inter = &entMngr._cpntHeap.create<AutoHideSpike>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::RuinsFloorSwitch:
+            inter = &entMngr._cpntHeap.create<RuinsFloorSwitch>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::RuinsWallSwitch:
+            inter = &entMngr._cpntHeap.create<RuinsWallSwitch>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::RuinsColorSwitch:
+            inter = &entMngr._cpntHeap.create<RuinsColorSwitch>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::RuinsColorSwitchHelp:
+            inter =
+                &entMngr._cpntHeap.create<RuinsColorSwitchHelp>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::Readable:
+            inter = &entMngr._cpntHeap.create<Readable>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TalkFroggit:
+            inter = &entMngr._cpntHeap.create<TalkFroggit>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::ItemPickup:
+            inter = &entMngr._cpntHeap.create<ItemPickup>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::HoleFall:
+            inter = &entMngr._cpntHeap.create<HoleFall>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::HoleUp:
+            inter = &entMngr._cpntHeap.create<HoleUp>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::MouseSqueak:
+            inter = &entMngr._cpntHeap.create<MouseSqueak>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::CutsceneRuins2:
+            inter = &entMngr._cpntHeap.create<CutsceneRuins2>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TorielGoOutRuins2:
+            inter = &entMngr._cpntHeap.create<TorielGoOutRuins2>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TalkTorielRuins3:
+            inter = &entMngr._cpntHeap.create<TalkTorielRuins3>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TalkTorielRuins6:
+            inter = &entMngr._cpntHeap.create<TalkTorielRuins6>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TorielGoOutRuins5:
+            inter = &entMngr._cpntHeap.create<TorielGoOutRuins5>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TorielGoOutRuins6:
+            inter = &entMngr._cpntHeap.create<TorielGoOutRuins6>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::RuinsTorielCall:
+            inter = &entMngr._cpntHeap.create<RuinsTorielCall>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::CutsceneRuins19:
+            inter = &entMngr._cpntHeap.create<CutsceneRuins19>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::Chairiel:
+            inter = &entMngr._cpntHeap.create<Chairiel>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::AsrielLamp:
+            inter = &entMngr._cpntHeap.create<AsrielLamp>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::CutsceneBasement1Block:
+            inter = &entMngr._cpntHeap.create<CutsceneBasement1Block>(entity, interaction->isEnabled,
+                                                                      interaction->triggers);
+            break;
+        case InteractionType::CutsceneBasement1Proceed:
+            inter = &entMngr._cpntHeap.create<CutsceneBasement1Proceed>(entity, interaction->isEnabled,
+                                                                        interaction->triggers);
+            break;
+        case InteractionType::CutsceneBasement2:
+            inter = &entMngr._cpntHeap.create<CutsceneBasement2>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::CutsceneBasement3:
+            inter = &entMngr._cpntHeap.create<CutsceneBasement3>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TalkNpcArea1:
+            inter = &entMngr._cpntHeap.create<TalkNpcArea1>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::FloweyTrigger2:
+            inter = &entMngr._cpntHeap.create<FloweyTrigger2>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+
+        default:
+            BN_ERROR(inter != nullptr, "Invalid interaction->type = ", (int)interaction->type);
+        }
+
+        BN_ASSERT(inter != nullptr, "Invalid interaction->type = ", (int)interaction->type);
 
         entity.addComponent(*inter);
     }
@@ -135,12 +183,49 @@ void EntityInfo::create(GameContext& ctx) const
     {
         using namespace cpnt::ev;
 
-        auto* evCpnt =
-            createChildEventComponent<StartBgm, TimedDestroy, PlotSpike, SetPieImage, StalkerFlowey, TorielGoOutRuins1,
-                                      CutsceneRuins3, CutsceneRuins5, CutsceneRuins6, CutsceneTorhouse1,
-                                      CutsceneTorhouse3>(entity, *eventCpnt, entMngr._cpntHeap);
+        cpnt::ev::EventComponent* evCpnt = nullptr;
 
-        BN_ASSERT(evCpnt != nullptr, "Invalid eventCpnt->type = ", (void*)eventCpnt->type.internal_id());
+        switch (eventCpnt->type)
+        {
+        case EventComponentType::StartBgm:
+            evCpnt = &entMngr._cpntHeap.create<StartBgm>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::TimedDestroy:
+            evCpnt = &entMngr._cpntHeap.create<TimedDestroy>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::PlotSpike:
+            evCpnt = &entMngr._cpntHeap.create<PlotSpike>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::SetPieImage:
+            evCpnt = &entMngr._cpntHeap.create<SetPieImage>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::StalkerFlowey:
+            evCpnt = &entMngr._cpntHeap.create<StalkerFlowey>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::TorielGoOutRuins1:
+            evCpnt = &entMngr._cpntHeap.create<TorielGoOutRuins1>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::CutsceneRuins3:
+            evCpnt = &entMngr._cpntHeap.create<CutsceneRuins3>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::CutsceneRuins5:
+            evCpnt = &entMngr._cpntHeap.create<CutsceneRuins5>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::CutsceneRuins6:
+            evCpnt = &entMngr._cpntHeap.create<CutsceneRuins6>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::CutsceneTorhouse1:
+            evCpnt = &entMngr._cpntHeap.create<CutsceneTorhouse1>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::CutsceneTorhouse3:
+            evCpnt = &entMngr._cpntHeap.create<CutsceneTorhouse3>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+
+        default:
+            BN_ERROR("Invalid eventCpnt->type = ", (int)eventCpnt->type);
+        }
+
+        BN_ASSERT(evCpnt != nullptr, "Invalid eventCpnt->type = ", (int)eventCpnt->type);
 
         entity.addComponent(*evCpnt);
     }

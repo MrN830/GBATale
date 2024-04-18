@@ -1,5 +1,6 @@
 #include "game/cpnt/ev/TimedDestroy.hpp"
 
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/task/TaskAwaiters.hpp"
 
@@ -7,7 +8,7 @@ namespace ut::game::cpnt::ev
 {
 
 TimedDestroy::TimedDestroy(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<TimedDestroy>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::TimedDestroy, isEnabled, isAutoFire)
 {
 }
 

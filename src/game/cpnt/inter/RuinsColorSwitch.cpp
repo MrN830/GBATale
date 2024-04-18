@@ -9,6 +9,7 @@
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "scene/Game.hpp"
 
 #include "gen/TextData.hpp"
@@ -17,7 +18,7 @@ namespace ut::game::cpnt::inter
 {
 
 RuinsColorSwitch::RuinsColorSwitch(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : RuinsSpikeDisabler(entity, bn::type_id<RuinsColorSwitch>(), isEnabled, triggers)
+    : RuinsSpikeDisabler(entity, InteractionType::RuinsColorSwitch, isEnabled, triggers)
 {
 }
 

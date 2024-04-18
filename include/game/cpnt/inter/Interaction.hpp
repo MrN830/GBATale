@@ -8,13 +8,15 @@
 namespace ut::game::cpnt::inter
 {
 
+enum class InteractionType : uint8_t;
+
 class Interaction : public Component
 {
 public:
     virtual ~Interaction() = 0;
-    Interaction(ent::Entity&, bn::type_id_t interactionType, bool isEnabled, InteractionTriggers);
+    Interaction(ent::Entity&, InteractionType interactionType, bool isEnabled, InteractionTriggers);
 
-    auto getInteractionType() const -> bn::type_id_t;
+    auto getInteractionType() const -> InteractionType;
 
     virtual auto onInteract(GameContext&) -> task::Task;
     virtual void onInteractionCollisionExit(GameContext&){};
@@ -30,7 +32,7 @@ private:
 
     bool _isColliding = false;
 
-    const bn::type_id_t _interactionType;
+    const InteractionType _interactionType;
 };
 
 } // namespace ut::game::cpnt::inter

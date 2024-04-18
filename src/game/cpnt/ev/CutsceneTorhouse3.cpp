@@ -10,6 +10,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
@@ -22,7 +23,7 @@ namespace ut::game::cpnt::ev
 {
 
 CutsceneTorhouse3::CutsceneTorhouse3(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<CutsceneTorhouse3>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::CutsceneTorhouse3, isEnabled, isAutoFire)
 {
     BN_ASSERT(entity.getId() == ent::gen::EntityId::toriel);
 }

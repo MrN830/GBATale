@@ -6,6 +6,7 @@
 #include "game/GameState.hpp"
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/task/TaskAwaiters.hpp"
@@ -18,7 +19,7 @@ namespace ut::game::cpnt::inter
 {
 
 CutsceneBasement2::CutsceneBasement2(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<CutsceneBasement2>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::CutsceneBasement2, isEnabled, triggers)
 {
 }
 
@@ -53,7 +54,8 @@ auto CutsceneBasement2::onInteract(GameContext& ctx) -> task::Task
     setEnabled(false);
 
     // Toriel talks
-    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
     ctx.msg.getSettings().emotion = 6;
     ctx.msg.clearMsg();
     ctx.msg.add(gen::TextData::obj_torieltrigger10_77);

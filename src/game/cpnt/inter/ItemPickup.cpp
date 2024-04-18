@@ -4,6 +4,7 @@
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
@@ -14,7 +15,7 @@ namespace ut::game::cpnt::inter
 {
 
 ItemPickup::ItemPickup(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<ItemPickup>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::ItemPickup, isEnabled, triggers)
 {
 }
 

@@ -8,6 +8,7 @@
 #include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/cpnt/inter/Interaction.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
@@ -23,7 +24,7 @@ namespace ut::game::cpnt::ev
 {
 
 CutsceneRuins3::CutsceneRuins3(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<CutsceneRuins3>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::CutsceneRuins3, isEnabled, isAutoFire)
 {
     BN_ASSERT(_entity.getId() == ent::gen::EntityId::toriel);
 }

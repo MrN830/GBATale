@@ -1,6 +1,7 @@
 #include "game/cpnt/inter/AutoHideSpike.hpp"
 
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 
 namespace ut::game::cpnt::inter
@@ -20,7 +21,7 @@ enum SpikeGfxIdx
 } // namespace
 
 AutoHideSpike::AutoHideSpike(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<AutoHideSpike>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::AutoHideSpike, isEnabled, triggers)
 {
 }
 

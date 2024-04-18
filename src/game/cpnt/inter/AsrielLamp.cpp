@@ -8,6 +8,7 @@
 #include "game/GameContext.hpp"
 #include "game/GameFlags.hpp"
 #include "game/GameState.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/WorldBg.hpp"
 
@@ -22,7 +23,7 @@ namespace ut::game::cpnt::inter
 static constexpr int BGM_FADE_WAIT_UPDATE = 20;
 
 AsrielLamp::AsrielLamp(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<AsrielLamp>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::AsrielLamp, isEnabled, triggers)
 {
     BN_ASSERT(entity.getId() == ent::gen::EntityId::lamp);
 }

@@ -10,7 +10,7 @@ class RuinsSpikeDisabler : public Interaction
 public:
     virtual ~RuinsSpikeDisabler() = 0;
 
-    RuinsSpikeDisabler(ent::Entity&, bn::type_id_t interactionType, bool isEnabled, InteractionTriggers);
+    RuinsSpikeDisabler(ent::Entity&, InteractionType interactionType, bool isEnabled, InteractionTriggers);
 
 protected:
     void hideAllSpikesInRoom(GameContext&);

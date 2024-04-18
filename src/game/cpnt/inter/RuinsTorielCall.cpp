@@ -9,6 +9,7 @@
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "scene/Game.hpp"
 
@@ -19,7 +20,7 @@ namespace ut::game::cpnt::inter
 {
 
 RuinsTorielCall::RuinsTorielCall(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<RuinsTorielCall>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::RuinsTorielCall, isEnabled, triggers)
 {
 }
 

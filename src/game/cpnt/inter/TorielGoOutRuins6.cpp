@@ -12,6 +12,7 @@
 #include "game/cpnt/ColliderPack.hpp"
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/task/TaskAwaiters.hpp"
@@ -25,7 +26,7 @@ namespace ut::game::cpnt::inter
 {
 
 TorielGoOutRuins6::TorielGoOutRuins6(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<TorielGoOutRuins6>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::TorielGoOutRuins6, isEnabled, triggers)
 {
 }
 

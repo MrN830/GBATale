@@ -6,6 +6,7 @@
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/cpnt/NpcInput.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
@@ -18,7 +19,7 @@ namespace ut::game::cpnt::ev
 {
 
 CutsceneTorhouse1::CutsceneTorhouse1(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<CutsceneTorhouse1>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::CutsceneTorhouse1, isEnabled, isAutoFire)
 {
     BN_ASSERT(_entity.getId() == ent::gen::EntityId::toriel);
 }

@@ -14,6 +14,7 @@
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/cpnt/inter/TalkTorielRuins3.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/CameraManager.hpp"
@@ -29,7 +30,7 @@ namespace ut::game::cpnt::inter
 {
 
 RuinsWallSwitch::RuinsWallSwitch(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : RuinsSpikeDisabler(entity, bn::type_id<RuinsWallSwitch>(), isEnabled, triggers)
+    : RuinsSpikeDisabler(entity, InteractionType::RuinsWallSwitch, isEnabled, triggers)
 {
 }
 
@@ -91,7 +92,7 @@ auto RuinsWallSwitch::onInteract(GameContext& ctx) -> task::Task
             BN_ASSERT(toriel);
             BN_ASSERT(torielInput);
             BN_ASSERT(torielInteract);
-            BN_ASSERT(torielInteract->getInteractionType() == bn::type_id<TalkTorielRuins3>());
+            BN_ASSERT(torielInteract->getInteractionType() == InteractionType::TalkTorielRuins3);
             auto& torielTalk = static_cast<TalkTorielRuins3&>(*torielInteract);
 
             torielTalk.setTalked(false);

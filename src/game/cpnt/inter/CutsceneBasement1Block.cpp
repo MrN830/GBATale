@@ -9,6 +9,7 @@
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "scene/Game.hpp"
@@ -21,7 +22,7 @@ namespace ut::game::cpnt::inter
 {
 
 CutsceneBasement1Block::CutsceneBasement1Block(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<CutsceneBasement1Block>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::CutsceneBasement1Block, isEnabled, triggers)
 {
 }
 

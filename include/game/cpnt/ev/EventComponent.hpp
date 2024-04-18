@@ -2,17 +2,21 @@
 
 #include "game/cpnt/Component.hpp"
 
+#include <cstdint>
+
 #include "game/task/Task.hpp"
 
 namespace ut::game::cpnt::ev
 {
 
+enum class EventComponentType : uint8_t;
+
 class EventComponent : public Component
 {
 public:
-    EventComponent(ent::Entity&, bn::type_id_t eventComponentType, bool isEnabled, bool isAutoFire);
+    EventComponent(ent::Entity&, EventComponentType eventComponentType, bool isEnabled, bool isAutoFire);
 
-    auto getEventComponentType() const -> bn::type_id_t;
+    auto getEventComponentType() const -> EventComponentType;
 
     void update(GameContext&) override;
 
@@ -22,7 +26,7 @@ private:
     const bool _isAutoFire;
     bool _hasAutoFired = false;
 
-    const bn::type_id_t _eventComponentType;
+    const EventComponentType _eventComponentType;
 };
 
 } // namespace ut::game::cpnt::ev

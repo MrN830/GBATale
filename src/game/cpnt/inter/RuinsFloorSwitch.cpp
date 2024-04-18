@@ -4,6 +4,7 @@
 
 #include "asset/SfxKind.hpp"
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 
 namespace ut::game::cpnt::inter
@@ -21,7 +22,7 @@ enum FloorSwitchGfxIdx
 } // namespace
 
 RuinsFloorSwitch::RuinsFloorSwitch(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<RuinsFloorSwitch>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::RuinsFloorSwitch, isEnabled, triggers)
 {
 }
 

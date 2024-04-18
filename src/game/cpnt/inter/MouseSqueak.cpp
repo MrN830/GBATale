@@ -3,13 +3,15 @@
 #include <bn_sound.h>
 #include <bn_sound_item.h>
 
+#include "game/cpnt/inter/InteractionType.hpp"
+
 #include "asset/SfxKind.hpp"
 
 namespace ut::game::cpnt::inter
 {
 
 MouseSqueak::MouseSqueak(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<MouseSqueak>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::MouseSqueak, isEnabled, triggers)
 {
 }
 

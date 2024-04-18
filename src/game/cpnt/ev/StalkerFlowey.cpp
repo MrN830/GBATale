@@ -6,6 +6,7 @@
 #include "asset/SpriteAnimKind.hpp"
 #include "game/GameContext.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "game/sys/TaskManager.hpp"
@@ -15,7 +16,7 @@ namespace ut::game::cpnt::ev
 {
 
 StalkerFlowey::StalkerFlowey(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<StalkerFlowey>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::StalkerFlowey, isEnabled, isAutoFire)
 {
     BN_ASSERT(entity.getId() == ent::gen::EntityId::flowey,
               "StalkerFlowey attached to non-flowey: ", (int)entity.getId());

@@ -11,6 +11,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
@@ -34,7 +35,7 @@ enum ChairielGfxIdx
 } // namespace
 
 Chairiel::Chairiel(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<Chairiel>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::Chairiel, isEnabled, triggers)
 {
     BN_ASSERT(_entity.getId() == ent::gen::EntityId::chairiel);
 }

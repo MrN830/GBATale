@@ -10,6 +10,7 @@
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/task/TaskAwaiters.hpp"
@@ -23,7 +24,7 @@ namespace ut::game::cpnt::inter
 {
 
 TorielGoOutRuins5::TorielGoOutRuins5(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<TorielGoOutRuins5>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::TorielGoOutRuins5, isEnabled, triggers)
 {
     BN_ASSERT(_entity.getId() == ent::gen::EntityId::toriel);
 }

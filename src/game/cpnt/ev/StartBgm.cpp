@@ -7,12 +7,13 @@
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 
 namespace ut::game::cpnt::ev
 {
 
 StartBgm::StartBgm(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<StartBgm>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::StartBgm, isEnabled, isAutoFire)
 {
 }
 

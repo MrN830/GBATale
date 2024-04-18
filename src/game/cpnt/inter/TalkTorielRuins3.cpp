@@ -4,6 +4,7 @@
 #include "game/GameContext.hpp"
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
 
@@ -13,7 +14,7 @@ namespace ut::game::cpnt::inter
 {
 
 TalkTorielRuins3::TalkTorielRuins3(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<TalkTorielRuins3>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::TalkTorielRuins3, isEnabled, triggers)
 {
 }
 

@@ -13,6 +13,7 @@
 #include "game/cpnt/Sprite.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "scene/Game.hpp"
@@ -27,7 +28,7 @@ namespace ut::game::cpnt::inter
 static constexpr int TORIEL_CALL_GFXIDX = 10;
 
 CutsceneRuins19::CutsceneRuins19(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<CutsceneRuins19>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::CutsceneRuins19, isEnabled, triggers)
 {
 }
 
@@ -67,7 +68,8 @@ auto CutsceneRuins19::onInteract(GameContext& ctx) -> task::Task
         {task::TaskSignal::Kind::ENT_DESTROYED, (int)ent::gen::EntityId::exc_balloon});
 
     // Toriel talks
-    ctx.msg.getSettings() = core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
+    ctx.msg.getSettings() =
+        core::DialogSettingsOverride::getPreset(core::DialogSettingsOverride::PresetKind::WORLD_TORIEL);
     ctx.msg.getSettings().emotion = 1;
     ctx.msg.clearMsg();
     ctx.msg.add(gen::TextData::obj_torieltrigger5_260);

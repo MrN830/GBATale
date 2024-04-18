@@ -6,13 +6,13 @@
 namespace ut::game::cpnt::ev
 {
 
-EventComponent::EventComponent(ent::Entity& entity, bn::type_id_t eventComponentType, bool isEnabled, bool isAutoFire)
+EventComponent::EventComponent(ent::Entity& entity, EventComponentType eventComponentType, bool isEnabled, bool isAutoFire)
     : Component(entity, bn::type_id<EventComponent>(), isEnabled), _isAutoFire(isAutoFire),
       _eventComponentType(eventComponentType)
 {
 }
 
-auto EventComponent::getEventComponentType() const -> bn::type_id_t
+auto EventComponent::getEventComponentType() const -> EventComponentType
 {
     return _eventComponentType;
 }

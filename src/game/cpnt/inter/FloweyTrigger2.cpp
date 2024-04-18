@@ -9,6 +9,7 @@
 #include "game/GamePlot.hpp"
 #include "game/GameState.hpp"
 #include "game/cpnt/SpriteAnim.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/task/TaskAwaiters.hpp"
 #include "scene/Game.hpp"
@@ -20,7 +21,7 @@ namespace ut::game::cpnt::inter
 {
 
 FloweyTrigger2::FloweyTrigger2(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<FloweyTrigger2>(), isEnabled, triggers)
+    : Interaction(entity, InteractionType::FloweyTrigger2, isEnabled, triggers)
 {
 }
 

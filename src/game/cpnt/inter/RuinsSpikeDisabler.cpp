@@ -1,6 +1,7 @@
 #include "game/cpnt/inter/RuinsSpikeDisabler.hpp"
 
 #include "game/GameContext.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/cpnt/ev/PlotSpike.hpp"
 #include "game/sys/EntityManager.hpp"
 
@@ -9,7 +10,7 @@ namespace ut::game::cpnt::inter
 
 RuinsSpikeDisabler::~RuinsSpikeDisabler() = default;
 
-RuinsSpikeDisabler::RuinsSpikeDisabler(ent::Entity& entity, bn::type_id_t interactionType, bool isEnabled,
+RuinsSpikeDisabler::RuinsSpikeDisabler(ent::Entity& entity, InteractionType interactionType, bool isEnabled,
                                        InteractionTriggers triggers)
     : Interaction(entity, interactionType, isEnabled, triggers)
 {
@@ -24,7 +25,7 @@ void RuinsSpikeDisabler::hideAllSpikesInRoom(GameContext& ctx)
             [](const game::ent::Entity& entity) -> bool {
                 const auto* evCpnt = entity.getComponent<game::cpnt::ev::EventComponent>();
                 return (evCpnt != nullptr &&
-                        evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
+                        evCpnt->getEventComponentType() == game::cpnt::ev::EventComponentType::PlotSpike);
             },
             it);
 
@@ -32,7 +33,7 @@ void RuinsSpikeDisabler::hideAllSpikesInRoom(GameContext& ctx)
         {
             auto* evCpnt = it->getComponent<game::cpnt::ev::EventComponent>();
             BN_ASSERT(evCpnt != nullptr);
-            BN_ASSERT(evCpnt->getEventComponentType() == bn::type_id<game::cpnt::ev::PlotSpike>());
+            BN_ASSERT(evCpnt->getEventComponentType() == game::cpnt::ev::EventComponentType::PlotSpike);
             auto* plotSpike = static_cast<game::cpnt::ev::PlotSpike*>(evCpnt);
 
             plotSpike->hideSpike();

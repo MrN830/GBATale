@@ -9,6 +9,7 @@
 #include "game/GameState.hpp"
 #include "game/RoomInfo.hpp"
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/inter/InteractionType.hpp"
 #include "game/sys/CameraManager.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/sys/RoomChanger.hpp"
@@ -42,7 +43,7 @@ enum FriskGfxIdx
 } // namespace
 
 HoleFall::HoleFall(ent::Entity& entity, bool isEnabled, InteractionTriggers triggers)
-    : Interaction(entity, bn::type_id<HoleFall>(), isEnabled, triggers), _frisk(nullptr),
+    : Interaction(entity, InteractionType::HoleFall, isEnabled, triggers), _frisk(nullptr),
       _friskDir(core::Directions::NONE)
 {
 }

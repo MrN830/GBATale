@@ -6,6 +6,7 @@
 #include "game/GameState.hpp"
 #include "game/cpnt/NpcInput.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/ent/Entity.hpp"
 #include "game/sys/EntityManager.hpp"
 #include "game/task/TaskAwaiters.hpp"
@@ -19,7 +20,7 @@ namespace ut::game::cpnt::ev
 static constexpr int DIST_DIV = 2;
 
 TorielGoOutRuins1::TorielGoOutRuins1(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<TorielGoOutRuins1>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::TorielGoOutRuins1, isEnabled, isAutoFire)
 {
 }
 

@@ -3,6 +3,7 @@
 #include "game/GameContext.hpp"
 #include "game/GameState.hpp"
 #include "game/cpnt/Sprite.hpp"
+#include "game/cpnt/ev/EventComponentType.hpp"
 #include "game/ent/Entity.hpp"
 
 namespace ut::game::cpnt::ev
@@ -21,7 +22,7 @@ enum PieGfxIdx
 } // namespace
 
 SetPieImage::SetPieImage(ent::Entity& entity, bool isEnabled, bool isAutoFire)
-    : EventComponent(entity, bn::type_id<SetPieImage>(), isEnabled, isAutoFire)
+    : EventComponent(entity, EventComponentType::SetPieImage, isEnabled, isAutoFire)
 {
 }
 
