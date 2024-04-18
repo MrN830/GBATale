@@ -32,6 +32,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         0,
         Text::NONE,
         Sfx::NONE,
+        0,
+        50,
     },
     {
         MonsterKind::TEST_FROGGIT,
@@ -42,6 +44,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         2,
         Text::monstername_1,
         Sfx::MOB_CRY_FROGGIT,
+        -35,
+        50,
     },
     {
         MonsterKind::DUMMY,
@@ -52,6 +56,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         0,
         Text::monstername_2,
         Sfx::NONE,
+        0,
+        50,
     },
     {
         MonsterKind::FAKE_FROGGIT,
@@ -62,6 +68,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         20,
         Text::monstername_3,
         Sfx::MOB_CRY_FROGGIT,
+        -35,
+        50,
     },
     {
         MonsterKind::FROGGIT,
@@ -72,6 +80,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         2,
         Text::monstername_4,
         Sfx::MOB_CRY_FROGGIT,
+        -35,
+        50,
     },
     {
         MonsterKind::WHIMSUN,
@@ -82,6 +92,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         2,
         Text::monstername_5,
         Sfx::NONE,
+        19,
+        50,
     },
     {
         MonsterKind::MOLDSMAL_1,
@@ -92,6 +104,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         3,
         Text::monstername_6,
         Sfx::NONE,
+        -15,
+        50,
     },
     {
         MonsterKind::MIGOSP,
@@ -102,6 +116,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         4,
         Text::monstername_7,
         Sfx::NONE,
+        0,
+        50,
     },
     {
         MonsterKind::VEGETOID,
@@ -112,6 +128,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         1,
         Text::monstername_8,
         Sfx::NONE,
+        0,
+        50,
     },
     {
         MonsterKind::LOOX,
@@ -122,6 +140,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         5,
         Text::monstername_9,
         Sfx::NONE,
+        0,
+        50,
     },
     {
         MonsterKind::TORIEL,
@@ -132,6 +152,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         0,
         Text::monstername_10,
         Sfx::NONE,
+        0,
+        72,
     },
     {
         MonsterKind::NAPSTABLOOK,
@@ -142,6 +164,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         0,
         Text::monstername_11,
         Sfx::NONE,
+        0,
+        58,
     },
     {
         MonsterKind::MOLDSMAL_2,
@@ -152,6 +176,8 @@ constexpr MonsterInfo MOBS[(int)MonsterKind::TOTAL_COUNT] = {
         3,
         Text::monstername_12,
         Sfx::NONE,
+        -15,
+        50,
     },
 };
 

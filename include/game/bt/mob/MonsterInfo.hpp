@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include <bn_fixed.h>
+
 #include "asset/gen/TextData_fwd.hpp"
 
 namespace ut::asset
@@ -34,6 +36,9 @@ public:
 
     asset::gen::TextData nameData;
     asset::SfxKind hurtCry;
+
+    bn::fixed hpBarDiffY;
+    uint8_t hpBarWidth;
 };
 
 } // namespace ut::game::bt::mob

@@ -77,7 +77,7 @@ BattleSubmenuFight::BattleSubmenuFight(BattleMenu& priMenu)
         if (!mob.isActive())
             continue;
 
-        _hpBars.emplace_back(consts::BG_ATK_PRIORITY, bn::fixed_point(hpBarX, NAME_POSS[i].y() + NAME_HP_BAR_DIFF.y()),
+        _hpBars.emplace_back(consts::BG_ATK_PRIORITY, false, bn::fixed_point(hpBarX, NAME_POSS[i].y() + NAME_HP_BAR_DIFF.y()),
                              HP_BAR_HEIGHT, HP_BAR_TOTAL_WIDTH, calcHealthWidth(mob.getCurHp(), mobInfo.maxHp));
 
         _mobActiveFlags.set(i);

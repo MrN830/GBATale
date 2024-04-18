@@ -33,7 +33,7 @@ inline constexpr int calcWidth(int hp)
 } // namespace
 
 BattleTopUI::BattleTopUI(const GameState& gameState, core::TextGens& textGens)
-    : _gameState(gameState), _textGens(textGens), _hpBar(consts::BG_BOX_PRIORITY, {0, 0}, HP_BAR_HEIGHT,
+    : _gameState(gameState), _textGens(textGens), _hpBar(consts::BG_BOX_PRIORITY, false, {0, 0}, HP_BAR_HEIGHT,
                                                          calcWidth(bn::max(gameState.getMaxHp(), gameState.getCurHp())),
                                                          calcWidth(gameState.getCurHp()), bn::colors::yellow)
 {

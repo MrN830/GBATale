@@ -132,26 +132,18 @@ auto BattleAttack::updateOnBarMoving() -> BattleStateType
 
     _barMoveAction.update();
 
-    if (_barMoveDir == core::Directions::LEFT)
+    if ((_barMoveDir == core::Directions::LEFT && _bar.getPosition().x() < BAR_FAR_LEFT_POS.x()) ||
+        (_barMoveDir == core::Directions::RIGHT && _bar.getPosition().x() > BAR_FAR_RIGHT_POS.x()))
     {
-        if (_bar.getPosition().x() < BAR_FAR_LEFT_POS.x())
-        {
-            // TODO: render `MISS`
+        const int mobIdx = _scene.getBtTempVars().submenuMobSelectIdx;
+        auto& mob = _scene.getMonsterManager().getMonsters()[mobIdx];
 
-            return BattleStateType::BATTLE_PREPARE_DODGE;
-        }
-    }
-    else if (_barMoveDir == core::Directions::RIGHT)
-    {
-        if (_bar.getPosition().x() > BAR_FAR_RIGHT_POS.x())
-        {
-            // TODO: render `MISS`
+        // `MISS`
+        mob.getReact().onDamage(0, mob, _scene);
+        _scene.getMobDamagePopup().removeWithDelay(30);
 
-            return BattleStateType::BATTLE_PREPARE_DODGE;
-        }
+        return BattleStateType::BATTLE_PREPARE_DODGE;
     }
-    else
-        BN_ERROR("Invalid barMoveDir=", (int)_barMoveDir);
 
     return BattleStateType::NONE;
 }
@@ -200,6 +192,9 @@ auto BattleAttack::updateOnMobDamageAnimOngoing() -> BattleStateType
     // if mob damage anim is done
     if (mob.getAnim().getAnimKind() == mob::MonsterAnimKind::STOP)
     {
+        // TODO: Add toriel huge damage delay
+        _scene.getMobDamagePopup().removeWithDelay(15);
+
         // if mob is killed
         if (mob.getCurHp() <= 0)
         {

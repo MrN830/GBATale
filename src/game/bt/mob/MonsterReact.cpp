@@ -5,13 +5,14 @@
 #include "asset/SfxKind.hpp"
 #include "game/bt/mob/Monster.hpp"
 #include "game/bt/mob/MonsterInfo.hpp"
+#include "scene/IngameBattle.hpp"
 
 namespace ut::game::bt::mob
 {
 
 MonsterReact::~MonsterReact() = default;
 
-void MonsterReact::onDamage(int rawDamage, Monster& mob, scene::IngameBattle&)
+void MonsterReact::onDamage(int rawDamage, Monster& mob, scene::IngameBattle& scene)
 {
     BN_ASSERT(rawDamage >= 0, "rawDamage=", rawDamage, " shouldn't be negative");
 
@@ -19,7 +20,9 @@ void MonsterReact::onDamage(int rawDamage, Monster& mob, scene::IngameBattle&)
     reduceMobHp(rawDamage, mob);
     const int curHp = mob.getCurHp();
 
-    // TODO: monsterDamagePopup.start(position, damageNumber, prevHp, curHp, maxHp);
+    const auto& mobInfo = mob.getInfo();
+    scene.getMobDamagePopup().start(mob.getPosition() + bn::fixed_point(0, mobInfo.hpBarDiffY), mobInfo.hpBarWidth,
+                                    rawDamage, prevHp, curHp, mobInfo.maxHp);
 
     if (curHp < prevHp)
     {

@@ -15,7 +15,8 @@ namespace ut::scene
 IngameBattle::IngameBattle(SceneStack& sceneStack, SceneContext& context)
     : Scene(sceneStack, context, SceneId::INGAME_BATTLE),
       _movingBgBox(game::bt::consts::BG_BOX_INIT_RECT, game::bt::consts::BG_BOX_PRIORITY), _bg(BattleBgKind::NORMAL),
-      _topUI(context.gameState, context.textGens), _monsterManager(context.battleContext)
+      _topUI(context.gameState, context.textGens), _mobDmgPopup(context.textGens),
+      _monsterManager(context.battleContext)
 {
     // initial dialog
     const auto& battleGroup = game::bt::BattleGroup::get(context.battleContext.battleGroupId);
@@ -57,6 +58,8 @@ bool IngameBattle::update()
         changeBattleState(nextState);
 
     _monsterManager.render();
+    _mobDmgPopup.render();
+    _timedVfxManager.render();
 
     return false;
 }
@@ -84,6 +87,16 @@ auto IngameBattle::getTopUI() -> game::bt::BattleTopUI&
 auto IngameBattle::getAttackBg() -> game::bt::BattleAttackBg&
 {
     return _atkBg;
+}
+
+auto IngameBattle::getMobDamagePopup() -> game::bt::MobDamagePopup&
+{
+    return _mobDmgPopup;
+}
+
+auto IngameBattle::getTimedVfxManager() -> game::bt::vfx::BattleTimedVfxManager&
+{
+    return _timedVfxManager;
 }
 
 auto IngameBattle::getMonsterManager() -> game::bt::MonsterManager&

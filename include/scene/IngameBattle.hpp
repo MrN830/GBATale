@@ -7,8 +7,10 @@
 #include "game/bt/BattleBg.hpp"
 #include "game/bt/BattleTempVars.hpp"
 #include "game/bt/BattleTopUI.hpp"
+#include "game/bt/MobDamagePopup.hpp"
 #include "game/bt/MonsterManager.hpp"
 #include "game/bt/state/BattleStates.hpp"
+#include "game/bt/vfx/BattleTimedVfxManager.hpp"
 
 namespace ut::scene
 {
@@ -30,6 +32,9 @@ public:
     auto getTopUI() -> game::bt::BattleTopUI&;
     auto getAttackBg() -> game::bt::BattleAttackBg&;
 
+    auto getMobDamagePopup() -> game::bt::MobDamagePopup&;
+    auto getTimedVfxManager() -> game::bt::vfx::BattleTimedVfxManager&;
+
     auto getMonsterManager() -> game::bt::MonsterManager&;
     auto getMonsterManager() const -> const game::bt::MonsterManager&;
 
@@ -50,6 +55,9 @@ private:
     game::bt::BattleBg _bg;
     game::bt::BattleTopUI _topUI;
     game::bt::BattleAttackBg _atkBg;
+
+    game::bt::MobDamagePopup _mobDmgPopup;
+    game::bt::vfx::BattleTimedVfxManager _timedVfxManager;
 
     game::bt::MonsterManager _monsterManager;
 

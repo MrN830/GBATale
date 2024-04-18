@@ -15,6 +15,8 @@ enum class FontKind
     CRYPT,
     TINY,
 
+    DMG_NUMS,
+
     TOTAL_COUNT
 };
 
