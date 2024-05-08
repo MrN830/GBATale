@@ -56,13 +56,13 @@
   <object id="428" x="432" y="112" width="16" height="16"/>
   <object id="429" x="0" y="176" width="448" height="16"/>
   <object id="430" x="96" y="96">
-   <polygon points="0,0 -16,16 -16,0 0,0"/>
+   <polygon points="0,0 -16,16 -16,0"/>
   </object>
   <object id="431" x="256" y="96">
    <polygon points="0,0 48,-48 0,-48"/>
   </object>
   <object id="432" x="352" y="48">
-   <polygon points="0,0 80,80 80,0 0,0"/>
+   <polygon points="0,0 80,80 80,0"/>
   </object>
   <object id="433" x="144" y="160" width="80" height="16"/>
   <object id="434" x="368" y="160" width="48" height="16"/>

@@ -55,7 +55,7 @@
   <object id="395" x="0" y="112" width="16" height="64"/>
   <object id="396" x="16" y="96" width="80" height="16"/>
   <object id="397" x="96" y="112">
-   <polygon points="0,0 16,0 16,16 0,0"/>
+   <polygon points="0,0 16,0 16,16"/>
   </object>
  </objectgroup>
  <objectgroup id="3" name="Entity" opacity="0.71"/>
