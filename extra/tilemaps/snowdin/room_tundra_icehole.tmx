@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="11" nextobjectid="485">
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="16" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="485">
  <tileset firstgid="1" source="Snowdin.tsx"/>
  <layer id="7" name="BGLower" width="16" height="12">
   <data encoding="csv">
@@ -57,4 +57,5 @@
  </objectgroup>
  <objectgroup id="3" name="Entity" opacity="0.71"/>
  <objectgroup draworder="index" id="4" name="Warp"/>
+ <objectgroup id="11" name="Path"/>
 </map>
