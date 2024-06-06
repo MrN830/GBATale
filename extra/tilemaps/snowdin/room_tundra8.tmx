@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="38" height="29" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="557">
  <tileset firstgid="1" source="Snowdin.tsx"/>
- <tileset firstgid="3649" source="../Waterfall/waterfall_base.tsx"/>
+ <tileset firstgid="3649" source="../Waterfall/waterfall.tsx"/>
  <layer id="7" name="BGLower" width="38" height="29">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
