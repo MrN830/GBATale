@@ -32,7 +32,7 @@ BgBox::BgBox(const bn::top_left_fixed_rect& boxRect, int borderThickness, bn::op
       _tiles{}, _colors{}, _usedTilePos{}, _mapItem(_cells[0], MAP_SIZE),
       _palette(bn::bg_palette_item(_colors, bn::bpp_mode::BPP_4).create_new_palette()),
       _tileset(bn::regular_bg_tiles_item(_tiles, bn::bpp_mode::BPP_4).create_tiles()),
-      _map(_mapItem.create_new_map(_tileset, _palette)), _bg(bn::regular_bg_ptr::create(0, 0, _map))
+      _map(_mapItem.create_map(_tileset, _palette)), _bg(bn::regular_bg_ptr::create(0, 0, _map))
 {
     BN_ASSERT(0 <= borderThickness && borderThickness <= 8, "Invalid thickness: ", borderThickness);
 
