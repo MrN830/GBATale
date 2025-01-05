@@ -333,8 +333,56 @@ struct GameFlags
     bool genocide_hotland : 1 = false; // [224]
     bool genocide_core : 1 = false;    // [225]
 
-    bool killed_undyne_ex : 1 = false;  // [251]
-    bool killed_glad_dummy : 1 = false; // [252]
+    bool killed_undyne_ex : 1 = false;      // [251]
+    bool killed_glad_dummy : 1 = false;     // [252]
+    uint8_t killed_snowman = 0;             // [253]
+    bool interacted_crosswords : 1 = false; // [254]
+    bool robbed_snowdin : 1 = false;        // [255]
+    bool robbed_core : 1 = false;           // [256]
+
+    bool used_recovery_item : 1 = false;  // [260]
+    bool interacted_fakedog : 1 = false;  // [261]
+    bool delivered_seatea : 1 = false;    // [262]
+    bool delivered_cinnabun : 1 = false;  // [263]
+    bool delivered_hotdog : 1 = false;    // [264]
+    uint8_t tem_sell_parameter1 = 0;      // [265]
+    bool tem_sell_parameter2 : 1 = false; // [266]
+
+    enum class StatusHotel : uint8_t
+    {
+        INIT = 0,
+        STAY_FIRST = 1,
+        STAY_MORE = 2,
+    };
+    StatusHotel status_hotel = StatusHotel::INIT; // [267]
+
+    bool allergy_tem_talked : 1 = false; // [269]
+    bool glowshrooms_on : 1 = false;     // [270]
+
+    enum class TundraStickBroken : uint8_t
+    {
+        INIT = 0,
+        WALK_PAST = 1,
+        WALK_FURTHER = 2,
+    };
+    TundraStickBroken tundra_stick_broken = TundraStickBroken::INIT; // [275]
+
+    bool temmie_college_paid : 1 = false;   // [276]
+    bool fun_call_occurred : 1 = false;     // [277]
+    bool completed_tile_puzzle : 1 = false; // [278]
+    bool interacted_clamgirl : 1 = false;   // [279]
+    uint8_t conversation_elderpuzzles = 0;  // [280]
+
+    enum class StatusSosorry : uint8_t
+    {
+        INIT = 0,
+        KILLED = 1,
+        SPARED = 2,
+    };
+    StatusSosorry status_sosorry = StatusSosorry::INIT; // [281]
+
+    bool check_papyrus_kitchen_again : 1 = false; // [283]
+    bool undyne_spears_anger : 1 = false;         // [284]
 
     bool killed_muffet : 1 = false; // [397]
 
