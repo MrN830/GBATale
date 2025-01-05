@@ -15,6 +15,7 @@ enum class EventComponentType : uint8_t
     StalkerFlowey,
     TorielGoOutRuins1,
     CutsceneRuins3,
+    CutsceneRuins4,
     CutsceneRuins5,
     CutsceneRuins6,
     CutsceneTorhouse1,

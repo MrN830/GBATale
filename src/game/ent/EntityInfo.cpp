@@ -13,6 +13,7 @@
 #include "game/cpnt/SpriteAnim.hpp"
 #include "game/cpnt/WalkAnimCtrl.hpp"
 #include "game/cpnt/ev/CutsceneRuins3.hpp"
+#include "game/cpnt/ev/CutsceneRuins4.hpp"
 #include "game/cpnt/ev/CutsceneRuins5.hpp"
 #include "game/cpnt/ev/CutsceneRuins6.hpp"
 #include "game/cpnt/ev/CutsceneTorhouse1.hpp"
@@ -44,9 +45,11 @@
 #include "game/cpnt/inter/RuinsTorielCall.hpp"
 #include "game/cpnt/inter/RuinsWallSwitch.hpp"
 #include "game/cpnt/inter/SavePoint.hpp"
+#include "game/cpnt/inter/TalkDummy.hpp"
 #include "game/cpnt/inter/TalkFroggit.hpp"
 #include "game/cpnt/inter/TalkNpcArea1.hpp"
 #include "game/cpnt/inter/TalkTorielRuins3.hpp"
+#include "game/cpnt/inter/TalkTorielRuins4.hpp"
 #include "game/cpnt/inter/TalkTorielRuins6.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins2.hpp"
 #include "game/cpnt/inter/TorielGoOutRuins5.hpp"
@@ -126,6 +129,12 @@ void EntityInfo::create(GameContext& ctx) const
             break;
         case InteractionType::TalkTorielRuins3:
             inter = &entMngr._cpntHeap.create<TalkTorielRuins3>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TalkTorielRuins4:
+            inter = &entMngr._cpntHeap.create<TalkTorielRuins4>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::TalkDummy:
+            inter = &entMngr._cpntHeap.create<TalkDummy>(entity, interaction->isEnabled, interaction->triggers);
             break;
         case InteractionType::TalkTorielRuins6:
             inter = &entMngr._cpntHeap.create<TalkTorielRuins6>(entity, interaction->isEnabled, interaction->triggers);
@@ -207,6 +216,9 @@ void EntityInfo::create(GameContext& ctx) const
             break;
         case EventComponentType::CutsceneRuins3:
             evCpnt = &entMngr._cpntHeap.create<CutsceneRuins3>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
+            break;
+        case EventComponentType::CutsceneRuins4:
+            evCpnt = &entMngr._cpntHeap.create<CutsceneRuins4>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);
             break;
         case EventComponentType::CutsceneRuins5:
             evCpnt = &entMngr._cpntHeap.create<CutsceneRuins5>(entity, eventCpnt->isEnabled, eventCpnt->isAutoFire);

@@ -23,6 +23,8 @@ enum class InteractionType : uint8_t
     CutsceneRuins2,
     TorielGoOutRuins2,
     TalkTorielRuins3,
+    TalkTorielRuins4,
+    TalkDummy,
     TalkTorielRuins6,
     TorielGoOutRuins5,
     TorielGoOutRuins6,
