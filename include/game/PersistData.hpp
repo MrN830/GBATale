@@ -35,6 +35,19 @@ struct PersistData
         bool alter2 : 1 = false;
         bool FloweyExplain1 : 1 = false;
         bool truename : 1 = false; // Flowey calls the protag "Chara"
+
+        bool AF : 1 = false;
+        bool AK : 1 = false;
+        bool NK : 1 = false;
+        bool IK : 1 = false;
+
+        enum class Met1 : uint8_t
+        {
+            NEVER_MET = 0,
+            MET_ONCE = 1,
+            MET_MORE = 2,
+        };
+        Met1 Met1 = Met1::NEVER_MET;
     };
     Flowey Flowey;
 };

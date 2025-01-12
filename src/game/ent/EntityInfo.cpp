@@ -33,6 +33,7 @@
 #include "game/cpnt/inter/CutsceneBasement3.hpp"
 #include "game/cpnt/inter/CutsceneRuins19.hpp"
 #include "game/cpnt/inter/CutsceneRuins2.hpp"
+#include "game/cpnt/inter/FloweyTrigger1.hpp"
 #include "game/cpnt/inter/FloweyTrigger2.hpp"
 #include "game/cpnt/inter/HoleFall.hpp"
 #include "game/cpnt/inter/HoleUp.hpp"
@@ -173,6 +174,9 @@ void EntityInfo::create(GameContext& ctx) const
             break;
         case InteractionType::TalkNpcArea1:
             inter = &entMngr._cpntHeap.create<TalkNpcArea1>(entity, interaction->isEnabled, interaction->triggers);
+            break;
+        case InteractionType::FloweyTrigger1:
+            inter = &entMngr._cpntHeap.create<FloweyTrigger1>(entity, interaction->isEnabled, interaction->triggers);
             break;
         case InteractionType::FloweyTrigger2:
             inter = &entMngr._cpntHeap.create<FloweyTrigger2>(entity, interaction->isEnabled, interaction->triggers);

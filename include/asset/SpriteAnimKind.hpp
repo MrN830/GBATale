@@ -15,6 +15,7 @@ enum class SpriteAnimKind : int16_t
     HEARTH_FLAME,
 
     FLOWEY_SINK,
+    FLOWEY_SINK_SLOW,
     FLOWEY_SMALL_LAUGH,
     FLOWEY_BIG_LAUGH,
     FLOWEY_GROW,

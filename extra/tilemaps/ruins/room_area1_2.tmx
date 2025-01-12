@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="14" height="18" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="11" nextobjectid="69">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="14" height="18" tilewidth="16" tileheight="16" infinite="0" backgroundcolor="#000000" nextlayerid="11" nextobjectid="74">
  <tileset firstgid="1" source="ruins.tsx"/>
+ <tileset firstgid="1361" source="../entities.tsx"/>
  <layer id="1" name="BGLower" width="14" height="18">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -89,7 +90,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="8" name="Wall" opacity="0.5">
+ <objectgroup id="8" name="Wall" locked="1" opacity="0.5">
   <object id="45" x="32" y="80" width="160" height="16"/>
   <object id="46" x="32" y="240" width="32" height="16"/>
   <object id="47" x="160" y="240" width="32" height="16"/>
@@ -104,7 +105,45 @@
   <object id="59" x="64" y="256" width="16" height="32"/>
   <object id="60" x="144" y="256" width="16" height="32"/>
  </objectgroup>
- <objectgroup id="3" name="Entity"/>
+ <objectgroup id="3" name="Entity" opacity="0.46">
+  <object id="69" type="Entity" x="32" y="216" width="160" height="16">
+   <properties>
+    <property name="colliderPack" type="class" propertytype="ColliderPack">
+     <properties>
+      <property name="isTrigger" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="interaction" type="class" propertytype="Interaction">
+     <properties>
+      <property name="InteractionCppClass" value="FloweyTrigger1"/>
+      <property name="triggers" propertytype="InteractionTriggers" value="COLLIDE_FRISK"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+  <object id="70" name="flowey" type="Entity" gid="1407" x="112" y="200" width="32" height="32">
+   <properties>
+    <property name="sprite" type="class" propertytype="Sprite"/>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim"/>
+   </properties>
+  </object>
+  <object id="71" name="toriel" type="Entity" gid="1389" x="112" y="120" width="64" height="64">
+   <properties>
+    <property name="npcInput" type="class" propertytype="NpcInput"/>
+    <property name="sprite" type="class" propertytype="Sprite">
+     <properties>
+      <property name="updateZOrderOnMove" type="bool" value="true"/>
+     </properties>
+    </property>
+    <property name="spriteAnim" type="class" propertytype="SpriteAnim"/>
+    <property name="walkAnimCtrl" type="class" propertytype="WalkAnimCtrl">
+     <properties>
+      <property name="kind" propertytype="WalkAnimKind" value="TORIEL"/>
+     </properties>
+    </property>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="9" name="Warp" locked="1">
   <object id="61" type="Warp" x="96" y="80" width="32" height="16">
    <properties>
@@ -132,5 +171,12 @@
    <point/>
   </object>
  </objectgroup>
- <objectgroup id="10" name="Path" locked="1"/>
+ <objectgroup id="10" name="Path" locked="1">
+  <object id="72" name="path_torielwalk0" type="Path" x="112" y="120">
+   <polyline points="0,0 0,84"/>
+  </object>
+  <object id="73" name="path_torielwalk0_2" type="Path" x="112" y="204">
+   <polyline points="0,0 0,-105"/>
+  </object>
+ </objectgroup>
 </map>

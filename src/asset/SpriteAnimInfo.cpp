@@ -49,6 +49,17 @@ constexpr SpriteAnimInfo<5> flowey_sink{
     false,
     bn::array<uint16_t, 5>{0, 0, 13, 14, 15},
 };
+constexpr SpriteAnimInfo<5> flowey_sink_slow{
+    bn::sprite_items::ch_flowey,
+    Dirs::NONE,
+    bn::fixed_point{0, 0},
+    4 - 1,
+    false,
+    false,
+    false,
+    false,
+    bn::array<uint16_t, 5>{0, 0, 13, 14, 15},
+};
 constexpr SpriteAnimInfo<2> flowey_small_laugh{
     bn::sprite_items::ch_flowey,  Dirs::NONE, bn::fixed_point{0, 0}, 4 - 1, true, false, false, false,
     bn::array<uint16_t, 2>{0, 1},
@@ -279,6 +290,7 @@ constexpr const ISpriteAnimInfo* SPR_ANIMS[(int)SpriteAnimKind::TOTAL_COUNT] = {
     &hearth_flame,
 
     &flowey_sink,
+    &flowey_sink_slow,
     &flowey_small_laugh,
     &flowey_big_laugh,
     &flowey_grow,

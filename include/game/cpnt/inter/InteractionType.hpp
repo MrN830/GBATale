@@ -37,6 +37,7 @@ enum class InteractionType : uint8_t
     CutsceneBasement2,
     CutsceneBasement3,
     TalkNpcArea1,
+    FloweyTrigger1,
     FloweyTrigger2,
 };
 
