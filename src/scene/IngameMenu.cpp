@@ -156,19 +156,19 @@ void IngameMenu::changeMenuState(MenuStateType menuType, bool hasPrevState)
     switch (menuType)
     {
     case MenuStateType::MAIN:
-        new (_menuState) MainMenu(*this);
+        ::new (static_cast<void*>(_menuState)) MainMenu(*this);
         break;
     case MenuStateType::DIALOG:
-        new (_menuState) DialogMenu(*this);
+        ::new (static_cast<void*>(_menuState)) DialogMenu(*this);
         break;
     case MenuStateType::ITEM:
-        new (_menuState) ItemMenu(*this);
+        ::new (static_cast<void*>(_menuState)) ItemMenu(*this);
         break;
     case MenuStateType::STAT:
-        new (_menuState) StatMenu(*this);
+        ::new (static_cast<void*>(_menuState)) StatMenu(*this);
         break;
     case MenuStateType::CELL:
-        new (_menuState) CellMenu(*this);
+        ::new (static_cast<void*>(_menuState)) CellMenu(*this);
         break;
 
     default:

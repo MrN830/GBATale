@@ -12,16 +12,16 @@ Monster::Monster(MonsterKind kind, const bn::fixed_point& position)
     switch (kind)
     {
     case MonsterKind::FROGGIT:
-        new (_animBuffer) FroggitAnim(position);
-        new (_reactBuffer) FroggitReact();
+        ::new (static_cast<void*>(_animBuffer)) FroggitAnim(position);
+        ::new (static_cast<void*>(_reactBuffer)) FroggitReact();
         break;
     case MonsterKind::WHIMSUN:
-        new (_animBuffer) WhimsunAnim(position);
-        new (_reactBuffer) WhimsunReact();
+        ::new (static_cast<void*>(_animBuffer)) WhimsunAnim(position);
+        ::new (static_cast<void*>(_reactBuffer)) WhimsunReact();
         break;
     case MonsterKind::MOLDSMAL_1:
-        new (_animBuffer) MoldsmalAnim(position);
-        new (_reactBuffer) MoldsmalReact();
+        ::new (static_cast<void*>(_animBuffer)) MoldsmalAnim(position);
+        ::new (static_cast<void*>(_reactBuffer)) MoldsmalReact();
         break;
 
     default:

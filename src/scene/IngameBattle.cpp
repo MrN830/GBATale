@@ -127,19 +127,19 @@ void IngameBattle::changeBattleState(BattleStateType btStateType, bool hasPrevSt
     switch (btStateType)
     {
     case BattleStateType::BATTLE_MENU:
-        new (_btStateBuffer) BattleMenu(*this);
+        ::new (static_cast<void*>(_btStateBuffer)) BattleMenu(*this);
         break;
     case BattleStateType::BATTLE_ATTACK:
-        new (_btStateBuffer) BattleAttack(*this);
+        ::new (static_cast<void*>(_btStateBuffer)) BattleAttack(*this);
         break;
     case BattleStateType::BATTLE_PREPARE_DODGE:
-        new (_btStateBuffer) BattlePrepareDodge(*this);
+        ::new (static_cast<void*>(_btStateBuffer)) BattlePrepareDodge(*this);
         break;
     case BattleStateType::BATTLE_DODGE:
-        new (_btStateBuffer) BattleDodge(*this);
+        ::new (static_cast<void*>(_btStateBuffer)) BattleDodge(*this);
         break;
     case BattleStateType::BATTLE_END_DODGE:
-        new (_btStateBuffer) BattleEndDodge(*this);
+        ::new (static_cast<void*>(_btStateBuffer)) BattleEndDodge(*this);
         break;
 
     default:

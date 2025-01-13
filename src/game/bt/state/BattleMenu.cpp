@@ -63,19 +63,19 @@ void BattleMenu::changeSubmenu(sbm::BattleSubmenuType submenuType, bool hasPrevS
     switch (submenuType)
     {
     case sbm::BattleSubmenuType::MAIN:
-        new (_submenuBuffer) sbm::BattleSubmenuMain(*this);
+        ::new (static_cast<void*>(_submenuBuffer)) sbm::BattleSubmenuMain(*this);
         break;
     case sbm::BattleSubmenuType::FIGHT:
-        new (_submenuBuffer) sbm::BattleSubmenuFight(*this);
+        ::new (static_cast<void*>(_submenuBuffer)) sbm::BattleSubmenuFight(*this);
         break;
     // case sbm::BattleSubmenuType::ACT:
-    //     new (_submenuBuffer) sbm::BattleSubmenuAct(*this);
+    //     ::new (static_cast<void*>(_submenuBuffer)) sbm::BattleSubmenuAct(*this);
     //     break;
     // case sbm::BattleSubmenuType::ITEM:
-    //     new (_submenuBuffer) sbm::BattleSubmenuItem(*this);
+    //     ::new (static_cast<void*>(_submenuBuffer)) sbm::BattleSubmenuItem(*this);
     //     break;
     // case sbm::BattleSubmenuType::MERCY:
-    //     new (_submenuBuffer) sbm::BattleSubmenuMercy(*this);
+    //     ::new (static_cast<void*>(_submenuBuffer)) sbm::BattleSubmenuMercy(*this);
     //     break;
     default:
         BN_ERROR("Invalid submenuType=", (int)submenuType);
