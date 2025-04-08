@@ -66,6 +66,7 @@ def dump_and_convert_textdata():
                 line = line.replace("global.text_data_en, ", "")
                 line = line.replace(", ", ", r", 1)
                 line = line.replace('+ "', '+ r"')
+                line = line.replace(");", ")")
                 text_datas.append(eval(line))
 
     # Get override textdata
