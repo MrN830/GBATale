@@ -17,7 +17,7 @@ Unofficial Undertale port for the Game Boy Advance.
    Download the dependencies manually, and specify the path to them on the `user_deps.json`.
    * "UndertaleDataWinPath"
       * Extract `data.win` from your copy of Undertale, specify the path to it.
-   * "[UndertaleModCli](https://github.com/krzys-h/UndertaleModTool/releases/tag/bleeding-edge)Path"
+   * "[UndertaleModCli](https://github.com/UnderminersTeam/UndertaleModTool/releases/tag/bleeding-edge)Path"
       * Download the version starts with `CLI-*`, specify the path to the executable.
 3. You should now be able to build GBATale with `make -j{num_of_cpu_cores}`.
 
