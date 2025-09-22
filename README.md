@@ -22,6 +22,21 @@ Unofficial Undertale port for the Game Boy Advance.
 3. You should now be able to build GBATale with `make -j{num_of_cpu_cores}`.
 
 
+## Setup dev environment
+
+Install [VSCode](https://code.visualstudio.com/) and [Native Debug](https://marketplace.visualstudio.com/items?itemName=webfreak.debug) extension.
+
+
+### Find include paths with C/C++ extension (IntelliSense)
+
+[See this gist.](https://gist.github.com/copyrat90/eee49d92846ca3585a69d5bea001710d)
+
+
+### Setup mGBA debugging
+
+[See this guide.](https://felixjones.co.uk/mgba_gdb/vscode.html)
+
+
 ## Editing tilemaps
 
 ### Setup
@@ -78,21 +93,6 @@ It's very similar to `interaction`, so I'll briefly summarize.
 * Add the same-named class in the [`include/game/cpnt/ev`](include/game/cpnt/ev) and [`src/game/cpnt/ev`](src/game/cpnt/ev), inheriting from [`EventComponent`](include/game/cpnt/ev/EventComponent.hpp).
 * Add the same-named enum value in the [`EventComponentType` enum](include/game/cpnt/ev/EventComponentType.hpp).
 * Add this enum entry to the [`EntityInfo::create()` eventComponent switch-case](https://github.com/MrN830/GBATale/blob/462b08d2f37fe032037b408f4efda87635406338/src/game/ent/EntityInfo.cpp#L201).
-
-
-## Setup dev environment
-
-Install [VSCode](https://code.visualstudio.com/) and [Native Debug](https://marketplace.visualstudio.com/items?itemName=webfreak.debug) extension.
-
-
-### Find include paths with C/C++ extension (IntelliSense)
-
-[See this gist.](https://gist.github.com/copyrat90/eee49d92846ca3585a69d5bea001710d)
-
-
-### Setup mGBA debugging
-
-[See this guide.](https://felixjones.co.uk/mgba_gdb/vscode.html)
 
 
 ## Third-party licenses
